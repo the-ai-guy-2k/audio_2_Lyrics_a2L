@@ -115,7 +115,7 @@ Third stage added. Fixed song locked for later ACIs. Chunked upload documented a
 
 ## Commit information
 
-Recorded on `feature/aci-atl-003`. SHA filled after commit.
+`73c71aa` on `feature/aci-atl-003` (implementation). Follow-up commit records this SHA in the ACR.
 
 ## Merge / push status
 

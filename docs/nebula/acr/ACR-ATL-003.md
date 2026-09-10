@@ -3,6 +3,7 @@
 **ACI:** ACI-ATL-003 — Uncertainty handling  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-atl-003`  
+**Commit:** `73c71aa`  
 **Status:** COMPLETE on feature branch — not merged to deployable  
 **Product changes:** uncertainty report over ACI-ATL-002 drafts; 24-bit energy; Whisper API chunked upload for files over 25 MB
 
