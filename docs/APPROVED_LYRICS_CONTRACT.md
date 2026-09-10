@@ -35,5 +35,7 @@ Created only after `approve_reviewed_lyrics(..., confirm=True)`.
 - Save, transcription, uncertainty, and structuring never write these files.
 - Clean TXT omits `time_gap` rows and processing clutter.
 - `machine_text` remains on the review JSON; it is not copied into the clean TXT.
-- After APPROVED, further Save/corrections are refused (`ALREADY_APPROVED`).
-- Display state is APPROVED only when review flags and both files exist.
+- After APPROVED, further Save/corrections are refused (`ALREADY_APPROVED`) until explicit reopen.
+- Reopen (`confirm=true`) moves current approved files into `approved_lyrics/history/` and sets `REQUIRES_REAPPROVAL`.
+- Display state is APPROVED only when review flags and both current files exist.
+- Review JSON `authority` is review provenance. `active_lyric_authority` is the consumer-facing lyric authority.

@@ -12,7 +12,7 @@ python -m a2l review
 
 Then open: `http://127.0.0.1:8765/`
 
-Restart this process after code changes so `POST /api/approve` is loaded.
+Restart this process after code changes so `/api/approve` and `/api/reopen` are loaded.
 
 ## What you see
 
@@ -22,7 +22,7 @@ Lyrics display as wrapping paragraph text, not isolated machine-record rows.
 - Human-corrected phrases are underlined
 - Click a phrase to edit it and to see original machine text and flags
 - Time gaps are kept in the stored data but are not shown as separate reading rows
-- The page shows `LYRIC STATE: DRAFT | REVIEWED | APPROVED`
+- The page shows `LYRIC STATE: DRAFT | REVIEWED | REQUIRES_REAPPROVAL | APPROVED`
 
 ## Save
 
@@ -40,7 +40,7 @@ Contract: [REVIEW_CONTRACT.md](REVIEW_CONTRACT.md)
 
 ## Approval
 
-Approval is a separate explicit action (ACI-A2L-008). Details: [APPROVED_LYRICS.md](APPROVED_LYRICS.md)
+Approval is a separate explicit action (ACI-A2L-008). After approval, **Reopen for correction** archives the current approved files and returns the draft to `REQUIRES_REAPPROVAL`. Details: [APPROVED_LYRICS.md](APPROVED_LYRICS.md)
 
 ## Not in this ACI
 

@@ -16,7 +16,9 @@ from a2l.approve import (
     approve_reviewed_lyrics,
     default_approved_json_path,
     default_approved_txt_path,
+    latest_approval_history_dir,
     lyric_display_state,
+    reopen_approved_lyrics,
 )
 from a2l.errors import ApprovalError, ReviewError
 from a2l.faster_whisper_draft import LOCKED_SHA256
@@ -30,12 +32,15 @@ DEFAULT_PORT = 8765
 def public_state(sha: str, review: dict) -> dict:
     txt = default_approved_txt_path(sha)
     js = default_approved_json_path(sha)
+    history = latest_approval_history_dir(sha)
     return {
         "ok": True,
         "review": review,
         "lyric_state": lyric_display_state(review, sha),
+        "active_lyric_authority": review.get("active_lyric_authority"),
         "approved_txt_path": str(txt.resolve()) if txt.is_file() else None,
         "approved_json_path": str(js.resolve()) if js.is_file() else None,
+        "prior_approval_dir": str(history.resolve()) if history else None,
     }
 
 
@@ -88,6 +93,17 @@ class ReviewHandler(BaseHTTPRequestHandler):
                 return
             body = public_state(self.sha, result["review"])
             body["saved_path"] = str(result["txt_path"])
+            self._send_json(200, body)
+            return
+        if parsed.path == "/api/reopen":
+            try:
+                review = load_or_create_review(sha=self.sha)
+                result = reopen_approved_lyrics(review, self.sha, confirm=payload.get("confirm") is True)
+            except (ReviewError, ApprovalError) as exc:
+                self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+                return
+            body = public_state(self.sha, result["review"])
+            body["archived_dir"] = str(result["archived_dir"])
             self._send_json(200, body)
             return
         self._send(404, b"not found", "text/plain; charset=utf-8")

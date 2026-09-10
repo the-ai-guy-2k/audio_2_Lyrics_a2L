@@ -104,6 +104,7 @@ def review_from_structured(structured: dict, structured_path: Path, sha: str) ->
         "schema_version": SCHEMA_VERSION,
         "produced_by": PRODUCER_ACI,
         "authority": AUTHORITY,
+        "active_lyric_authority": "NOT_APPROVED",
         "approval_status": "NOT_APPROVED",
         "usable_as_approved_lyrics": False,
         "lyric_state": "DRAFT",
@@ -208,7 +209,8 @@ def apply_corrections(review: dict, updates: dict[int, str], now: str | None = N
     )
     review["usable_as_approved_lyrics"] = False
     review["approval_status"] = "NOT_APPROVED"
-    review["lyric_state"] = "REVIEWED"
+    review["active_lyric_authority"] = "NOT_APPROVED"
+    review["lyric_state"] = _unapproved_lyric_state(review)
     return review
 
 
@@ -220,7 +222,8 @@ def save_review(review: dict, sha: str = LOCKED_SHA256) -> Path:
         )
     review["usable_as_approved_lyrics"] = False
     review["approval_status"] = "NOT_APPROVED"
-    review["lyric_state"] = "REVIEWED"
+    review["active_lyric_authority"] = "NOT_APPROVED"
+    review["lyric_state"] = _unapproved_lyric_state(review)
     review_dir = default_review_dir(sha)
     review_dir.mkdir(parents=True, exist_ok=True)
     json_path = review_dir / REVIEW_FILENAME
@@ -229,6 +232,12 @@ def save_review(review: dict, sha: str = LOCKED_SHA256) -> Path:
     json_path.write_text(json.dumps(review, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     txt_path.write_text(_human_readable(review), encoding="utf-8")
     return json_path.resolve()
+
+
+def _unapproved_lyric_state(review: dict) -> str:
+    if review.get("lyric_state") == "REQUIRES_REAPPROVAL" or review.get("reopened_at"):
+        return "REQUIRES_REAPPROVAL"
+    return "REVIEWED"
 
 
 def load_saved_review(path: str | Path | None = None, sha: str = LOCKED_SHA256) -> dict:
@@ -265,13 +274,18 @@ def _format_clock(value) -> str:
 
 
 def _human_readable(review: dict) -> str:
+    state = review.get("lyric_state") or "REVIEWED"
+    if review.get("approval_status") == "APPROVED":
+        title = "A2L REVIEW RECORD — APPROVED lyrics live in approved_lyrics.txt/json"
+    elif state == "REQUIRES_REAPPROVAL":
+        title = "A2L REVIEWED LYRIC DRAFT — REQUIRES REAPPROVAL"
+    else:
+        title = "A2L REVIEWED LYRIC DRAFT — NOT APPROVED LYRICS"
     lines = [
-        (
-            "A2L REVIEWED LYRIC DRAFT — APPROVED (authoritative files are approved_lyrics.txt/json)"
-            if review.get("approval_status") == "APPROVED"
-            else "A2L REVIEWED LYRIC DRAFT — NOT APPROVED LYRICS"
-        ),
-        f"Authority: {review['authority']}",
+        title,
+        f"Review record authority: {review['authority']}",
+        f"Active lyric authority: {review.get('active_lyric_authority')}",
+        f"Lyric state: {state}",
         f"Approval: {review['approval_status']}",
         f"Engine: {review.get('transcription_engine')} / {review.get('transcription_model')}",
         f"Human-corrected lines: {review.get('counts', {}).get('human_corrected')}",

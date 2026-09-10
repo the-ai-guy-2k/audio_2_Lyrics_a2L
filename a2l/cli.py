@@ -12,7 +12,12 @@ from a2l.ingest import ingest_wav
 from a2l.transcribe import transcribe_from_manifest
 from a2l.uncertainty import evaluate_uncertainty
 from a2l.structure import structure_lyrics
-from a2l.approve import default_approved_json_path, default_approved_txt_path, lyric_display_state
+from a2l.approve import (
+    default_approved_json_path,
+    default_approved_txt_path,
+    latest_approval_history_dir,
+    lyric_display_state,
+)
 from a2l.review import LOCKED_SHA256, default_review_path, load_or_create_review
 from a2l.review_server import DEFAULT_HOST, DEFAULT_PORT, serve
 
@@ -206,6 +211,9 @@ def _run_review(host: str, port: int, job_id: str, open_browser: bool) -> int:
     print(str(txt.resolve()) if txt.is_file() else "NOT CREATED")
     print("APPROVED LYRIC JSON LOCATION")
     print(str(js.resolve()) if js.is_file() else "NOT CREATED")
+    history = latest_approval_history_dir(job_id)
+    print("PRIOR APPROVAL ARCHIVE")
+    print(str(history.resolve()) if history else "NONE")
     serve(host=host, port=port, sha=job_id, open_browser=open_browser)
     return 0
 

@@ -3,7 +3,7 @@
 REAL-SONG END-TO-END VALIDATION
 
 AIW: CAE  
-STATUS: EXECUTED ON FEATURE BRANCH — NOT MERGED; LOCKED SONG OPERATOR-APPROVED
+STATUS: AMENDMENT 01 IN PROGRESS — LOCKED SONG REQUIRES_REAPPROVAL; NOT REAPPROVED
 
 Permanent copy of the Operator ACI. Phase 1 prepared the locked song for review. Phase 2 validated explicit Operator approval and approved lyric artifacts.
 
@@ -14,6 +14,7 @@ Permanent copy of the Operator ACI. Phase 1 prepared the locked song for review.
 - Same locked WAV. SHA-256 unchanged.
 - Architecture unchanged. Transcription not rerun. No candidate-specific copying.
 - Approved lyrics were not modified by CAE.
+- Amendment 01: explicit reopen archives prior approval; locked song is REQUIRES_REAPPROVAL pending Operator correction.
 - Not merged. Not pushed.
 
 ## Explicitly out of scope

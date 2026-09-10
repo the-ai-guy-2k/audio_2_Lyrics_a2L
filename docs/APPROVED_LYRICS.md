@@ -6,19 +6,22 @@ Convert a human-reviewed lyric draft into an explicitly approved authoritative l
 
 ```text
 MACHINE DRAFT → HUMAN REVIEW / CORRECTION → REVIEWED → APPROVED
+APPROVED → (explicit reopen) → REQUIRES_REAPPROVAL → APPROVED
 ```
 
-Only explicit operator confirmation establishes APPROVED. Transcription, uncertainty, structuring, saving edits, and loading the review UI do not approve lyrics.
+Only explicit operator confirmation establishes APPROVED. Save does not approve. Reopen archives the current approved files instead of editing them in place.
 
 ## How the operator approves
 
 1. Open `python -m a2l review` → `http://127.0.0.1:8765/`
-2. Review and correct phrases. Save as needed. State stays **REVIEWED**.
+2. Review and correct phrases. Save as needed. State stays **REVIEWED** or **REQUIRES_REAPPROVAL**.
 3. Click **Mark lyrics APPROVED**.
 4. Confirm the browser dialog.
 5. The UI POSTs `/api/approve` with `{ "confirm": true }`.
 
 `confirm` must be the JSON boolean `true`. Saving does not send this request.
+
+To correct after approval: **Reopen for correction** (`POST /api/reopen` `{ "confirm": true }`). Current `approved_lyrics.txt` / `.json` are moved under `approved_lyrics/history/<timestamp>/`. State becomes **REQUIRES_REAPPROVAL**. Approve again after edits.
 
 ## Artifacts written after approval
 
@@ -36,6 +39,6 @@ Existing audio, machine transcription, uncertainty, structured draft, and human-
 
 ## Locked Jay song
 
-ACI-A2L-009: the locked test song is **APPROVED** by explicit Operator action. Fixture tests still use SHA `aci-a2l-008-fixture` and do not re-approve the locked song.
+ACI-A2L-009 Amendment 01: the locked song is **REQUIRES_REAPPROVAL** so the Operator can correct remaining errors. The first approval is archived under `approved_lyrics/history/`. Current canonical approved files are inactive until the Operator approves again.
 
 Contract: [APPROVED_LYRICS_CONTRACT.md](APPROVED_LYRICS_CONTRACT.md)

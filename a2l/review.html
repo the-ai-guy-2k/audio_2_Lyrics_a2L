@@ -64,6 +64,7 @@
     }
     .state.DRAFT { color: #555; }
     .state.REVIEWED { color: #8a5a00; }
+    .state.REQUIRES_REAPPROVAL { color: #a40; }
     .state.APPROVED { color: #0a6; }
     .paths { font-family: sans-serif; font-size: 0.9rem; color: #333; max-width: 42rem; }
     .lyrics.approved .phrase { cursor: default; }
@@ -71,8 +72,8 @@
 </head>
 <body>
   <div class="banner">
-    A2L HUMAN REVIEW — explicit APPROVED is a separate action<br>
-    Engine: faster-whisper / large-v3. Save does not approve lyrics.
+    A2L HUMAN REVIEW — Save does not approve. Reopen is required before editing APPROVED lyrics.<br>
+    Engine: faster-whisper / large-v3.
   </div>
   <p class="state" id="lyric-state">Loading…</p>
   <p class="status" id="status">Loading…</p>
@@ -80,6 +81,7 @@
     <button id="save" type="button">Save reviewed draft</button>
     <button id="reload" type="button">Reload from disk</button>
     <button id="approve" type="button">Mark lyrics APPROVED</button>
+    <button id="reopen" type="button">Reopen for correction</button>
   </p>
   <p class="paths" id="paths"></p>
   <p class="legend">
@@ -122,7 +124,9 @@
       stateEl.className = "state " + lyricState;
       const status = document.getElementById("status");
       status.textContent =
-        review.authority + " / " + review.approval_status +
+        "review=" + review.authority +
+        " / active=" + (review.active_lyric_authority || "NOT_APPROVED") +
+        " / " + review.approval_status +
         " / corrected " + review.counts.human_corrected +
         " / uncertain " + review.counts.uncertain_lines;
       const paths = document.getElementById("paths");
@@ -130,11 +134,17 @@
         paths.textContent =
           "APPROVED TXT: " + (payload.approved_txt_path || "") +
           "  |  APPROVED JSON: " + (payload.approved_json_path || "");
+      } else if (lyricState === "REQUIRES_REAPPROVAL") {
+        paths.textContent =
+          "Current approved artifacts: NOT ACTIVE. Prior approval archived at: " +
+          (payload.prior_approval_dir || "unknown") +
+          ". Save does not approve. Mark APPROVED when corrections are done.";
       } else {
         paths.textContent = "Approved lyric artifacts: NOT CREATED. Save does not approve.";
       }
       document.getElementById("save").disabled = lyricState === "APPROVED";
       document.getElementById("approve").disabled = lyricState === "APPROVED";
+      document.getElementById("reopen").disabled = lyricState !== "APPROVED";
     }
 
     function render(payload) {
@@ -230,9 +240,29 @@
       render(payload);
     }
 
+    async function reopen() {
+      if (!reviewState) return;
+      const ok = window.confirm(
+        "This will archive the current APPROVED lyrics and reopen them for correction.\nThey will require explicit reapproval.\nContinue?"
+      );
+      if (!ok) return;
+      const response = await fetch("/api/reopen", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: true }),
+      });
+      const payload = await response.json();
+      if (!payload.ok) {
+        document.getElementById("status").textContent = payload.error_code + ": " + payload.error;
+        return;
+      }
+      render(payload);
+    }
+
     document.getElementById("save").addEventListener("click", save);
     document.getElementById("reload").addEventListener("click", loadState);
     document.getElementById("approve").addEventListener("click", approve);
+    document.getElementById("reopen").addEventListener("click", reopen);
     loadState();
   </script>
 </body>
