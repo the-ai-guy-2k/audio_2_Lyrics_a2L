@@ -3,6 +3,7 @@
 **ACI:** ACI-ATL-001 — Audio ingestion + baseline artifact preparation  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-atl-001`  
+**Commit:** `3419c6c`  
 **Status:** COMPLETE on feature branch — not merged to deployable  
 **Product changes:** first A2L capability (WAV ingest, immutable source store, CONTROL-A working artifact)
 

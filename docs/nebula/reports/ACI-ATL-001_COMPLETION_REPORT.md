@@ -124,7 +124,7 @@ Founding A2L architecture is CONTROL-A ingest only. Vocal isolation remains an o
 
 ## Commit information
 
-Recorded on `feature/aci-atl-001`. SHA is the git commit that contains this report on that branch.
+`3419c6c` on `feature/aci-atl-001` (implementation). Follow-up commit on the same branch records this SHA in the ACR.
 
 ## Merge status
 
