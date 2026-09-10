@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-006 — Human review and correction  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-a2l-006-human-review`  
-**Commit:** implementation commit on this branch (recorded after first commit)  
+**Commit:** `f6e7378`  
 **Status:** COMPLETE on feature branch — not merged; lyrics not approved  
 **Product changes:** local review UI; machine vs human text preserved; reviewed draft saved
 

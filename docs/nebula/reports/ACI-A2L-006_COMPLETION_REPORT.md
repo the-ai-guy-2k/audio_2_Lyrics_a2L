@@ -51,6 +51,10 @@ whisper-1 `transcription_draft.json` SHA-256 unchanged: `82ca9474e3cc0179ffdb6e7
 
 None that blocked the ACI.
 
+## Commit information
+
+`f6e7378` on `feature/aci-a2l-006-human-review` (implementation). Follow-up commit records this SHA in the ACR.
+
 ## Merge / push status
 
 **NOT MERGED. NOT PUSHED.**
