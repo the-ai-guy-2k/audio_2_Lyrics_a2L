@@ -3,6 +3,7 @@
 **ACI:** ACI-ATL-002 — Direct mastered-WAV transcription baseline  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-atl-002`  
+**Commit:** `14617e3`  
 **Status:** COMPLETE on feature branch — not merged to deployable  
 **Product changes:** CONTROL-A machine transcription draft from ACI-ATL-001 ingest manifest
 

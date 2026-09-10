@@ -125,7 +125,7 @@ Transcription is a distinct stage after ingest. Draft contract is `docs/TRANSCRI
 
 ## Commit information
 
-Recorded on `feature/aci-atl-002`. SHA filled after commit.
+`14617e3` on `feature/aci-atl-002` (implementation). Follow-up commit records this SHA in the ACR.
 
 ## Merge / push status
 
