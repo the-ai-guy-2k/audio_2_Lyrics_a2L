@@ -1,36 +1,30 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-ATL-002 on `feature/aci-atl-002`, built on ACI-ATL-001 CONTROL-A ingest.
+**Authority:** ACI-ATL-003 on `feature/aci-atl-003`, built on ACI-ATL-001 ingest and ACI-ATL-002 CONTROL-A transcription.
 
 ## Runtime stack
 
 - Python 3.11+
-- Standard library `wave` for WAV parse/validation and energy checks
-- CLI: `python -m a2l ingest` and `python -m a2l transcribe`
-- CONTROL-A transcription engine: OpenAI `whisper-1` via Audio Transcriptions API (baseline, not GVCA-locked)
-- No ffmpeg, librosa, Demucs, or local Whisper/torch in this product
+- Standard library `wave` for WAV parse/validation and energy checks (including 24-bit PCM)
+- CLI: `python -m a2l ingest`, `python -m a2l transcribe`, `python -m a2l uncertainty`
+- CONTROL-A transcription engine: OpenAI `whisper-1` (baseline, not GVCA-locked)
+- Files over the Whisper 25 MB upload limit are sent as temporary same-format PCM slices. Chunks are not stored as working artifacts.
+- No Demucs, local Whisper/torch, lyric approval, or vocal isolation
 
 ## Implemented flow
 
 ```text
 Operator WAV (read-only)
-  → a2l.wav.validate_wav_bytes
-  → artifacts/ingest/<sha256>/authoritative_source/source.wav
-  → artifacts/ingest/<sha256>/derived_working/transcription_ready.wav
-  → artifacts/ingest/<sha256>/ingest_manifest.json
-        ↓
-  a2l.transcribe.transcribe_from_manifest
-        ↓
-  artifacts/ingest/<sha256>/machine_transcription/transcription_draft.json
+  → ingest (CONTROL A)
+  → transcribe (machine draft, not approved)
+  → uncertainty (flag, do not invent)
 ```
 
-Authoritative source remains immutable. Working audio remains untreated CONTROL A. Transcription is a non-authoritative machine draft. Vocal isolation is not part of this architecture.
+Fixed test song: [FIXED_TEST_SONG.md](../FIXED_TEST_SONG.md)
 
 ## Not implemented
 
 - Lyric structuring / human approval / approved lyric artifacts
 - Vocal isolation / stem separation
-- CONTROL B (normalized audio)
-- CONTROL C (isolated vocal stem)
-- UI
-- Production deployment
+- CONTROL B / CONTROL C
+- UI / production deployment

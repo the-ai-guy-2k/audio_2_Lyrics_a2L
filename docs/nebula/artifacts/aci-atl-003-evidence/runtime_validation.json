@@ -1,0 +1,93 @@
+{
+  "identity": {
+    "byte_size": 59968382,
+    "channel_count": 2,
+    "duration_seconds": 207.12120833333333,
+    "filename": "01Stomp to MIX MSTR 24bit_48hz.wav",
+    "locked_by": "ACI-ATL-003",
+    "sample_rate_hz": 48000,
+    "sample_width_bytes": 3,
+    "selection_reason": "First numbered album master (01). Do not switch songs between ACIs.",
+    "sha256": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+    "source_path": "C:\\Users\\tim\\Desktop\\Jays_stuff\\2026_album\\Masters - 24bit_48hz\\Masters  - 24bit_48hz\\01Stomp to MIX MSTR 24bit_48hz.wav"
+  },
+  "ingest": {
+    "audio": {
+      "byte_size": 59968382,
+      "channel_count": 2,
+      "codec": "PCM",
+      "container": "RIFF/WAVE",
+      "duration_seconds": 207.12120833333333,
+      "file_format": "WAV",
+      "frame_count": 9941818,
+      "sample_rate_hz": 48000,
+      "sample_width_bytes": 3
+    },
+    "control_baseline": "CONTROL_A",
+    "job_id": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be"
+  },
+  "material_observations": {
+    "chunk_count": 3,
+    "chunked_upload": true,
+    "sample_width_bytes": 3,
+    "uncertainty_job_status": "REQUIRES_LATER_RESOLUTION"
+  },
+  "ok": true,
+  "original_master_unchanged": {
+    "byte_size": 59968382,
+    "mtime_ns": 1789063324283187400,
+    "sha256": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be"
+  },
+  "real_mastered_song": true,
+  "transcription": {
+    "approval_status": "NOT_APPROVED",
+    "engine": {
+      "architecture_status": "ACI-ATL-002_BASELINE_NOT_GVCA_LOCKED",
+      "configuration": {
+        "chunk_boundary_seconds": [
+          72.80354166666666,
+          145.60708333333332
+        ],
+        "chunk_count": 3,
+        "chunk_reason": "whisper_api_25mb_limit",
+        "chunked_upload": true,
+        "prompt": null,
+        "response_format": "verbose_json",
+        "stored_resampling": "none",
+        "temperature": 0,
+        "vocal_isolation": "not_applied"
+      },
+      "language": "english",
+      "model": "whisper-1",
+      "technology": "openai_whisper_api"
+    },
+    "engine_text_length": 1512,
+    "flags": [
+      "NON_AUTHORITATIVE",
+      "NOT_APPROVED",
+      "NO_SPEECH_LIKELY",
+      "POSSIBLE_HALLUCINATION"
+    ]
+  },
+  "transcription_accuracy_claimed": false,
+  "uncertainty": {
+    "counts": {
+      "established": 0,
+      "questionable": 20,
+      "segments": 32,
+      "unverified_machine_text": 12
+    },
+    "established_lyrics_present": false,
+    "flags": [
+      "CHUNK_BOUNDARY",
+      "NON_AUTHORITATIVE",
+      "NOT_APPROVED",
+      "NO_SPEECH_LIKELY",
+      "POSSIBLE_HALLUCINATION",
+      "REPEATED_SEGMENT",
+      "WHISPER_BOILERPLATE"
+    ],
+    "job_status": "REQUIRES_LATER_RESOLUTION",
+    "resolution_required": true
+  }
+}

@@ -194,3 +194,38 @@ def test_no_lyric_approval_or_isolation_api() -> None:
     assert not hasattr(a2l, "isolate_vocals")
     assert not hasattr(a2l, "approve_lyrics")
     assert not hasattr(a2l, "structure_lyrics")
+
+
+def test_chunked_upload_offsets_timestamps(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    from a2l.engines import OpenAIWhisperEngine
+    from tests.wav_fixtures import write_pcm_wav
+
+    monkeypatch.setattr("a2l.engines.MAX_UPLOAD_BYTES", 12000)
+    wav_path = write_pcm_wav(tmp_path / "long.wav", channel_count=1, frame_count=20000)
+    calls = {"n": 0}
+
+    class FakeResponse:
+        def __init__(self, index: int):
+            self._index = index
+
+        def model_dump(self):
+            return {
+                "text": f"part{self._index}",
+                "language": "en",
+                "segments": [{"start": 0.0, "end": 0.2, "text": f"part{self._index}"}],
+            }
+
+    class FakeClient:
+        class audio:
+            class transcriptions:
+                @staticmethod
+                def create(**kwargs):
+                    calls["n"] += 1
+                    return FakeResponse(calls["n"])
+
+    result = OpenAIWhisperEngine(client=FakeClient()).transcribe(wav_path)
+    assert calls["n"] >= 2
+    assert result.configuration["chunked_upload"] is True
+    assert result.segments[0].start_seconds == pytest.approx(0.0)
+    assert result.segments[-1].start_seconds > 0
+

@@ -7,15 +7,16 @@ import json
 import sys
 from pathlib import Path
 
-from a2l.errors import IngestionError, TranscriptionError
+from a2l.errors import IngestionError, TranscriptionError, UncertaintyError
 from a2l.ingest import ingest_wav
 from a2l.transcribe import transcribe_from_manifest
+from a2l.uncertainty import evaluate_uncertainty
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="a2l",
-        description="A2L ingest (ACI-ATL-001) and CONTROL-A transcription (ACI-ATL-002).",
+        description="A2L ingest, CONTROL-A transcription, and uncertainty handling.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -38,6 +39,15 @@ def build_parser() -> argparse.ArgumentParser:
         "manifest_path",
         help="Path to ingest_manifest.json produced by ACI-ATL-001.",
     )
+
+    uncertainty_parser = subparsers.add_parser(
+        "uncertainty",
+        help="Flag uncertainty in an ACI-ATL-002 transcription draft. Does not rewrite lyrics.",
+    )
+    uncertainty_parser.add_argument(
+        "draft_path",
+        help="Path to transcription_draft.json produced by ACI-ATL-002.",
+    )
     return parser
 
 
@@ -49,6 +59,8 @@ def main(argv: list[str] | None = None) -> int:
         return _run_ingest(Path(args.wav_path), Path(args.artifact_root))
     if args.command == "transcribe":
         return _run_transcribe(Path(args.manifest_path))
+    if args.command == "uncertainty":
+        return _run_uncertainty(Path(args.draft_path))
     parser.error(f"Unknown command: {args.command}")
     return 1
 
@@ -95,6 +107,29 @@ def _run_transcribe(manifest_path: Path) -> int:
         "engine": result.draft["engine"],
         "produced_by": "ACI-ATL-002",
         "control_baseline": result.draft["control_baseline"],
+    }
+    print(json.dumps(payload, indent=2, sort_keys=True))
+    return 0
+
+
+def _run_uncertainty(draft_path: Path) -> int:
+    try:
+        result = evaluate_uncertainty(draft_path)
+    except UncertaintyError as exc:
+        print(json.dumps({"ok": False, "error_code": exc.code, "error": exc.message}, indent=2), file=sys.stderr)
+        return 2
+    payload = {
+        "ok": True,
+        "job_id": result.job_id,
+        "report_path": str(result.report_path),
+        "text_path": str(result.text_path),
+        "job_status": result.report["job_status"],
+        "resolution_required": result.report["resolution_required"],
+        "usable_as_approved_lyrics": result.report["usable_as_approved_lyrics"],
+        "established_lyrics_present": result.report["established_lyrics_present"],
+        "flags": result.report["flags"],
+        "counts": result.report["counts"],
+        "produced_by": "ACI-ATL-003",
     }
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0

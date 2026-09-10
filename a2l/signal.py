@@ -13,6 +13,7 @@ from a2l.errors import TranscriptionError
 # no recoverable vocal signal. This flags model output; it does not invent lyrics.
 NO_SIGNAL_PEAK = 1e-4
 NO_SIGNAL_RMS = 1e-4
+ENERGY_BLOCK_FRAMES = 48000
 
 
 def pcm_energy(wav_path: Path) -> dict:
@@ -21,12 +22,29 @@ def pcm_energy(wav_path: Path) -> dict:
             sample_width = wav_file.getsampwidth()
             channel_count = wav_file.getnchannels()
             frame_count = wav_file.getnframes()
-            frames = wav_file.readframes(frame_count)
+            peak_abs = 0
+            sum_squares = 0.0
+            sample_count = 0
+            energy_known = True
+            while True:
+                frames = wav_file.readframes(ENERGY_BLOCK_FRAMES)
+                if not frames:
+                    break
+                samples = _samples_from_frames(frames, sample_width)
+                if samples is None:
+                    energy_known = False
+                    sample_count = 0
+                    break
+                for value in samples:
+                    absolute = abs(value)
+                    if absolute > peak_abs:
+                        peak_abs = absolute
+                    sum_squares += value * value
+                    sample_count += 1
     except (OSError, wave.Error) as exc:
         raise TranscriptionError("WORKING_AUDIO_UNREADABLE", f"Could not read working WAV: {exc}") from exc
 
-    samples = _samples_from_frames(frames, sample_width)
-    if samples is None:
+    if not energy_known:
         return {
             "sample_width_bytes": sample_width,
             "channel_count": channel_count,
@@ -36,7 +54,7 @@ def pcm_energy(wav_path: Path) -> dict:
             "energy_known": False,
             "no_signal": False,
         }
-    if not samples:
+    if sample_count == 0:
         return {
             "sample_width_bytes": sample_width,
             "channel_count": channel_count,
@@ -48,13 +66,12 @@ def pcm_energy(wav_path: Path) -> dict:
         }
 
     full_scale = float(2 ** (8 * sample_width - 1))
-    peak = max(abs(value) for value in samples) / full_scale
-    mean_square = sum(value * value for value in samples) / len(samples)
-    rms = math.sqrt(mean_square) / full_scale
+    peak = peak_abs / full_scale
+    rms = math.sqrt(sum_squares / sample_count) / full_scale
     return {
         "sample_width_bytes": sample_width,
         "channel_count": channel_count,
-        "sample_count": len(samples),
+        "sample_count": sample_count,
         "peak_full_scale": peak,
         "rms_full_scale": rms,
         "energy_known": True,
@@ -68,6 +85,14 @@ def _samples_from_frames(frames: bytes, sample_width: int) -> list[int] | None:
     if sample_width == 2:
         count = len(frames) // 2
         return list(struct.unpack("<" + "h" * count, frames[: count * 2]))
+    if sample_width == 3:
+        samples: list[int] = []
+        for index in range(0, len(frames) - 2, 3):
+            value = frames[index] | (frames[index + 1] << 8) | (frames[index + 2] << 16)
+            if value & 0x800000:
+                value -= 0x1000000
+            samples.append(value)
+        return samples
     if sample_width == 4:
         count = len(frames) // 4
         return list(struct.unpack("<" + "i" * count, frames[: count * 4]))

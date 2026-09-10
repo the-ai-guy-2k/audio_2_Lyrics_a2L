@@ -156,12 +156,23 @@ def test_no_out_of_scope_capabilities_imported() -> None:
     assert forbidden.isdisjoint(loaded)
     assert not hasattr(a2l, "isolate_vocals")
     assert not hasattr(a2l, "approve_lyrics")
+    assert not hasattr(a2l, "structure_lyrics")
 
 
 def test_pcm_fixture_is_valid_wav() -> None:
     data = pcm_wav_bytes()
     assert data.startswith(b"RIFF")
     assert data[8:12] == b"WAVE"
+
+
+def test_24bit_silence_energy_is_known(tmp_path: Path) -> None:
+    from a2l.signal import pcm_energy
+
+    path = write_pcm_wav(tmp_path / "twenty_four.wav", sample_width=3, channel_count=2, sample_rate=48000)
+    energy = pcm_energy(path)
+    assert energy["energy_known"] is True
+    assert energy["no_signal"] is True
+    assert energy["sample_width_bytes"] == 3
 
 
 def test_existing_source_is_not_rewritten(tmp_path: Path) -> None:
