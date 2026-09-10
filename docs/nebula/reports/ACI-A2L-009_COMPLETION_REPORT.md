@@ -18,6 +18,7 @@ COMPLETE on bounded feature branch. Phase 1 prepared review. Operator explicitly
 | --- | --- |
 | Branch | `feature/aci-a2l-009-real-song-validation` |
 | Base | `feature/aci-a2l-008-approved-lyrics` @ `e122b7a51f932e773fa4332e840fc1296c5e7fff` |
+| Validation record | `41415d50c31f28982e3a6222362908ed334b4526` |
 
 ## Complete pipeline validation result
 

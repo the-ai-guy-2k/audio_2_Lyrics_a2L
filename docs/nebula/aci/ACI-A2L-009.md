@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. Phase 1 prepared the locked song for review.
 ## Constraints honored
 
 - New branch `feature/aci-a2l-009-real-song-validation` from `feature/aci-a2l-008-approved-lyrics` @ `e122b7a51f932e773fa4332e840fc1296c5e7fff`.
+- Validation record: `41415d5`.
 - Same locked WAV. SHA-256 unchanged.
 - Architecture unchanged. Transcription not rerun. No candidate-specific copying.
 - Approved lyrics were not modified by CAE.

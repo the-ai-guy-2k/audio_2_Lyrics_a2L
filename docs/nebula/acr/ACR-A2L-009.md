@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-009 — Real-song end-to-end validation  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-a2l-009-real-song-validation`  
-**Commit:** recorded in follow-up  
+**Commit:** `41415d5`  
 **Status:** COMPLETE on feature branch — not merged  
 **Product changes:** none (validation). Tests/docs updated to record Operator approval of the locked song.
 
