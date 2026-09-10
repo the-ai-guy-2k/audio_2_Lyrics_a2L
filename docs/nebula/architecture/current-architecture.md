@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-007 on `feature/aci-a2l-007-primary-faster-whisper`.
+**Authority:** ACI-A2L-008 on `feature/aci-a2l-008-approved-lyrics`.
 
 ## Implemented flow
 
@@ -10,9 +10,11 @@ Operator WAV (read-only)
   → transcribe (faster-whisper / Whisper large-v3; whisper-1 baseline preserved)
   → uncertainty (flag, do not invent)
   → lyric structuring (timed annotated draft, do not rewrite)
-  → human review (correct, preserve machine text, not approved)
+  → human review (correct, preserve machine text, save does not approve)
+  → explicit human approval (confirm=true)
+  → approved lyric artifacts (TXT + JSON)
 ```
 
 Fixed test song: [FIXED_TEST_SONG.md](../FIXED_TEST_SONG.md)
 
-No verse/chorus labels. No approved lyrics. Vocal isolation is not in the pipeline.
+No verse/chorus labels. Vocal isolation is not in the pipeline. The locked Jay song remains **NOT APPROVED**.

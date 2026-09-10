@@ -9,9 +9,10 @@ A2L recovers lyrics from artist-owned/mastered audio.
 - ACI-A2L-007: faster-whisper / Whisper large-v3 is the primary transcription engine
 - ACI-ATL-003: uncertainty handling (flag, do not invent)
 - ACI-ATL-004: lyric structuring (structure, do not rewrite)
-- ACI-A2L-006: human review and correction (reviewed draft, not approved)
+- ACI-A2L-006: human review and correction (reviewed draft, not approved until explicit confirmation)
+- ACI-A2L-008: explicit human approval and approved lyric artifacts
 
-**Not implemented:** human approval, approved lyric artifacts, vocal isolation, stem separation, normalization, resampling.
+**Not implemented:** vocal isolation, stem separation, normalization, resampling, finished application frontend.
 
 ## Governing product rule
 
@@ -68,7 +69,7 @@ This produces a timed, annotated lyric draft for human review. It does not rewri
 
 ## Human review and correction
 
-The review UI consumes the primary faster-whisper large-v3 structured draft. It does not approve lyrics.
+The review UI consumes the primary faster-whisper large-v3 structured draft. Save does not approve lyrics. Approval is a separate explicit operator action.
 
 ```bash
 python -m a2l review
@@ -77,6 +78,18 @@ python -m a2l review
 Open http://127.0.0.1:8765/
 
 Details: [docs/HUMAN_REVIEW.md](docs/HUMAN_REVIEW.md)
+
+## Explicit approval
+
+After review, the operator must explicitly mark lyrics APPROVED. That writes:
+
+```text
+artifacts/ingest/<sha256>/a2l_pipeline/approved_lyrics/
+  approved_lyrics.txt
+  approved_lyrics.json
+```
+
+The locked Jay song remains **NOT APPROVED**. Details: [docs/APPROVED_LYRICS.md](docs/APPROVED_LYRICS.md)
 
 ## Artifact flow
 
@@ -105,7 +118,10 @@ artifacts/ingest/<sha256>/
     structured_lyrics/                      ACI-ATL-004 structured draft (NOT approved lyrics)
       structured_lyric_draft.json
       structured_lyric_draft.txt
-    human_review/reviewed_lyric_draft.json   ACI-A2L-006 reviewed draft (NOT approved)
+    human_review/reviewed_lyric_draft.json   ACI-A2L-006 reviewed draft (NOT approved until ACI-A2L-008)
+    approved_lyrics/                         ACI-A2L-008 authoritative lyrics (only after explicit approval)
+      approved_lyrics.txt
+      approved_lyrics.json
 ```
 
 The working artifact is a **byte-identical copy** of the source WAV. No loudness processing, resampling, mono mixdown, or vocal isolation is applied. That preserves untreated mastered audio as CONTROL A for later transcription experiments.

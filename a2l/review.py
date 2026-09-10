@@ -106,6 +106,7 @@ def review_from_structured(structured: dict, structured_path: Path, sha: str) ->
         "authority": AUTHORITY,
         "approval_status": "NOT_APPROVED",
         "usable_as_approved_lyrics": False,
+        "lyric_state": "DRAFT",
         "transcription_engine": "faster-whisper",
         "transcription_model": "large-v3",
         "ingest_job_id": sha,
@@ -176,8 +177,11 @@ def _merge_matching_corrections(review: dict, prior: dict) -> dict:
 
 
 def apply_corrections(review: dict, updates: dict[int, str], now: str | None = None) -> dict:
-    if review.get("usable_as_approved_lyrics") is True:
-        raise ReviewError("AUTHORITY_VIOLATION", "Review artifact claims approved lyrics.")
+    if review.get("approval_status") == "APPROVED" or review.get("usable_as_approved_lyrics") is True:
+        raise ReviewError(
+            "ALREADY_APPROVED",
+            "Approved lyrics cannot be changed through Save. Approval already happened.",
+        )
     stamp = now or datetime.now(timezone.utc).isoformat()
     by_index = {int(line["index"]): line for line in review.get("lines") or []}
     for index, human_text in updates.items():
@@ -204,12 +208,19 @@ def apply_corrections(review: dict, updates: dict[int, str], now: str | None = N
     )
     review["usable_as_approved_lyrics"] = False
     review["approval_status"] = "NOT_APPROVED"
+    review["lyric_state"] = "REVIEWED"
     return review
 
 
 def save_review(review: dict, sha: str = LOCKED_SHA256) -> Path:
-    if review.get("usable_as_approved_lyrics") is True:
-        raise ReviewError("AUTHORITY_VIOLATION", "Refusing to save an approved-lyrics claim.")
+    if review.get("approval_status") == "APPROVED" or review.get("usable_as_approved_lyrics") is True:
+        raise ReviewError(
+            "ALREADY_APPROVED",
+            "Refusing to overwrite an APPROVED review through Save. Saving does not approve lyrics.",
+        )
+    review["usable_as_approved_lyrics"] = False
+    review["approval_status"] = "NOT_APPROVED"
+    review["lyric_state"] = "REVIEWED"
     review_dir = default_review_dir(sha)
     review_dir.mkdir(parents=True, exist_ok=True)
     json_path = review_dir / REVIEW_FILENAME
@@ -225,8 +236,6 @@ def load_saved_review(path: str | Path | None = None, sha: str = LOCKED_SHA256) 
     if not path.is_file():
         raise ReviewError("REVIEW_NOT_FOUND", f"Reviewed lyric artifact not found: {path}")
     review = json.loads(path.read_text(encoding="utf-8"))
-    if review.get("usable_as_approved_lyrics") is True:
-        raise ReviewError("AUTHORITY_VIOLATION", "Review artifact claims approved lyrics.")
     return review
 
 
@@ -257,7 +266,11 @@ def _format_clock(value) -> str:
 
 def _human_readable(review: dict) -> str:
     lines = [
-        "A2L REVIEWED LYRIC DRAFT — NOT APPROVED LYRICS",
+        (
+            "A2L REVIEWED LYRIC DRAFT — APPROVED (authoritative files are approved_lyrics.txt/json)"
+            if review.get("approval_status") == "APPROVED"
+            else "A2L REVIEWED LYRIC DRAFT — NOT APPROVED LYRICS"
+        ),
         f"Authority: {review['authority']}",
         f"Approval: {review['approval_status']}",
         f"Engine: {review.get('transcription_engine')} / {review.get('transcription_model')}",

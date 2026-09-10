@@ -6,6 +6,7 @@ ACI-ATL-003: uncertainty handling (flag, do not invent).
 ACI-ATL-004: lyric structuring (structure, do not rewrite).
 ACI-A2L-007: faster-whisper / Whisper large-v3 is the primary transcription engine.
 ACI-A2L-006: human review and correction (reviewed draft, not approved).
+ACI-A2L-008: explicit human approval writes approved lyric artifacts.
 Vocal isolation remains out of scope.
 """
 

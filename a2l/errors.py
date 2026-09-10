@@ -46,3 +46,12 @@ class ReviewError(Exception):
         self.code = code
         self.message = message
         super().__init__(f"{code}: {message}")
+
+
+class ApprovalError(Exception):
+    """Clean failure for explicit lyric approval."""
+
+    def __init__(self, code: str, message: str) -> None:
+        self.code = code
+        self.message = message
+        super().__init__(f"{code}: {message}")

@@ -25,5 +25,5 @@ Downstream human review may consume this draft. It is not approved lyrics.
 
 - Do not treat structured lines as approved lyrics.
 - Do not fill `time_gap` rows with guessed lyrics.
-- Human review/approval is a later capability.
+- Human review is ACI-A2L-006. Explicit approval is ACI-A2L-008.
 - Vocal isolation is still not authorized.

@@ -56,19 +56,32 @@
       border-top: 1px solid #ccc;
       padding-top: 0.75rem;
     }
-    .inspect .machine { color: #555; }
+    .state {
+      font-family: sans-serif;
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin: 0.75rem 0;
+    }
+    .state.DRAFT { color: #555; }
+    .state.REVIEWED { color: #8a5a00; }
+    .state.APPROVED { color: #0a6; }
+    .paths { font-family: sans-serif; font-size: 0.9rem; color: #333; max-width: 42rem; }
+    .lyrics.approved .phrase { cursor: default; }
   </style>
 </head>
 <body>
   <div class="banner">
-    A2L HUMAN REVIEW — NOT APPROVED LYRICS<br>
-    Engine: faster-whisper / large-v3. Click a phrase to edit. Machine text stays stored.
+    A2L HUMAN REVIEW — explicit APPROVED is a separate action<br>
+    Engine: faster-whisper / large-v3. Save does not approve lyrics.
   </div>
+  <p class="state" id="lyric-state">Loading…</p>
   <p class="status" id="status">Loading…</p>
   <p class="toolbar">
     <button id="save" type="button">Save reviewed draft</button>
     <button id="reload" type="button">Reload from disk</button>
+    <button id="approve" type="button">Mark lyrics APPROVED</button>
   </p>
+  <p class="paths" id="paths"></p>
   <p class="legend">
     Uncertain phrases are marked
     <span class="swatch uncertain">like this</span>.
@@ -79,6 +92,7 @@
   <div class="inspect" id="inspect">Click a phrase to see its original machine text and flags.</div>
   <script>
     let reviewState = null;
+    let lyricState = "DRAFT";
 
     async function loadState() {
       const response = await fetch("/api/state");
@@ -87,7 +101,7 @@
         document.getElementById("status").textContent = payload.error_code + ": " + payload.error;
         return;
       }
-      render(payload.review);
+      render(payload);
     }
 
     function displayText(line) {
@@ -100,15 +114,37 @@
       return lead + edited.replace(/\s+/g, " ").trim();
     }
 
-    function render(review) {
-      reviewState = review;
+    function showState(payload) {
+      const review = payload.review;
+      lyricState = payload.lyric_state || "DRAFT";
+      const stateEl = document.getElementById("lyric-state");
+      stateEl.textContent = "LYRIC STATE: " + lyricState;
+      stateEl.className = "state " + lyricState;
       const status = document.getElementById("status");
       status.textContent =
         review.authority + " / " + review.approval_status +
         " / corrected " + review.counts.human_corrected +
         " / uncertain " + review.counts.uncertain_lines;
+      const paths = document.getElementById("paths");
+      if (lyricState === "APPROVED") {
+        paths.textContent =
+          "APPROVED TXT: " + (payload.approved_txt_path || "") +
+          "  |  APPROVED JSON: " + (payload.approved_json_path || "");
+      } else {
+        paths.textContent = "Approved lyric artifacts: NOT CREATED. Save does not approve.";
+      }
+      document.getElementById("save").disabled = lyricState === "APPROVED";
+      document.getElementById("approve").disabled = lyricState === "APPROVED";
+    }
+
+    function render(payload) {
+      const review = payload.review;
+      reviewState = review;
+      showState(payload);
       const root = document.getElementById("lyrics");
       root.innerHTML = "";
+      root.classList.toggle("approved", lyricState === "APPROVED");
+      const editable = lyricState !== "APPROVED";
       for (const line of review.lines) {
         if (line.kind === "time_gap") continue;
         const phrase = document.createElement("span");
@@ -116,11 +152,11 @@
         if (line.uncertain) phrase.classList.add("uncertain");
         if (line.corrected) phrase.classList.add("corrected");
         phrase.dataset.index = String(line.index);
-        phrase.contentEditable = "plaintext-only";
+        phrase.contentEditable = editable ? "plaintext-only" : "false";
         phrase.spellcheck = false;
         phrase.setAttribute("role", "textbox");
         phrase.setAttribute("aria-label", "lyric phrase L" + line.index);
-        phrase.title = (line.uncertain ? "UNCERTAIN. " : "") + "Click to edit.";
+        phrase.title = (line.uncertain ? "UNCERTAIN. " : "") + (editable ? "Click to edit." : "Approved. Not editable.");
         phrase.textContent = displayText(line);
         phrase.addEventListener("focus", function () { showInspect(line, phrase); });
         phrase.addEventListener("keydown", function (event) {
@@ -171,12 +207,32 @@
         document.getElementById("status").textContent = payload.error_code + ": " + payload.error;
         return;
       }
-      document.getElementById("status").textContent = "Saved: " + payload.saved_path;
-      render(payload.review);
+      document.getElementById("status").textContent = "Saved (still not approved): " + payload.saved_path;
+      render(payload);
+    }
+
+    async function approve() {
+      if (!reviewState) return;
+      const ok = window.confirm(
+        "This will create AUTHORITATIVE approved lyrics.\nSave does not do this.\nContinue?"
+      );
+      if (!ok) return;
+      const response = await fetch("/api/approve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: true }),
+      });
+      const payload = await response.json();
+      if (!payload.ok) {
+        document.getElementById("status").textContent = payload.error_code + ": " + payload.error;
+        return;
+      }
+      render(payload);
     }
 
     document.getElementById("save").addEventListener("click", save);
     document.getElementById("reload").addEventListener("click", loadState);
+    document.getElementById("approve").addEventListener("click", approve);
     loadState();
   </script>
 </body>

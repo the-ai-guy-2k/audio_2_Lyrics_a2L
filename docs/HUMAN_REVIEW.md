@@ -1,6 +1,6 @@
 # Human review and correction (ACI-A2L-006)
 
-Review the primary faster-whisper large-v3 structured lyric draft. Correct machine errors. Preserve original machine text. The result is **not** approved lyrics.
+Review the primary faster-whisper large-v3 structured lyric draft. Correct machine errors. Preserve original machine text. Saving a review does **not** approve lyrics.
 
 ## Open the interface
 
@@ -12,6 +12,8 @@ python -m a2l review
 
 Then open: `http://127.0.0.1:8765/`
 
+Restart this process after code changes so `POST /api/approve` is loaded.
+
 ## What you see
 
 Lyrics display as wrapping paragraph text, not isolated machine-record rows.
@@ -20,6 +22,7 @@ Lyrics display as wrapping paragraph text, not isolated machine-record rows.
 - Human-corrected phrases are underlined
 - Click a phrase to edit it and to see original machine text and flags
 - Time gaps are kept in the stored data but are not shown as separate reading rows
+- The page shows `LYRIC STATE: DRAFT | REVIEWED | APPROVED`
 
 ## Save
 
@@ -31,8 +34,14 @@ artifacts/ingest/<sha256>/a2l_pipeline/human_review/
   reviewed_lyric_draft.txt
 ```
 
+Save never creates `approved_lyrics.txt` or `approved_lyrics.json`.
+
 Contract: [REVIEW_CONTRACT.md](REVIEW_CONTRACT.md)
+
+## Approval
+
+Approval is a separate explicit action (ACI-A2L-008). Details: [APPROVED_LYRICS.md](APPROVED_LYRICS.md)
 
 ## Not in this ACI
 
-Authoritative approval, APPROVED state, final lyric export, vocal isolation, LLM rewrite.
+Vocal isolation, LLM rewrite, finished application frontend.
