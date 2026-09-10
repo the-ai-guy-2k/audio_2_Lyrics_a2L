@@ -4,7 +4,7 @@
 **Amendment:** 01  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-a2l-009-real-song-validation`  
-**Commit:** recorded in follow-up  
+**Commit:** `b64b85f`  
 **Status:** COMPLETE on feature branch — not merged  
 **Product changes:** explicit reopen/reapproval; review vs approved authority split. Validation only for the locked song.
 

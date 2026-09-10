@@ -25,6 +25,7 @@ Amendment 01 added explicit reopen. CAE reopened without changing lyrics. The Op
 | Base | `feature/aci-a2l-008-approved-lyrics` @ `e122b7a51f932e773fa4332e840fc1296c5e7fff` |
 | First validation record | `41415d50c31f28982e3a6222362908ed334b4526` |
 | Reopen implementation | `e3c794e6670871a5b5e0e1c7304c6aad1d0513d1` |
+| Amendment 01 completion record | `b64b85febc0d37dacaf735f2e0a79be46c96275b` |
 
 ## Complete pipeline validation result
 
