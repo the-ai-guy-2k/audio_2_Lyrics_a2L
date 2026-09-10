@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution adds explicit human approval 
 ## Constraints honored
 
 - New branch `feature/aci-a2l-008-approved-lyrics` from `feature/aci-a2l-007-primary-faster-whisper` @ `d0b0983884889bf6e2b6c602362187f8a0a44c7a`.
+- Implementation commit: `ae12419`.
 - Transcription engine unchanged: faster-whisper / Whisper large-v3.
 - Save does not approve. Approval requires `confirm=true`.
 - Validation used fixture SHA `aci-a2l-008-fixture`, not the locked Jay song.

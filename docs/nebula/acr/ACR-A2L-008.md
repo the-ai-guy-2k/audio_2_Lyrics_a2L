@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-008 — Approved lyric artifact  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-a2l-008-approved-lyrics`  
-**Commit:** recorded in follow-up  
+**Commit:** `ae12419`  
 **Status:** COMPLETE on feature branch — not merged; locked song not approved  
 **Product changes:** explicit `confirm=true` approval; `approved_lyrics.txt` / `approved_lyrics.json`; DRAFT / REVIEWED / APPROVED display
 

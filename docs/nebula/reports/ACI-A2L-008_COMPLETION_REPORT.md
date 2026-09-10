@@ -15,7 +15,8 @@ COMPLETE on bounded feature branch. Not merged. Not pushed. The locked Jay song 
 ## Branch
 
 `feature/aci-a2l-008-approved-lyrics`  
-**Base:** `feature/aci-a2l-007-primary-faster-whisper` @ `d0b0983884889bf6e2b6c602362187f8a0a44c7a`
+**Base:** `feature/aci-a2l-007-primary-faster-whisper` @ `d0b0983884889bf6e2b6c602362187f8a0a44c7a`  
+**Implementation:** `ae12419`
 
 ## Implementation summary
 
@@ -73,6 +74,10 @@ Known human corrections remain on the unapproved review (L27 stall→stomp, L36 
 ## Errors / warnings
 
 None that blocked the ACI.
+
+## Commit information
+
+`ae12419` on `feature/aci-a2l-008-approved-lyrics` (implementation). Follow-up commit records this SHA in the ACR.
 
 ## Merge / push status
 
