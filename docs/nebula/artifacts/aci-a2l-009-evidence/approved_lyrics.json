@@ -1,10 +1,22 @@
 {
   "approval_event": {
-    "approved_at": "2026-09-10T23:24:59.039288+00:00",
+    "approved_at": "2026-09-10T23:48:56.782704+00:00",
     "approved_by": "OPERATOR",
     "automatic": false,
-    "method": "EXPLICIT_CONFIRM"
+    "method": "EXPLICIT_CONFIRM",
+    "revision": 2
   },
+  "approval_history": [
+    {
+      "approved_at": "2026-09-10T23:24:59.039288+00:00",
+      "approved_by": "OPERATOR",
+      "archived_dir": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\ingest\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\a2l_pipeline\\approved_lyrics\\history\\2026-09-10T23-39-04.902190-00-00",
+      "automatic": false,
+      "method": "EXPLICIT_CONFIRM",
+      "revision": 1,
+      "superseded_at": "2026-09-10T23:39:04.902190+00:00"
+    }
+  ],
   "approval_status": "APPROVED",
   "approved_lyric_text": "Mr. Guitar Man\nWe got some work week blues to share\nAnd you never let us down, yeah\nPlay something we can stomp to\nSomething we can groove to\nSomething we can get our butts up out these seats and move to\nHook us with that old school funk\nNone of that slow down ballad stuff\nWe can't hear the dance and get a little bored loose\nPlay something we can stomp to\nPlay something we can stomp to\nDon't mean to put you on the spot\nBut I'll drop a 24-key at a rock\nBring some kick-ass to this dial\nIf you want this crowd to come alive\nPlay something we can stomp to\nSomething we can groove to\nSomething we can get our butts up out these seats and move to\nHook us with that old school funk\nNone of that slow down ballad stuff\nWe came here to dance and get a little footloose\nPlay something we can stomp to\nHey, something we can stomp to\nSomething we can groove to\nSomething we can get our butts up out of these seats and move to\nHook us with that old school funk\nNone of that slow down ballad stuff\nWe came here to dance and get a little footloose\nSo that we can stomp too\nSo that we can groove too\nSo that we can get our butts up out of these seats and move too\nHook us with that old school funk\nNone of that slow down ballad stuff\nWe came here to dance and get a little footloose\nWhoa-oh-oh-oh-oh-oh-oh-oh\nPlay something we can stomp to\nPlay something we can start to\nPlay something we can start to\nPlay something we can start to\nThanks for watching!\n",
   "authority": "AUTHORITATIVE_APPROVED_LYRICS",
@@ -13,11 +25,13 @@
   "lyric_state": "APPROVED",
   "notes": [
     "Authoritative approved lyrics. Created only after explicit operator confirmation.",
-    "Machine transcription and the reviewed draft remain stored separately."
+    "Machine transcription and the reviewed draft remain stored separately.",
+    "This review JSON is provenance. Authoritative lyric files are approved_lyrics.txt/json."
   ],
   "produced_by": "ACI-A2L-008",
   "schema_version": "1.0.0",
   "source_sha256": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "supersedes": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\ingest\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\a2l_pipeline\\approved_lyrics\\history\\2026-09-10T23-39-04.902190-00-00",
   "transcription_engine": "faster-whisper",
   "transcription_model": "large-v3",
   "usable_as_approved_lyrics": true,

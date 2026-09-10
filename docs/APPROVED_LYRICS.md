@@ -39,6 +39,6 @@ Existing audio, machine transcription, uncertainty, structured draft, and human-
 
 ## Locked Jay song
 
-ACI-A2L-009 Amendment 01: the locked song is **REQUIRES_REAPPROVAL** so the Operator can correct remaining errors. The first approval is archived under `approved_lyrics/history/`. Current canonical approved files are inactive until the Operator approves again.
+ACI-A2L-009 Amendment 01: the locked song is **APPROVED** again (revision 2). The first approval remains under `approved_lyrics/history/`.
 
 Contract: [APPROVED_LYRICS_CONTRACT.md](APPROVED_LYRICS_CONTRACT.md)

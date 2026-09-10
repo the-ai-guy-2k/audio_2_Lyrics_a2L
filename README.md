@@ -89,7 +89,7 @@ artifacts/ingest/<sha256>/a2l_pipeline/approved_lyrics/
   approved_lyrics.json
 ```
 
-The locked Jay song is **REQUIRES_REAPPROVAL** (ACI-A2L-009 Amendment 01). Prior approval is archived. Details: [docs/APPROVED_LYRICS.md](docs/APPROVED_LYRICS.md)
+The locked Jay song is **APPROVED** (ACI-A2L-009 Amendment 01, revision 2). Prior approval is archived. Details: [docs/APPROVED_LYRICS.md](docs/APPROVED_LYRICS.md)
 
 ## Artifact flow
 

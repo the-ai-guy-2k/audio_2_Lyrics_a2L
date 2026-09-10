@@ -1,25 +1,33 @@
 {
   "ok": true,
   "aci": "ACI-A2L-009",
-  "phase": 2,
+  "amendment": "01",
   "source_sha256": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
   "ingest_source_sha256": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
   "whisper1_draft_sha256": "82ca9474e3cc0179ffdb6e7948df081c4785cd29f0e9a7526d3d318525055471",
   "whisper1_txt_sha256": "c05fc1227ad6842bb4efa9cf1c375bd392c5fe5361e5a9ad6d49e22864147886",
   "primary_transcription_sha256": "3c645aeddce7b7df29e8ce93653c273de3dc1f2e561f33a16af5f3a8cacb0919",
-  "review_sha256": "88250d0afa3e3810393766741f6895f555b69f81c7e58d0dfe8d8668b4a87bad",
   "approved_txt_sha256": "8da23213e2d0b3fb62ae84a9d059b026117baf793e8cacbfc61db857ad2f476c",
-  "approved_json_sha256": "7ac68495aca44d35b44ab555d86472894292f092116bdbca2c2ee0154ecb29d6",
+  "approved_json_sha256": "d9e4c685d09067fe098867c245f2cc63addbcfa400e79962f8c088bb609bc3e4",
+  "approved_txt_sha256_revision_1_same_as_revision_2": true,
   "engine": "faster-whisper",
   "model": "large-v3",
   "lyric_state": "APPROVED",
+  "review_authority": "HUMAN_REVIEW_PROVENANCE",
+  "active_lyric_authority": "AUTHORITATIVE_APPROVED_LYRICS",
   "approval_status": "APPROVED",
   "usable_as_approved_lyrics": true,
   "approval_event": {
-    "approved_at": "2026-09-10T23:24:59.039288+00:00",
+    "approved_at": "2026-09-10T23:48:56.782704+00:00",
     "approved_by": "OPERATOR",
     "automatic": false,
-    "method": "EXPLICIT_CONFIRM"
+    "method": "EXPLICIT_CONFIRM",
+    "revision": 2
+  },
+  "prior_approval": {
+    "approved_at": "2026-09-10T23:24:59.039288+00:00",
+    "superseded_at": "2026-09-10T23:39:04.902190+00:00",
+    "archived_dir": "artifacts/ingest/<sha>/a2l_pipeline/approved_lyrics/history/2026-09-10T23-39-04.902190-00-00"
   },
   "machine_lines": 40,
   "time_gaps": 5,
@@ -29,6 +37,12 @@
   "uncertainty_unverified_machine_text": 33,
   "candidate_copying_required": false,
   "transcription_rerun_this_aci": false,
+  "post_reopen_save_observed": false,
+  "known_leftovers_still_in_approved_txt": [
+    "Thanks for watching!",
+    "Play something we can start to (3 lines)",
+    "bored loose"
+  ],
   "previously_recorded_faster_whisper_processing_seconds": 112.78587569997762,
   "previously_recorded_faster_whisper_model_load_seconds": 11.595011199999135,
   "processing_seconds_source": "ACI-A2L-005 candidate run; reused as primary in ACI-A2L-007; not remeasured in ACI-A2L-009"

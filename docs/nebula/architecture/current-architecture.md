@@ -17,4 +17,4 @@ Operator WAV (read-only)
 
 Fixed test song: [FIXED_TEST_SONG.md](../FIXED_TEST_SONG.md)
 
-No verse/chorus labels. Vocal isolation is not in the pipeline. ACI-A2L-009 Amendment 01: locked song is **REQUIRES_REAPPROVAL** (first approval archived; Operator correction pending).
+No verse/chorus labels. Vocal isolation is not in the pipeline. The locked Jay song is **APPROVED** (ACI-A2L-009 Amendment 01, revision 2).

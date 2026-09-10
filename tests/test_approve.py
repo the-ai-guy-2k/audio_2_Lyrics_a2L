@@ -1,4 +1,4 @@
-"""ACI-A2L-008/009 approval tests. Fixture approval is isolated; locked song is Operator-approved as of ACI-A2L-009."""
+"""ACI-A2L-008/009 approval tests. Fixture approval is isolated; locked song is Operator-approved revision 2."""
 
 from __future__ import annotations
 
@@ -179,20 +179,34 @@ def test_reopen_archives_prior_approval_and_unlocks_edits(tmp_path: Path, monkey
     assert final["active_lyric_authority"] == APPROVED_LYRIC_AUTHORITY
 
 
-def test_locked_song_is_reopened_for_correction() -> None:
-    review = json.loads(default_review_path(LOCKED_SHA256).read_text(encoding="utf-8"))
-    assert lyric_display_state(review, LOCKED_SHA256) == STATE_REQUIRES_REAPPROVAL
-    assert locked_song_is_unapproved() is True
-    assert not default_approved_txt_path(LOCKED_SHA256).is_file()
-    assert not default_approved_json_path(LOCKED_SHA256).is_file()
+def test_locked_song_is_operator_reapproved() -> None:
+    assert locked_song_is_unapproved() is False
+    txt = default_approved_txt_path(LOCKED_SHA256)
+    js = default_approved_json_path(LOCKED_SHA256)
+    assert txt.is_file()
+    assert js.is_file()
+    body = txt.read_text(encoding="utf-8")
+    assert "00:" not in body
+    assert "UNCERTAIN" not in body
+    assert "flags=" not in body
+    payload = json.loads(js.read_text(encoding="utf-8"))
+    assert payload["approval_status"] == APPROVAL_STATUS
+    assert payload["usable_as_approved_lyrics"] is True
+    assert payload["source_sha256"] == LOCKED_SHA256
+    assert payload["transcription_engine"] == "faster-whisper"
+    assert payload["approval_event"]["method"] == "EXPLICIT_CONFIRM"
+    assert payload["approval_event"]["automatic"] is False
+    assert payload["approval_event"]["revision"] == 2
+    assert payload["approved_lyric_text"] == body
+    assert payload["approval_history"]
     history = default_approved_history_dir(LOCKED_SHA256)
-    assert history.is_dir()
     archived = sorted(p for p in history.iterdir() if p.is_dir())
     assert archived
     assert (archived[-1] / "approved_lyrics.txt").is_file()
-    assert review["approval_history"]
-    line45 = next(item for item in review["lines"] if item.get("index") == 45)
-    assert "Thanks for watching" in (line45.get("human_text") or "")
+    review = json.loads(default_review_path(LOCKED_SHA256).read_text(encoding="utf-8"))
+    assert lyric_display_state(review, LOCKED_SHA256) == STATE_APPROVED
+    assert review["authority"] == REVIEW_RECORD_AUTHORITY
+    assert review["active_lyric_authority"] == APPROVED_LYRIC_AUTHORITY
 
 
 def test_review_html_exposes_explicit_approval() -> None:

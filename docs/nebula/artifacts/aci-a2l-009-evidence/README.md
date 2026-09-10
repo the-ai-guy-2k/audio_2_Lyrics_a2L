@@ -1,16 +1,14 @@
 # ACI-A2L-009 evidence
 
-Real-song end-to-end validation after explicit Operator approval.
+Real-song end-to-end validation after Operator approval and Amendment 01 reapproval.
 
-- `approved_lyrics.txt` / `approved_lyrics.json` — copies of the Operator-approved artifacts
-- `runtime_validation.json` — SHA checks, counts, approval event
+- `approved_lyrics.txt` / `approved_lyrics.json` — current revision-2 Operator-approved artifacts
+- `runtime_validation.json` — SHA checks, counts, approval event, leftover flags
 
-Runtime originals (gitignored ingest tree):
+Revision 1 remains at runtime:
 
 ```text
-artifacts/ingest/<sha>/a2l_pipeline/approved_lyrics/
-  approved_lyrics.txt
-  approved_lyrics.json
+artifacts/ingest/<sha>/a2l_pipeline/approved_lyrics/history/2026-09-10T23-39-04.902190-00-00/
 ```
 
-Machine transcription and human-review files remain beside those approved artifacts. They were not replaced.
+Machine transcription and human-review files remain beside the current approved artifacts.
