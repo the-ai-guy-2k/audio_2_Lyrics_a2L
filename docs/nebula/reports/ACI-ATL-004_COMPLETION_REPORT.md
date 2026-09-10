@@ -72,7 +72,7 @@ Fourth pipeline stage. Contract: `docs/STRUCTURED_LYRIC_CONTRACT.md`.
 
 ## Commit information
 
-Recorded on `feature/aci-atl-004`. SHA filled after commit.
+`2872e51` on `feature/aci-atl-004` (implementation). Follow-up commit records this SHA in the ACR.
 
 ## Merge / push status
 

@@ -3,6 +3,7 @@
 **ACI:** ACI-ATL-004 — Lyric structuring  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-atl-004`  
+**Commit:** `2872e51`  
 **Status:** COMPLETE on feature branch — not merged to deployable  
 **Product changes:** structured lyric draft from transcription + uncertainty; no rewrite; no approval
 
