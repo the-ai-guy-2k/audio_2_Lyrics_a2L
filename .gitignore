@@ -1,0 +1,19 @@
+# Runtime ingest store (generated per run; not source of truth)
+artifacts/ingest/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+env/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

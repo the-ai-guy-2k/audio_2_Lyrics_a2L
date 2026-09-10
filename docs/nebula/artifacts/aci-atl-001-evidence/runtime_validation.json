@@ -1,0 +1,37 @@
+{
+  "corrupt_error": {
+    "error": "WAV container could not be parsed. File is corrupt or incomplete.",
+    "error_code": "CORRUPT_WAV",
+    "ok": false
+  },
+  "invalid_error": {
+    "error": "Input is not a RIFF/WAVE (.wav) file. ACI-ATL-001 requires WAV.",
+    "error_code": "UNSUPPORTED_FORMAT",
+    "ok": false
+  },
+  "repeat_job_id": "f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969",
+  "valid_wav": {
+    "audio": {
+      "byte_size": 8864,
+      "channel_count": 1,
+      "codec": "PCM",
+      "container": "RIFF/WAVE",
+      "duration_seconds": 0.1,
+      "file_format": "WAV",
+      "frame_count": 4410,
+      "sample_rate_hz": 44100,
+      "sample_width_bytes": 2
+    },
+    "authoritative_source": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-001-yo95jz_h\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\authoritative_source\\source.wav",
+    "byte_identical": true,
+    "control_baseline": "CONTROL_A",
+    "derived_working": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-001-yo95jz_h\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\derived_working\\transcription_ready.wav",
+    "intended_consumer": "ACI-ATL-002",
+    "job_id": "f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969",
+    "manifest_path": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-001-yo95jz_h\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\ingest_manifest.json",
+    "ok": true,
+    "produced_by": "ACI-ATL-001",
+    "source_sha256": "f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969",
+    "working_sha256": "f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969"
+  }
+}
