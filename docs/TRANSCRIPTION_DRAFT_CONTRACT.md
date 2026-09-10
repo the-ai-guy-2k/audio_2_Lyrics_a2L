@@ -4,7 +4,7 @@
 **Authority:** `NON_AUTHORITATIVE_MACHINE_DRAFT`  
 **Approval:** `NOT_APPROVED`
 
-Downstream work must not infer undocumented behavior. Consume `machine_transcription/transcription_draft.json`.
+Downstream work must not infer undocumented behavior. Consume the primary `a2l_pipeline/machine_transcription/transcription_draft.json`. Historical whisper-1 files remain under `machine_transcription/` at the ingest job root.
 
 ## Required fields
 

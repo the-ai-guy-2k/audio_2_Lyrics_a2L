@@ -6,6 +6,7 @@ A2L recovers lyrics from artist-owned/mastered audio.
 
 - ACI-ATL-001: WAV ingestion, CONTROL-A working artifact, ingest manifest
 - ACI-ATL-002: CONTROL-A machine transcription (non-authoritative draft)
+- ACI-A2L-007: faster-whisper / Whisper large-v3 is the primary transcription engine
 - ACI-ATL-003: uncertainty handling (flag, do not invent)
 - ACI-ATL-004: lyric structuring (structure, do not rewrite)
 - ACI-A2L-006: human review and correction (reviewed draft, not approved)
@@ -30,7 +31,7 @@ ACI-ATL-001 started from an empty repository. This branch establishes the first 
 python -m a2l ingest path/to/mastered.wav --artifact-root artifacts
 ```
 
-Requires Python 3.11+. Ingest has no third-party runtime dependencies. Transcription uses the OpenAI client when `OPENAI_API_KEY` is set (`pip install -e ".[dev,transcribe]"`).
+Requires Python 3.11+. Ingest has no third-party runtime dependencies. Primary transcription uses faster-whisper / Whisper large-v3 (`pip install -e ".[dev,transcribe]"`). On this workstation use isolated `.venv-faster-whisper` (Python 3.12).
 
 ```bash
 pip install -e ".[dev,transcribe]"
@@ -47,12 +48,12 @@ python scripts/validate_aci_atl_004.py
 python -m a2l transcribe artifacts/ingest/<job_id>/ingest_manifest.json
 ```
 
-Output is a **machine draft**, never approved lyrics. Details: [docs/TRANSCRIPTION.md](docs/TRANSCRIPTION.md)
+Primary engine is **faster-whisper / Whisper large-v3**. Output is a **machine draft**, never approved lyrics. Historical OpenAI whisper-1 artifacts are not overwritten. Details: [docs/TRANSCRIPTION.md](docs/TRANSCRIPTION.md)
 
 ## Flag uncertainty
 
 ```bash
-python -m a2l uncertainty artifacts/ingest/<job_id>/machine_transcription/transcription_draft.json
+python -m a2l uncertainty artifacts/ingest/<job_id>/a2l_pipeline/machine_transcription/transcription_draft.json
 ```
 
 This flags questionable spans. It does not rewrite or approve lyrics. Details: [docs/UNCERTAINTY.md](docs/UNCERTAINTY.md)
@@ -60,14 +61,14 @@ This flags questionable spans. It does not rewrite or approve lyrics. Details: [
 ## Structure a lyric draft
 
 ```bash
-python -m a2l structure artifacts/ingest/<job_id>/uncertainty/uncertainty_report.json
+python -m a2l structure artifacts/ingest/<job_id>/a2l_pipeline/uncertainty/uncertainty_report.json
 ```
 
 This produces a timed, annotated lyric draft for human review. It does not rewrite or approve lyrics. Details: [docs/LYRIC_STRUCTURING.md](docs/LYRIC_STRUCTURING.md)
 
 ## Human review and correction
 
-The review UI consumes the faster-whisper large-v3 structured draft. It does not approve lyrics.
+The review UI consumes the primary faster-whisper large-v3 structured draft. It does not approve lyrics.
 
 ```bash
 python -m a2l review
@@ -90,21 +91,21 @@ Operator WAV (read-only)
 artifacts/ingest/<sha256>/
   authoritative_source/source.wav          AUTHORITATIVE SOURCE (immutable)
   derived_working/transcription_ready.wav  DERIVED WORKING (CONTROL A, untreated)
-  ingest_manifest.json                      contract for ACI-ATL-002
-  machine_transcription/                   ACI-ATL-002 machine draft (NOT approved lyrics)
+  ingest_manifest.json                      contract for transcription
+  machine_transcription/                   HISTORICAL whisper-1 baseline (not overwritten)
     transcription_draft.json
     transcription_draft.txt
-  uncertainty/                             ACI-ATL-003 flags (NOT approved lyrics)
-    uncertainty_report.json
-    uncertainty_report.txt
-  structured_lyrics/                      ACI-ATL-004 structured draft (NOT approved lyrics)
-    structured_lyric_draft.json
-    structured_lyric_draft.txt
-
-faster-whisper large-v3 review path (does not overwrite whisper-1):
-artifacts/candidates/faster-whisper-large-v3/<sha256>/
-  structured_lyrics/
-  human_review/reviewed_lyric_draft.json   ACI-A2L-006 reviewed draft (NOT approved)
+  a2l_pipeline/                             PRIMARY faster-whisper / large-v3 path
+    machine_transcription/                   ACI-A2L-007 machine draft (NOT approved lyrics)
+      transcription_draft.json
+      transcription_draft.txt
+    uncertainty/                             ACI-ATL-003 flags (NOT approved lyrics)
+      uncertainty_report.json
+      uncertainty_report.txt
+    structured_lyrics/                      ACI-ATL-004 structured draft (NOT approved lyrics)
+      structured_lyric_draft.json
+      structured_lyric_draft.txt
+    human_review/reviewed_lyric_draft.json   ACI-A2L-006 reviewed draft (NOT approved)
 ```
 
 The working artifact is a **byte-identical copy** of the source WAV. No loudness processing, resampling, mono mixdown, or vocal isolation is applied. That preserves untreated mastered audio as CONTROL A for later transcription experiments.

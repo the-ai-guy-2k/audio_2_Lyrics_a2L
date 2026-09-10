@@ -23,17 +23,22 @@ The transcriber:
 4. Refuses CONTROL B/C, preprocessing, and vocal isolation.
 5. Does not modify `authoritative_source/source.wav` or the working WAV.
 
-## Engine (baseline, not GVCA-locked)
+## Engine (primary, ACI-A2L-007)
 
 | Field | Value |
 | --- | --- |
-| Technology | OpenAI Audio Transcriptions API |
-| Model | `whisper-1` |
-| `response_format` | `verbose_json` |
+| Technology | faster-whisper |
+| Model | Whisper `large-v3` (`Systran/faster-whisper-large-v3`) |
+| Device | CPU |
+| `compute_type` | `int8` |
+| `language` | `en` |
 | `temperature` | `0` |
-| Prompt | none (a lyrics prompt would invite invention) |
+| `vad_filter` | `false` |
+| `condition_on_previous_text` | `false` |
 
-Local Whisper/torch/ffmpeg were not present on the build workstation. This engine is the CONTROL-A **baseline**, not a permanent architecture decision. Vocal isolation remains unauthorized.
+`python -m a2l transcribe` uses this engine. OpenAI `whisper-1` is not the primary path. Historical whisper-1 drafts under `artifacts/ingest/<sha>/machine_transcription/` are not overwritten.
+
+Local validated runtime on this workstation: isolated `.venv-faster-whisper` (Python 3.12). Vocal isolation remains unauthorized.
 
 ## FLAG IT — DO NOT INVENT IT
 
@@ -47,12 +52,13 @@ Local Whisper/torch/ffmpeg were not present on the build workstation. This engin
 
 ```text
 artifacts/ingest/<sha256>/
-  machine_transcription/
+  machine_transcription/          HISTORICAL whisper-1 baseline (do not overwrite)
+  a2l_pipeline/machine_transcription/
     transcription_draft.json
     transcription_draft.txt
 ```
 
-The next A2L capability must consume `transcription_draft.json` and must not treat it as approved lyrics. Contract: [TRANSCRIPTION_DRAFT_CONTRACT.md](TRANSCRIPTION_DRAFT_CONTRACT.md).
+The next A2L capability must consume the **primary** `a2l_pipeline/machine_transcription/transcription_draft.json` and must not treat it as approved lyrics. Contract: [TRANSCRIPTION_DRAFT_CONTRACT.md](TRANSCRIPTION_DRAFT_CONTRACT.md).
 
 ## Not in this ACI
 

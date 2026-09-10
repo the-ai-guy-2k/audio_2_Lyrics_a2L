@@ -11,13 +11,14 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from a2l.errors import TranscriptionError
-from a2l.engines import EngineResult, EngineSegment, OpenAIWhisperEngine, TranscriptionEngine
+from a2l.engines import EngineResult, EngineSegment, FasterWhisperEngine, TranscriptionEngine
+from a2l.pipeline import TRANSCRIPTION_DIRNAME, is_historical_whisper1_path, pipeline_dir
 from a2l.signal import pcm_energy
 from a2l.wav import sha256_bytes
 
 SCHEMA_VERSION = "1.0.0"
 PRODUCER_ACI = "ACI-ATL-002"
-DRAFT_DIRNAME = "machine_transcription"
+DRAFT_DIRNAME = TRANSCRIPTION_DIRNAME
 DRAFT_FILENAME = "transcription_draft.json"
 DRAFT_TEXT_FILENAME = "transcription_draft.txt"
 AUTHORITY = "NON_AUTHORITATIVE_MACHINE_DRAFT"
@@ -38,6 +39,10 @@ class TranscriptionResult:
     draft: dict
 
 
+def default_transcription_engine() -> TranscriptionEngine:
+    return FasterWhisperEngine()
+
+
 def transcribe_from_manifest(
     manifest_path: str | Path,
     engine: TranscriptionEngine | None = None,
@@ -56,7 +61,7 @@ def transcribe_from_manifest(
     working_before = working_path.read_bytes()
 
     energy = pcm_energy(working_path)
-    active_engine = engine or OpenAIWhisperEngine()
+    active_engine = engine or default_transcription_engine()
     engine_result = active_engine.transcribe(working_path)
 
     if source_path.read_bytes() != source_before:
@@ -71,10 +76,15 @@ def transcribe_from_manifest(
         energy=energy,
         engine_result=engine_result,
     )
-    draft_dir = job_dir / DRAFT_DIRNAME
+    draft_dir = pipeline_dir(job_dir) / DRAFT_DIRNAME
     draft_dir.mkdir(parents=True, exist_ok=True)
     draft_path = draft_dir / DRAFT_FILENAME
     text_path = draft_dir / DRAFT_TEXT_FILENAME
+    if is_historical_whisper1_path(draft_path, job_dir):
+        raise TranscriptionError(
+            "WHISPER_PATH_REFUSED",
+            f"Refusing to overwrite historical whisper-1 artifacts: {draft_path}",
+        )
     draft_path.write_text(json.dumps(draft, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     text_path.write_text(_human_readable_draft(draft), encoding="utf-8")
 
@@ -119,6 +129,10 @@ def build_draft(
     job_flags = sorted(set(job_flags))
     trusted_as_lyrics = False
 
+    architecture_status = "ACI-ATL-002_BASELINE_NOT_GVCA_LOCKED"
+    if engine_result.technology == "faster-whisper":
+        architecture_status = "ACI-A2L-007_PRIMARY_FASTER_WHISPER_LARGE_V3"
+
     return {
         "schema_version": SCHEMA_VERSION,
         "produced_by": PRODUCER_ACI,
@@ -141,7 +155,7 @@ def build_draft(
             "model": engine_result.model,
             "configuration": engine_result.configuration,
             "language": engine_result.language,
-            "architecture_status": "ACI-ATL-002_BASELINE_NOT_GVCA_LOCKED",
+            "architecture_status": architecture_status,
         },
         "signal": energy,
         "flags": job_flags,
@@ -153,6 +167,14 @@ def build_draft(
             "FLAG IT — DO NOT INVENT IT: uncertain or no-signal output is flagged, not rewritten into lyrics.",
             "Do not treat this file as approved lyrics.",
             "Vocal isolation was not applied.",
+            *(
+                [
+                    "Primary engine is faster-whisper / Whisper large-v3 (ACI-A2L-007).",
+                    "Historical whisper-1 artifacts are not overwritten.",
+                ]
+                if engine_result.technology == "faster-whisper"
+                else []
+            ),
         ],
     }
 

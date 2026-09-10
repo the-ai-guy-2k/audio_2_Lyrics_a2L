@@ -1,6 +1,6 @@
 # Human review and correction (ACI-A2L-006)
 
-Review the faster-whisper large-v3 structured lyric draft. Correct machine errors. Preserve original machine text. The result is **not** approved lyrics.
+Review the primary faster-whisper large-v3 structured lyric draft. Correct machine errors. Preserve original machine text. The result is **not** approved lyrics.
 
 ## Open the interface
 
@@ -26,7 +26,7 @@ Lyrics display as wrapping paragraph text, not isolated machine-record rows.
 Save reviewed draft writes:
 
 ```text
-artifacts/candidates/faster-whisper-large-v3/<sha256>/human_review/
+artifacts/ingest/<sha256>/a2l_pipeline/human_review/
   reviewed_lyric_draft.json
   reviewed_lyric_draft.txt
 ```

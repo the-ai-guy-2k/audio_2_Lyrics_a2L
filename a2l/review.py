@@ -11,16 +11,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from a2l.errors import ReviewError
-from a2l.faster_whisper_draft import (
+from a2l.faster_whisper_draft import assert_not_whisper_baseline, candidate_job_dir
+from a2l.pipeline import (
     LOCKED_SHA256,
-    assert_not_whisper_baseline,
-    candidate_job_dir,
-    prepare_structured_from_faster_whisper,
+    REVIEW_DIRNAME,
+    STRUCTURE_DIRNAME,
+    TRANSCRIPTION_DIRNAME,
+    ingest_job_dir,
+    pipeline_dir,
 )
+from a2l.structure import structure_lyrics
+from a2l.uncertainty import evaluate_uncertainty
 
 SCHEMA_VERSION = "1.0.0"
 PRODUCER_ACI = "ACI-A2L-006"
-REVIEW_DIRNAME = "human_review"
 REVIEW_FILENAME = "reviewed_lyric_draft.json"
 REVIEW_TEXT_FILENAME = "reviewed_lyric_draft.txt"
 AUTHORITY = "NON_AUTHORITATIVE_REVIEWED_DRAFT"
@@ -29,11 +33,15 @@ SOURCE_HUMAN = "HUMAN_CORRECTED"
 
 
 def default_structured_path(sha: str = LOCKED_SHA256) -> Path:
-    return candidate_job_dir(sha) / "structured_lyrics" / "structured_lyric_draft.json"
+    return pipeline_dir(ingest_job_dir(sha)) / STRUCTURE_DIRNAME / "structured_lyric_draft.json"
+
+
+def default_transcription_path(sha: str = LOCKED_SHA256) -> Path:
+    return pipeline_dir(ingest_job_dir(sha)) / TRANSCRIPTION_DIRNAME / "transcription_draft.json"
 
 
 def default_review_dir(sha: str = LOCKED_SHA256) -> Path:
-    return candidate_job_dir(sha) / REVIEW_DIRNAME
+    return pipeline_dir(ingest_job_dir(sha)) / REVIEW_DIRNAME
 
 
 def default_review_path(sha: str = LOCKED_SHA256) -> Path:
@@ -42,11 +50,16 @@ def default_review_path(sha: str = LOCKED_SHA256) -> Path:
 
 def ensure_structured_draft(sha: str = LOCKED_SHA256) -> Path:
     structured = default_structured_path(sha)
-    if not structured.is_file():
-        prepare_structured_from_faster_whisper(sha=sha)
-    if not structured.is_file():
-        raise ReviewError("STRUCTURED_DRAFT_NOT_FOUND", f"Structured lyric draft not found: {structured}")
-    return structured
+    if structured.is_file():
+        return structured
+    transcription = default_transcription_path(sha)
+    if transcription.is_file():
+        uncertainty = evaluate_uncertainty(transcription)
+        return structure_lyrics(uncertainty.report_path).draft_path
+    raise ReviewError(
+        "STRUCTURED_DRAFT_NOT_FOUND",
+        "Primary structured lyric draft not found. Run python -m a2l transcribe, then uncertainty, then structure.",
+    )
 
 
 def load_structured_draft(path: str | Path) -> dict:
@@ -128,7 +141,38 @@ def load_or_create_review(structured_path: str | Path | None = None, sha: str = 
         review = json.loads(review_path.read_text(encoding="utf-8"))
         _assert_machine_traceable(review, structured)
         return review
-    return review_from_structured(structured, structured_path, sha)
+    review = review_from_structured(structured, structured_path, sha)
+    prior = _existing_review_for_merge(sha)
+    if prior is not None:
+        _merge_matching_corrections(review, prior)
+    return review
+
+
+def _existing_review_for_merge(sha: str) -> dict | None:
+    candidate = candidate_job_dir(sha) / "human_review" / REVIEW_FILENAME
+    if candidate.is_file():
+        return json.loads(candidate.read_text(encoding="utf-8"))
+    return None
+
+
+def _merge_matching_corrections(review: dict, prior: dict) -> dict:
+    prior_by_index = {int(line["index"]): line for line in prior.get("lines") or []}
+    for line in review.get("lines") or []:
+        old = prior_by_index.get(int(line["index"]))
+        if old is None:
+            continue
+        if old.get("machine_text") != line.get("machine_text"):
+            continue
+        if old.get("text_source") != SOURCE_HUMAN:
+            continue
+        line["human_text"] = old.get("human_text")
+        line["text_source"] = SOURCE_HUMAN
+        line["corrected"] = True
+        line["corrected_at"] = old.get("corrected_at")
+    review["counts"]["human_corrected"] = sum(
+        1 for line in review["lines"] if line.get("text_source") == SOURCE_HUMAN
+    )
+    return review
 
 
 def apply_corrections(review: dict, updates: dict[int, str], now: str | None = None) -> dict:

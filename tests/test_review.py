@@ -68,7 +68,7 @@ def _structured(tmp_path: Path) -> dict:
 def test_correction_persists_and_machine_text_remains(tmp_path: Path, monkeypatch) -> None:
     from a2l import review as review_mod
 
-    monkeypatch.setattr(review_mod, "candidate_job_dir", lambda sha=LOCKED_SHA256: tmp_path / sha)
+    monkeypatch.setattr(review_mod, "ingest_job_dir", lambda sha=LOCKED_SHA256: tmp_path / sha)
     structured_path = tmp_path / "structured_lyric_draft.json"
     structured = _structured(tmp_path)
     structured_path.write_text(json.dumps(structured), encoding="utf-8")
@@ -113,6 +113,22 @@ def test_refuses_whisper_baseline_path() -> None:
     with pytest.raises(ReviewError) as exc:
         assert_not_whisper_baseline(whisper, LOCKED_SHA256)
     assert exc.value.code == "WHISPER_PATH_REFUSED"
+
+
+def test_matching_prior_corrections_are_merged(tmp_path: Path, monkeypatch) -> None:
+    from a2l import review as review_mod
+
+    monkeypatch.setattr(review_mod, "ingest_job_dir", lambda sha=LOCKED_SHA256: tmp_path / sha)
+    structured = _structured(tmp_path)
+    review = review_from_structured(structured, tmp_path / "s.json", "job")
+    apply_corrections(review, {1: "Hook us with that old school funk"})
+    prior = json.loads(json.dumps(review))
+    fresh = review_from_structured(structured, tmp_path / "s.json", "job")
+    review_mod._merge_matching_corrections(fresh, prior)
+    line = next(item for item in fresh["lines"] if item["index"] == 1)
+    assert line["human_text"] == "Hook us with that old school funk"
+    assert line["text_source"] == SOURCE_HUMAN
+    assert fresh["counts"]["human_corrected"] == 1
 
 
 def test_review_html_uses_paragraph_presentation() -> None:

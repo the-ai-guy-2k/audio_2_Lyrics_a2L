@@ -11,10 +11,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from a2l.errors import UncertaintyError
+from a2l.pipeline import UNCERTAINTY_DIRNAME, find_ingest_job_dir, resolve_audio
 
 SCHEMA_VERSION = "1.0.0"
 PRODUCER_ACI = "ACI-ATL-003"
-REPORT_DIRNAME = "uncertainty"
+REPORT_DIRNAME = UNCERTAINTY_DIRNAME
 REPORT_FILENAME = "uncertainty_report.json"
 REPORT_TEXT_FILENAME = "uncertainty_report.txt"
 
@@ -62,15 +63,16 @@ class UncertaintyResult:
 def evaluate_uncertainty(draft_path: str | Path) -> UncertaintyResult:
     draft_path = Path(draft_path)
     draft = _load_draft(draft_path)
-    job_dir = draft_path.parent.parent
-    source_path = job_dir / draft["input"]["authoritative_source"]
-    working_path = job_dir / draft["input"]["working_audio"]
+    pipeline_root = draft_path.parent.parent
+    ingest_job = find_ingest_job_dir(draft_path) or pipeline_root
+    source_path = resolve_audio(ingest_job, draft["input"]["authoritative_source"])
+    working_path = resolve_audio(ingest_job, draft["input"]["working_audio"])
     source_before = source_path.read_bytes() if source_path.is_file() else None
     working_before = working_path.read_bytes() if working_path.is_file() else None
     draft_before = draft_path.read_bytes()
 
     report = build_uncertainty_report(draft)
-    report_dir = job_dir / REPORT_DIRNAME
+    report_dir = pipeline_root / REPORT_DIRNAME
     report_dir.mkdir(parents=True, exist_ok=True)
     report_path = report_dir / REPORT_FILENAME
     text_path = report_dir / REPORT_TEXT_FILENAME

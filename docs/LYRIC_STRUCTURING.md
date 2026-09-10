@@ -6,11 +6,11 @@ Structuring is **not** rewriting. Words are not corrected. Uncertain spans stay 
 
 ## Input
 
-- `machine_transcription/transcription_draft.json` (ACI-ATL-002)
-- `uncertainty/uncertainty_report.json` (ACI-ATL-003)
+- `a2l_pipeline/machine_transcription/transcription_draft.json` (primary ACI-A2L-007 draft)
+- `a2l_pipeline/uncertainty/uncertainty_report.json` (ACI-ATL-003)
 
 ```bash
-python -m a2l structure artifacts/ingest/<job_id>/uncertainty/uncertainty_report.json
+python -m a2l structure artifacts/ingest/<job_id>/a2l_pipeline/uncertainty/uncertainty_report.json
 ```
 
 ## Method

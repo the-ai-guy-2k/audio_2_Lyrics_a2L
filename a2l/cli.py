@@ -36,7 +36,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     transcribe_parser = subparsers.add_parser(
         "transcribe",
-        help="Transcribe CONTROL-A working audio from an ACI-ATL-001 ingest manifest.",
+        help="Transcribe CONTROL-A working audio with faster-whisper / Whisper large-v3.",
     )
     transcribe_parser.add_argument(
         "manifest_path",
@@ -63,7 +63,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     review_parser = subparsers.add_parser(
         "review",
-        help="Open the human review interface for the faster-whisper large-v3 structured draft.",
+        help="Open the human review interface for the primary faster-whisper large-v3 structured draft.",
     )
     review_parser.add_argument("--host", default=DEFAULT_HOST)
     review_parser.add_argument("--port", type=int, default=DEFAULT_PORT)
@@ -135,6 +135,7 @@ def _run_transcribe(manifest_path: Path) -> int:
         "flags": result.draft["flags"],
         "engine": result.draft["engine"],
         "produced_by": "ACI-ATL-002",
+        "primary_engine_aci": "ACI-A2L-007",
         "control_baseline": result.draft["control_baseline"],
     }
     print(json.dumps(payload, indent=2, sort_keys=True))

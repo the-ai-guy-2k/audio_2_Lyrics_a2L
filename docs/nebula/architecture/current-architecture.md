@@ -1,13 +1,13 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-006 on `feature/aci-a2l-006-human-review`.
+**Authority:** ACI-A2L-007 on `feature/aci-a2l-007-primary-faster-whisper`.
 
 ## Implemented flow
 
 ```text
 Operator WAV (read-only)
   → ingest (CONTROL A)
-  → transcribe (faster-whisper large-v3 for review; whisper-1 baseline preserved)
+  → transcribe (faster-whisper / Whisper large-v3; whisper-1 baseline preserved)
   → uncertainty (flag, do not invent)
   → lyric structuring (timed annotated draft, do not rewrite)
   → human review (correct, preserve machine text, not approved)

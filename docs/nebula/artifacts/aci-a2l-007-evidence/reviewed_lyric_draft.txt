@@ -1,0 +1,186 @@
+A2L REVIEWED LYRIC DRAFT — NOT APPROVED LYRICS
+Authority: NON_AUTHORITATIVE_REVIEWED_DRAFT
+Approval: NOT_APPROVED
+Engine: faster-whisper / large-v3
+Human-corrected lines: 3
+
+# L1 00:21.78–00:24.88  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Mr. Guitar Man
+HUMAN:    Mr. Guitar Man
+
+# L2 00:24.88–00:31.40  UNCERTAIN  MACHINE  flags=TIME_GAP
+MACHINE: 
+[TIME_GAP — no lyrics invented]
+
+# L3 00:31.40–00:34.26  UNVERIFIED  MACHINE  flags=none
+MACHINE:  We got some work week blues to share
+HUMAN:    We got some work week blues to share
+
+# L4 00:35.74–00:39.34  UNVERIFIED  MACHINE  flags=none
+MACHINE:  And you never let us down, yeah
+HUMAN:    And you never let us down, yeah
+
+# L5 00:39.34–00:42.10  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Play something we can stomp to
+HUMAN:    Play something we can stomp to
+
+# L6 00:42.10–00:44.64  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Something we can groove to
+HUMAN:    Something we can groove to
+
+# L7 00:44.64–00:49.48  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Something we can get our butts up out these seats and move to
+HUMAN:    Something we can get our butts up out these seats and move to
+
+# L8 00:50.48–00:53.20  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Hook us with that old school funk
+HUMAN:    Hook us with that old school funk
+
+# L9 00:53.20–00:55.34  UNVERIFIED  MACHINE  flags=none
+MACHINE:  None of that slow down ballad stuff
+HUMAN:    None of that slow down ballad stuff
+
+# L10 00:55.34–00:59.22  UNVERIFIED  MACHINE  flags=none
+MACHINE:  We can't hear the dance and get a little bored loose
+HUMAN:    We can't hear the dance and get a little bored loose
+
+# L11 00:59.22–01:01.64  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Play something we can stomp to
+HUMAN:    Play something we can stomp to
+
+# L12 01:01.64–01:03.66  UNCERTAIN  MACHINE  flags=TIME_GAP
+MACHINE: 
+[TIME_GAP — no lyrics invented]
+
+# L13 01:03.66–01:06.52  UNCERTAIN  MACHINE  flags=REPEATED_SEGMENT
+MACHINE:  Play something we can stomp to
+HUMAN:    Play something we can stomp to
+
+# L14 01:06.52–01:10.24  UNCERTAIN  MACHINE  flags=TIME_GAP
+MACHINE: 
+[TIME_GAP — no lyrics invented]
+
+# L15 01:10.24–01:13.02  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Don't mean to put you on the spot
+HUMAN:    Don't mean to put you on the spot
+
+# L16 01:14.80–01:18.42  UNVERIFIED  MACHINE  flags=none
+MACHINE:  But I'll drop a 24-key at a rock
+HUMAN:    But I'll drop a 24-key at a rock
+
+# L17 01:20.10–01:22.84  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Bring some kick-ass to this dial
+HUMAN:    Bring some kick-ass to this dial
+
+# L18 01:24.00–01:27.50  UNVERIFIED  MACHINE  flags=none
+MACHINE:  If you want this crowd to come alive
+HUMAN:    If you want this crowd to come alive
+
+# L19 01:28.44–01:30.56  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Play something we can stomp to
+HUMAN:    Play something we can stomp to
+
+# L20 01:30.56–01:33.10  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Something we can groove to
+HUMAN:    Something we can groove to
+
+# L21 01:33.10–01:37.98  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Something we can get our butts up out these seats and move to
+HUMAN:    Something we can get our butts up out these seats and move to
+
+# L22 01:39.02–01:41.70  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Hook us with that old school funk
+HUMAN:    Hook us with that old school funk
+
+# L23 01:41.70–01:43.82  UNVERIFIED  MACHINE  flags=none
+MACHINE:  None of that slow down ballad stuff
+HUMAN:    None of that slow down ballad stuff
+
+# L24 01:43.82–01:47.84  UNVERIFIED  MACHINE  flags=none
+MACHINE:  We came here to dance and get a little footloose
+HUMAN:    We came here to dance and get a little footloose
+
+# L25 01:47.84–01:50.16  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Play something we can stomp to
+HUMAN:    Play something we can stomp to
+
+# L26 01:50.16–02:12.00  UNCERTAIN  MACHINE  flags=TIME_GAP
+MACHINE: 
+[TIME_GAP — no lyrics invented]
+
+# L27 02:12.00–02:14.22  UNVERIFIED  HUMAN_CORRECTED  flags=none
+MACHINE:  Hey, something we can stall to
+HUMAN:    Hey, something we can stomp to
+
+# L28 02:14.22–02:16.70  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Something we can groove to
+HUMAN:    Something we can groove to
+
+# L29 02:16.70–02:22.24  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Something we can get our butts up out of these seats and move to
+HUMAN:    Something we can get our butts up out of these seats and move to
+
+# L30 02:22.24–02:25.32  UNVERIFIED  MACHINE  flags=none
+MACHINE:  Hook us with that old school funk
+HUMAN:    Hook us with that old school funk
+
+# L31 02:25.32–02:27.44  UNVERIFIED  MACHINE  flags=none
+MACHINE:  None of that slow down ballad stuff
+HUMAN:    None of that slow down ballad stuff
+
+# L32 02:27.44–02:31.86  UNVERIFIED  MACHINE  flags=none
+MACHINE:  We came here to dance and get a little footloose
+HUMAN:    We came here to dance and get a little footloose
+
+# L33 02:31.86–02:34.14  UNVERIFIED  MACHINE  flags=none
+MACHINE:  So that we can stomp too
+HUMAN:    So that we can stomp too
+
+# L34 02:34.14–02:36.66  UNVERIFIED  MACHINE  flags=none
+MACHINE:  So that we can groove too
+HUMAN:    So that we can groove too
+
+# L35 02:36.66–02:41.52  UNVERIFIED  MACHINE  flags=none
+MACHINE:  So that we can get our butts up out of these seats and move too
+HUMAN:    So that we can get our butts up out of these seats and move too
+
+# L36 02:42.40–02:44.74  UNVERIFIED  HUMAN_CORRECTED  flags=none
+MACHINE:  Hunkers with that old school funk
+HUMAN:    Hook us with that old school funk
+
+# L37 02:44.74–02:46.84  UNVERIFIED  MACHINE  flags=none
+MACHINE:  None of that slow down ballad stuff
+HUMAN:    None of that slow down ballad stuff
+
+# L38 02:46.84–02:51.32  UNVERIFIED  MACHINE  flags=none
+MACHINE:  We came here to dance and get a little footloose
+HUMAN:    We came here to dance and get a little footloose
+
+# L39 02:51.32–02:55.90  UNCERTAIN  MACHINE  flags=POSSIBLE_HALLUCINATION
+MACHINE:  Whoa-oh-oh-oh-oh-oh-oh-oh
+HUMAN:    Whoa-oh-oh-oh-oh-oh-oh-oh
+
+# L40 02:55.90–02:57.94  UNCERTAIN  HUMAN_CORRECTED  flags=POSSIBLE_HALLUCINATION
+MACHINE:  Play something we can start to
+HUMAN:    Play something we can stomp to
+
+# L41 02:57.94–03:03.24  UNCERTAIN  MACHINE  flags=POSSIBLE_HALLUCINATION,REPEATED_SEGMENT
+MACHINE:  Play something we can start to
+HUMAN:    Play something we can start to
+
+# L42 03:03.24–03:08.26  UNCERTAIN  MACHINE  flags=POSSIBLE_HALLUCINATION,REPEATED_SEGMENT
+MACHINE:  Play something we can start to
+HUMAN:    Play something we can start to
+
+# L43 03:08.26–03:12.36  UNCERTAIN  MACHINE  flags=POSSIBLE_HALLUCINATION,REPEATED_SEGMENT
+MACHINE:  Play something we can start to
+HUMAN:    Play something we can start to
+
+# L44 03:12.36–03:23.40  UNCERTAIN  MACHINE  flags=TIME_GAP
+MACHINE: 
+[TIME_GAP — no lyrics invented]
+
+# L45 03:23.40–03:26.60  UNCERTAIN  MACHINE  flags=NO_SPEECH_LIKELY,WHISPER_BOILERPLATE
+MACHINE:  Thanks for watching!
+HUMAN:    Thanks for watching!
+

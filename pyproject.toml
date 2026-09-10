@@ -12,7 +12,11 @@ dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
-transcribe = ["openai>=1.0"]
+transcribe = [
+    "faster-whisper==1.2.1",
+    "ctranslate2==4.8.2",
+]
+"transcribe-openai" = ["openai>=1.0"]
 
 [project.scripts]
 a2l = "a2l.cli:main"

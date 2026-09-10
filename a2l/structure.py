@@ -11,10 +11,11 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from a2l.errors import StructureError
+from a2l.pipeline import STRUCTURE_DIRNAME, TRANSCRIPTION_DIRNAME, find_ingest_job_dir, resolve_audio
 
 SCHEMA_VERSION = "1.0.0"
 PRODUCER_ACI = "ACI-ATL-004"
-DRAFT_DIRNAME = "structured_lyrics"
+DRAFT_DIRNAME = STRUCTURE_DIRNAME
 DRAFT_FILENAME = "structured_lyric_draft.json"
 DRAFT_TEXT_FILENAME = "structured_lyric_draft.txt"
 
@@ -34,20 +35,21 @@ class StructureResult:
 def structure_lyrics(uncertainty_report_path: str | Path) -> StructureResult:
     report_path = Path(uncertainty_report_path)
     report = _load_report(report_path)
-    job_dir = report_path.parent.parent
-    draft_path = job_dir / "machine_transcription" / "transcription_draft.json"
+    pipeline_root = report_path.parent.parent
+    draft_path = pipeline_root / TRANSCRIPTION_DIRNAME / "transcription_draft.json"
     draft = _load_transcription_draft(draft_path)
     _assert_texts_match(draft, report)
 
-    source_path = job_dir / draft["input"]["authoritative_source"]
-    working_path = job_dir / draft["input"]["working_audio"]
+    ingest_job = find_ingest_job_dir(report_path) or pipeline_root
+    source_path = resolve_audio(ingest_job, draft["input"]["authoritative_source"])
+    working_path = resolve_audio(ingest_job, draft["input"]["working_audio"])
     source_before = source_path.read_bytes() if source_path.is_file() else None
     working_before = working_path.read_bytes() if working_path.is_file() else None
     draft_before = draft_path.read_bytes()
     report_before = report_path.read_bytes()
 
     structured = build_structured_draft(draft, report)
-    out_dir = job_dir / DRAFT_DIRNAME
+    out_dir = pipeline_root / DRAFT_DIRNAME
     out_dir.mkdir(parents=True, exist_ok=True)
     out_json = out_dir / DRAFT_FILENAME
     out_txt = out_dir / DRAFT_TEXT_FILENAME

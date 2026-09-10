@@ -1,7 +1,7 @@
 # Reviewed lyric draft contract (produced by ACI-A2L-006)
 
 **Producer:** ACI-A2L-006  
-**Inputs:** faster-whisper large-v3 structured lyric draft  
+**Inputs:** primary faster-whisper large-v3 structured lyric draft  
 **Authority:** `NON_AUTHORITATIVE_REVIEWED_DRAFT`
 
 This is not approved lyrics.

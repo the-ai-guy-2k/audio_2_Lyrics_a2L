@@ -6,10 +6,10 @@ This stage consumes the ACI-ATL-002 transcription draft and surfaces uncertainty
 
 ## Input
 
-`machine_transcription/transcription_draft.json`
+`a2l_pipeline/machine_transcription/transcription_draft.json`
 
 ```bash
-python -m a2l uncertainty artifacts/ingest/<job_id>/machine_transcription/transcription_draft.json
+python -m a2l uncertainty artifacts/ingest/<job_id>/a2l_pipeline/machine_transcription/transcription_draft.json
 ```
 
 ## Method
