@@ -7,8 +7,9 @@ A2L recovers lyrics from artist-owned/mastered audio.
 - ACI-ATL-001: WAV ingestion, CONTROL-A working artifact, ingest manifest
 - ACI-ATL-002: CONTROL-A machine transcription (non-authoritative draft)
 - ACI-ATL-003: uncertainty handling (flag, do not invent)
+- ACI-ATL-004: lyric structuring (structure, do not rewrite)
 
-**Not implemented:** lyric structuring, human approval, approved lyric artifacts, vocal isolation, stem separation, normalization, resampling.
+**Not implemented:** human approval, approved lyric artifacts, vocal isolation, stem separation, normalization, resampling.
 
 ## Governing product rule
 
@@ -36,6 +37,7 @@ python -m pytest
 python scripts/validate_aci_atl_001.py
 python scripts/validate_aci_atl_002.py
 python scripts/validate_aci_atl_003.py
+python scripts/validate_aci_atl_004.py
 ```
 
 ## Transcribe CONTROL-A audio
@@ -53,6 +55,14 @@ python -m a2l uncertainty artifacts/ingest/<job_id>/machine_transcription/transc
 ```
 
 This flags questionable spans. It does not rewrite or approve lyrics. Details: [docs/UNCERTAINTY.md](docs/UNCERTAINTY.md)
+
+## Structure a lyric draft
+
+```bash
+python -m a2l structure artifacts/ingest/<job_id>/uncertainty/uncertainty_report.json
+```
+
+This produces a timed, annotated lyric draft for human review. It does not rewrite or approve lyrics. Details: [docs/LYRIC_STRUCTURING.md](docs/LYRIC_STRUCTURING.md)
 
 ## Artifact flow
 
@@ -74,6 +84,9 @@ artifacts/ingest/<sha256>/
   uncertainty/                             ACI-ATL-003 flags (NOT approved lyrics)
     uncertainty_report.json
     uncertainty_report.txt
+  structured_lyrics/                      ACI-ATL-004 structured draft (NOT approved lyrics)
+    structured_lyric_draft.json
+    structured_lyric_draft.txt
 ```
 
 The working artifact is a **byte-identical copy** of the source WAV. No loudness processing, resampling, mono mixdown, or vocal isolation is applied. That preserves untreated mastered audio as CONTROL A for later transcription experiments.

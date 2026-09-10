@@ -193,7 +193,6 @@ def test_no_lyric_approval_or_isolation_api() -> None:
 
     assert not hasattr(a2l, "isolate_vocals")
     assert not hasattr(a2l, "approve_lyrics")
-    assert not hasattr(a2l, "structure_lyrics")
 
 
 def test_chunked_upload_offsets_timestamps(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

@@ -1,0 +1,543 @@
+{
+  "approval_status": "NOT_APPROVED",
+  "authority": "NON_AUTHORITATIVE_STRUCTURED_DRAFT",
+  "authority_boundary": {
+    "human_approved_lyrics": "NOT_YET_PRODUCED",
+    "machine_transcription": "NON_AUTHORITATIVE",
+    "mastered_audio": "AUTHORITATIVE_SOURCE",
+    "structured_lyric_draft": "NON_AUTHORITATIVE"
+  },
+  "control_baseline": "CONTROL_A",
+  "counts": {
+    "machine_lines": 32,
+    "time_gaps": 5,
+    "uncertain_lines": 25
+  },
+  "established_lyrics_present": false,
+  "flags": [
+    "CHUNK_BOUNDARY",
+    "NON_AUTHORITATIVE",
+    "NOT_APPROVED",
+    "NO_SPEECH_LIKELY",
+    "POSSIBLE_HALLUCINATION",
+    "REPEATED_SEGMENT",
+    "WHISPER_BOILERPLATE"
+  ],
+  "ingest_job_id": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "lines": [
+    {
+      "end_seconds": 29.0,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 1,
+      "kind": "machine_line",
+      "preserved_text": " Here they are, Mr. Guitar Man You've got the power in your hands",
+      "section_label": null,
+      "start_seconds": 0.0,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Here they are, Mr. Guitar Man You've got the power in your hands",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 39.0,
+      "flags": [],
+      "index": 2,
+      "kind": "machine_line",
+      "preserved_text": " We've got some work we blues to share And you've never let us down yet",
+      "section_label": null,
+      "start_seconds": 30.0,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " We've got some work we blues to share And you've never let us down yet",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 44.0,
+      "flags": [],
+      "index": 3,
+      "kind": "machine_line",
+      "preserved_text": " Play something we can stomp to, something we can groove to",
+      "section_label": null,
+      "start_seconds": 40.0,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " Play something we can stomp to, something we can groove to",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 49.0,
+      "flags": [],
+      "index": 4,
+      "kind": "machine_line",
+      "preserved_text": " Something we can get our butts up out these seats and move to",
+      "section_label": null,
+      "start_seconds": 45.0,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " Something we can get our butts up out these seats and move to",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 55.0,
+      "flags": [],
+      "index": 5,
+      "kind": "machine_line",
+      "preserved_text": " Hook us with that old school funk, none of that slow down ballad stuff",
+      "section_label": null,
+      "start_seconds": 50.0,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " Hook us with that old school funk, none of that slow down ballad stuff",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 59.0,
+      "flags": [],
+      "index": 6,
+      "kind": "machine_line",
+      "preserved_text": " We came here to dance and get a little footloose",
+      "section_label": null,
+      "start_seconds": 55.0,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " We came here to dance and get a little footloose",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 69.0,
+      "flags": [],
+      "index": 7,
+      "kind": "machine_line",
+      "preserved_text": " Play something we can stomp to, play something we can stomp to",
+      "section_label": null,
+      "start_seconds": 60.0,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " Play something we can stomp to, play something we can stomp to",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 73.0,
+      "flags": [],
+      "index": 8,
+      "kind": "machine_line",
+      "preserved_text": " Don't mean to put you on the spot",
+      "section_label": null,
+      "start_seconds": 70.0,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " Don't mean to put you on the spot",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 83.80354166666666,
+      "flags": [
+        "CHUNK_BOUNDARY",
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 9,
+      "kind": "machine_line",
+      "preserved_text": " But I'll drop a 24-key in a rock Bring some kick-ass to this dive",
+      "section_label": null,
+      "start_seconds": 72.80354166666666,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " But I'll drop a 24-key in a rock Bring some kick-ass to this dive",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 90.80354166666666,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 10,
+      "kind": "machine_line",
+      "preserved_text": " If you want this crowd to come alive Play something we can stomp to",
+      "section_label": null,
+      "start_seconds": 83.80354166666666,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " If you want this crowd to come alive Play something we can stomp to",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 98.80354166666666,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 11,
+      "kind": "machine_line",
+      "preserved_text": " Something we can groove to Something we can get our butts up out these seats and move to",
+      "section_label": null,
+      "start_seconds": 90.80354166666666,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Something we can groove to Something we can get our butts up out these seats and move to",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 103.80354166666666,
+      "flags": [],
+      "index": 12,
+      "kind": "machine_line",
+      "preserved_text": " Hook us with that old-school funk None of that slow-down ballad stuff",
+      "section_label": null,
+      "start_seconds": 98.80354166666666,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " Hook us with that old-school funk None of that slow-down ballad stuff",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 113.80354166666666,
+      "flags": [],
+      "index": 13,
+      "kind": "machine_line",
+      "preserved_text": " We came here to dance and get a little footloose Play something we can stomp to",
+      "section_label": null,
+      "start_seconds": 103.80354166666666,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " We came here to dance and get a little footloose Play something we can stomp to",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 129.80354166666666,
+      "flags": [
+        "TIME_GAP"
+      ],
+      "index": 14,
+      "kind": "time_gap",
+      "preserved_text": "",
+      "section_label": null,
+      "start_seconds": 113.80354166666666,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": "",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 136.80354166666666,
+      "flags": [],
+      "index": 15,
+      "kind": "machine_line",
+      "preserved_text": " Play something we can stomp to Something we can groove to",
+      "section_label": null,
+      "start_seconds": 129.80354166666666,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " Play something we can stomp to Something we can groove to",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 142.80354166666666,
+      "flags": [],
+      "index": 16,
+      "kind": "machine_line",
+      "preserved_text": " Something we can get our butts up out these seats and move to",
+      "section_label": null,
+      "start_seconds": 136.80354166666666,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " Something we can get our butts up out these seats and move to",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 144.80354166666666,
+      "flags": [],
+      "index": 17,
+      "kind": "machine_line",
+      "preserved_text": " Hook us with that old-school funk",
+      "section_label": null,
+      "start_seconds": 142.80354166666666,
+      "status": "UNVERIFIED_MACHINE_TEXT",
+      "text": " Hook us with that old-school funk",
+      "uncertain": false
+    },
+    {
+      "end_seconds": 147.60708333333332,
+      "flags": [
+        "CHUNK_BOUNDARY",
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 18,
+      "kind": "machine_line",
+      "preserved_text": " None of that slow down, ballad stuff",
+      "section_label": null,
+      "start_seconds": 145.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " None of that slow down, ballad stuff",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 149.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 19,
+      "kind": "machine_line",
+      "preserved_text": " We came here to dance",
+      "section_label": null,
+      "start_seconds": 147.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " We came here to dance",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 151.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 20,
+      "kind": "machine_line",
+      "preserved_text": " And get a little footloose",
+      "section_label": null,
+      "start_seconds": 149.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " And get a little footloose",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 154.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 21,
+      "kind": "machine_line",
+      "preserved_text": " Hey, somethin' we can star on too",
+      "section_label": null,
+      "start_seconds": 151.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Hey, somethin' we can star on too",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 156.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 22,
+      "kind": "machine_line",
+      "preserved_text": " Somethin' we can groove to",
+      "section_label": null,
+      "start_seconds": 154.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Somethin' we can groove to",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 161.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 23,
+      "kind": "machine_line",
+      "preserved_text": " Somethin' we can get our butts up out of these seats and move to",
+      "section_label": null,
+      "start_seconds": 156.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Somethin' we can get our butts up out of these seats and move to",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 164.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 24,
+      "kind": "machine_line",
+      "preserved_text": " Hook us with that old school funk",
+      "section_label": null,
+      "start_seconds": 161.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Hook us with that old school funk",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 166.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 25,
+      "kind": "machine_line",
+      "preserved_text": " None of that slow down, ballad stuff",
+      "section_label": null,
+      "start_seconds": 164.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " None of that slow down, ballad stuff",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 168.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 26,
+      "kind": "machine_line",
+      "preserved_text": " We came here to dance",
+      "section_label": null,
+      "start_seconds": 166.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " We came here to dance",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 171.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY"
+      ],
+      "index": 27,
+      "kind": "machine_line",
+      "preserved_text": " And get a little footloose",
+      "section_label": null,
+      "start_seconds": 168.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " And get a little footloose",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 175.60708333333332,
+      "flags": [
+        "POSSIBLE_HALLUCINATION"
+      ],
+      "index": 28,
+      "kind": "machine_line",
+      "preserved_text": " Woah-oh-oh-oh-oh-oh-oh",
+      "section_label": null,
+      "start_seconds": 171.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Woah-oh-oh-oh-oh-oh-oh",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 178.60708333333332,
+      "flags": [
+        "POSSIBLE_HALLUCINATION"
+      ],
+      "index": 29,
+      "kind": "machine_line",
+      "preserved_text": " Play somethin' we can star on too",
+      "section_label": null,
+      "start_seconds": 175.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Play somethin' we can star on too",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 180.60708333333332,
+      "flags": [
+        "TIME_GAP"
+      ],
+      "index": 30,
+      "kind": "time_gap",
+      "preserved_text": "",
+      "section_label": null,
+      "start_seconds": 178.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": "",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 183.60708333333332,
+      "flags": [
+        "POSSIBLE_HALLUCINATION",
+        "REPEATED_SEGMENT"
+      ],
+      "index": 31,
+      "kind": "machine_line",
+      "preserved_text": " Play somethin' we can star on too",
+      "section_label": null,
+      "start_seconds": 180.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Play somethin' we can star on too",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 185.60708333333332,
+      "flags": [
+        "TIME_GAP"
+      ],
+      "index": 32,
+      "kind": "time_gap",
+      "preserved_text": "",
+      "section_label": null,
+      "start_seconds": 183.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": "",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 188.60708333333332,
+      "flags": [
+        "POSSIBLE_HALLUCINATION",
+        "REPEATED_SEGMENT"
+      ],
+      "index": 33,
+      "kind": "machine_line",
+      "preserved_text": " Play somethin' we can star on too",
+      "section_label": null,
+      "start_seconds": 185.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Play somethin' we can star on too",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 190.60708333333332,
+      "flags": [
+        "TIME_GAP"
+      ],
+      "index": 34,
+      "kind": "time_gap",
+      "preserved_text": "",
+      "section_label": null,
+      "start_seconds": 188.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": "",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 195.60708333333332,
+      "flags": [
+        "POSSIBLE_HALLUCINATION",
+        "REPEATED_SEGMENT"
+      ],
+      "index": 35,
+      "kind": "machine_line",
+      "preserved_text": " Play somethin' we can star on too",
+      "section_label": null,
+      "start_seconds": 190.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Play somethin' we can star on too",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 201.60708333333332,
+      "flags": [
+        "TIME_GAP"
+      ],
+      "index": 36,
+      "kind": "time_gap",
+      "preserved_text": "",
+      "section_label": null,
+      "start_seconds": 195.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": "",
+      "uncertain": true
+    },
+    {
+      "end_seconds": 206.60708333333332,
+      "flags": [
+        "NO_SPEECH_LIKELY",
+        "WHISPER_BOILERPLATE"
+      ],
+      "index": 37,
+      "kind": "machine_line",
+      "preserved_text": " Thanks for watching!",
+      "section_label": null,
+      "start_seconds": 201.60708333333332,
+      "status": "REQUIRES_LATER_RESOLUTION",
+      "text": " Thanks for watching!",
+      "uncertain": true
+    }
+  ],
+  "llm_interpretation": false,
+  "notes": [
+    "Structured for human review. Not approved lyrics.",
+    "FLAG IT \u2014 DO NOT INVENT IT: words are preserved from the uncertainty report.",
+    "No verse/chorus labels were assigned; that would guess song form.",
+    "Time gaps are flagged, not filled with invented lyrics."
+  ],
+  "preserved_engine_text": "Here they are, Mr. Guitar Man You've got the power in your hands We've got some work we blues to share And you've never let us down yet Play something we can stomp to, something we can groove to Something we can get our butts up out these seats and move to Hook us with that old school funk, none of that slow down ballad stuff We came here to dance and get a little footloose Play something we can stomp to, play something we can stomp to Don't mean to put you on the spot\nBut I'll drop a 24-key in a rock Bring some kick-ass to this dive If you want this crowd to come alive Play something we can stomp to Something we can groove to Something we can get our butts up out these seats and move to Hook us with that old-school funk None of that slow-down ballad stuff We came here to dance and get a little footloose Play something we can stomp to Play something we can stomp to Something we can groove to Something we can get our butts up out these seats and move to Hook us with that old-school funk\nNone of that slow down, ballad stuff We came here to dance And get a little footloose Hey, somethin' we can star on too Somethin' we can groove to Somethin' we can get our butts up out of these seats and move to Hook us with that old school funk None of that slow down, ballad stuff We came here to dance And get a little footloose Woah-oh-oh-oh-oh-oh-oh Play somethin' we can star on too Play somethin' we can star on too Play somethin' we can star on too Play somethin' we can star on too Thanks for watching!",
+  "produced_by": "ACI-ATL-004",
+  "rewritten_text": null,
+  "schema_version": "1.0.0",
+  "section_labels_assigned": false,
+  "usable_as_approved_lyrics": false,
+  "vocal_isolation": "not_applied"
+}

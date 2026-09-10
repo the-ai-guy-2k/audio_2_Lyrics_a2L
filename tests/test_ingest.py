@@ -156,7 +156,6 @@ def test_no_out_of_scope_capabilities_imported() -> None:
     assert forbidden.isdisjoint(loaded)
     assert not hasattr(a2l, "isolate_vocals")
     assert not hasattr(a2l, "approve_lyrics")
-    assert not hasattr(a2l, "structure_lyrics")
 
 
 def test_pcm_fixture_is_valid_wav() -> None:

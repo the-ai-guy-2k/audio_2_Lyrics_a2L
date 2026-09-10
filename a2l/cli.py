@@ -7,16 +7,17 @@ import json
 import sys
 from pathlib import Path
 
-from a2l.errors import IngestionError, TranscriptionError, UncertaintyError
+from a2l.errors import IngestionError, TranscriptionError, UncertaintyError, StructureError
 from a2l.ingest import ingest_wav
 from a2l.transcribe import transcribe_from_manifest
 from a2l.uncertainty import evaluate_uncertainty
+from a2l.structure import structure_lyrics
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="a2l",
-        description="A2L ingest, CONTROL-A transcription, and uncertainty handling.",
+        description="A2L ingest, transcription, uncertainty handling, and lyric structuring.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -48,6 +49,15 @@ def build_parser() -> argparse.ArgumentParser:
         "draft_path",
         help="Path to transcription_draft.json produced by ACI-ATL-002.",
     )
+
+    structure_parser = subparsers.add_parser(
+        "structure",
+        help="Structure an uncertainty report into a lyric draft for human review. Does not rewrite lyrics.",
+    )
+    structure_parser.add_argument(
+        "report_path",
+        help="Path to uncertainty_report.json produced by ACI-ATL-003.",
+    )
     return parser
 
 
@@ -61,6 +71,8 @@ def main(argv: list[str] | None = None) -> int:
         return _run_transcribe(Path(args.manifest_path))
     if args.command == "uncertainty":
         return _run_uncertainty(Path(args.draft_path))
+    if args.command == "structure":
+        return _run_structure(Path(args.report_path))
     parser.error(f"Unknown command: {args.command}")
     return 1
 
@@ -130,6 +142,28 @@ def _run_uncertainty(draft_path: Path) -> int:
         "flags": result.report["flags"],
         "counts": result.report["counts"],
         "produced_by": "ACI-ATL-003",
+    }
+    print(json.dumps(payload, indent=2, sort_keys=True))
+    return 0
+
+
+def _run_structure(report_path: Path) -> int:
+    try:
+        result = structure_lyrics(report_path)
+    except StructureError as exc:
+        print(json.dumps({"ok": False, "error_code": exc.code, "error": exc.message}, indent=2), file=sys.stderr)
+        return 2
+    payload = {
+        "ok": True,
+        "job_id": result.job_id,
+        "draft_path": str(result.draft_path),
+        "text_path": str(result.text_path),
+        "authority": result.draft["authority"],
+        "approval_status": result.draft["approval_status"],
+        "usable_as_approved_lyrics": result.draft["usable_as_approved_lyrics"],
+        "section_labels_assigned": result.draft["section_labels_assigned"],
+        "counts": result.draft["counts"],
+        "produced_by": "ACI-ATL-004",
     }
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0

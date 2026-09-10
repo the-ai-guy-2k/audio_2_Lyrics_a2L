@@ -1,0 +1,117 @@
+A2L STRUCTURED LYRIC DRAFT — NOT APPROVED LYRICS
+Authority: NON_AUTHORITATIVE_STRUCTURED_DRAFT
+Approval: NOT_APPROVED
+Usable as approved lyrics: False
+Section labels assigned: False
+
+# L1 00:00.00–00:29.00  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ Here they are, Mr. Guitar Man You've got the power in your hands
+
+# L2 00:30.00–00:39.00  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ We've got some work we blues to share And you've never let us down yet
+
+# L3 00:40.00–00:44.00  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ Play something we can stomp to, something we can groove to
+
+# L4 00:45.00–00:49.00  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ Something we can get our butts up out these seats and move to
+
+# L5 00:50.00–00:55.00  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ Hook us with that old school funk, none of that slow down ballad stuff
+
+# L6 00:55.00–00:59.00  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ We came here to dance and get a little footloose
+
+# L7 01:00.00–01:09.00  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ Play something we can stomp to, play something we can stomp to
+
+# L8 01:10.00–01:13.00  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ Don't mean to put you on the spot
+
+# L9 01:12.80–01:23.80  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=CHUNK_BOUNDARY,NO_SPEECH_LIKELY
+ But I'll drop a 24-key in a rock Bring some kick-ass to this dive
+
+# L10 01:23.80–01:30.80  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ If you want this crowd to come alive Play something we can stomp to
+
+# L11 01:30.80–01:38.80  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ Something we can groove to Something we can get our butts up out these seats and move to
+
+# L12 01:38.80–01:43.80  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ Hook us with that old-school funk None of that slow-down ballad stuff
+
+# L13 01:43.80–01:53.80  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ We came here to dance and get a little footloose Play something we can stomp to
+
+# GAP 01:53.80–02:09.80  REQUIRES_LATER_RESOLUTION  flags=TIME_GAP
+[TIME_GAP — no lyrics invented]
+
+# L15 02:09.80–02:16.80  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ Play something we can stomp to Something we can groove to
+
+# L16 02:16.80–02:22.80  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ Something we can get our butts up out these seats and move to
+
+# L17 02:22.80–02:24.80  UNVERIFIED  UNVERIFIED_MACHINE_TEXT  flags=none
+ Hook us with that old-school funk
+
+# L18 02:25.61–02:27.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=CHUNK_BOUNDARY,NO_SPEECH_LIKELY
+ None of that slow down, ballad stuff
+
+# L19 02:27.61–02:29.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ We came here to dance
+
+# L20 02:29.61–02:31.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ And get a little footloose
+
+# L21 02:31.61–02:34.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ Hey, somethin' we can star on too
+
+# L22 02:34.61–02:36.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ Somethin' we can groove to
+
+# L23 02:36.61–02:41.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ Somethin' we can get our butts up out of these seats and move to
+
+# L24 02:41.61–02:44.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ Hook us with that old school funk
+
+# L25 02:44.61–02:46.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ None of that slow down, ballad stuff
+
+# L26 02:46.61–02:48.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ We came here to dance
+
+# L27 02:48.61–02:51.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY
+ And get a little footloose
+
+# L28 02:51.61–02:55.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=POSSIBLE_HALLUCINATION
+ Woah-oh-oh-oh-oh-oh-oh
+
+# L29 02:55.61–02:58.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=POSSIBLE_HALLUCINATION
+ Play somethin' we can star on too
+
+# GAP 02:58.61–03:00.61  REQUIRES_LATER_RESOLUTION  flags=TIME_GAP
+[TIME_GAP — no lyrics invented]
+
+# L31 03:00.61–03:03.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=POSSIBLE_HALLUCINATION,REPEATED_SEGMENT
+ Play somethin' we can star on too
+
+# GAP 03:03.61–03:05.61  REQUIRES_LATER_RESOLUTION  flags=TIME_GAP
+[TIME_GAP — no lyrics invented]
+
+# L33 03:05.61–03:08.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=POSSIBLE_HALLUCINATION,REPEATED_SEGMENT
+ Play somethin' we can star on too
+
+# GAP 03:08.61–03:10.61  REQUIRES_LATER_RESOLUTION  flags=TIME_GAP
+[TIME_GAP — no lyrics invented]
+
+# L35 03:10.61–03:15.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=POSSIBLE_HALLUCINATION,REPEATED_SEGMENT
+ Play somethin' we can star on too
+
+# GAP 03:15.61–03:21.61  REQUIRES_LATER_RESOLUTION  flags=TIME_GAP
+[TIME_GAP — no lyrics invented]
+
+# L37 03:21.61–03:26.61  UNCERTAIN  REQUIRES_LATER_RESOLUTION  flags=NO_SPEECH_LIKELY,WHISPER_BOILERPLATE
+ Thanks for watching!
+
