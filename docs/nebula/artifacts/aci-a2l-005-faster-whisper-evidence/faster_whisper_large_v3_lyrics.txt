@@ -1,0 +1,60 @@
+FASTER-WHISPER LARGE-V3 MACHINE TRANSCRIPTION
+STATUS: NON_AUTHORITATIVE_MACHINE_DRAFT
+NOT APPROVED LYRICS
+No LLM repair was applied.
+No vocal isolation was applied.
+engine: faster-whisper 1.2.1
+ctranslate2: 4.8.2
+model: large-v3
+model_repo: Systran/faster-whisper-large-v3
+device: cpu
+compute_type: int8
+source_sha256: bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be
+source_path: C:\Users\tim\Desktop\Jays_stuff\2026_album\Masters - 24bit_48hz\Masters  - 24bit_48hz\01Stomp to MIX MSTR 24bit_48hz.wav
+
+----- BEGIN ACTUAL MACHINE TEXT -----
+
+Mr. Guitar Man We got some work week blues to share And you never let us down, yeah Play something we can stomp to Something we can groove to Something we can get our butts up out these seats and move to Hook us with that old school funk None of that slow down ballad stuff We can't hear the dance and get a little bored loose Play something we can stomp to Play something we can stomp to Don't mean to put you on the spot But I'll drop a 24-key at a rock Bring some kick-ass to this dial If you want this crowd to come alive Play something we can stomp to Something we can groove to Something we can get our butts up out these seats and move to Hook us with that old school funk None of that slow down ballad stuff We came here to dance and get a little footloose Play something we can stomp to Hey, something we can stall to Something we can groove to Something we can get our butts up out of these seats and move to Hook us with that old school funk None of that slow down ballad stuff We came here to dance and get a little footloose So that we can stomp too So that we can groove too So that we can get our butts up out of these seats and move too Hunkers with that old school funk None of that slow down ballad stuff We came here to dance and get a little footloose Whoa-oh-oh-oh-oh-oh-oh-oh Play something we can start to Play something we can start to Play something we can start to Play something we can start to Thanks for watching!
+
+----- TIMED SEGMENTS (ACTUAL MACHINE TEXT) -----
+
+[21.780 -> 24.880]  Mr. Guitar Man
+[31.400 -> 34.260]  We got some work week blues to share
+[35.740 -> 39.340]  And you never let us down, yeah
+[39.340 -> 42.100]  Play something we can stomp to
+[42.100 -> 44.640]  Something we can groove to
+[44.640 -> 49.480]  Something we can get our butts up out these seats and move to
+[50.480 -> 53.200]  Hook us with that old school funk
+[53.200 -> 55.340]  None of that slow down ballad stuff
+[55.340 -> 59.220]  We can't hear the dance and get a little bored loose
+[59.220 -> 61.640]  Play something we can stomp to
+[63.660 -> 66.520]  Play something we can stomp to
+[70.240 -> 73.020]  Don't mean to put you on the spot
+[74.800 -> 78.420]  But I'll drop a 24-key at a rock
+[80.100 -> 82.840]  Bring some kick-ass to this dial
+[84.000 -> 87.500]  If you want this crowd to come alive
+[88.440 -> 90.560]  Play something we can stomp to
+[90.560 -> 93.100]  Something we can groove to
+[93.100 -> 97.980]  Something we can get our butts up out these seats and move to
+[99.020 -> 101.700]  Hook us with that old school funk
+[101.700 -> 103.820]  None of that slow down ballad stuff
+[103.820 -> 107.840]  We came here to dance and get a little footloose
+[107.840 -> 110.160]  Play something we can stomp to
+[132.000 -> 134.220]  Hey, something we can stall to
+[134.220 -> 136.700]  Something we can groove to
+[136.700 -> 142.240]  Something we can get our butts up out of these seats and move to
+[142.240 -> 145.320]  Hook us with that old school funk
+[145.320 -> 147.440]  None of that slow down ballad stuff
+[147.440 -> 151.860]  We came here to dance and get a little footloose
+[151.860 -> 154.140]  So that we can stomp too
+[154.140 -> 156.660]  So that we can groove too
+[156.660 -> 161.520]  So that we can get our butts up out of these seats and move too
+[162.400 -> 164.740]  Hunkers with that old school funk
+[164.740 -> 166.840]  None of that slow down ballad stuff
+[166.840 -> 171.320]  We came here to dance and get a little footloose
+[171.320 -> 175.900]  Whoa-oh-oh-oh-oh-oh-oh-oh
+[175.900 -> 177.940]  Play something we can start to
+[177.940 -> 183.240]  Play something we can start to
+[183.240 -> 188.260]  Play something we can start to
+[188.260 -> 192.360]  Play something we can start to
+[203.400 -> 206.600]  Thanks for watching!

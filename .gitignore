@@ -9,8 +9,13 @@ __pycache__/
 .coverage
 htmlcov/
 .venv/
+.venv-parakeet/
+.venv-faster-whisper/
 venv/
 env/
+
+# Isolated candidate runtime (not the whisper-1 baseline)
+artifacts/candidates/
 
 # OS / editor
 .DS_Store

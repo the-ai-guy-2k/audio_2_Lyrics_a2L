@@ -1,0 +1,84 @@
+{
+  "started_utc": "2026-09-10T20:57:42.116935+00:00",
+  "finished_utc": "2026-09-10T20:59:49.047030+00:00",
+  "ok": true,
+  "raw_path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\candidates\\faster-whisper-large-v3\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\faster_whisper_large_v3_raw.json",
+  "txt_path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\candidates\\faster-whisper-large-v3\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\faster_whisper_large_v3_lyrics.txt",
+  "source_sha_unchanged": true,
+  "whisper_baseline_intact": true,
+  "parakeet_artifacts_intact": true,
+  "whisper_before": {
+    "whisper_json_exists": true,
+    "whisper_txt_exists": true,
+    "whisper_json": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\ingest\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\machine_transcription\\transcription_draft.json",
+    "whisper_txt": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\ingest\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\machine_transcription\\transcription_draft.txt",
+    "whisper_json_sha256": "82ca9474e3cc0179ffdb6e7948df081c4785cd29f0e9a7526d3d318525055471",
+    "whisper_txt_sha256": "c05fc1227ad6842bb4efa9cf1c375bd392c5fe5361e5a9ad6d49e22864147886"
+  },
+  "whisper_after": {
+    "whisper_json_exists": true,
+    "whisper_txt_exists": true,
+    "whisper_json": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\ingest\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\machine_transcription\\transcription_draft.json",
+    "whisper_txt": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\ingest\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\machine_transcription\\transcription_draft.txt",
+    "whisper_json_sha256": "82ca9474e3cc0179ffdb6e7948df081c4785cd29f0e9a7526d3d318525055471",
+    "whisper_txt_sha256": "c05fc1227ad6842bb4efa9cf1c375bd392c5fe5361e5a9ad6d49e22864147886"
+  },
+  "parakeet_before": {
+    "runtime_raw": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\candidates\\parakeet\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\parakeet_raw.json",
+      "exists": false,
+      "sha256": null
+    },
+    "runtime_txt": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\candidates\\parakeet\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\parakeet_lyrics.txt",
+      "exists": false,
+      "sha256": null
+    },
+    "evidence_raw": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\docs\\nebula\\artifacts\\aci-a2l-005-evidence\\parakeet_raw.json",
+      "exists": false,
+      "sha256": null
+    },
+    "evidence_txt": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\docs\\nebula\\artifacts\\aci-a2l-005-evidence\\parakeet_lyrics.txt",
+      "exists": false,
+      "sha256": null
+    },
+    "evidence_readme": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\docs\\nebula\\artifacts\\aci-a2l-005-evidence\\README.md",
+      "exists": true,
+      "sha256": "190da339c62f002a746fdadcf03d2e4ef05b44c0d0a572411e7437aae0816ba3"
+    }
+  },
+  "parakeet_after": {
+    "runtime_raw": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\candidates\\parakeet\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\parakeet_raw.json",
+      "exists": false,
+      "sha256": null
+    },
+    "runtime_txt": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\candidates\\parakeet\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\parakeet_lyrics.txt",
+      "exists": false,
+      "sha256": null
+    },
+    "evidence_raw": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\docs\\nebula\\artifacts\\aci-a2l-005-evidence\\parakeet_raw.json",
+      "exists": false,
+      "sha256": null
+    },
+    "evidence_txt": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\docs\\nebula\\artifacts\\aci-a2l-005-evidence\\parakeet_lyrics.txt",
+      "exists": false,
+      "sha256": null
+    },
+    "evidence_readme": {
+      "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\docs\\nebula\\artifacts\\aci-a2l-005-evidence\\README.md",
+      "exists": true,
+      "sha256": "190da339c62f002a746fdadcf03d2e4ef05b44c0d0a572411e7437aae0816ba3"
+    }
+  },
+  "errors": [],
+  "processing_seconds": 112.78587569997762,
+  "model_load_seconds": 11.595011199999135,
+  "cwd": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l"
+}

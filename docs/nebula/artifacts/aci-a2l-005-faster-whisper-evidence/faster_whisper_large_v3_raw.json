@@ -1,0 +1,2352 @@
+{
+  "candidate": "ACI-A2L-005",
+  "engine": "faster-whisper",
+  "model": "large-v3",
+  "model_repo": "Systran/faster-whisper-large-v3",
+  "faster_whisper_version": "1.2.1",
+  "ctranslate2_version": "4.8.2",
+  "usable_as_approved_lyrics": false,
+  "approval_status": "NOT_APPROVED",
+  "llm_repair_applied": false,
+  "vocal_isolation": false,
+  "source_path": "C:\\Users\\tim\\Desktop\\Jays_stuff\\2026_album\\Masters - 24bit_48hz\\Masters  - 24bit_48hz\\01Stomp to MIX MSTR 24bit_48hz.wav",
+  "source_sha256_before": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "source_sha256_after": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "source_bytes": 59968382,
+  "device": "cpu",
+  "compute_type": "int8",
+  "cpu_threads": 8,
+  "decoding": {
+    "language": "en",
+    "task": "transcribe",
+    "beam_size": 5,
+    "best_of": 5,
+    "patience": 1,
+    "temperature": 0.0,
+    "word_timestamps": true,
+    "vad_filter": false,
+    "condition_on_previous_text": false,
+    "without_timestamps": false,
+    "initial_prompt": null,
+    "compression_ratio_threshold": 2.4,
+    "log_prob_threshold": -1.0,
+    "no_speech_threshold": 0.6,
+    "notes": "language=en is an album/language assumption, not a lyric rewrite. vad_filter is off because VAD can drop sung vocals on mastered music. condition_on_previous_text=False reduces repeated-loop hallucination on songs. temperature=0 for a single deterministic decoding pass."
+  },
+  "processing_seconds": 112.78587569997762,
+  "model_load_seconds": 11.595011199999135,
+  "package_versions": {
+    "faster-whisper": "1.2.1",
+    "ctranslate2": "4.8.2",
+    "huggingface_hub": "1.31.0",
+    "tokenizers": "0.23.2",
+    "onnxruntime": "1.30.0",
+    "av": "18.1.0",
+    "tqdm": "4.70.0"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "python_executable": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\.venv-faster-whisper\\Scripts\\python.exe",
+    "cpu": "Intel64 Family 6 Model 140 Stepping 2, GenuineIntel",
+    "cpu_count": 8,
+    "machine": "AMD64",
+    "ctranslate2_cuda_device_count": 0,
+    "device": "cpu",
+    "compute_type": "int8",
+    "nvidia_smi": "not_found_on_path",
+    "notes": "No NVIDIA GPU/driver was visible. faster-whisper large-v3 is forced to CPU with compute_type=int8. Graphics adapter on this workstation is Intel Iris Xe."
+  },
+  "warnings": [
+    "loading local checkpoint: C:\\Users\\tim\\.cache\\a2l-faster-whisper\\models\\large-v3"
+  ],
+  "errors": [],
+  "audio_input": "C:\\Users\\tim\\Desktop\\Jays_stuff\\2026_album\\Masters - 24bit_48hz\\Masters  - 24bit_48hz\\01Stomp to MIX MSTR 24bit_48hz.wav",
+  "audio_resampled_on_disk": false,
+  "download_root": "C:\\Users\\tim\\.cache\\a2l-faster-whisper\\models",
+  "info": {
+    "language": "en",
+    "language_probability": 1,
+    "duration": 207.1211875,
+    "duration_after_vad": 207.1211875,
+    "transcription_options": "TranscriptionOptions(beam_size=5, best_of=5, patience=1, length_penalty=1, repetition_penalty=1, no_repeat_ngram_size=0, log_prob_threshold=-1.0, no_speech_threshold=0.6, compression_ratio_threshold=2.4, condition_on_previous_text=False, prompt_reset_on_temperature=0.5, temperatures=[0.0], initial_prompt=None, prefix=None, suppress_blank=True, suppress_tokens=(1, 2, 7, 8, 9, 10, 14, 25, 26, 27, 28, 29, 31, 58, 59, 60, 61, 62, 63, 90, 91, 92, 93, 359, 503, 522, 542, 873, 893, 902, 918, 922, 931, 1350, 1853, 1982, 2460, 2627, 3246, 3253, 3268, 3536, 3846, 3961, 4183, 4667, 6585, 6647, 7273, 9061, 9383, 10428, 10929, 11938, 12033, 12331, 12562, 13793, 14157, 14635, 15265, 15618, 16553, 16604, 18362, 18956, 20075, 21675, 22520, 26130, 26161, 26435, 28279, 29464, 31650, 32302, 32470, 36865, 42863, 47425, 49870, 50254, 50258, 50359, 50360, 50361, 50362, 50363), without_timestamps=False, max_initial_timestamp=1.0, word_timestamps=True, prepend_punctuations='\"\\'\u201c\u00bf([{-', append_punctuations='\"\\'.\u3002,\uff0c!\uff01?\uff1f:\uff1a\u201d)]}\u3001', multilingual=False, max_new_tokens=None, clip_timestamps=[0.0], hallucination_silence_threshold=None, hotwords=None)",
+    "vad_options": null
+  },
+  "text": "Mr. Guitar Man We got some work week blues to share And you never let us down, yeah Play something we can stomp to Something we can groove to Something we can get our butts up out these seats and move to Hook us with that old school funk None of that slow down ballad stuff We can't hear the dance and get a little bored loose Play something we can stomp to Play something we can stomp to Don't mean to put you on the spot But I'll drop a 24-key at a rock Bring some kick-ass to this dial If you want this crowd to come alive Play something we can stomp to Something we can groove to Something we can get our butts up out these seats and move to Hook us with that old school funk None of that slow down ballad stuff We came here to dance and get a little footloose Play something we can stomp to Hey, something we can stall to Something we can groove to Something we can get our butts up out of these seats and move to Hook us with that old school funk None of that slow down ballad stuff We came here to dance and get a little footloose So that we can stomp too So that we can groove too So that we can get our butts up out of these seats and move too Hunkers with that old school funk None of that slow down ballad stuff We came here to dance and get a little footloose Whoa-oh-oh-oh-oh-oh-oh-oh Play something we can start to Play something we can start to Play something we can start to Play something we can start to Thanks for watching!",
+  "segments": [
+    {
+      "id": 1,
+      "start": 21.78,
+      "end": 24.88,
+      "text": " Mr. Guitar Man",
+      "avg_logprob": -0.5715052740914481,
+      "no_speech_prob": 0.3185734152793884,
+      "compression_ratio": 0.6363636363636364,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 21.78,
+          "end": 23.14,
+          "word": " Mr.",
+          "probability": 0.08212937414646149
+        },
+        {
+          "start": 23.52,
+          "end": 24.0,
+          "word": " Guitar",
+          "probability": 0.9749382734298706
+        },
+        {
+          "start": 24.0,
+          "end": 24.88,
+          "word": " Man",
+          "probability": 0.9629115462303162
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "start": 31.4,
+      "end": 34.26,
+      "text": " We got some work week blues to share",
+      "avg_logprob": -0.2324839707377345,
+      "no_speech_prob": 0.5998830795288086,
+      "compression_ratio": 1.6197916666666667,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 31.4,
+          "end": 32.08,
+          "word": " We",
+          "probability": 0.5869280099868774
+        },
+        {
+          "start": 32.08,
+          "end": 32.42,
+          "word": " got",
+          "probability": 0.7531157732009888
+        },
+        {
+          "start": 32.42,
+          "end": 32.7,
+          "word": " some",
+          "probability": 0.9823936223983765
+        },
+        {
+          "start": 32.7,
+          "end": 33.02,
+          "word": " work",
+          "probability": 0.9103999137878418
+        },
+        {
+          "start": 33.02,
+          "end": 33.3,
+          "word": " week",
+          "probability": 0.2523512542247772
+        },
+        {
+          "start": 33.3,
+          "end": 33.62,
+          "word": " blues",
+          "probability": 0.9996343851089478
+        },
+        {
+          "start": 33.62,
+          "end": 33.96,
+          "word": " to",
+          "probability": 0.9914241433143616
+        },
+        {
+          "start": 33.96,
+          "end": 34.26,
+          "word": " share",
+          "probability": 0.9657147526741028
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "start": 35.74,
+      "end": 39.34,
+      "text": " And you never let us down, yeah",
+      "avg_logprob": -0.2324839707377345,
+      "no_speech_prob": 0.5998830795288086,
+      "compression_ratio": 1.6197916666666667,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 35.74,
+          "end": 36.42,
+          "word": " And",
+          "probability": 0.6979130506515503
+        },
+        {
+          "start": 36.42,
+          "end": 36.62,
+          "word": " you",
+          "probability": 0.9925664663314819
+        },
+        {
+          "start": 36.62,
+          "end": 37.24,
+          "word": " never",
+          "probability": 0.572072446346283
+        },
+        {
+          "start": 37.24,
+          "end": 37.92,
+          "word": " let",
+          "probability": 0.9992475509643555
+        },
+        {
+          "start": 37.92,
+          "end": 38.2,
+          "word": " us",
+          "probability": 0.9993426203727722
+        },
+        {
+          "start": 38.2,
+          "end": 38.74,
+          "word": " down,",
+          "probability": 0.9998949766159058
+        },
+        {
+          "start": 38.82,
+          "end": 39.34,
+          "word": " yeah",
+          "probability": 0.9698043465614319
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "start": 39.34,
+      "end": 42.1,
+      "text": " Play something we can stomp to",
+      "avg_logprob": -0.2324839707377345,
+      "no_speech_prob": 0.5998830795288086,
+      "compression_ratio": 1.6197916666666667,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 39.34,
+          "end": 40.6,
+          "word": " Play",
+          "probability": 0.8733682036399841
+        },
+        {
+          "start": 40.6,
+          "end": 40.96,
+          "word": " something",
+          "probability": 0.9214365482330322
+        },
+        {
+          "start": 40.96,
+          "end": 41.2,
+          "word": " we",
+          "probability": 0.9944827556610107
+        },
+        {
+          "start": 41.2,
+          "end": 41.32,
+          "word": " can",
+          "probability": 0.9983546137809753
+        },
+        {
+          "start": 41.32,
+          "end": 41.72,
+          "word": " stomp",
+          "probability": 0.7037837952375412
+        },
+        {
+          "start": 41.72,
+          "end": 42.1,
+          "word": " to",
+          "probability": 0.9851834774017334
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "start": 42.1,
+      "end": 44.64,
+      "text": " Something we can groove to",
+      "avg_logprob": -0.2324839707377345,
+      "no_speech_prob": 0.5998830795288086,
+      "compression_ratio": 1.6197916666666667,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 42.1,
+          "end": 43.26,
+          "word": " Something",
+          "probability": 0.9279362559318542
+        },
+        {
+          "start": 43.26,
+          "end": 43.64,
+          "word": " we",
+          "probability": 0.9990087747573853
+        },
+        {
+          "start": 43.64,
+          "end": 43.82,
+          "word": " can",
+          "probability": 0.999470055103302
+        },
+        {
+          "start": 43.82,
+          "end": 44.1,
+          "word": " groove",
+          "probability": 0.9991095662117004
+        },
+        {
+          "start": 44.1,
+          "end": 44.64,
+          "word": " to",
+          "probability": 0.9990652203559875
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "start": 44.64,
+      "end": 49.48,
+      "text": " Something we can get our butts up out these seats and move to",
+      "avg_logprob": -0.2324839707377345,
+      "no_speech_prob": 0.5998830795288086,
+      "compression_ratio": 1.6197916666666667,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 44.64,
+          "end": 45.82,
+          "word": " Something",
+          "probability": 0.9889844655990601
+        },
+        {
+          "start": 45.82,
+          "end": 46.12,
+          "word": " we",
+          "probability": 0.9989978671073914
+        },
+        {
+          "start": 46.12,
+          "end": 46.24,
+          "word": " can",
+          "probability": 0.9987366795539856
+        },
+        {
+          "start": 46.24,
+          "end": 46.46,
+          "word": " get",
+          "probability": 0.9974191188812256
+        },
+        {
+          "start": 46.46,
+          "end": 46.68,
+          "word": " our",
+          "probability": 0.9975646734237671
+        },
+        {
+          "start": 46.68,
+          "end": 46.98,
+          "word": " butts",
+          "probability": 0.999360978603363
+        },
+        {
+          "start": 46.98,
+          "end": 47.22,
+          "word": " up",
+          "probability": 0.9347279071807861
+        },
+        {
+          "start": 47.22,
+          "end": 47.54,
+          "word": " out",
+          "probability": 0.8225759863853455
+        },
+        {
+          "start": 47.54,
+          "end": 47.94,
+          "word": " these",
+          "probability": 0.9939344525337219
+        },
+        {
+          "start": 47.94,
+          "end": 48.32,
+          "word": " seats",
+          "probability": 0.9970157146453857
+        },
+        {
+          "start": 48.32,
+          "end": 48.58,
+          "word": " and",
+          "probability": 0.9632272124290466
+        },
+        {
+          "start": 48.58,
+          "end": 48.92,
+          "word": " move",
+          "probability": 0.9987278580665588
+        },
+        {
+          "start": 48.92,
+          "end": 49.48,
+          "word": " to",
+          "probability": 0.9946655035018921
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "start": 50.48,
+      "end": 53.2,
+      "text": " Hook us with that old school funk",
+      "avg_logprob": -0.2324839707377345,
+      "no_speech_prob": 0.5998830795288086,
+      "compression_ratio": 1.6197916666666667,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 50.48,
+          "end": 51.16,
+          "word": " Hook",
+          "probability": 0.7612484693527222
+        },
+        {
+          "start": 51.16,
+          "end": 51.44,
+          "word": " us",
+          "probability": 0.9912593960762024
+        },
+        {
+          "start": 51.44,
+          "end": 51.78,
+          "word": " with",
+          "probability": 0.9966195821762085
+        },
+        {
+          "start": 51.78,
+          "end": 52.06,
+          "word": " that",
+          "probability": 0.9955356121063232
+        },
+        {
+          "start": 52.06,
+          "end": 52.42,
+          "word": " old",
+          "probability": 0.9968438148498535
+        },
+        {
+          "start": 52.42,
+          "end": 52.72,
+          "word": " school",
+          "probability": 0.9821889996528625
+        },
+        {
+          "start": 52.72,
+          "end": 53.2,
+          "word": " funk",
+          "probability": 0.998140811920166
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "start": 53.2,
+      "end": 55.34,
+      "text": " None of that slow down ballad stuff",
+      "avg_logprob": -0.2324839707377345,
+      "no_speech_prob": 0.5998830795288086,
+      "compression_ratio": 1.6197916666666667,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 53.2,
+          "end": 53.54,
+          "word": " None",
+          "probability": 0.891425371170044
+        },
+        {
+          "start": 53.54,
+          "end": 53.84,
+          "word": " of",
+          "probability": 0.9998828172683716
+        },
+        {
+          "start": 53.84,
+          "end": 54.02,
+          "word": " that",
+          "probability": 0.9994237422943115
+        },
+        {
+          "start": 54.02,
+          "end": 54.24,
+          "word": " slow",
+          "probability": 0.5721730589866638
+        },
+        {
+          "start": 54.24,
+          "end": 54.58,
+          "word": " down",
+          "probability": 0.8578457236289978
+        },
+        {
+          "start": 54.58,
+          "end": 55.0,
+          "word": " ballad",
+          "probability": 0.9594664871692657
+        },
+        {
+          "start": 55.0,
+          "end": 55.34,
+          "word": " stuff",
+          "probability": 0.9986554384231567
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "start": 55.34,
+      "end": 59.22,
+      "text": " We can't hear the dance and get a little bored loose",
+      "avg_logprob": -0.2324839707377345,
+      "no_speech_prob": 0.5998830795288086,
+      "compression_ratio": 1.6197916666666667,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 55.34,
+          "end": 55.96,
+          "word": " We",
+          "probability": 0.997178316116333
+        },
+        {
+          "start": 55.96,
+          "end": 56.42,
+          "word": " can't",
+          "probability": 0.6308565735816956
+        },
+        {
+          "start": 56.42,
+          "end": 56.6,
+          "word": " hear",
+          "probability": 0.9301746487617493
+        },
+        {
+          "start": 56.6,
+          "end": 56.86,
+          "word": " the",
+          "probability": 0.9822268486022949
+        },
+        {
+          "start": 56.86,
+          "end": 57.4,
+          "word": " dance",
+          "probability": 0.9984442591667175
+        },
+        {
+          "start": 57.4,
+          "end": 57.7,
+          "word": " and",
+          "probability": 0.8655334115028381
+        },
+        {
+          "start": 57.7,
+          "end": 57.96,
+          "word": " get",
+          "probability": 0.9976656436920166
+        },
+        {
+          "start": 57.96,
+          "end": 58.06,
+          "word": " a",
+          "probability": 0.999123752117157
+        },
+        {
+          "start": 58.06,
+          "end": 58.3,
+          "word": " little",
+          "probability": 0.9994083642959595
+        },
+        {
+          "start": 58.3,
+          "end": 58.68,
+          "word": " bored",
+          "probability": 0.41777491569519043
+        },
+        {
+          "start": 58.68,
+          "end": 59.22,
+          "word": " loose",
+          "probability": 0.3520594835281372
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "start": 59.22,
+      "end": 61.64,
+      "text": " Play something we can stomp to",
+      "avg_logprob": -0.2543988120742142,
+      "no_speech_prob": 0.39247962832450867,
+      "compression_ratio": 1.4666666666666666,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 59.22,
+          "end": 60.0,
+          "word": " Play",
+          "probability": 0.5661770701408386
+        },
+        {
+          "start": 60.0,
+          "end": 60.4,
+          "word": " something",
+          "probability": 0.8814116716384888
+        },
+        {
+          "start": 60.4,
+          "end": 60.64,
+          "word": " we",
+          "probability": 0.9671730399131775
+        },
+        {
+          "start": 60.64,
+          "end": 60.74,
+          "word": " can",
+          "probability": 0.9465062022209167
+        },
+        {
+          "start": 60.74,
+          "end": 61.16,
+          "word": " stomp",
+          "probability": 0.9761052429676056
+        },
+        {
+          "start": 61.16,
+          "end": 61.64,
+          "word": " to",
+          "probability": 0.9474262595176697
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "start": 63.66,
+      "end": 66.52,
+      "text": " Play something we can stomp to",
+      "avg_logprob": -0.2543988120742142,
+      "no_speech_prob": 0.39247962832450867,
+      "compression_ratio": 1.4666666666666666,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 63.66,
+          "end": 64.44,
+          "word": " Play",
+          "probability": 0.3428693413734436
+        },
+        {
+          "start": 64.44,
+          "end": 65.22,
+          "word": " something",
+          "probability": 0.9964641332626343
+        },
+        {
+          "start": 65.22,
+          "end": 65.48,
+          "word": " we",
+          "probability": 0.9977537989616394
+        },
+        {
+          "start": 65.48,
+          "end": 65.6,
+          "word": " can",
+          "probability": 0.9964374303817749
+        },
+        {
+          "start": 65.6,
+          "end": 66.04,
+          "word": " stomp",
+          "probability": 0.9993793666362762
+        },
+        {
+          "start": 66.04,
+          "end": 66.52,
+          "word": " to",
+          "probability": 0.9956412315368652
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "start": 70.24,
+      "end": 73.02,
+      "text": " Don't mean to put you on the spot",
+      "avg_logprob": -0.2543988120742142,
+      "no_speech_prob": 0.39247962832450867,
+      "compression_ratio": 1.4666666666666666,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 70.24,
+          "end": 71.02,
+          "word": " Don't",
+          "probability": 0.9836253225803375
+        },
+        {
+          "start": 71.02,
+          "end": 71.22,
+          "word": " mean",
+          "probability": 0.9989504218101501
+        },
+        {
+          "start": 71.22,
+          "end": 71.48,
+          "word": " to",
+          "probability": 0.998935878276825
+        },
+        {
+          "start": 71.48,
+          "end": 71.74,
+          "word": " put",
+          "probability": 0.9990735054016113
+        },
+        {
+          "start": 71.74,
+          "end": 72.0,
+          "word": " you",
+          "probability": 0.9993410706520081
+        },
+        {
+          "start": 72.0,
+          "end": 72.44,
+          "word": " on",
+          "probability": 0.9989609718322754
+        },
+        {
+          "start": 72.44,
+          "end": 72.72,
+          "word": " the",
+          "probability": 0.9998816251754761
+        },
+        {
+          "start": 72.72,
+          "end": 73.02,
+          "word": " spot",
+          "probability": 0.9998562335968018
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "start": 74.8,
+      "end": 78.42,
+      "text": " But I'll drop a 24-key at a rock",
+      "avg_logprob": -0.2543988120742142,
+      "no_speech_prob": 0.39247962832450867,
+      "compression_ratio": 1.4666666666666666,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 74.8,
+          "end": 75.58,
+          "word": " But",
+          "probability": 0.5104917883872986
+        },
+        {
+          "start": 75.58,
+          "end": 75.86,
+          "word": " I'll",
+          "probability": 0.6717250943183899
+        },
+        {
+          "start": 75.86,
+          "end": 76.22,
+          "word": " drop",
+          "probability": 0.9985494017601013
+        },
+        {
+          "start": 76.22,
+          "end": 76.4,
+          "word": " a",
+          "probability": 0.9914224743843079
+        },
+        {
+          "start": 76.4,
+          "end": 76.8,
+          "word": " 24",
+          "probability": 0.7058636546134949
+        },
+        {
+          "start": 76.8,
+          "end": 77.42,
+          "word": "-key",
+          "probability": 0.9369882345199585
+        },
+        {
+          "start": 77.42,
+          "end": 78.04,
+          "word": " at",
+          "probability": 0.21460658311843872
+        },
+        {
+          "start": 78.04,
+          "end": 78.06,
+          "word": " a",
+          "probability": 0.9593039155006409
+        },
+        {
+          "start": 78.06,
+          "end": 78.42,
+          "word": " rock",
+          "probability": 0.9932219982147217
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "start": 80.1,
+      "end": 82.84,
+      "text": " Bring some kick-ass to this dial",
+      "avg_logprob": -0.2543988120742142,
+      "no_speech_prob": 0.39247962832450867,
+      "compression_ratio": 1.4666666666666666,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 80.1,
+          "end": 80.88,
+          "word": " Bring",
+          "probability": 0.980811595916748
+        },
+        {
+          "start": 80.88,
+          "end": 81.2,
+          "word": " some",
+          "probability": 0.9988429546356201
+        },
+        {
+          "start": 81.2,
+          "end": 81.58,
+          "word": " kick",
+          "probability": 0.9969949722290039
+        },
+        {
+          "start": 81.58,
+          "end": 81.82,
+          "word": "-ass",
+          "probability": 0.9063786566257477
+        },
+        {
+          "start": 81.82,
+          "end": 82.0,
+          "word": " to",
+          "probability": 0.9992983341217041
+        },
+        {
+          "start": 82.0,
+          "end": 82.42,
+          "word": " this",
+          "probability": 0.9525721073150635
+        },
+        {
+          "start": 82.42,
+          "end": 82.84,
+          "word": " dial",
+          "probability": 0.9782659411430359
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "start": 84.0,
+      "end": 87.5,
+      "text": " If you want this crowd to come alive",
+      "avg_logprob": -0.2543988120742142,
+      "no_speech_prob": 0.39247962832450867,
+      "compression_ratio": 1.4666666666666666,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 84.0,
+          "end": 84.78,
+          "word": " If",
+          "probability": 0.990456759929657
+        },
+        {
+          "start": 84.78,
+          "end": 85.0,
+          "word": " you",
+          "probability": 0.999692440032959
+        },
+        {
+          "start": 85.0,
+          "end": 85.32,
+          "word": " want",
+          "probability": 0.9998992681503296
+        },
+        {
+          "start": 85.32,
+          "end": 85.72,
+          "word": " this",
+          "probability": 0.9994269609451294
+        },
+        {
+          "start": 85.72,
+          "end": 86.22,
+          "word": " crowd",
+          "probability": 0.9973078966140747
+        },
+        {
+          "start": 86.22,
+          "end": 86.84,
+          "word": " to",
+          "probability": 0.9944610595703125
+        },
+        {
+          "start": 86.84,
+          "end": 87.08,
+          "word": " come",
+          "probability": 0.9984654188156128
+        },
+        {
+          "start": 87.08,
+          "end": 87.5,
+          "word": " alive",
+          "probability": 0.9988549947738647
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "start": 88.44,
+      "end": 90.56,
+      "text": " Play something we can stomp to",
+      "avg_logprob": -0.17351772253577774,
+      "no_speech_prob": 0.3785790205001831,
+      "compression_ratio": 1.7581699346405228,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 88.44,
+          "end": 89.08,
+          "word": " Play",
+          "probability": 0.7438895106315613
+        },
+        {
+          "start": 89.08,
+          "end": 89.4,
+          "word": " something",
+          "probability": 0.861295759677887
+        },
+        {
+          "start": 89.4,
+          "end": 89.7,
+          "word": " we",
+          "probability": 0.9879540205001831
+        },
+        {
+          "start": 89.7,
+          "end": 89.82,
+          "word": " can",
+          "probability": 0.9630816578865051
+        },
+        {
+          "start": 89.82,
+          "end": 90.22,
+          "word": " stomp",
+          "probability": 0.8899665772914886
+        },
+        {
+          "start": 90.22,
+          "end": 90.56,
+          "word": " to",
+          "probability": 0.9751946926116943
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "start": 90.56,
+      "end": 93.1,
+      "text": " Something we can groove to",
+      "avg_logprob": -0.17351772253577774,
+      "no_speech_prob": 0.3785790205001831,
+      "compression_ratio": 1.7581699346405228,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 90.56,
+          "end": 91.34,
+          "word": " Something",
+          "probability": 0.5138781070709229
+        },
+        {
+          "start": 91.34,
+          "end": 92.12,
+          "word": " we",
+          "probability": 0.9974184036254883
+        },
+        {
+          "start": 92.12,
+          "end": 92.28,
+          "word": " can",
+          "probability": 0.9946309328079224
+        },
+        {
+          "start": 92.28,
+          "end": 92.6,
+          "word": " groove",
+          "probability": 0.9988954067230225
+        },
+        {
+          "start": 92.6,
+          "end": 93.1,
+          "word": " to",
+          "probability": 0.9966756105422974
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "start": 93.1,
+      "end": 97.98,
+      "text": " Something we can get our butts up out these seats and move to",
+      "avg_logprob": -0.17351772253577774,
+      "no_speech_prob": 0.3785790205001831,
+      "compression_ratio": 1.7581699346405228,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 93.1,
+          "end": 94.24,
+          "word": " Something",
+          "probability": 0.9848083257675171
+        },
+        {
+          "start": 94.24,
+          "end": 94.6,
+          "word": " we",
+          "probability": 0.9984488487243652
+        },
+        {
+          "start": 94.6,
+          "end": 94.74,
+          "word": " can",
+          "probability": 0.9982851147651672
+        },
+        {
+          "start": 94.74,
+          "end": 94.94,
+          "word": " get",
+          "probability": 0.9973376393318176
+        },
+        {
+          "start": 94.94,
+          "end": 95.16,
+          "word": " our",
+          "probability": 0.996025562286377
+        },
+        {
+          "start": 95.16,
+          "end": 95.46,
+          "word": " butts",
+          "probability": 0.9992511868476868
+        },
+        {
+          "start": 95.46,
+          "end": 95.72,
+          "word": " up",
+          "probability": 0.8587555289268494
+        },
+        {
+          "start": 95.72,
+          "end": 96.04,
+          "word": " out",
+          "probability": 0.9007821083068848
+        },
+        {
+          "start": 96.04,
+          "end": 96.44,
+          "word": " these",
+          "probability": 0.9864726066589355
+        },
+        {
+          "start": 96.44,
+          "end": 96.84,
+          "word": " seats",
+          "probability": 0.998145580291748
+        },
+        {
+          "start": 96.84,
+          "end": 97.08,
+          "word": " and",
+          "probability": 0.9752100706100464
+        },
+        {
+          "start": 97.08,
+          "end": 97.44,
+          "word": " move",
+          "probability": 0.9968672394752502
+        },
+        {
+          "start": 97.44,
+          "end": 97.98,
+          "word": " to",
+          "probability": 0.9800205230712891
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "start": 99.02,
+      "end": 101.7,
+      "text": " Hook us with that old school funk",
+      "avg_logprob": -0.17351772253577774,
+      "no_speech_prob": 0.3785790205001831,
+      "compression_ratio": 1.7581699346405228,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 99.02,
+          "end": 99.66,
+          "word": " Hook",
+          "probability": 0.5534877181053162
+        },
+        {
+          "start": 99.66,
+          "end": 99.92,
+          "word": " us",
+          "probability": 0.9933432340621948
+        },
+        {
+          "start": 99.92,
+          "end": 100.24,
+          "word": " with",
+          "probability": 0.994013249874115
+        },
+        {
+          "start": 100.24,
+          "end": 100.54,
+          "word": " that",
+          "probability": 0.9872215390205383
+        },
+        {
+          "start": 100.54,
+          "end": 100.9,
+          "word": " old",
+          "probability": 0.9991764426231384
+        },
+        {
+          "start": 100.9,
+          "end": 101.24,
+          "word": " school",
+          "probability": 0.9585685729980469
+        },
+        {
+          "start": 101.24,
+          "end": 101.7,
+          "word": " funk",
+          "probability": 0.9961651563644409
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "start": 101.7,
+      "end": 103.82,
+      "text": " None of that slow down ballad stuff",
+      "avg_logprob": -0.17351772253577774,
+      "no_speech_prob": 0.3785790205001831,
+      "compression_ratio": 1.7581699346405228,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 101.7,
+          "end": 102.04,
+          "word": " None",
+          "probability": 0.8901607394218445
+        },
+        {
+          "start": 102.04,
+          "end": 102.32,
+          "word": " of",
+          "probability": 0.9998131394386292
+        },
+        {
+          "start": 102.32,
+          "end": 102.5,
+          "word": " that",
+          "probability": 0.9989262223243713
+        },
+        {
+          "start": 102.5,
+          "end": 102.72,
+          "word": " slow",
+          "probability": 0.997123658657074
+        },
+        {
+          "start": 102.72,
+          "end": 103.08,
+          "word": " down",
+          "probability": 0.9450440406799316
+        },
+        {
+          "start": 103.08,
+          "end": 103.5,
+          "word": " ballad",
+          "probability": 0.8851965069770813
+        },
+        {
+          "start": 103.5,
+          "end": 103.82,
+          "word": " stuff",
+          "probability": 0.9988934397697449
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "start": 103.82,
+      "end": 107.84,
+      "text": " We came here to dance and get a little footloose",
+      "avg_logprob": -0.17351772253577774,
+      "no_speech_prob": 0.3785790205001831,
+      "compression_ratio": 1.7581699346405228,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 103.82,
+          "end": 104.44,
+          "word": " We",
+          "probability": 0.9967759251594543
+        },
+        {
+          "start": 104.44,
+          "end": 104.76,
+          "word": " came",
+          "probability": 0.9962510466575623
+        },
+        {
+          "start": 104.76,
+          "end": 105.1,
+          "word": " here",
+          "probability": 0.9994687438011169
+        },
+        {
+          "start": 105.1,
+          "end": 105.36,
+          "word": " to",
+          "probability": 0.9997491240501404
+        },
+        {
+          "start": 105.36,
+          "end": 105.88,
+          "word": " dance",
+          "probability": 0.9996885061264038
+        },
+        {
+          "start": 105.88,
+          "end": 106.2,
+          "word": " and",
+          "probability": 0.8854786157608032
+        },
+        {
+          "start": 106.2,
+          "end": 106.44,
+          "word": " get",
+          "probability": 0.9984753727912903
+        },
+        {
+          "start": 106.44,
+          "end": 106.58,
+          "word": " a",
+          "probability": 0.9981266856193542
+        },
+        {
+          "start": 106.58,
+          "end": 106.8,
+          "word": " little",
+          "probability": 0.9983276724815369
+        },
+        {
+          "start": 106.8,
+          "end": 107.84,
+          "word": " footloose",
+          "probability": 0.9227585593859354
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "start": 107.84,
+      "end": 110.16,
+      "text": " Play something we can stomp to",
+      "avg_logprob": -0.17351772253577774,
+      "no_speech_prob": 0.3785790205001831,
+      "compression_ratio": 1.7581699346405228,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 107.84,
+          "end": 108.6,
+          "word": " Play",
+          "probability": 0.9906957149505615
+        },
+        {
+          "start": 108.6,
+          "end": 108.84,
+          "word": " something",
+          "probability": 0.9996318817138672
+        },
+        {
+          "start": 108.84,
+          "end": 109.08,
+          "word": " we",
+          "probability": 0.9991223216056824
+        },
+        {
+          "start": 109.08,
+          "end": 109.22,
+          "word": " can",
+          "probability": 0.9996193647384644
+        },
+        {
+          "start": 109.22,
+          "end": 109.7,
+          "word": " stomp",
+          "probability": 0.9992961883544922
+        },
+        {
+          "start": 109.7,
+          "end": 110.16,
+          "word": " to",
+          "probability": 0.9965044260025024
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "start": 131.99999999999997,
+      "end": 134.22,
+      "text": " Hey, something we can stall to",
+      "avg_logprob": -0.24154922920604086,
+      "no_speech_prob": 0.45249107480049133,
+      "compression_ratio": 1.5,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 131.99999999999997,
+          "end": 132.64,
+          "word": " Hey,",
+          "probability": 0.2906772792339325
+        },
+        {
+          "start": 132.64,
+          "end": 132.98,
+          "word": " something",
+          "probability": 0.9184962511062622
+        },
+        {
+          "start": 132.98,
+          "end": 133.34,
+          "word": " we",
+          "probability": 0.9898232817649841
+        },
+        {
+          "start": 133.34,
+          "end": 133.44,
+          "word": " can",
+          "probability": 0.9569064974784851
+        },
+        {
+          "start": 133.44,
+          "end": 133.76,
+          "word": " stall",
+          "probability": 0.5789556503295898
+        },
+        {
+          "start": 133.76,
+          "end": 134.22,
+          "word": " to",
+          "probability": 0.9033503532409668
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "start": 134.22,
+      "end": 136.7,
+      "text": " Something we can groove to",
+      "avg_logprob": -0.24154922920604086,
+      "no_speech_prob": 0.45249107480049133,
+      "compression_ratio": 1.5,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 134.22,
+          "end": 135.32,
+          "word": " Something",
+          "probability": 0.6286486387252808
+        },
+        {
+          "start": 135.32,
+          "end": 135.72,
+          "word": " we",
+          "probability": 0.9969261288642883
+        },
+        {
+          "start": 135.72,
+          "end": 135.86,
+          "word": " can",
+          "probability": 0.9985265731811523
+        },
+        {
+          "start": 135.86,
+          "end": 136.16,
+          "word": " groove",
+          "probability": 0.9973422884941101
+        },
+        {
+          "start": 136.16,
+          "end": 136.7,
+          "word": " to",
+          "probability": 0.9964391589164734
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "start": 136.7,
+      "end": 142.24,
+      "text": " Something we can get our butts up out of these seats and move to",
+      "avg_logprob": -0.24154922920604086,
+      "no_speech_prob": 0.45249107480049133,
+      "compression_ratio": 1.5,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 136.7,
+          "end": 137.9,
+          "word": " Something",
+          "probability": 0.9566853046417236
+        },
+        {
+          "start": 137.9,
+          "end": 138.2,
+          "word": " we",
+          "probability": 0.9980733394622803
+        },
+        {
+          "start": 138.2,
+          "end": 138.34,
+          "word": " can",
+          "probability": 0.9852838516235352
+        },
+        {
+          "start": 138.34,
+          "end": 138.56,
+          "word": " get",
+          "probability": 0.9934300780296326
+        },
+        {
+          "start": 138.56,
+          "end": 138.8,
+          "word": " our",
+          "probability": 0.9957984089851379
+        },
+        {
+          "start": 138.8,
+          "end": 139.12,
+          "word": " butts",
+          "probability": 0.997994065284729
+        },
+        {
+          "start": 139.12,
+          "end": 139.38,
+          "word": " up",
+          "probability": 0.9830805659294128
+        },
+        {
+          "start": 139.38,
+          "end": 139.64,
+          "word": " out",
+          "probability": 0.913325309753418
+        },
+        {
+          "start": 139.64,
+          "end": 139.88,
+          "word": " of",
+          "probability": 0.5438051819801331
+        },
+        {
+          "start": 139.88,
+          "end": 140.06,
+          "word": " these",
+          "probability": 0.9932593703269958
+        },
+        {
+          "start": 140.06,
+          "end": 140.46,
+          "word": " seats",
+          "probability": 0.9830929040908813
+        },
+        {
+          "start": 140.46,
+          "end": 140.72,
+          "word": " and",
+          "probability": 0.9035622477531433
+        },
+        {
+          "start": 140.72,
+          "end": 141.06,
+          "word": " move",
+          "probability": 0.9946717619895935
+        },
+        {
+          "start": 141.06,
+          "end": 142.24,
+          "word": " to",
+          "probability": 0.9924752116203308
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "start": 142.24,
+      "end": 145.32,
+      "text": " Hook us with that old school funk",
+      "avg_logprob": -0.24154922920604086,
+      "no_speech_prob": 0.45249107480049133,
+      "compression_ratio": 1.5,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 142.24,
+          "end": 143.32,
+          "word": " Hook",
+          "probability": 0.9221234917640686
+        },
+        {
+          "start": 143.32,
+          "end": 143.54,
+          "word": " us",
+          "probability": 0.94781893491745
+        },
+        {
+          "start": 143.54,
+          "end": 143.9,
+          "word": " with",
+          "probability": 0.9933995008468628
+        },
+        {
+          "start": 143.9,
+          "end": 144.18,
+          "word": " that",
+          "probability": 0.9706017374992371
+        },
+        {
+          "start": 144.18,
+          "end": 144.52,
+          "word": " old",
+          "probability": 0.9946932196617126
+        },
+        {
+          "start": 144.52,
+          "end": 144.84,
+          "word": " school",
+          "probability": 0.9023411273956299
+        },
+        {
+          "start": 144.84,
+          "end": 145.32,
+          "word": " funk",
+          "probability": 0.9967053532600403
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "start": 145.32,
+      "end": 147.44,
+      "text": " None of that slow down ballad stuff",
+      "avg_logprob": -0.19223444893005046,
+      "no_speech_prob": 0.1754492223262787,
+      "compression_ratio": 2.163265306122449,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 145.32,
+          "end": 145.68,
+          "word": " None",
+          "probability": 0.9083908796310425
+        },
+        {
+          "start": 145.68,
+          "end": 145.96,
+          "word": " of",
+          "probability": 0.9988476037979126
+        },
+        {
+          "start": 145.96,
+          "end": 146.14,
+          "word": " that",
+          "probability": 0.9980021119117737
+        },
+        {
+          "start": 146.14,
+          "end": 146.36,
+          "word": " slow",
+          "probability": 0.8468052744865417
+        },
+        {
+          "start": 146.36,
+          "end": 146.7,
+          "word": " down",
+          "probability": 0.5812821388244629
+        },
+        {
+          "start": 146.7,
+          "end": 147.08,
+          "word": " ballad",
+          "probability": 0.7171346247196198
+        },
+        {
+          "start": 147.08,
+          "end": 147.44,
+          "word": " stuff",
+          "probability": 0.9981327652931213
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "start": 147.44,
+      "end": 151.86,
+      "text": " We came here to dance and get a little footloose",
+      "avg_logprob": -0.19223444893005046,
+      "no_speech_prob": 0.1754492223262787,
+      "compression_ratio": 2.163265306122449,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 147.44,
+          "end": 147.96,
+          "word": " We",
+          "probability": 0.9371578693389893
+        },
+        {
+          "start": 147.96,
+          "end": 148.36,
+          "word": " came",
+          "probability": 0.9950616955757141
+        },
+        {
+          "start": 148.36,
+          "end": 148.76,
+          "word": " here",
+          "probability": 0.9977023005485535
+        },
+        {
+          "start": 148.76,
+          "end": 149.1,
+          "word": " to",
+          "probability": 0.999157190322876
+        },
+        {
+          "start": 149.1,
+          "end": 149.52,
+          "word": " dance",
+          "probability": 0.9995112419128418
+        },
+        {
+          "start": 149.52,
+          "end": 149.78,
+          "word": " and",
+          "probability": 0.7134000658988953
+        },
+        {
+          "start": 149.78,
+          "end": 150.08,
+          "word": " get",
+          "probability": 0.9971875548362732
+        },
+        {
+          "start": 150.08,
+          "end": 150.22,
+          "word": " a",
+          "probability": 0.9987974166870117
+        },
+        {
+          "start": 150.22,
+          "end": 150.44,
+          "word": " little",
+          "probability": 0.996605634689331
+        },
+        {
+          "start": 150.44,
+          "end": 151.86,
+          "word": " footloose",
+          "probability": 0.9036938746770223
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "start": 151.86,
+      "end": 154.14,
+      "text": " So that we can stomp too",
+      "avg_logprob": -0.19223444893005046,
+      "no_speech_prob": 0.1754492223262787,
+      "compression_ratio": 2.163265306122449,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 151.86,
+          "end": 152.26,
+          "word": " So",
+          "probability": 0.05383475124835968
+        },
+        {
+          "start": 152.26,
+          "end": 152.6,
+          "word": " that",
+          "probability": 0.9692068099975586
+        },
+        {
+          "start": 152.6,
+          "end": 152.7,
+          "word": " we",
+          "probability": 0.9992280006408691
+        },
+        {
+          "start": 152.7,
+          "end": 152.98,
+          "word": " can",
+          "probability": 0.9560531377792358
+        },
+        {
+          "start": 152.98,
+          "end": 153.7,
+          "word": " stomp",
+          "probability": 0.8268632590770721
+        },
+        {
+          "start": 153.7,
+          "end": 154.14,
+          "word": " too",
+          "probability": 0.8006364703178406
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "start": 154.14,
+      "end": 156.66,
+      "text": " So that we can groove too",
+      "avg_logprob": -0.19223444893005046,
+      "no_speech_prob": 0.1754492223262787,
+      "compression_ratio": 2.163265306122449,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 154.14,
+          "end": 154.66,
+          "word": " So",
+          "probability": 0.591510534286499
+        },
+        {
+          "start": 154.66,
+          "end": 154.98,
+          "word": " that",
+          "probability": 0.99868243932724
+        },
+        {
+          "start": 154.98,
+          "end": 155.2,
+          "word": " we",
+          "probability": 0.9998903274536133
+        },
+        {
+          "start": 155.2,
+          "end": 155.4,
+          "word": " can",
+          "probability": 0.9788143038749695
+        },
+        {
+          "start": 155.4,
+          "end": 155.98,
+          "word": " groove",
+          "probability": 0.9994376301765442
+        },
+        {
+          "start": 155.98,
+          "end": 156.66,
+          "word": " too",
+          "probability": 0.9962802529335022
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "start": 156.66,
+      "end": 161.52,
+      "text": " So that we can get our butts up out of these seats and move too",
+      "avg_logprob": -0.19223444893005046,
+      "no_speech_prob": 0.1754492223262787,
+      "compression_ratio": 2.163265306122449,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 156.66,
+          "end": 157.08,
+          "word": " So",
+          "probability": 0.9849591851234436
+        },
+        {
+          "start": 157.08,
+          "end": 157.3,
+          "word": " that",
+          "probability": 0.9944977164268494
+        },
+        {
+          "start": 157.3,
+          "end": 157.6,
+          "word": " we",
+          "probability": 0.9998229146003723
+        },
+        {
+          "start": 157.6,
+          "end": 157.74,
+          "word": " can",
+          "probability": 0.9994458556175232
+        },
+        {
+          "start": 157.74,
+          "end": 157.94,
+          "word": " get",
+          "probability": 0.9970542192459106
+        },
+        {
+          "start": 157.94,
+          "end": 158.18,
+          "word": " our",
+          "probability": 0.9917682409286499
+        },
+        {
+          "start": 158.18,
+          "end": 158.5,
+          "word": " butts",
+          "probability": 0.9029927849769592
+        },
+        {
+          "start": 158.5,
+          "end": 158.74,
+          "word": " up",
+          "probability": 0.9927207827568054
+        },
+        {
+          "start": 158.74,
+          "end": 159.14,
+          "word": " out",
+          "probability": 0.9736441969871521
+        },
+        {
+          "start": 159.14,
+          "end": 159.34,
+          "word": " of",
+          "probability": 0.9990730285644531
+        },
+        {
+          "start": 159.34,
+          "end": 159.52,
+          "word": " these",
+          "probability": 0.9982049465179443
+        },
+        {
+          "start": 159.52,
+          "end": 159.9,
+          "word": " seats",
+          "probability": 0.9985827207565308
+        },
+        {
+          "start": 159.9,
+          "end": 160.16,
+          "word": " and",
+          "probability": 0.9382516741752625
+        },
+        {
+          "start": 160.16,
+          "end": 160.52,
+          "word": " move",
+          "probability": 0.9974937438964844
+        },
+        {
+          "start": 160.52,
+          "end": 161.52,
+          "word": " too",
+          "probability": 0.9955085515975952
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "start": 162.39999999999998,
+      "end": 164.74,
+      "text": " Hunkers with that old school funk",
+      "avg_logprob": -0.19223444893005046,
+      "no_speech_prob": 0.1754492223262787,
+      "compression_ratio": 2.163265306122449,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 162.39999999999998,
+          "end": 163.04,
+          "word": " Hunkers",
+          "probability": 0.6094857056935629
+        },
+        {
+          "start": 163.04,
+          "end": 163.28,
+          "word": " with",
+          "probability": 0.9613832235336304
+        },
+        {
+          "start": 163.28,
+          "end": 163.58,
+          "word": " that",
+          "probability": 0.9105694890022278
+        },
+        {
+          "start": 163.58,
+          "end": 163.92,
+          "word": " old",
+          "probability": 0.997961163520813
+        },
+        {
+          "start": 163.92,
+          "end": 164.28,
+          "word": " school",
+          "probability": 0.9888328313827515
+        },
+        {
+          "start": 164.28,
+          "end": 164.74,
+          "word": " funk",
+          "probability": 0.8627483248710632
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "start": 164.74,
+      "end": 166.84,
+      "text": " None of that slow down ballad stuff",
+      "avg_logprob": -0.19223444893005046,
+      "no_speech_prob": 0.1754492223262787,
+      "compression_ratio": 2.163265306122449,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 164.74,
+          "end": 165.1,
+          "word": " None",
+          "probability": 0.994461715221405
+        },
+        {
+          "start": 165.1,
+          "end": 165.32,
+          "word": " of",
+          "probability": 0.9999908208847046
+        },
+        {
+          "start": 165.32,
+          "end": 165.48,
+          "word": " that",
+          "probability": 0.999955415725708
+        },
+        {
+          "start": 165.48,
+          "end": 165.7,
+          "word": " slow",
+          "probability": 0.9999184608459473
+        },
+        {
+          "start": 165.7,
+          "end": 166.02,
+          "word": " down",
+          "probability": 0.9994633793830872
+        },
+        {
+          "start": 166.02,
+          "end": 166.54,
+          "word": " ballad",
+          "probability": 0.9997588396072388
+        },
+        {
+          "start": 166.54,
+          "end": 166.84,
+          "word": " stuff",
+          "probability": 0.9999094009399414
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "start": 166.84,
+      "end": 171.32,
+      "text": " We came here to dance and get a little footloose",
+      "avg_logprob": -0.19223444893005046,
+      "no_speech_prob": 0.1754492223262787,
+      "compression_ratio": 2.163265306122449,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 166.84,
+          "end": 167.52,
+          "word": " We",
+          "probability": 0.9995986819267273
+        },
+        {
+          "start": 167.52,
+          "end": 167.8,
+          "word": " came",
+          "probability": 0.9998770952224731
+        },
+        {
+          "start": 167.8,
+          "end": 168.24,
+          "word": " here",
+          "probability": 0.9999504089355469
+        },
+        {
+          "start": 168.24,
+          "end": 168.54,
+          "word": " to",
+          "probability": 0.9999366998672485
+        },
+        {
+          "start": 168.54,
+          "end": 168.96,
+          "word": " dance",
+          "probability": 0.9999376535415649
+        },
+        {
+          "start": 168.96,
+          "end": 169.26,
+          "word": " and",
+          "probability": 0.998060405254364
+        },
+        {
+          "start": 169.26,
+          "end": 169.48,
+          "word": " get",
+          "probability": 0.9999570846557617
+        },
+        {
+          "start": 169.48,
+          "end": 169.6,
+          "word": " a",
+          "probability": 0.9999465942382812
+        },
+        {
+          "start": 169.6,
+          "end": 169.82,
+          "word": " little",
+          "probability": 0.9999892711639404
+        },
+        {
+          "start": 169.82,
+          "end": 171.32,
+          "word": " footloose",
+          "probability": 0.9986570874849955
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "start": 171.32,
+      "end": 175.9,
+      "text": " Whoa-oh-oh-oh-oh-oh-oh-oh",
+      "avg_logprob": -0.4284257227182388,
+      "no_speech_prob": 0.43437907099723816,
+      "compression_ratio": 2.98,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 171.32,
+          "end": 172.68,
+          "word": " Whoa",
+          "probability": 0.18012617528438568
+        },
+        {
+          "start": 172.68,
+          "end": 173.28,
+          "word": "-oh",
+          "probability": 0.5719300806522369
+        },
+        {
+          "start": 173.28,
+          "end": 173.9,
+          "word": "-oh",
+          "probability": 0.8949711620807648
+        },
+        {
+          "start": 173.9,
+          "end": 174.4,
+          "word": "-oh",
+          "probability": 0.9182654321193695
+        },
+        {
+          "start": 174.4,
+          "end": 174.78,
+          "word": "-oh",
+          "probability": 0.898099273443222
+        },
+        {
+          "start": 174.78,
+          "end": 174.88,
+          "word": "-oh",
+          "probability": 0.8826721906661987
+        },
+        {
+          "start": 174.88,
+          "end": 175.04,
+          "word": "-oh",
+          "probability": 0.807958722114563
+        },
+        {
+          "start": 175.04,
+          "end": 175.9,
+          "word": "-oh",
+          "probability": 0.7745789587497711
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "start": 175.9,
+      "end": 177.94,
+      "text": " Play something we can start to",
+      "avg_logprob": -0.4284257227182388,
+      "no_speech_prob": 0.43437907099723816,
+      "compression_ratio": 2.98,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 175.9,
+          "end": 176.3,
+          "word": " Play",
+          "probability": 0.03441736102104187
+        },
+        {
+          "start": 176.3,
+          "end": 176.76,
+          "word": " something",
+          "probability": 0.951898992061615
+        },
+        {
+          "start": 176.76,
+          "end": 177.0,
+          "word": " we",
+          "probability": 0.9678455591201782
+        },
+        {
+          "start": 177.0,
+          "end": 177.12,
+          "word": " can",
+          "probability": 0.9805721044540405
+        },
+        {
+          "start": 177.12,
+          "end": 177.44,
+          "word": " start",
+          "probability": 0.2795371413230896
+        },
+        {
+          "start": 177.44,
+          "end": 177.94,
+          "word": " to",
+          "probability": 0.8764621019363403
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "start": 177.94,
+      "end": 183.24,
+      "text": " Play something we can start to",
+      "avg_logprob": -0.4284257227182388,
+      "no_speech_prob": 0.43437907099723816,
+      "compression_ratio": 2.98,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 177.94,
+          "end": 178.9,
+          "word": " Play",
+          "probability": 0.89913409948349
+        },
+        {
+          "start": 178.9,
+          "end": 181.52,
+          "word": " something",
+          "probability": 0.9983367919921875
+        },
+        {
+          "start": 181.52,
+          "end": 181.82,
+          "word": " we",
+          "probability": 0.9583290815353394
+        },
+        {
+          "start": 181.82,
+          "end": 182.02,
+          "word": " can",
+          "probability": 0.9993628859519958
+        },
+        {
+          "start": 182.02,
+          "end": 182.42,
+          "word": " start",
+          "probability": 0.9959856867790222
+        },
+        {
+          "start": 182.42,
+          "end": 183.24,
+          "word": " to",
+          "probability": 0.9975860118865967
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "start": 183.24,
+      "end": 188.26,
+      "text": " Play something we can start to",
+      "avg_logprob": -0.4284257227182388,
+      "no_speech_prob": 0.43437907099723816,
+      "compression_ratio": 2.98,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 183.24,
+          "end": 183.78,
+          "word": " Play",
+          "probability": 0.9788599014282227
+        },
+        {
+          "start": 183.78,
+          "end": 184.24,
+          "word": " something",
+          "probability": 0.9987215399742126
+        },
+        {
+          "start": 184.24,
+          "end": 186.68,
+          "word": " we",
+          "probability": 0.9845114946365356
+        },
+        {
+          "start": 186.68,
+          "end": 186.82,
+          "word": " can",
+          "probability": 0.9995085000991821
+        },
+        {
+          "start": 186.82,
+          "end": 187.24,
+          "word": " start",
+          "probability": 0.9974529147148132
+        },
+        {
+          "start": 187.24,
+          "end": 188.26,
+          "word": " to",
+          "probability": 0.9984591007232666
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "start": 188.26,
+      "end": 192.36,
+      "text": " Play something we can start to",
+      "avg_logprob": -0.4284257227182388,
+      "no_speech_prob": 0.43437907099723816,
+      "compression_ratio": 2.98,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 188.26,
+          "end": 188.6,
+          "word": " Play",
+          "probability": 0.9785677790641785
+        },
+        {
+          "start": 188.6,
+          "end": 191.22,
+          "word": " something",
+          "probability": 0.9989307522773743
+        },
+        {
+          "start": 191.22,
+          "end": 191.46,
+          "word": " we",
+          "probability": 0.9945248365402222
+        },
+        {
+          "start": 191.46,
+          "end": 191.64,
+          "word": " can",
+          "probability": 0.9997466206550598
+        },
+        {
+          "start": 191.64,
+          "end": 192.04,
+          "word": " start",
+          "probability": 0.996816098690033
+        },
+        {
+          "start": 192.04,
+          "end": 192.36,
+          "word": " to",
+          "probability": 0.993561863899231
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "start": 203.4,
+      "end": 206.6,
+      "text": " Thanks for watching!",
+      "avg_logprob": -0.5888998849051339,
+      "no_speech_prob": 0.7826984524726868,
+      "compression_ratio": 0.7142857142857143,
+      "temperature": 0.0,
+      "words": [
+        {
+          "start": 203.4,
+          "end": 204.8,
+          "word": " Thanks",
+          "probability": 0.05682653933763504
+        },
+        {
+          "start": 204.8,
+          "end": 205.3,
+          "word": " for",
+          "probability": 0.9562158584594727
+        },
+        {
+          "start": 205.3,
+          "end": 206.6,
+          "word": " watching!",
+          "probability": 0.9526889324188232
+        }
+      ]
+    }
+  ]
+}
