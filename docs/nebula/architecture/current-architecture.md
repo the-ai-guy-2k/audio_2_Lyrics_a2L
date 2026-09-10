@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-008 on `feature/aci-a2l-008-approved-lyrics`.
+**Authority:** ACI-A2L-009 on `feature/aci-a2l-009-real-song-validation`.
 
 ## Implemented flow
 
@@ -17,4 +17,4 @@ Operator WAV (read-only)
 
 Fixed test song: [FIXED_TEST_SONG.md](../FIXED_TEST_SONG.md)
 
-No verse/chorus labels. Vocal isolation is not in the pipeline. The locked Jay song remains **NOT APPROVED**.
+No verse/chorus labels. Vocal isolation is not in the pipeline. The locked Jay song is **APPROVED** (ACI-A2L-009 Operator approval).

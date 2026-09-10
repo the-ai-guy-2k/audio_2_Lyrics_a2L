@@ -36,6 +36,6 @@ Existing audio, machine transcription, uncertainty, structured draft, and human-
 
 ## Locked Jay song
 
-The locked test song remains **NOT APPROVED**. Do not click Approve on that draft to prove the button. Automated tests use fixture SHA `aci-a2l-008-fixture`.
+ACI-A2L-009: the locked test song is **APPROVED** by explicit Operator action. Fixture tests still use SHA `aci-a2l-008-fixture` and do not re-approve the locked song.
 
 Contract: [APPROVED_LYRICS_CONTRACT.md](APPROVED_LYRICS_CONTRACT.md)

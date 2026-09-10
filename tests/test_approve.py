@@ -1,4 +1,4 @@
-"""ACI-A2L-008 explicit approval tests. Do not approve the locked song."""
+"""ACI-A2L-008/009 approval tests. Fixture approval is isolated; locked song is Operator-approved as of ACI-A2L-009."""
 
 from __future__ import annotations
 
@@ -21,7 +21,13 @@ from a2l.approve import (
 )
 from a2l.errors import ApprovalError, ReviewError
 from a2l.pipeline import LOCKED_SHA256
-from a2l.review import apply_corrections, load_saved_review, review_from_structured, save_review
+from a2l.review import (
+    apply_corrections,
+    default_review_path,
+    load_saved_review,
+    review_from_structured,
+    save_review,
+)
 from tests.test_review import _structured
 
 
@@ -125,10 +131,26 @@ def test_clean_text_omits_time_gaps_and_clutter() -> None:
     assert text == "First line\nSecond line\n"
 
 
-def test_locked_song_remains_unapproved() -> None:
-    assert locked_song_is_unapproved() is True
-    assert not default_approved_txt_path(LOCKED_SHA256).is_file()
-    assert not default_approved_json_path(LOCKED_SHA256).is_file()
+def test_locked_song_is_operator_approved() -> None:
+    assert locked_song_is_unapproved() is False
+    txt = default_approved_txt_path(LOCKED_SHA256)
+    js = default_approved_json_path(LOCKED_SHA256)
+    assert txt.is_file()
+    assert js.is_file()
+    body = txt.read_text(encoding="utf-8")
+    assert "00:" not in body
+    assert "UNCERTAIN" not in body
+    assert "flags=" not in body
+    payload = json.loads(js.read_text(encoding="utf-8"))
+    assert payload["approval_status"] == APPROVAL_STATUS
+    assert payload["usable_as_approved_lyrics"] is True
+    assert payload["source_sha256"] == LOCKED_SHA256
+    assert payload["transcription_engine"] == "faster-whisper"
+    assert payload["approval_event"]["method"] == "EXPLICIT_CONFIRM"
+    assert payload["approval_event"]["automatic"] is False
+    assert payload["approved_lyric_text"] == body
+    review = json.loads(default_review_path(LOCKED_SHA256).read_text(encoding="utf-8"))
+    assert lyric_display_state(review, LOCKED_SHA256) == STATE_APPROVED
 
 
 def test_review_html_exposes_explicit_approval() -> None:
