@@ -1,0 +1,37 @@
+# Human review and correction (ACI-A2L-006)
+
+Review the faster-whisper large-v3 structured lyric draft. Correct machine errors. Preserve original machine text. The result is **not** approved lyrics.
+
+## Open the interface
+
+From the repository root:
+
+```bash
+python -m a2l review
+```
+
+Then open: `http://127.0.0.1:8765/`
+
+## What you see
+
+- Timed lines from the structured draft
+- Uncertainty flags (highlighted)
+- Read-only **MACHINE TEXT**
+- Editable **HUMAN TEXT**
+- Time-gap rows are visible and not fillable
+
+## Save
+
+Save reviewed draft writes:
+
+```text
+artifacts/candidates/faster-whisper-large-v3/<sha256>/human_review/
+  reviewed_lyric_draft.json
+  reviewed_lyric_draft.txt
+```
+
+Contract: [REVIEW_CONTRACT.md](REVIEW_CONTRACT.md)
+
+## Not in this ACI
+
+Authoritative approval, APPROVED state, final lyric export, vocal isolation, LLM rewrite.

@@ -4,6 +4,7 @@ ACI-ATL-001: audio ingestion.
 ACI-ATL-002: CONTROL-A machine transcription (non-authoritative draft).
 ACI-ATL-003: uncertainty handling (flag, do not invent).
 ACI-ATL-004: lyric structuring (structure, do not rewrite).
+ACI-A2L-006: human review and correction (reviewed draft, not approved).
 Vocal isolation remains out of scope.
 """
 

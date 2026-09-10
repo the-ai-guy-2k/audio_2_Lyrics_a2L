@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A2L human review</title>
+  <style>
+    body { font-family: sans-serif; margin: 1rem; max-width: 1100px; }
+    .banner { background: #222; color: #fff; padding: 0.75rem; }
+    .line { border: 1px solid #ccc; padding: 0.75rem; margin: 0.5rem 0; }
+    .uncertain { border-color: #b36b00; background: #fff6e5; }
+    .corrected { border-color: #0a6; }
+    .meta { font-size: 0.9rem; color: #333; }
+    .machine { white-space: pre-wrap; background: #f4f4f4; padding: 0.4rem; }
+    textarea { width: 100%; min-height: 3.2rem; }
+    button { font-size: 1rem; padding: 0.4rem 0.8rem; }
+    .status { margin: 0.75rem 0; }
+  </style>
+</head>
+<body>
+  <div class="banner">
+    A2L HUMAN REVIEW — NOT APPROVED LYRICS<br>
+    Engine: faster-whisper / large-v3. Machine text is preserved. Corrections are human text.
+  </div>
+  <p class="status" id="status">Loading…</p>
+  <p>
+    <button id="save" type="button">Save reviewed draft</button>
+    <button id="reload" type="button">Reload from disk</button>
+  </p>
+  <div id="lines"></div>
+  <script>
+    async function loadState() {
+      const response = await fetch("/api/state");
+      const payload = await response.json();
+      if (!payload.ok) {
+        document.getElementById("status").textContent = payload.error_code + ": " + payload.error;
+        return;
+      }
+      render(payload.review);
+    }
+
+    function render(review) {
+      const status = document.getElementById("status");
+      status.textContent =
+        review.authority + " / " + review.approval_status +
+        " / corrected " + review.counts.human_corrected +
+        " / uncertain " + review.counts.uncertain_lines;
+      const root = document.getElementById("lines");
+      root.innerHTML = "";
+      for (const line of review.lines) {
+        const wrap = document.createElement("div");
+        wrap.className = "line" + (line.uncertain ? " uncertain" : "") + (line.corrected ? " corrected" : "");
+        wrap.dataset.index = String(line.index);
+        const flags = (line.flags || []).join(", ") || "none";
+        const gap = line.kind === "time_gap";
+        wrap.innerHTML =
+          '<div class="meta">L' + line.index +
+          "  " + (line.start_seconds ?? "--") + "–" + (line.end_seconds ?? "--") +
+          "  " + (line.uncertain ? "UNCERTAIN" : "UNVERIFIED") +
+          "  " + line.text_source +
+          "  flags=" + flags + "</div>" +
+          '<div>MACHINE TEXT</div>' +
+          '<div class="machine"></div>' +
+          '<label>HUMAN TEXT<br><textarea ' + (gap ? "readonly " : "") + '></textarea></label>';
+        wrap.querySelector(".machine").textContent = line.machine_text || (gap ? "[TIME_GAP]" : "");
+        wrap.querySelector("textarea").value = line.human_text || "";
+        root.appendChild(wrap);
+      }
+    }
+
+    async function save() {
+      const lines = [];
+      for (const wrap of document.querySelectorAll("#lines .line")) {
+        lines.push({
+          index: Number(wrap.dataset.index),
+          human_text: wrap.querySelector("textarea").value,
+        });
+      }
+      const response = await fetch("/api/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lines }),
+      });
+      const payload = await response.json();
+      if (!payload.ok) {
+        document.getElementById("status").textContent = payload.error_code + ": " + payload.error;
+        return;
+      }
+      document.getElementById("status").textContent = "Saved: " + payload.saved_path;
+      render(payload.review);
+    }
+
+    document.getElementById("save").addEventListener("click", save);
+    document.getElementById("reload").addEventListener("click", loadState);
+    loadState();
+  </script>
+</body>
+</html>

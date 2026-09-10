@@ -8,6 +8,7 @@ A2L recovers lyrics from artist-owned/mastered audio.
 - ACI-ATL-002: CONTROL-A machine transcription (non-authoritative draft)
 - ACI-ATL-003: uncertainty handling (flag, do not invent)
 - ACI-ATL-004: lyric structuring (structure, do not rewrite)
+- ACI-A2L-006: human review and correction (reviewed draft, not approved)
 
 **Not implemented:** human approval, approved lyric artifacts, vocal isolation, stem separation, normalization, resampling.
 
@@ -64,6 +65,18 @@ python -m a2l structure artifacts/ingest/<job_id>/uncertainty/uncertainty_report
 
 This produces a timed, annotated lyric draft for human review. It does not rewrite or approve lyrics. Details: [docs/LYRIC_STRUCTURING.md](docs/LYRIC_STRUCTURING.md)
 
+## Human review and correction
+
+The review UI consumes the faster-whisper large-v3 structured draft. It does not approve lyrics.
+
+```bash
+python -m a2l review
+```
+
+Open http://127.0.0.1:8765/
+
+Details: [docs/HUMAN_REVIEW.md](docs/HUMAN_REVIEW.md)
+
 ## Artifact flow
 
 ```text
@@ -87,6 +100,11 @@ artifacts/ingest/<sha256>/
   structured_lyrics/                      ACI-ATL-004 structured draft (NOT approved lyrics)
     structured_lyric_draft.json
     structured_lyric_draft.txt
+
+faster-whisper large-v3 review path (does not overwrite whisper-1):
+artifacts/candidates/faster-whisper-large-v3/<sha256>/
+  structured_lyrics/
+  human_review/reviewed_lyric_draft.json   ACI-A2L-006 reviewed draft (NOT approved)
 ```
 
 The working artifact is a **byte-identical copy** of the source WAV. No loudness processing, resampling, mono mixdown, or vocal isolation is applied. That preserves untreated mastered audio as CONTROL A for later transcription experiments.

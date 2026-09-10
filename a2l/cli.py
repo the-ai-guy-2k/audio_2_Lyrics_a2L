@@ -7,17 +7,19 @@ import json
 import sys
 from pathlib import Path
 
-from a2l.errors import IngestionError, TranscriptionError, UncertaintyError, StructureError
+from a2l.errors import IngestionError, TranscriptionError, UncertaintyError, StructureError, ReviewError
 from a2l.ingest import ingest_wav
 from a2l.transcribe import transcribe_from_manifest
 from a2l.uncertainty import evaluate_uncertainty
 from a2l.structure import structure_lyrics
+from a2l.review import LOCKED_SHA256, default_review_path, load_or_create_review
+from a2l.review_server import DEFAULT_HOST, DEFAULT_PORT, serve
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="a2l",
-        description="A2L ingest, transcription, uncertainty handling, and lyric structuring.",
+        description="A2L ingest, transcription, uncertainty, structuring, and human review.",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -58,6 +60,19 @@ def build_parser() -> argparse.ArgumentParser:
         "report_path",
         help="Path to uncertainty_report.json produced by ACI-ATL-003.",
     )
+
+    review_parser = subparsers.add_parser(
+        "review",
+        help="Open the human review interface for the faster-whisper large-v3 structured draft.",
+    )
+    review_parser.add_argument("--host", default=DEFAULT_HOST)
+    review_parser.add_argument("--port", type=int, default=DEFAULT_PORT)
+    review_parser.add_argument("--no-browser", action="store_true")
+    review_parser.add_argument(
+        "--job-id",
+        default=LOCKED_SHA256,
+        help="Ingest job id / source SHA-256 (locked song by default).",
+    )
     return parser
 
 
@@ -73,6 +88,8 @@ def main(argv: list[str] | None = None) -> int:
         return _run_uncertainty(Path(args.draft_path))
     if args.command == "structure":
         return _run_structure(Path(args.report_path))
+    if args.command == "review":
+        return _run_review(args.host, args.port, args.job_id, not args.no_browser)
     parser.error(f"Unknown command: {args.command}")
     return 1
 
@@ -166,6 +183,20 @@ def _run_structure(report_path: Path) -> int:
         "produced_by": "ACI-ATL-004",
     }
     print(json.dumps(payload, indent=2, sort_keys=True))
+    return 0
+
+
+def _run_review(host: str, port: int, job_id: str, open_browser: bool) -> int:
+    try:
+        load_or_create_review(sha=job_id)
+    except ReviewError as exc:
+        print(json.dumps({"ok": False, "error_code": exc.code, "error": exc.message}, indent=2), file=sys.stderr)
+        return 2
+    print("HOW THE OPERATOR OPENS THE HUMAN REVIEW INTERFACE")
+    print(f"http://{host}:{port}/")
+    print("REVIEWED LYRIC ARTIFACT LOCATION")
+    print(str(default_review_path(job_id)))
+    serve(host=host, port=port, sha=job_id, open_browser=open_browser)
     return 0
 
 
