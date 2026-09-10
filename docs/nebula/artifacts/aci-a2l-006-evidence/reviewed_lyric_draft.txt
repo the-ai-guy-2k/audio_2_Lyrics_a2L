@@ -2,7 +2,7 @@ A2L REVIEWED LYRIC DRAFT — NOT APPROVED LYRICS
 Authority: NON_AUTHORITATIVE_REVIEWED_DRAFT
 Approval: NOT_APPROVED
 Engine: faster-whisper / large-v3
-Human-corrected lines: 1
+Human-corrected lines: 2
 
 # L1 00:21.78–00:24.88  UNVERIFIED  MACHINE  flags=none
 MACHINE:  Mr. Guitar Man
@@ -108,9 +108,9 @@ HUMAN:    Play something we can stomp to
 MACHINE: 
 [TIME_GAP — no lyrics invented]
 
-# L27 02:12.00–02:14.22  UNVERIFIED  MACHINE  flags=none
+# L27 02:12.00–02:14.22  UNVERIFIED  HUMAN_CORRECTED  flags=none
 MACHINE:  Hey, something we can stall to
-HUMAN:    Hey, something we can stall to
+HUMAN:    Hey, something we can stomp to
 
 # L28 02:14.22–02:16.70  UNVERIFIED  MACHINE  flags=none
 MACHINE:  Something we can groove to

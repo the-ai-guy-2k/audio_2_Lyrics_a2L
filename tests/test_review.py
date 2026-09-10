@@ -113,3 +113,14 @@ def test_refuses_whisper_baseline_path() -> None:
     with pytest.raises(ReviewError) as exc:
         assert_not_whisper_baseline(whisper, LOCKED_SHA256)
     assert exc.value.code == "WHISPER_PATH_REFUSED"
+
+
+def test_review_html_uses_paragraph_presentation() -> None:
+    html = (Path(__file__).resolve().parents[1] / "a2l" / "review.html").read_text(encoding="utf-8")
+    assert 'id="lyrics"' in html
+    assert "class=\"lyrics\"" in html or "class='lyrics'" in html
+    assert "display: inline" in html
+    assert "white-space: normal" in html
+    assert "contentEditable" in html or "contenteditable" in html
+    assert "class=\"line\"" not in html
+    assert "HUMAN TEXT<br>" not in html

@@ -11,6 +11,10 @@
 
 The locked song structured draft from faster-whisper large-v3 can be reviewed. Uncertainty is visible. Line 36 machine text `Hunkers with that old school funk` was corrected to `Hook us with that old school funk`. Reload kept the correction. Original machine text remains on the same line. `usable_as_approved_lyrics` remains false.
 
+## Presentation correction (same ACI)
+
+The review page was changed from isolated line cards to wrapping paragraph text. Uncertain phrases stay amber inside the paragraph. Machine lines, timestamps, and source tracking remain in JSON. A second locked-song correction was made through that presentation: L27 `stall` → `stomp`; machine text `Hey, something we can stall to` remains stored.
+
 ## Evidence (in repo)
 
 - `docs/nebula/artifacts/aci-a2l-006-evidence/`

@@ -4,30 +4,82 @@
   <meta charset="utf-8">
   <title>A2L human review</title>
   <style>
-    body { font-family: sans-serif; margin: 1rem; max-width: 1100px; }
-    .banner { background: #222; color: #fff; padding: 0.75rem; }
-    .line { border: 1px solid #ccc; padding: 0.75rem; margin: 0.5rem 0; }
-    .uncertain { border-color: #b36b00; background: #fff6e5; }
-    .corrected { border-color: #0a6; }
-    .meta { font-size: 0.9rem; color: #333; }
-    .machine { white-space: pre-wrap; background: #f4f4f4; padding: 0.4rem; }
-    textarea { width: 100%; min-height: 3.2rem; }
+    html { color-scheme: light; background: #fff; }
+    body {
+      font-family: Georgia, "Times New Roman", serif;
+      margin: 1rem;
+      background: #fff;
+      color: #111;
+    }
+    .banner { font-family: sans-serif; background: #222; color: #fff; padding: 0.75rem; }
+    .status, .legend, .inspect, .toolbar { font-family: sans-serif; }
+    .toolbar { margin: 0.75rem 0; }
     button { font-size: 1rem; padding: 0.4rem 0.8rem; }
-    .status { margin: 0.75rem 0; }
+    .legend { font-size: 0.9rem; color: #333; }
+    .legend .swatch { display: inline-block; padding: 0 0.25rem; }
+    .legend .uncertain { background: #ffe08a; }
+    .legend .corrected { box-shadow: inset 0 -2px 0 #0a6; }
+    .lyrics {
+      max-width: 42rem;
+      font-size: 1.25rem;
+      line-height: 1.75;
+      white-space: normal;
+      overflow-wrap: break-word;
+      background: #fff;
+      color: #111;
+      pointer-events: none;
+    }
+    .lyrics .phrase {
+      display: inline;
+      cursor: text;
+      border-radius: 0.15rem;
+      color: #111;
+      pointer-events: auto;
+    }
+    .lyrics .phrase:focus {
+      outline: 2px solid #336;
+      background: #eef3ff;
+    }
+    .lyrics .uncertain {
+      background: #ffe08a;
+      box-decoration-break: clone;
+      -webkit-box-decoration-break: clone;
+    }
+    .lyrics .corrected {
+      box-shadow: inset 0 -2px 0 #0a6;
+    }
+    .inspect {
+      margin-top: 1.25rem;
+      max-width: 42rem;
+      font-size: 0.9rem;
+      color: #333;
+      border-top: 1px solid #ccc;
+      padding-top: 0.75rem;
+    }
+    .inspect .machine { color: #555; }
   </style>
 </head>
 <body>
   <div class="banner">
     A2L HUMAN REVIEW — NOT APPROVED LYRICS<br>
-    Engine: faster-whisper / large-v3. Machine text is preserved. Corrections are human text.
+    Engine: faster-whisper / large-v3. Click a phrase to edit. Machine text stays stored.
   </div>
   <p class="status" id="status">Loading…</p>
-  <p>
+  <p class="toolbar">
     <button id="save" type="button">Save reviewed draft</button>
     <button id="reload" type="button">Reload from disk</button>
   </p>
-  <div id="lines"></div>
+  <p class="legend">
+    Uncertain phrases are marked
+    <span class="swatch uncertain">like this</span>.
+    Human-corrected phrases are
+    <span class="swatch corrected">underlined</span>.
+  </p>
+  <div id="lyrics" class="lyrics"></div>
+  <div class="inspect" id="inspect">Click a phrase to see its original machine text and flags.</div>
   <script>
+    let reviewState = null;
+
     async function loadState() {
       const response = await fetch("/api/state");
       const payload = await response.json();
@@ -38,41 +90,75 @@
       render(payload.review);
     }
 
+    function displayText(line) {
+      return (line.human_text || "").replace(/\s+/g, " ").trim();
+    }
+
+    function saveText(line, edited) {
+      const original = line.human_text || "";
+      const lead = (original.match(/^\s*/) || [""])[0];
+      return lead + edited.replace(/\s+/g, " ").trim();
+    }
+
     function render(review) {
+      reviewState = review;
       const status = document.getElementById("status");
       status.textContent =
         review.authority + " / " + review.approval_status +
         " / corrected " + review.counts.human_corrected +
         " / uncertain " + review.counts.uncertain_lines;
-      const root = document.getElementById("lines");
+      const root = document.getElementById("lyrics");
       root.innerHTML = "";
       for (const line of review.lines) {
-        const wrap = document.createElement("div");
-        wrap.className = "line" + (line.uncertain ? " uncertain" : "") + (line.corrected ? " corrected" : "");
-        wrap.dataset.index = String(line.index);
-        const flags = (line.flags || []).join(", ") || "none";
-        const gap = line.kind === "time_gap";
-        wrap.innerHTML =
-          '<div class="meta">L' + line.index +
-          "  " + (line.start_seconds ?? "--") + "–" + (line.end_seconds ?? "--") +
-          "  " + (line.uncertain ? "UNCERTAIN" : "UNVERIFIED") +
-          "  " + line.text_source +
-          "  flags=" + flags + "</div>" +
-          '<div>MACHINE TEXT</div>' +
-          '<div class="machine"></div>' +
-          '<label>HUMAN TEXT<br><textarea ' + (gap ? "readonly " : "") + '></textarea></label>';
-        wrap.querySelector(".machine").textContent = line.machine_text || (gap ? "[TIME_GAP]" : "");
-        wrap.querySelector("textarea").value = line.human_text || "";
-        root.appendChild(wrap);
+        if (line.kind === "time_gap") continue;
+        const phrase = document.createElement("span");
+        phrase.className = "phrase";
+        if (line.uncertain) phrase.classList.add("uncertain");
+        if (line.corrected) phrase.classList.add("corrected");
+        phrase.dataset.index = String(line.index);
+        phrase.contentEditable = "plaintext-only";
+        phrase.spellcheck = false;
+        phrase.setAttribute("role", "textbox");
+        phrase.setAttribute("aria-label", "lyric phrase L" + line.index);
+        phrase.title = (line.uncertain ? "UNCERTAIN. " : "") + "Click to edit.";
+        phrase.textContent = displayText(line);
+        phrase.addEventListener("focus", function () { showInspect(line, phrase); });
+        phrase.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") event.preventDefault();
+        });
+        root.appendChild(phrase);
+        root.appendChild(document.createTextNode(" "));
       }
+      document.getElementById("inspect").textContent =
+        "Click a phrase to see its original machine text and flags.";
+    }
+
+    function showInspect(line, phrase) {
+      const flags = (line.flags || []).join(", ") || "none";
+      const inspect = document.getElementById("inspect");
+      inspect.innerHTML =
+        "<strong>L" + line.index + "</strong> · " +
+        (line.uncertain ? "UNCERTAIN" : "UNVERIFIED") + " · " +
+        line.text_source + " · flags=" + flags +
+        "<div class=\"machine\">MACHINE: </div>";
+      inspect.querySelector(".machine").appendChild(
+        document.createTextNode(line.machine_text || "")
+      );
+      inspect.appendChild(document.createTextNode(" Current display follows the editable phrase above."));
+      phrase.focus();
     }
 
     async function save() {
+      if (!reviewState) return;
+      const byIndex = {};
+      for (const line of reviewState.lines) byIndex[line.index] = line;
       const lines = [];
-      for (const wrap of document.querySelectorAll("#lines .line")) {
+      for (const phrase of document.querySelectorAll("#lyrics .phrase")) {
+        const index = Number(phrase.dataset.index);
+        const line = byIndex[index];
         lines.push({
-          index: Number(wrap.dataset.index),
-          human_text: wrap.querySelector("textarea").value,
+          index: index,
+          human_text: saveText(line, phrase.textContent || ""),
         });
       }
       const response = await fetch("/api/save", {

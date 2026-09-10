@@ -14,11 +14,12 @@ Then open: `http://127.0.0.1:8765/`
 
 ## What you see
 
-- Timed lines from the structured draft
-- Uncertainty flags (highlighted)
-- Read-only **MACHINE TEXT**
-- Editable **HUMAN TEXT**
-- Time-gap rows are visible and not fillable
+Lyrics display as wrapping paragraph text, not isolated machine-record rows.
+
+- Uncertain phrases have an amber highlight in the paragraph
+- Human-corrected phrases are underlined
+- Click a phrase to edit it and to see original machine text and flags
+- Time gaps are kept in the stored data but are not shown as separate reading rows
 
 ## Save
 

@@ -25,7 +25,7 @@ Structured lyrics are built from the existing faster-whisper large-v3 candidate 
 
 ## Review interface
 
-Local stdlib HTTP UI (`a2l/review.html` + `a2l/review_server.py`). Function over polish.
+Local stdlib HTTP UI (`a2l/review.html` + `a2l/review_server.py`). Lyrics read as wrapping paragraph text. Uncertain phrases are amber inline. Click a phrase to edit and to see original machine text.
 
 ## State model
 
@@ -40,7 +40,7 @@ Persistence: JSON file under the faster-whisper candidate job, not the whisper-1
 
 `py -3.14 -m pytest` — existing A2L tests plus `tests/test_review.py`.
 
-Locked-song UI test: corrected L36 through the page, saved, reloaded. Correction persisted. Machine text still `Hunkers with that old school funk`.
+Locked-song UI test: corrected L36 through the original cards, then L27 through the paragraph presentation (`stall` → `stomp`). Saved. Reloaded. Both corrections persisted. Machine text for L27 still `Hey, something we can stall to`. Machine text for L36 still `Hunkers with that old school funk`.
 
 ## Fixed-song validation
 

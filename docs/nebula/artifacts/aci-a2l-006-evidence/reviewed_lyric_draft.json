@@ -9,7 +9,7 @@
     "structured_lyric_draft": "NON_AUTHORITATIVE"
   },
   "counts": {
-    "human_corrected": 1,
+    "human_corrected": 2,
     "lines": 45,
     "uncertain_lines": 12
   },
@@ -416,18 +416,18 @@
       "uncertain": true
     },
     {
-      "corrected": false,
-      "corrected_at": null,
+      "corrected": true,
+      "corrected_at": "2026-09-10T21:58:19.582081+00:00",
       "end_seconds": 134.22,
       "flags": [],
-      "human_text": " Hey, something we can stall to",
+      "human_text": " Hey, something we can stomp to",
       "index": 27,
       "kind": "machine_line",
       "machine_text": " Hey, something we can stall to",
       "section_label": null,
       "start_seconds": 131.99999999999997,
       "status": "UNVERIFIED_MACHINE_TEXT",
-      "text_source": "MACHINE",
+      "text_source": "HUMAN_CORRECTED",
       "uncertain": false
     },
     {
@@ -552,7 +552,7 @@
     },
     {
       "corrected": true,
-      "corrected_at": "2026-09-10T21:48:39.386405+00:00",
+      "corrected_at": "2026-09-10T21:58:19.582081+00:00",
       "end_seconds": 164.74,
       "flags": [],
       "human_text": " Hook us with that old school funk",
