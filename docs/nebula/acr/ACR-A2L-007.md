@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-007 — Promote faster-whisper large-v3 to primary transcription engine  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-a2l-007-primary-faster-whisper`  
-**Base:** `feature/aci-a2l-006-human-review` @ `a637323`  
+**Commit:** `b17b281`  
 **Status:** COMPLETE on feature branch — not merged; lyrics not approved  
 **Product changes:** `python -m a2l transcribe` now uses faster-whisper / Whisper large-v3; whisper-1 is not the primary path; historical whisper-1 artifacts were not overwritten
 

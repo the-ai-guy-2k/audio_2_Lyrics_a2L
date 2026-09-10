@@ -58,7 +58,7 @@ faster-whisper reported no engine warnings on the locked-song run. `NO_SPEECH_LI
 
 ## Commit information
 
-Implementation commit is on `feature/aci-a2l-007-primary-faster-whisper`.
+Implementation commit is `b17b281` on `feature/aci-a2l-007-primary-faster-whisper`.
 
 ## Merge / push status
 

@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution promotes the validated faster
 ## Constraints honored
 
 - New branch `feature/aci-a2l-007-primary-faster-whisper` from `feature/aci-a2l-006-human-review` @ `a637323`.
+- Implementation commit: `b17b281`.
 - Did not branch from parked Parakeet work.
 - `python -m a2l transcribe` uses faster-whisper / Whisper large-v3.
 - Historical whisper-1 artifacts were not overwritten.
