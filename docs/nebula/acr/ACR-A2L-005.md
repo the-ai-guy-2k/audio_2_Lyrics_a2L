@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-005 — faster-whisper large-v3 transcription test  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-a2l-005-faster-whisper-large-v3`  
-**Commit:** implementation commit on this branch (recorded after first commit)  
+**Commit:** `b12b7b6`  
 **Status:** EXECUTED on feature branch — not merged; lyric quality not accepted by CAE  
 **Product changes:** isolated faster-whisper / large-v3 candidate only; whisper-1 pipeline unchanged
 

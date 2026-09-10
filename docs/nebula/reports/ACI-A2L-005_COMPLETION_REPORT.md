@@ -75,6 +75,10 @@ None that blocked execution. HuggingFace CDN download of `model.bin` (3,087,284,
 
 faster-whisper / large-v3 only. Parakeet not continued. No uncertainty, structuring, UI, review, or approval.
 
+## Commit information
+
+`b12b7b6` on `feature/aci-a2l-005-faster-whisper-large-v3` (implementation). Follow-up commit records this SHA in the ACR.
+
 ## Merge / push status
 
 **NOT MERGED. NOT PUSHED.**
