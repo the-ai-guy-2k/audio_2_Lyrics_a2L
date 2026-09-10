@@ -1,4 +1,4 @@
-"""Command-line entry for A2L audio ingestion."""
+"""Command-line entry for A2L ingest and CONTROL-A transcription."""
 
 from __future__ import annotations
 
@@ -7,17 +7,15 @@ import json
 import sys
 from pathlib import Path
 
-from a2l.errors import IngestionError
+from a2l.errors import IngestionError, TranscriptionError
 from a2l.ingest import ingest_wav
+from a2l.transcribe import transcribe_from_manifest
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="a2l",
-        description=(
-            "A2L audio ingestion (ACI-ATL-001). "
-            "Accepts a WAV file, preserves the original, and writes a CONTROL-A working artifact."
-        ),
+        description="A2L ingest (ACI-ATL-001) and CONTROL-A transcription (ACI-ATL-002).",
     )
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -31,6 +29,15 @@ def build_parser() -> argparse.ArgumentParser:
         default="artifacts",
         help="Directory that will hold ingest jobs (default: ./artifacts).",
     )
+
+    transcribe_parser = subparsers.add_parser(
+        "transcribe",
+        help="Transcribe CONTROL-A working audio from an ACI-ATL-001 ingest manifest.",
+    )
+    transcribe_parser.add_argument(
+        "manifest_path",
+        help="Path to ingest_manifest.json produced by ACI-ATL-001.",
+    )
     return parser
 
 
@@ -40,6 +47,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.command == "ingest":
         return _run_ingest(Path(args.wav_path), Path(args.artifact_root))
+    if args.command == "transcribe":
+        return _run_transcribe(Path(args.manifest_path))
     parser.error(f"Unknown command: {args.command}")
     return 1
 
@@ -63,6 +72,29 @@ def _run_ingest(wav_path: Path, artifact_root: Path) -> int:
         "control_baseline": "CONTROL_A",
         "produced_by": "ACI-ATL-001",
         "intended_consumer": "ACI-ATL-002",
+    }
+    print(json.dumps(payload, indent=2, sort_keys=True))
+    return 0
+
+
+def _run_transcribe(manifest_path: Path) -> int:
+    try:
+        result = transcribe_from_manifest(manifest_path)
+    except TranscriptionError as exc:
+        print(json.dumps({"ok": False, "error_code": exc.code, "error": exc.message}, indent=2), file=sys.stderr)
+        return 2
+    payload = {
+        "ok": True,
+        "job_id": result.job_id,
+        "draft_path": str(result.draft_path),
+        "text_path": str(result.text_path),
+        "authority": result.draft["authority"],
+        "approval_status": result.draft["approval_status"],
+        "usable_as_approved_lyrics": result.draft["usable_as_approved_lyrics"],
+        "flags": result.draft["flags"],
+        "engine": result.draft["engine"],
+        "produced_by": "ACI-ATL-002",
+        "control_baseline": result.draft["control_baseline"],
     }
     print(json.dumps(payload, indent=2, sort_keys=True))
     return 0

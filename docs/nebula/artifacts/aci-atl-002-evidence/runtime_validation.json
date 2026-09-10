@@ -1,0 +1,86 @@
+{
+  "ingest": {
+    "audio": {
+      "byte_size": 8864,
+      "channel_count": 1,
+      "codec": "PCM",
+      "container": "RIFF/WAVE",
+      "duration_seconds": 0.1,
+      "file_format": "WAV",
+      "frame_count": 4410,
+      "sample_rate_hz": 44100,
+      "sample_width_bytes": 2
+    },
+    "authoritative_source": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-002-3te_ugh9\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\authoritative_source\\source.wav",
+    "byte_identical": true,
+    "control_baseline": "CONTROL_A",
+    "derived_working": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-002-3te_ugh9\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\derived_working\\transcription_ready.wav",
+    "intended_consumer": "ACI-ATL-002",
+    "job_id": "f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969",
+    "manifest_path": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-002-3te_ugh9\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\ingest_manifest.json",
+    "ok": true,
+    "produced_by": "ACI-ATL-001",
+    "source_sha256": "f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969",
+    "working_sha256": "f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969"
+  },
+  "input_consumed": {
+    "control_baseline": "CONTROL_A",
+    "ingest_job_id": "f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969",
+    "kind": "generated_pcm_silence_wav",
+    "manifest_path": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-002-3te_ugh9\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\ingest_manifest.json",
+    "working_audio": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-002-3te_ugh9\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\derived_working\\transcription_ready.wav"
+  },
+  "live_error": null,
+  "live_transcription": {
+    "approval_status": "NOT_APPROVED",
+    "authority": "NON_AUTHORITATIVE_MACHINE_DRAFT",
+    "control_baseline": "CONTROL_A",
+    "draft_flags": [
+      "DO_NOT_TREAT_AS_LYRICS",
+      "ENGINE_TEXT_ON_NO_SIGNAL",
+      "NON_AUTHORITATIVE",
+      "NOT_APPROVED",
+      "NO_SIGNAL",
+      "NO_SPEECH_LIKELY"
+    ],
+    "draft_path": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-002-3te_ugh9\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\machine_transcription\\transcription_draft.json",
+    "engine": {
+      "architecture_status": "ACI-ATL-002_BASELINE_NOT_GVCA_LOCKED",
+      "configuration": {
+        "prompt": null,
+        "response_format": "verbose_json",
+        "stored_resampling": "none",
+        "temperature": 0,
+        "vocal_isolation": "not_applied"
+      },
+      "language": "english",
+      "model": "whisper-1",
+      "technology": "openai_whisper_api"
+    },
+    "engine_text": "you",
+    "flags": [
+      "DO_NOT_TREAT_AS_LYRICS",
+      "ENGINE_TEXT_ON_NO_SIGNAL",
+      "NON_AUTHORITATIVE",
+      "NOT_APPROVED",
+      "NO_SIGNAL",
+      "NO_SPEECH_LIKELY"
+    ],
+    "job_id": "f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969",
+    "ok": true,
+    "produced_by": "ACI-ATL-002",
+    "signal": {
+      "channel_count": 1,
+      "energy_known": true,
+      "no_signal": true,
+      "peak_full_scale": 0.0,
+      "rms_full_scale": 0.0,
+      "sample_count": 4410,
+      "sample_width_bytes": 2
+    },
+    "text_path": "C:\\Users\\tim\\AppData\\Local\\Temp\\a2l-aci-atl-002-3te_ugh9\\artifacts\\ingest\\f971a9aaa8626894132d1d3d7139e0f06b01f3beb894f680f5033eccfbbcd969\\machine_transcription\\transcription_draft.txt",
+    "usable_as_approved_lyrics": false
+  },
+  "real_mastered_wav_used": false,
+  "real_song_validation": "NOT_CLAIMED"
+}

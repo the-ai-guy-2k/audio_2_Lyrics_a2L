@@ -2,9 +2,12 @@
 
 A2L recovers lyrics from artist-owned/mastered audio.
 
-**Current capability (ACI-ATL-001):** WAV ingestion, validation, metadata extraction, and CONTROL-A working-artifact preparation.
+**Current capability:**
 
-**Not implemented:** transcription, lyric generation, vocal isolation, stem separation, normalization, resampling.
+- ACI-ATL-001: WAV ingestion, CONTROL-A working artifact, ingest manifest
+- ACI-ATL-002: CONTROL-A machine transcription (non-authoritative draft)
+
+**Not implemented:** lyric structuring, human approval, approved lyric artifacts, vocal isolation, stem separation, normalization, resampling.
 
 ## Governing product rule
 
@@ -24,13 +27,22 @@ ACI-ATL-001 started from an empty repository. This branch establishes the first 
 python -m a2l ingest path/to/mastered.wav --artifact-root artifacts
 ```
 
-Requires Python 3.11+. Runtime dependencies: none (standard library only).
+Requires Python 3.11+. Ingest has no third-party runtime dependencies. Transcription uses the OpenAI client when `OPENAI_API_KEY` is set (`pip install -e ".[dev,transcribe]"`).
 
 ```bash
-pip install -e ".[dev]"
+pip install -e ".[dev,transcribe]"
 python -m pytest
 python scripts/validate_aci_atl_001.py
+python scripts/validate_aci_atl_002.py
 ```
+
+## Transcribe CONTROL-A audio
+
+```bash
+python -m a2l transcribe artifacts/ingest/<job_id>/ingest_manifest.json
+```
+
+Output is a **machine draft**, never approved lyrics. Details: [docs/TRANSCRIPTION.md](docs/TRANSCRIPTION.md)
 
 ## Artifact flow
 
@@ -46,6 +58,9 @@ artifacts/ingest/<sha256>/
   authoritative_source/source.wav          AUTHORITATIVE SOURCE (immutable)
   derived_working/transcription_ready.wav  DERIVED WORKING (CONTROL A, untreated)
   ingest_manifest.json                      contract for ACI-ATL-002
+  machine_transcription/                   ACI-ATL-002 machine draft (NOT approved lyrics)
+    transcription_draft.json
+    transcription_draft.txt
 ```
 
 The working artifact is a **byte-identical copy** of the source WAV. No loudness processing, resampling, mono mixdown, or vocal isolation is applied. That preserves untreated mastered audio as CONTROL A for later transcription experiments.
@@ -54,6 +69,8 @@ Details: [docs/AUDIO_INGESTION.md](docs/AUDIO_INGESTION.md)
 
 ACI-ATL-002 handoff: [docs/ACI_ATL_002_HANDOFF.md](docs/ACI_ATL_002_HANDOFF.md)
 
+Transcription draft contract: [docs/TRANSCRIPTION_DRAFT_CONTRACT.md](docs/TRANSCRIPTION_DRAFT_CONTRACT.md)
+
 ## Branching
 
-Feature work lives on `feature/aci-atl-001` until validated. Do not treat this branch as deployable until an Operator/QEN merge is authorized.
+Feature work lives on `feature/aci-atl-###` until validated. Do not treat this branch as deployable until an Operator/QEN merge is authorized.

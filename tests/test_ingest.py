@@ -151,11 +151,11 @@ def test_no_out_of_scope_capabilities_imported() -> None:
     import a2l
     import sys
 
-    forbidden = {"demucs", "whisper", "faster_whisper", "openai", "torch"}
+    forbidden = {"demucs", "whisper", "faster_whisper", "torch"}
     loaded = {name.split(".")[0] for name in sys.modules}
     assert forbidden.isdisjoint(loaded)
-    assert not hasattr(a2l, "transcribe")
     assert not hasattr(a2l, "isolate_vocals")
+    assert not hasattr(a2l, "approve_lyrics")
 
 
 def test_pcm_fixture_is_valid_wav() -> None:

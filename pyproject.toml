@@ -5,13 +5,14 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "a2l"
 version = "0.1.0"
-description = "Audio to Lyrics (A2L) — audio ingestion and baseline artifact preparation"
+description = "Audio to Lyrics (A2L) — ingest and CONTROL-A transcription baseline"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
+transcribe = ["openai>=1.0"]
 
 [project.scripts]
 a2l = "a2l.cli:main"
