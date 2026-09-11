@@ -2,105 +2,86 @@
 
 A2L recovers lyrics from artist-owned/mastered audio.
 
-**Current capability:**
+**Release baseline:** `deployable` (ACI-A2L-017, sourced from validated ACI-A2L-016). New feature work branches from `deployable`.
 
-- ACI-ATL-001: WAV ingestion, CONTROL-A working artifact, ingest manifest
-- ACI-ATL-002: CONTROL-A machine transcription (non-authoritative draft)
-- ACI-A2L-007: faster-whisper / Whisper large-v3 is the primary transcription engine
-- ACI-ATL-003: uncertainty handling (flag, do not invent)
-- ACI-ATL-004: lyric structuring (structure, do not rewrite)
-- ACI-A2L-006: human review and correction (reviewed draft, not approved until explicit confirmation)
-- ACI-A2L-008: explicit human approval and approved lyric artifacts
-- ACI-A2L-010: operator application frontend
+## Operator application (product-facing)
 
-**Not implemented:** vocal isolation, stem separation, normalization, resampling.
+This is the supported product path.
 
-## Governing product rule
+**PRIMARY engine:** faster-whisper / Whisper large-v3  
+**ALTERNATE engine:** NVIDIA Parakeet / TDT-0.6B-V2 (optional; not promoted)
 
-Artist-owned/mastered audio is authoritative.
-
-A2L never modifies or replaces the authoritative source artifact. Machine-derived files are working artifacts only.
-
-## Current Truth
-
-Remote: https://github.com/the-ai-guy-2k/audio_2_Lyrics_a2L.git
-
-ACI-ATL-001 started from an empty repository. This branch establishes the first bounded capability: audio ingestion.
-
-## Ingest a WAV
+Primary supported local start (this workstation):
 
 ```bash
-python -m a2l ingest path/to/mastered.wav --artifact-root artifacts
+.venv-faster-whisper\Scripts\python.exe -m a2l app
 ```
 
-Requires Python 3.11+. Ingest has no third-party runtime dependencies. Primary transcription uses faster-whisper / Whisper large-v3 (`pip install -e ".[dev,transcribe]"`). On this workstation use isolated `.venv-faster-whisper` (Python 3.12).
+Open **http://127.0.0.1:8780/**
 
-```bash
-pip install -e ".[dev,transcribe]"
-python -m pytest
-python scripts/validate_aci_atl_001.py
-python scripts/validate_aci_atl_002.py
-python scripts/validate_aci_atl_003.py
-python scripts/validate_aci_atl_004.py
-```
+Full procedure, venv setup, and Parakeet alternate start: [docs/OPERATOR_START.md](docs/OPERATOR_START.md)
 
-## Transcribe CONTROL-A audio
+Default `python` on this workstation is Python 3.14. It can open the UI after `pip install -e ".[dev]"`, but it does **not** include faster-whisper. Extract with the primary engine requires the isolated Python 3.12 `.venv-faster-whisper` above. If that dependency is missing, extract reports that the engine is unavailable; it does not silently invent lyrics.
 
-```bash
-python -m a2l transcribe artifacts/ingest/<job_id>/ingest_manifest.json
-```
-
-Primary engine is **faster-whisper / Whisper large-v3**. Output is a **machine draft**, never approved lyrics. Historical OpenAI whisper-1 artifacts are not overwritten. Details: [docs/TRANSCRIPTION.md](docs/TRANSCRIPTION.md)
-
-## Flag uncertainty
-
-```bash
-python -m a2l uncertainty artifacts/ingest/<job_id>/a2l_pipeline/machine_transcription/transcription_draft.json
-```
-
-This flags questionable spans. It does not rewrite or approve lyrics. Details: [docs/UNCERTAINTY.md](docs/UNCERTAINTY.md)
-
-## Structure a lyric draft
-
-```bash
-python -m a2l structure artifacts/ingest/<job_id>/a2l_pipeline/uncertainty/uncertainty_report.json
-```
-
-This produces a timed, annotated lyric draft for human review. It does not rewrite or approve lyrics. Details: [docs/LYRIC_STRUCTURING.md](docs/LYRIC_STRUCTURING.md)
-
-## Application
-
-```bash
-python -m a2l app
-```
-
-Open http://127.0.0.1:8780/
-
-Upload a WAV, extract lyrics, review, approve, and download. Details: [docs/FRONTEND.md](docs/FRONTEND.md)
-
-## Human review and correction
-
-The review UI consumes the primary faster-whisper large-v3 structured draft. Save does not approve lyrics. Approval is a separate explicit operator action.
+## Engineering review interface (not the product path)
 
 ```bash
 python -m a2l review
 ```
 
-Open http://127.0.0.1:8765/
+Open **http://127.0.0.1:8765/**
 
-Details: [docs/HUMAN_REVIEW.md](docs/HUMAN_REVIEW.md)
+This is the engineering review page. It is not the operator application. Operators use http://127.0.0.1:8780/. Details: [docs/HUMAN_REVIEW.md](docs/HUMAN_REVIEW.md)
 
-## Explicit approval
+## Current capability
 
-After review, the operator must explicitly mark lyrics APPROVED. That writes:
+- ACI-ATL-001: WAV ingestion, CONTROL-A working artifact, ingest manifest
+- ACI-ATL-002: CONTROL-A machine transcription (non-authoritative draft)
+- ACI-A2L-007: faster-whisper / Whisper large-v3 is the **primary** transcription engine
+- ACI-A2L-012: NVIDIA Parakeet / TDT-0.6B-V2 is an **alternate** engine (not promoted)
+- ACI-ATL-003: uncertainty handling (flag, do not invent)
+- ACI-ATL-004: lyric structuring (structure, do not rewrite)
+- ACI-A2L-006: human review and correction (reviewed draft, not approved until explicit confirmation)
+- ACI-A2L-008: explicit human approval and approved lyric artifacts
+- ACI-A2L-010: operator application frontend
+- ACI-A2L-013: derived Standard Lyric Sheet after approval
+- ACI-A2L-014: optional song title and artist (WAV filename is not the title)
+- ACI-A2L-016: download filenames from operator-supplied title/artist
 
-```text
-artifacts/ingest/<sha256>/a2l_pipeline/approved_lyrics/
-  approved_lyrics.txt
-  approved_lyrics.json
+**Not implemented:** vocal isolation, stem separation, normalization, resampling, cloud deploy.
+
+## Governing product rule
+
+Artist-owned/mastered audio is authoritative.
+
+A2L never modifies or replaces the authoritative source artifact. Machine-derived files are working artifacts only. FLAG IT — DO NOT INVENT IT.
+
+## Current Truth
+
+Remote: https://github.com/the-ai-guy-2k/audio_2_Lyrics_a2L.git
+
+The formal validated release branch is `deployable`.
+
+## Application workflow
+
+Upload WAV → optional Song title / Artist → Extract lyrics → Review / correct → Approve → Output (Standard Lyric Sheet, with optional Plain Text / Structured Lyrics). Download names use supplied metadata when present.
+
+Details: [docs/FRONTEND.md](docs/FRONTEND.md), [docs/SONG_METADATA.md](docs/SONG_METADATA.md), [docs/APPROVED_EXPORT.md](docs/APPROVED_EXPORT.md)
+
+The locked Jay song is **APPROVED** (ACI-A2L-009 Amendment 01, revision 2). Details: [docs/APPROVED_LYRICS.md](docs/APPROVED_LYRICS.md)
+
+## Engineering CLI (not required to use the operator application)
+
+```bash
+python -m a2l ingest path/to/mastered.wav --artifact-root artifacts
+python -m a2l transcribe artifacts/ingest/<job_id>/ingest_manifest.json
+python -m a2l uncertainty artifacts/ingest/<job_id>/a2l_pipeline/machine_transcription/transcription_draft.json
+python -m a2l structure artifacts/ingest/<job_id>/a2l_pipeline/uncertainty/uncertainty_report.json
 ```
 
-The locked Jay song is **APPROVED** (ACI-A2L-009 Amendment 01, revision 2). Prior approval is archived. Details: [docs/APPROVED_LYRICS.md](docs/APPROVED_LYRICS.md)
+Ingest has no third-party runtime dependencies. Primary transcription uses faster-whisper / Whisper large-v3 in `.venv-faster-whisper` (`pip install -e ".[dev,transcribe]"` on Python 3.12). Tests: `python -m pytest` (ignore untracked parked Parakeet-candidate helpers).
+
+Contracts: [docs/AUDIO_INGESTION.md](docs/AUDIO_INGESTION.md), [docs/TRANSCRIPTION.md](docs/TRANSCRIPTION.md), [docs/UNCERTAINTY.md](docs/UNCERTAINTY.md), [docs/LYRIC_STRUCTURING.md](docs/LYRIC_STRUCTURING.md)
 
 ## Artifact flow
 
@@ -108,41 +89,22 @@ The locked Jay song is **APPROVED** (ACI-A2L-009 Amendment 01, revision 2). Prio
 Operator WAV (read-only)
         │
         ▼
-   validate WAV
-   extract metadata
-        │
-        ▼
 artifacts/ingest/<sha256>/
   authoritative_source/source.wav          AUTHORITATIVE SOURCE (immutable)
   derived_working/transcription_ready.wav  DERIVED WORKING (CONTROL A, untreated)
-  ingest_manifest.json                      contract for transcription
+  ingest_manifest.json
   machine_transcription/                   HISTORICAL whisper-1 baseline (not overwritten)
-    transcription_draft.json
-    transcription_draft.txt
-  a2l_pipeline/                             PRIMARY faster-whisper / large-v3 path
-    machine_transcription/                   ACI-A2L-007 machine draft (NOT approved lyrics)
-      transcription_draft.json
-      transcription_draft.txt
-    uncertainty/                             ACI-ATL-003 flags (NOT approved lyrics)
-      uncertainty_report.json
-      uncertainty_report.txt
-    structured_lyrics/                      ACI-ATL-004 structured draft (NOT approved lyrics)
-      structured_lyric_draft.json
-      structured_lyric_draft.txt
-    human_review/reviewed_lyric_draft.json   ACI-A2L-006 reviewed draft (NOT approved until ACI-A2L-008)
-    approved_lyrics/                         ACI-A2L-008 authoritative lyrics (only after explicit approval)
+  a2l_pipeline/                            PRIMARY faster-whisper / large-v3 path
+    ... uncertainty / structured_lyrics / human_review ...
+    approved_lyrics/                       authoritative lyrics (only after explicit approval)
       approved_lyrics.txt
       approved_lyrics.json
+      exports/                             derived presentations (not a substitute)
+  a2l_pipeline_parakeet/                   ALTERNATE Parakeet path (not promoted)
 ```
 
-The working artifact is a **byte-identical copy** of the source WAV. No loudness processing, resampling, mono mixdown, or vocal isolation is applied. That preserves untreated mastered audio as CONTROL A for later transcription experiments.
-
-Details: [docs/AUDIO_INGESTION.md](docs/AUDIO_INGESTION.md)
-
-ACI-ATL-002 handoff: [docs/ACI_ATL_002_HANDOFF.md](docs/ACI_ATL_002_HANDOFF.md)
-
-Transcription draft contract: [docs/TRANSCRIPTION_DRAFT_CONTRACT.md](docs/TRANSCRIPTION_DRAFT_CONTRACT.md)
+The working WAV is a **byte-identical copy** of the source. No loudness processing, resampling, mono mixdown, or vocal isolation is applied.
 
 ## Branching
 
-Feature work lives on `feature/aci-atl-###` until validated. Do not treat this branch as deployable until an Operator/QEN merge is authorized.
+New A2L capabilities branch from `deployable`. Feature ACI branches are not the release baseline until promoted.

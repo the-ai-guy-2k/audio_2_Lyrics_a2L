@@ -2,21 +2,25 @@
 
 The operator application coordinates the validated A2L pipeline. It does not replace transcription, review, or approval rules.
 
+This is the **product-facing** path: **http://127.0.0.1:8780/**
+
+The engineering review interface at http://127.0.0.1:8765/ (`python -m a2l review`) is a separate page. Operators start the application, not the engineering review UI.
+
 ## Start
 
-```bash
-python -m a2l app
-```
-
-Open http://127.0.0.1:8780/
-
-On this workstation, real song extraction uses isolated `.venv-faster-whisper` (Python 3.12) so faster-whisper / Whisper large-v3 is available. Established start procedure: [OPERATOR_START.md](OPERATOR_START.md).
+Primary supported local start (faster-whisper / Whisper large-v3 extract):
 
 ```bash
 .venv-faster-whisper\Scripts\python.exe -m a2l app
 ```
 
-The engineering review page remains `python -m a2l review` at http://127.0.0.1:8765/
+Open http://127.0.0.1:8780/
+
+Established procedure: [OPERATOR_START.md](OPERATOR_START.md)
+
+`python -m a2l app` on default Python 3.14 starts the UI only. It cannot run faster-whisper extraction on this workstation.
+
+NVIDIA Parakeet / TDT-0.6B-V2 is an **alternate** engine in a separate `.venv-parakeet`. It is not primary.
 
 ## Workflow
 

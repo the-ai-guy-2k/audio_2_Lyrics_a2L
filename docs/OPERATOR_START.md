@@ -1,6 +1,16 @@
-# A2L operator application start (ACI-A2L-015)
+# A2L operator application start
 
-The operator application is a local stdlib web app. It is not a hosted product.
+The operator application is the **product-facing** path. It is a local stdlib web app, not a hosted product.
+
+**Operator application:** http://127.0.0.1:8780/  
+**Engineering review interface:** http://127.0.0.1:8765/ (`python -m a2l review`) — not the product path.
+
+## Engines
+
+| Role | Engine |
+| --- | --- |
+| **PRIMARY** | faster-whisper / Whisper large-v3 |
+| **ALTERNATE** | NVIDIA Parakeet / TDT-0.6B-V2 (optional; not promoted) |
 
 ## Supported start (primary extract)
 
@@ -23,7 +33,7 @@ Pinned packages: [requirements-faster-whisper.txt](../requirements-faster-whispe
 
 ## UI-only / tests
 
-The default Python 3.11+ interpreter can start the application after `pip install -e ".[dev]"`:
+The default Python 3.11+ interpreter can start the **UI** after `pip install -e ".[dev]"`:
 
 ```bash
 python -m a2l app
@@ -31,17 +41,27 @@ python -m a2l app
 
 Same URL: http://127.0.0.1:8780/
 
-That interpreter on this workstation is Python 3.14.3 and does **not** include faster-whisper. Upload and review UI load. Extract with FASTER-WHISPER returns: "That transcription engine is not available in this environment."
+That interpreter on this workstation is Python 3.14.3 and does **not** include faster-whisper. Upload and review UI load. Extract with FASTER-WHISPER returns: "That transcription engine is not available in this environment." Do not treat default Python 3.14 as capable of faster-whisper extraction.
 
 ## Alternate engine (NVIDIA Parakeet)
 
-Do not promote Parakeet. It is optional.
+Parakeet is alternate. It is not the primary engine and is not promoted.
 
 ```bash
 .venv-parakeet\Scripts\python.exe -m a2l app
 ```
 
 Still http://127.0.0.1:8780/ unless `--port` is changed. Isolated setup: [requirements-nvidia-parakeet.txt](../requirements-nvidia-parakeet.txt). Python 3.12, nemo-toolkit 3.0.0, local checkpoint `%USERPROFILE%\.cache\a2l-parakeet\parakeet-tdt-0.6b-v2.nemo`. This workstation previously needed several GB of memory; Parakeet is not the default.
+
+## Engineering review interface
+
+```bash
+python -m a2l review
+```
+
+Open http://127.0.0.1:8765/
+
+This page is for engineering review of the primary pipeline draft. It is not the operator application. Title/artist intake lives on the operator app at :8780.
 
 ## What the operator does not need
 
