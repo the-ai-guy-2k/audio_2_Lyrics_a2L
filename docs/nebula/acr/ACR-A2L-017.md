@@ -28,6 +28,6 @@ RECOMMENDATION: PASS
 
 ## Gaps
 
-- `gh` is not authenticated on this workstation. Remote push uses git credentials if available.
+- `gh` is not authenticated; `git push` succeeded with existing git credentials.
 - No original 011 completion report exists; ACR-A2L-011 records that gap.
 - Default Python 3.14 still cannot extract with faster-whisper; that is documented, not a promotion defect.

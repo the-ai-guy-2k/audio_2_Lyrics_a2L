@@ -71,5 +71,5 @@ Root README now leads with the operator application, primary `.venv-faster-whisp
 | `deployable` | `57bebf1bfec1794e697c2a135b434ee5ce5e0c24` |
 | `main` | created at the same commit (no prior `main` history) |
 | Cloud deploy | not performed |
-
-Remote push results are recorded after `git push`.
+| Remote `deployable` | PUSHED (`origin/deployable` @ `55ed12f`, new branch) |
+| Remote `main` | PUSHED (`origin/main` @ `55ed12f`, new branch; no prior remote history) |
