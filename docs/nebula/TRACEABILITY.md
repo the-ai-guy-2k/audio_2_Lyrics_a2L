@@ -12,4 +12,4 @@
 | [ACI-A2L-008](aci/ACI-A2L-008.md) | Approved lyric artifact | [ACR-A2L-008](acr/ACR-A2L-008.md) | `feature/aci-a2l-008-approved-lyrics` @ `ae12419` | EXECUTED on feature branch; not merged; locked song not approved |
 | [ACI-A2L-009](aci/ACI-A2L-009.md) | Real-song end-to-end validation | [ACR-A2L-009](acr/ACR-A2L-009.md) | `feature/aci-a2l-009-real-song-validation` @ `b64b85f` | EXECUTED on feature branch; Amendment 01; locked song Operator-approved revision 2; PARTIAL PASS |
 | [ACI-A2L-010](aci/ACI-A2L-010.md) | A2L application frontend | [ACR-A2L-010](acr/ACR-A2L-010.md) | `feature/aci-a2l-010-frontend` @ `f1b5bfa` | EXECUTED on feature branch; not merged; fixture-validated operator app |
-| [ACI-A2L-011](aci/ACI-A2L-011.md) | NVIDIA Parakeet candidate evaluation | — | `feature/aci-a2l-011-nvidia-candidate` | EXECUTED on feature branch; awaiting Operator quality review; not promoted; not merged |
+| [ACI-A2L-011](aci/ACI-A2L-011.md) | NVIDIA Parakeet candidate evaluation | — | `feature/aci-a2l-011-nvidia-candidate` @ `7f3ae80` | EXECUTED on feature branch; awaiting Operator quality review; not promoted; not merged |
