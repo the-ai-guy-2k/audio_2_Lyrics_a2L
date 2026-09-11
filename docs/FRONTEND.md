@@ -10,7 +10,7 @@ python -m a2l app
 
 Open http://127.0.0.1:8780/
 
-On this workstation, real song extraction uses isolated `.venv-faster-whisper` (Python 3.12) so faster-whisper / Whisper large-v3 is available:
+On this workstation, real song extraction uses isolated `.venv-faster-whisper` (Python 3.12) so faster-whisper / Whisper large-v3 is available. Established start procedure: [OPERATOR_START.md](OPERATOR_START.md).
 
 ```bash
 .venv-faster-whisper\Scripts\python.exe -m a2l app

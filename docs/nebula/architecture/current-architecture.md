@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-014 on `feature/aci-a2l-014-song-metadata`.
+**Authority:** ACI-A2L-015 validation of the ACI-A2L-014 implementation on `feature/aci-a2l-015-release-readiness`.
 
 ## Implemented flow
 

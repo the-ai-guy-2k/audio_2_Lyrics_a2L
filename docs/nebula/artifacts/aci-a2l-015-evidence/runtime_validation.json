@@ -1,0 +1,53 @@
+{
+  "aci": "ACI-A2L-015",
+  "product": "Audio to Lyrics (A2L)",
+  "date": "2026-09-11",
+  "branch": "feature/aci-a2l-015-release-readiness",
+  "base_commit": "1f57a7eb1f60ace0a71501974ef498afcdd87dd3",
+  "application_url": "http://127.0.0.1:8780/",
+  "startup_smoke": {
+    "command": "python -m a2l app --host 127.0.0.1 --port 8799 --no-browser",
+    "python": "3.14.3",
+    "GET /": 200,
+    "GET /api/session": 200,
+    "session_has_job": false
+  },
+  "locked_song": {
+    "sha256": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+    "source_matches": true,
+    "working_byte_identical": true,
+    "approved_txt_sha256": "8da23213e2d0b3fb62ae84a9d059b026117baf793e8cacbfc61db857ad2f476c",
+    "approved_txt_matches_009_evidence": true,
+    "approved_json_sha256": "d9e4c685d09067fe098867c245f2cc63addbcfa400e79962f8c088bb609bc3e4",
+    "faster_whisper_draft_sha256": "3c645aeddce7b7df29e8ce93653c273de3dc1f2e561f33a16af5f3a8cacb0919",
+    "whisper1_json_sha256": "82ca9474e3cc0179ffdb6e7948df081c4785cd29f0e9a7526d3d318525055471",
+    "whisper1_txt_sha256": "c05fc1227ad6842bb4efa9cf1c375bd392c5fe5361e5a9ad6d49e22864147886",
+    "approval_status": "APPROVED",
+    "revision": 2,
+    "automatic": false,
+    "engine": "faster-whisper",
+    "model": "large-v3",
+    "song_title": null,
+    "artist": null,
+    "altered_by_this_aci": false,
+    "transcription_rerun": false
+  },
+  "regression": {
+    "python": "3.14.3",
+    "command": "python -m pytest tests --ignore=tests/test_parakeet_candidate.py",
+    "passed": 97,
+    "failed": 0,
+    "ignored": [
+      {
+        "path": "tests/test_parakeet_candidate.py",
+        "reason": "Untracked parked ACI-A2L-005 isolation helper; depends on untracked scripts/run_parakeet_candidate.py. Not part of the tracked suite."
+      }
+    ]
+  },
+  "engines": {
+    "primary": "faster-whisper / Whisper large-v3",
+    "alternate": "NVIDIA Parakeet / TDT-0.6B-V2",
+    "parakeet_promoted": false,
+    "faster_whisper_removed": false
+  }
+}
