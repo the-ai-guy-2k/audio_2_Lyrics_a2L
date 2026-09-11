@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution adds a usable operator-facing
 ## Constraints honored
 
 - New branch `feature/aci-a2l-010-frontend` from `feature/aci-a2l-009-real-song-validation` @ `209569359f500cb8986743a5cb603ca59b95807d`.
+- Implementation commit: `f1b5bfa`.
 - Transcription engine unchanged: faster-whisper / Whisper large-v3.
 - Review/provenance/approval/reopen behavior unchanged.
 - Save is not approval. Approval requires `confirm=true`.

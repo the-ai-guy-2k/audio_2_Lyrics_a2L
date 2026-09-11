@@ -20,6 +20,7 @@ Not merged. Not pushed.
 | --- | --- |
 | Branch | `feature/aci-a2l-010-frontend` |
 | Base | `feature/aci-a2l-009-real-song-validation` @ `209569359f500cb8986743a5cb603ca59b95807d` |
+| Implementation | `f1b5bfa8f9b5d5b702f0fcae07e8e9b4264ac90f` |
 
 ## Frontend architecture
 

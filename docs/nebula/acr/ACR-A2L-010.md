@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-010 — A2L application frontend  
 **Date recorded:** 2026-09-10  
 **Branch:** `feature/aci-a2l-010-frontend`  
-**Commit:** see follow-up SHA record  
+**Commit:** `f1b5bfa`  
 **Status:** COMPLETE on feature branch — not merged  
 **Product changes:** operator web application coordinating the existing pipeline.
 
