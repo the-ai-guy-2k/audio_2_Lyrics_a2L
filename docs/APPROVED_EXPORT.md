@@ -1,4 +1,4 @@
-# Approved lyric export formatting (ACI-A2L-013)
+# Approved lyric export formatting (ACI-A2L-013 / ACI-A2L-016)
 
 After explicit approval, A2L presents the approved lyrics as a readable lyric sheet. This does not replace the canonical approved artifacts.
 
@@ -20,11 +20,26 @@ Derived files have authority `DERIVED_EXPORT_PRESENTATION` and `usable_as_approv
 
 Unapproved lyrics cannot generate these exports.
 
+Internal derived filenames under `exports/` stay stable (`lyric-sheet.txt`, `lyrics.txt`, `structured-lyrics.txt`). User-downloaded names are separate (ACI-A2L-016).
+
 ## Default output
 
 STANDARD LYRIC SHEET. After approval the operator application moves to **Output** and shows that sheet. No format choice is required to see the normal result.
 
 If the approved JSON already has `song_title`/`title` and/or `artist` from operator intake (ACI-A2L-014), those values are shown above the lyrics. Missing metadata is not invented. The WAV filename is not used as a title. See [SONG_METADATA.md](SONG_METADATA.md).
+
+## Download filenames (ACI-A2L-016)
+
+User-downloaded files are named from operator-supplied Artist and Song Title. The WAV filename is not used. Missing fields are not invented. Sanitization applies to the download filename only; `approved_lyrics.json` is not rewritten.
+
+| Metadata present | STANDARD LYRIC SHEET | PLAIN TEXT | STRUCTURED LYRICS |
+| --- | --- | --- | --- |
+| Artist + Song Title | `<Artist> - <Song Title>.txt` | `<Artist> - <Song Title> - Plain Text.txt` | `<Artist> - <Song Title> - Structured Lyrics.txt` |
+| Song Title only | `<Song Title>.txt` | `<Song Title> - Plain Text.txt` | `<Song Title> - Structured Lyrics.txt` |
+| Artist only | `<Artist> - Lyrics.txt` | `<Artist> - Lyrics - Plain Text.txt` | `<Artist> - Lyrics - Structured Lyrics.txt` |
+| Neither | `lyrics.txt` | `lyrics - Plain Text.txt` | `lyrics - Structured Lyrics.txt` |
+
+Example with both fields: `Jay Garrett - Stomp To.txt`.
 
 ## Format selector
 
@@ -41,7 +56,7 @@ Preview, Copy, and Download all use the currently selected format.
 Approve → Output.
 
 - Preview: `GET /api/export?format=...`
-- Download: `GET /export/output.txt?format=...`
+- Download: `GET /export/output.txt?format=...` (`Content-Disposition` uses the metadata-based download name)
 - Canonical artifacts remain at `GET /export/approved_lyrics.txt` and `GET /export/approved_lyrics.json`
 
 Copy uses the text currently shown in the preview.

@@ -206,9 +206,11 @@
     async function refreshSession() {
       const response = await fetch("/api/session");
       const session = await response.json();
-      $("filename").textContent = session.filename || "None";
+      $("filename").textContent = ($("file").files[0] && $("file").files[0].name) || session.filename || "None";
       $("process-status").textContent = session.status || "";
-      $("upload-error").textContent = session.screen === "upload" ? (session.error || "") : "";
+      if (session.error) {
+        $("upload-error").textContent = session.error;
+      }
       const canReview = session.can_review;
       const canExport = session.can_export;
       document.querySelector('nav button[data-screen="processing"]').disabled = !(session.busy || session.has_job);
@@ -263,6 +265,7 @@
       if (!parts.length) return "No song title or artist was entered.";
       return parts.join(" — ");
     }
+    function displayText(line) {
       return (line.human_text || "").replace(/\s+/g, " ").trim();
     }
     function saveText(line, edited) {
@@ -310,18 +313,26 @@
 
     async function loadOutput() {
       const format = $("output-format").value || "standard-lyric-sheet";
-      const response = await fetch("/api/export?format=" + encodeURIComponent(format));
-      const payload = await response.json();
-      if (!payload.ok) {
+      try {
+        const response = await fetch("/api/export?format=" + encodeURIComponent(format));
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("output-preview").textContent = "";
+          $("copy-output").disabled = true;
+          $("download-output").style.pointerEvents = "none";
+          return;
+        }
+        $("output-preview").textContent = payload.text || "";
+        $("download-output").href = "/export/output.txt?format=" + encodeURIComponent(payload.format);
+        $("download-output").setAttribute("download", payload.download_name || "lyrics.txt");
+        $("copy-output").disabled = false;
+        $("download-output").style.pointerEvents = "auto";
+      } catch (err) {
         $("output-preview").textContent = "";
         $("copy-output").disabled = true;
         $("download-output").style.pointerEvents = "none";
-        return;
+        $("output-note").textContent = "The lyric sheet is not available. Refresh the page and try again.";
       }
-      $("output-preview").textContent = payload.text || "";
-      $("download-output").href = "/export/output.txt?format=" + encodeURIComponent(payload.format);
-      $("copy-output").disabled = false;
-      $("download-output").style.pointerEvents = "auto";
     }
 
     function showInspect(line) {
@@ -350,14 +361,19 @@
       body.append("artist", $("artist").value);
       showScreen("processing");
       $("process-status").textContent = "Reading the song.";
-      const response = await fetch("/api/extract", { method: "POST", body: body });
-      const payload = await response.json();
-      if (!payload.ok) {
+      try {
+        const response = await fetch("/api/extract", { method: "POST", body: body });
+        const payload = await response.json();
+        if (!payload.ok) {
+          showScreen("upload");
+          $("upload-error").textContent = payload.error || "Could not use that file.";
+          return;
+        }
+        await refreshSession();
+      } catch (err) {
         showScreen("upload");
-        $("upload-error").textContent = payload.error || "Could not use that file.";
-        return;
+        $("upload-error").textContent = "Could not start lyric extraction. Refresh the page and try again.";
       }
-      refreshSession();
     });
 
     $("save").addEventListener("click", async function () {

@@ -36,7 +36,7 @@ artifacts/ingest/<sha256>/a2l_pipeline/approved_lyrics/
     export_provenance.json
 ```
 
-The TXT is clean lyric lines only: current `human_text` for non-gap rows, one phrase per line. It does not include timestamps, uncertainty flags, confidence, machine provenance labels, or review-interface metadata. Derived export files must not be used as a substitute for these canonical files. See [APPROVED_EXPORT.md](APPROVED_EXPORT.md).
+The TXT is clean lyric lines only: current `human_text` for non-gap rows, one phrase per line. It does not include timestamps, uncertainty flags, confidence, machine provenance labels, or review-interface metadata. Derived export files must not be used as a substitute for these canonical files. User-downloaded names (ACI-A2L-016) do not rename these canonical files. See [APPROVED_EXPORT.md](APPROVED_EXPORT.md).
 
 The JSON retains provenance: source SHA, transcription engine/model, approval state, approval event, the approved text, and operator-supplied `song_title` / `artist` when provided (ACI-A2L-014).
 

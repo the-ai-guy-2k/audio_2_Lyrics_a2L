@@ -43,3 +43,8 @@ approved lyric body...
 If only one exists, that one is shown. If neither exists, the lyric body is shown with no invented header.
 
 PLAIN TEXT remains the canonical lyric body. STRUCTURED LYRICS remains section presentation only.
+
+## Download filenames
+
+User-downloaded lyric files use the same operator-supplied fields (ACI-A2L-016). Example when both exist: `Jay Garrett - Stomp To.txt`. Title-only, artist-only, and missing-metadata fallbacks are documented in [APPROVED_EXPORT.md](APPROVED_EXPORT.md). Filename sanitization does not change stored `song_title` / `artist`.
+

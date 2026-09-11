@@ -307,7 +307,9 @@ def test_extract_review_save_approve_export(tmp_path: Path, monkeypatch) -> None
         status, data, headers = _request(port, "GET", "/export/output.txt?format=standard-lyric-sheet")
         assert status == 200
         assert data.decode("utf-8") == sheet["text"]
-        assert "lyric-sheet.txt" in (headers.getheader("Content-Disposition") or "")
+        disposition = headers.getheader("Content-Disposition") or ""
+        assert "lyrics.txt" in disposition
+        assert sheet["download_name"] == "lyrics.txt"
         assert _request(port, "GET", "/export/approved_lyrics.txt")[1] == canonical_bytes
 
         status, data, _ = _request(port, "GET", "/export/approved_lyrics.json")
@@ -397,6 +399,16 @@ def test_extract_metadata_persists_and_appears_on_standard_sheet(tmp_path: Path,
         assert sheet["text"].startswith("Stomp Corrected\nJay\n\n")
         assert sheet["text"].endswith(canonical)
         assert plain["text"] == canonical
+        assert sheet["download_name"] == "Jay - Stomp Corrected.txt"
+        assert plain["download_name"] == "Jay - Stomp Corrected - Plain Text.txt"
+        status, data, headers = _request(port, "GET", "/export/output.txt?format=standard-lyric-sheet")
+        assert status == 200
+        assert 'filename="Jay - Stomp Corrected.txt"' in (headers.getheader("Content-Disposition") or "")
+        assert data.decode("utf-8") == sheet["text"]
+        status, data, headers = _request(port, "GET", "/export/output.txt?format=plain-text")
+        assert status == 200
+        assert "Jay - Stomp Corrected - Plain Text.txt" in (headers.getheader("Content-Disposition") or "")
+        assert data.decode("utf-8") == canonical
         assert "demo.wav" not in sheet["text"]
         assert app.job_id
     finally:

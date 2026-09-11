@@ -15,7 +15,9 @@ from a2l.export import (
     FORMAT_STANDARD,
     FORMAT_STRUCTURED,
     default_exports_dir,
+    export_download_name,
     format_approved_export,
+    sanitize_filename_component,
 )
 from a2l.pipeline import LOCKED_SHA256
 from a2l.review import apply_corrections, review_from_structured, save_review as persist_review
@@ -49,6 +51,7 @@ def test_default_format_is_standard_lyric_sheet(tmp_path: Path, monkeypatch) -> 
     assert export.format_id == FORMAT_STANDARD
     assert export.label == "STANDARD LYRIC SHEET"
     assert export.text == canonical
+    assert export.download_name == "lyrics.txt"
     assert "Hook us with that old school funk" in export.text
     assert "Verse" not in export.text
     assert "Chorus" not in export.text
@@ -120,6 +123,9 @@ def test_derived_exports_do_not_replace_canonical_artifacts(tmp_path: Path, monk
     assert result["json_path"].name == "approved_lyrics.json"
     assert result["txt_path"].parent.name == "approved_lyrics"
     assert exports != result["txt_path"]
+    assert provenance["exports"][0]["artifact_name"] == "lyric-sheet.txt"
+    assert provenance["exports"][0]["download_name"] == "lyrics.txt"
+    assert provenance["download_filename_produced_by"] == "ACI-A2L-016"
 
 
 def test_existing_approved_artifact_formats_without_rewrite() -> None:
@@ -142,3 +148,93 @@ def test_existing_approved_artifact_formats_without_rewrite() -> None:
     assert structured.text == canonical
     assert txt.read_bytes() == before_txt
     assert js.read_bytes() == before_json
+
+
+def _payload(song_title=None, artist=None, **extra):
+    data = {"song_title": song_title, "artist": artist}
+    data.update(extra)
+    return data
+
+
+def test_download_name_artist_and_title() -> None:
+    payload = _payload("Stomp To", "Jay Garrett")
+    assert export_download_name(payload, FORMAT_STANDARD) == "Jay Garrett - Stomp To.txt"
+    assert export_download_name(payload, FORMAT_PLAIN) == "Jay Garrett - Stomp To - Plain Text.txt"
+    assert export_download_name(payload, FORMAT_STRUCTURED) == "Jay Garrett - Stomp To - Structured Lyrics.txt"
+
+
+def test_download_name_title_only() -> None:
+    payload = _payload("Stomp To", None)
+    assert export_download_name(payload, FORMAT_STANDARD) == "Stomp To.txt"
+    assert export_download_name(payload, FORMAT_PLAIN) == "Stomp To - Plain Text.txt"
+    assert export_download_name(payload, FORMAT_STRUCTURED) == "Stomp To - Structured Lyrics.txt"
+
+
+def test_download_name_artist_only() -> None:
+    payload = _payload(None, "Jay Garrett")
+    assert export_download_name(payload, FORMAT_STANDARD) == "Jay Garrett - Lyrics.txt"
+    assert export_download_name(payload, FORMAT_PLAIN) == "Jay Garrett - Lyrics - Plain Text.txt"
+    assert export_download_name(payload, FORMAT_STRUCTURED) == "Jay Garrett - Lyrics - Structured Lyrics.txt"
+
+
+def test_download_name_missing_metadata() -> None:
+    payload = _payload(None, None)
+    assert export_download_name(payload, FORMAT_STANDARD) == "lyrics.txt"
+    assert export_download_name(payload, FORMAT_PLAIN) == "lyrics - Plain Text.txt"
+    assert export_download_name(payload, FORMAT_STRUCTURED) == "lyrics - Structured Lyrics.txt"
+    assert export_download_name({}, FORMAT_STANDARD) == "lyrics.txt"
+
+
+def test_download_name_does_not_use_wav_filename() -> None:
+    payload = _payload(
+        None,
+        None,
+        filename="demo.wav",
+        source_wav="Jay Garrett - Stomp To.wav",
+        original_filename="Stomp To.wav",
+    )
+    assert export_download_name(payload, FORMAT_STANDARD) == "lyrics.txt"
+
+
+def test_filename_sanitization_strips_invalid_and_traversal() -> None:
+    assert sanitize_filename_component("../../etc/passwd") == "etc passwd"
+    assert sanitize_filename_component("Jay<>Garrett") == "Jay Garrett"
+    assert sanitize_filename_component("Stomp:To*?") == "Stomp To"
+    assert sanitize_filename_component("..") == ""
+    assert sanitize_filename_component("CON") == ""
+    assert sanitize_filename_component("  dots...  ") == "dots"
+    name = export_download_name({"song_title": "../../etc/passwd", "artist": "Jay/Garrett"}, FORMAT_STANDARD)
+    assert name == "Jay Garrett - etc passwd.txt"
+    assert Path(name).name == name
+    assert "/" not in name
+    assert "\\" not in name
+    assert ".." not in name
+    empty = export_download_name({"song_title": "***", "artist": "///"}, FORMAT_STANDARD)
+    assert empty == "lyrics.txt"
+
+
+def test_approved_export_uses_metadata_filename_without_changing_artifacts(tmp_path: Path, monkeypatch) -> None:
+    result = _approve(tmp_path, monkeypatch)
+    payload = json.loads(result["json_path"].read_text(encoding="utf-8"))
+    payload["song_title"] = "Stomp To"
+    payload["artist"] = "Jay Garrett"
+    result["json_path"].write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    before_json = result["json_path"].read_bytes()
+    before_txt = result["txt_path"].read_bytes()
+    canonical = result["txt_path"].read_text(encoding="utf-8")
+    export = format_approved_export(FIXTURE_SHA, FORMAT_STANDARD)
+    assert export.download_name == "Jay Garrett - Stomp To.txt"
+    assert export.text.endswith(canonical)
+    assert "Hook us with that old school funk" in export.text
+    assert result["json_path"].read_bytes() == before_json
+    assert result["txt_path"].read_bytes() == before_txt
+    stored = json.loads(result["json_path"].read_text(encoding="utf-8"))
+    assert stored["song_title"] == "Stomp To"
+    assert stored["artist"] == "Jay Garrett"
+    plain = format_approved_export(FIXTURE_SHA, FORMAT_PLAIN)
+    assert plain.download_name == "Jay Garrett - Stomp To - Plain Text.txt"
+    assert plain.text == canonical
+    structured = format_approved_export(FIXTURE_SHA, FORMAT_STRUCTURED)
+    assert structured.download_name == "Jay Garrett - Stomp To - Structured Lyrics.txt"
+    assert result["json_path"].read_bytes() == before_json
+    assert result["txt_path"].read_bytes() == before_txt

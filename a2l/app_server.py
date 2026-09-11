@@ -23,7 +23,12 @@ from a2l.approve import (
 )
 from a2l.engines import FasterWhisperEngine, ParakeetEngine, TranscriptionEngine
 from a2l.errors import ApprovalError, ExportError, IngestionError, ReviewError, TranscriptionError
-from a2l.export import DEFAULT_FORMAT, format_approved_export, public_export_payload
+from a2l.export import (
+    DEFAULT_FORMAT,
+    content_disposition_attachment,
+    format_approved_export,
+    public_export_payload,
+)
 from a2l.ingest import ingest_wav
 from a2l.metadata import apply_song_metadata, overlay_working_metadata, write_song_metadata
 from a2l.pipeline import (
@@ -472,7 +477,7 @@ class AppHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.send_header("Content-Type", "text/plain; charset=utf-8")
         self.send_header("Content-Length", str(len(data)))
-        self.send_header("Content-Disposition", f'attachment; filename="{result.download_name}"')
+        self.send_header("Content-Disposition", content_disposition_attachment(result.download_name))
         self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(data)

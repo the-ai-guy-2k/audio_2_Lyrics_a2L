@@ -11,6 +11,7 @@ ACI-A2L-008: explicit human approval writes approved lyric artifacts.
 ACI-A2L-010: operator application frontend.
 ACI-A2L-013: derived approved-lyric export formatting.
 ACI-A2L-014: optional operator-provided song title and artist.
+ACI-A2L-016: user-download filenames from operator-supplied title/artist.
 Vocal isolation remains out of scope.
 """
 
