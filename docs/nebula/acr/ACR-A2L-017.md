@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-017 — MVP baseline promotion to deployable  
 **Date recorded:** 2026-09-11  
 **Branch:** `feature/aci-a2l-017-mvp-baseline-promotion`  
-**Commit:** `a197bf5`  
+**Commit:** `a197bf5` (docs); promotion merge `57bebf1` on `deployable`  
 **Status:** COMPLETE — promoted to `deployable` (merge SHA recorded on `deployable` after this ACR)  
 **Product changes:** none. Documentation, traceability restoration, and release-branch promotion only.
 

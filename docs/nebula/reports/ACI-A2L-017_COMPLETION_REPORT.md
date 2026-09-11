@@ -65,4 +65,11 @@ Root README now leads with the operator application, primary `.venv-faster-whisp
 
 ## Promotion / push
 
-Filled on `deployable` after the history-preserving merge.
+| Item | Value |
+| --- | --- |
+| Merge strategy | `git checkout -b deployable 3937749` then `git merge --no-ff feature/aci-a2l-017-mvp-baseline-promotion` |
+| `deployable` | `57bebf1bfec1794e697c2a135b434ee5ce5e0c24` |
+| `main` | created at the same commit (no prior `main` history) |
+| Cloud deploy | not performed |
+
+Remote push results are recorded after `git push`.
