@@ -20,7 +20,7 @@ Not merged. Not pushed.
 | --- | --- |
 | Branch | `feature/aci-a2l-016-export-filenames` |
 | Base | `feature/aci-a2l-015-release-readiness` @ `f9532c95dfd77c6cb7f4023a3d1d7623999a5dc5` |
-| Implementation | recorded in follow-up ACR commit |
+| Implementation | `af300ab` |
 
 ## Filename-generation implementation
 
@@ -86,4 +86,4 @@ Not merged. Not pushed.
 
 ## Commit information
 
-Implementation SHA is recorded in ACR-A2L-016 after the implementation commit.
+Implementation SHA is `af300ab` on `feature/aci-a2l-016-export-filenames`.

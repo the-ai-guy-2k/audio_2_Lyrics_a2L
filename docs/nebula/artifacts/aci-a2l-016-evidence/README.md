@@ -4,6 +4,7 @@ User-downloaded lyric filenames from operator-supplied Artist and Song Title. Ca
 
 - Branch: `feature/aci-a2l-016-export-filenames`
 - Base: `f9532c95dfd77c6cb7f4023a3d1d7623999a5dc5`
+- Implementation commit: `af300ab`
 - Implementation: `a2l/export.py` (`export_download_name`, `sanitize_filename_component`)
 - Download header: `a2l/app_server.py` `content_disposition_attachment`
 - Output link: `a2l/app.html` `download` attribute from `payload.download_name`

@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution names user-downloaded lyric f
 ## Constraints honored
 
 - New branch `feature/aci-a2l-016-export-filenames` from `feature/aci-a2l-015-release-readiness` @ `f9532c95dfd77c6cb7f4023a3d1d7623999a5dc5`.
+- Implementation commit: `af300ab`.
 - File naming only. Lyric words, stored title/artist, approval state, and canonical `approved_lyrics.txt` / `approved_lyrics.json` names are unchanged.
 - User-entered metadata is authoritative. The WAV filename is not used as a title. Missing artist/title are not invented.
 - Default both-fields name: `<Artist> - <Song Title>.txt`.
