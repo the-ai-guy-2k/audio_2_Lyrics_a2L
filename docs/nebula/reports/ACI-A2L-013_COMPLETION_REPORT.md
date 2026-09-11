@@ -20,7 +20,7 @@ Not merged. Not pushed.
 | --- | --- |
 | Branch | `feature/aci-a2l-013-approved-export-formatting` |
 | Base | `feature/aci-a2l-012-nvidia-workflow` @ `7de34662cfb36e03e86a4dacab0bfc07e8b38565` |
-| Implementation | recorded in ACR-A2L-013 after this commit |
+| Implementation | `18bcd53` |
 
 ## Default output implementation
 
@@ -89,3 +89,7 @@ No lyric rewrite, no LLM formatting, no invented sections, no engine-selection c
 ## Merge / push status
 
 Not merged. Not pushed.
+
+## Commit information
+
+`18bcd53` on `feature/aci-a2l-013-approved-export-formatting` (implementation). Follow-up commit records this SHA in ACR-A2L-013.

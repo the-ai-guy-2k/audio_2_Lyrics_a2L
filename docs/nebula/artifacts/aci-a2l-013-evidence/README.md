@@ -2,6 +2,7 @@
 
 Derived approved-lyric export formatting. Canonical `approved_lyrics.txt` / `approved_lyrics.json` remain authoritative.
 
+- Implementation commit: `18bcd53`
 - `a2l/export.py` — STANDARD LYRIC SHEET (default), PLAIN TEXT, STRUCTURED LYRICS
 - Operator Output screen: `a2l/app.html` + `GET /api/export` + `GET /export/output.txt`
 - Tests: `tests/test_export.py`, plus export assertions in `tests/test_app.py`, `tests/test_approve.py`, `tests/test_parakeet_workflow.py`
