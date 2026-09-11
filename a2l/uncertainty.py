@@ -144,6 +144,8 @@ def build_uncertainty_report(draft: dict) -> dict:
         job_flags.append("REPEATED_SEGMENT")
     if any("CHUNK_BOUNDARY" in item["flags"] for item in items):
         job_flags.append("CHUNK_BOUNDARY")
+    if any("NO_ENGINE_CONFIDENCE" in item["flags"] for item in items):
+        job_flags.append("NO_ENGINE_CONFIDENCE")
 
     job_flags = sorted(set(job_flags))
     questionable_count = sum(1 for item in items if item["status"] == STATUS_QUESTIONABLE)
@@ -203,6 +205,14 @@ def build_uncertainty_report(draft: dict) -> dict:
             "Uncertain machine text is preserved and flagged. It is not rewritten.",
             "Unverified machine text is still not approved lyrics.",
             "No established/human-approved lyrics exist in this ACI.",
+            *(
+                [
+                    "NO_ENGINE_CONFIDENCE means the engine did not provide Whisper-style logprob/no-speech/compression signals.",
+                    "That absence is recorded. It is not treated as a Whisper low-confidence score.",
+                ]
+                if "NO_ENGINE_CONFIDENCE" in job_flags
+                else []
+            ),
         ],
     }
 

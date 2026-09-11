@@ -14,6 +14,7 @@ from a2l.errors import ReviewError
 from a2l.faster_whisper_draft import assert_not_whisper_baseline, candidate_job_dir
 from a2l.pipeline import (
     LOCKED_SHA256,
+    PIPELINE_DIRNAME,
     REVIEW_DIRNAME,
     STRUCTURE_DIRNAME,
     TRANSCRIPTION_DIRNAME,
@@ -32,27 +33,27 @@ SOURCE_MACHINE = "MACHINE"
 SOURCE_HUMAN = "HUMAN_CORRECTED"
 
 
-def default_structured_path(sha: str = LOCKED_SHA256) -> Path:
-    return pipeline_dir(ingest_job_dir(sha)) / STRUCTURE_DIRNAME / "structured_lyric_draft.json"
+def default_structured_path(sha: str = LOCKED_SHA256, pipeline_dirname: str | None = None) -> Path:
+    return pipeline_dir(ingest_job_dir(sha), pipeline_dirname) / STRUCTURE_DIRNAME / "structured_lyric_draft.json"
 
 
-def default_transcription_path(sha: str = LOCKED_SHA256) -> Path:
-    return pipeline_dir(ingest_job_dir(sha)) / TRANSCRIPTION_DIRNAME / "transcription_draft.json"
+def default_transcription_path(sha: str = LOCKED_SHA256, pipeline_dirname: str | None = None) -> Path:
+    return pipeline_dir(ingest_job_dir(sha), pipeline_dirname) / TRANSCRIPTION_DIRNAME / "transcription_draft.json"
 
 
-def default_review_dir(sha: str = LOCKED_SHA256) -> Path:
-    return pipeline_dir(ingest_job_dir(sha)) / REVIEW_DIRNAME
+def default_review_dir(sha: str = LOCKED_SHA256, pipeline_dirname: str | None = None) -> Path:
+    return pipeline_dir(ingest_job_dir(sha), pipeline_dirname) / REVIEW_DIRNAME
 
 
-def default_review_path(sha: str = LOCKED_SHA256) -> Path:
-    return default_review_dir(sha) / REVIEW_FILENAME
+def default_review_path(sha: str = LOCKED_SHA256, pipeline_dirname: str | None = None) -> Path:
+    return default_review_dir(sha, pipeline_dirname) / REVIEW_FILENAME
 
 
-def ensure_structured_draft(sha: str = LOCKED_SHA256) -> Path:
-    structured = default_structured_path(sha)
+def ensure_structured_draft(sha: str = LOCKED_SHA256, pipeline_dirname: str | None = None) -> Path:
+    structured = default_structured_path(sha, pipeline_dirname)
     if structured.is_file():
         return structured
-    transcription = default_transcription_path(sha)
+    transcription = default_transcription_path(sha, pipeline_dirname)
     if transcription.is_file():
         uncertainty = evaluate_uncertainty(transcription)
         return structure_lyrics(uncertainty.report_path).draft_path
@@ -108,8 +109,9 @@ def review_from_structured(structured: dict, structured_path: Path, sha: str) ->
         "approval_status": "NOT_APPROVED",
         "usable_as_approved_lyrics": False,
         "lyric_state": "DRAFT",
-        "transcription_engine": "faster-whisper",
-        "transcription_model": "large-v3",
+        "transcription_engine": structured.get("transcription_engine") or "faster-whisper",
+        "transcription_model": structured.get("transcription_model") or "large-v3",
+        "pipeline_dirname": structured.get("pipeline_dirname") or PIPELINE_DIRNAME,
         "ingest_job_id": sha,
         "structured_draft_path": str(structured_path.resolve()),
         "authority_boundary": {
@@ -131,22 +133,39 @@ def review_from_structured(structured: dict, structured_path: Path, sha: str) ->
             "Human review draft. Not approved lyrics.",
             "machine_text is the original machine line and is never overwritten.",
             "human_text holds the operator correction when text_source is HUMAN_CORRECTED.",
+            *(
+                [
+                    "Alternate NVIDIA Parakeet transcription. Not the primary faster-whisper path.",
+                    "Parakeet did not provide Whisper-style confidence scores.",
+                ]
+                if "parakeet" in str(structured.get("transcription_engine") or "").lower()
+                or "parakeet" in str(structured.get("transcription_model") or "").lower()
+                else []
+            ),
         ],
     }
 
 
-def load_or_create_review(structured_path: str | Path | None = None, sha: str = LOCKED_SHA256) -> dict:
-    structured_path = Path(structured_path) if structured_path else ensure_structured_draft(sha)
+def load_or_create_review(
+    structured_path: str | Path | None = None,
+    sha: str = LOCKED_SHA256,
+    pipeline_dirname: str | None = None,
+) -> dict:
+    structured_path = Path(structured_path) if structured_path else ensure_structured_draft(sha, pipeline_dirname)
     structured = load_structured_draft(structured_path)
-    review_path = default_review_path(sha)
+    dirname = pipeline_dirname or structured.get("pipeline_dirname")
+    review_path = default_review_path(sha, pipeline_dirname=dirname)
     if review_path.is_file():
         review = json.loads(review_path.read_text(encoding="utf-8"))
         _assert_machine_traceable(review, structured)
         return review
     review = review_from_structured(structured, structured_path, sha)
-    prior = _existing_review_for_merge(sha)
-    if prior is not None:
-        _merge_matching_corrections(review, prior)
+    if dirname:
+        review["pipeline_dirname"] = dirname
+    if (review.get("pipeline_dirname") or PIPELINE_DIRNAME) == PIPELINE_DIRNAME:
+        prior = _existing_review_for_merge(sha)
+        if prior is not None:
+            _merge_matching_corrections(review, prior)
     return review
 
 
@@ -224,7 +243,7 @@ def save_review(review: dict, sha: str = LOCKED_SHA256) -> Path:
     review["approval_status"] = "NOT_APPROVED"
     review["active_lyric_authority"] = "NOT_APPROVED"
     review["lyric_state"] = _unapproved_lyric_state(review)
-    review_dir = default_review_dir(sha)
+    review_dir = default_review_dir(sha, pipeline_dirname=review.get("pipeline_dirname"))
     review_dir.mkdir(parents=True, exist_ok=True)
     json_path = review_dir / REVIEW_FILENAME
     txt_path = review_dir / REVIEW_TEXT_FILENAME
@@ -240,8 +259,8 @@ def _unapproved_lyric_state(review: dict) -> str:
     return "REVIEWED"
 
 
-def load_saved_review(path: str | Path | None = None, sha: str = LOCKED_SHA256) -> dict:
-    path = Path(path) if path else default_review_path(sha)
+def load_saved_review(path: str | Path | None = None, sha: str = LOCKED_SHA256, pipeline_dirname: str | None = None) -> dict:
+    path = Path(path) if path else default_review_path(sha, pipeline_dirname=pipeline_dirname)
     if not path.is_file():
         raise ReviewError("REVIEW_NOT_FOUND", f"Reviewed lyric artifact not found: {path}")
     review = json.loads(path.read_text(encoding="utf-8"))

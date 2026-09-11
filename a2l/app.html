@@ -94,6 +94,13 @@
       <p>
         <input id="file" type="file" accept=".wav,audio/wav">
       </p>
+      <p>
+        <label for="engine">Transcription engine</label><br>
+        <select id="engine">
+          <option value="faster-whisper" selected>FASTER-WHISPER / LARGE-V3</option>
+          <option value="nvidia-parakeet">NVIDIA PARAKEET / TDT-0.6B-V2</option>
+        </select>
+      </p>
       <p>Selected song: <span class="filename" id="filename">None</span></p>
       <p class="error" id="upload-error"></p>
       <button class="action" id="extract" type="button">Extract lyrics</button>
@@ -106,6 +113,7 @@
     <section id="screen-review" class="hidden">
       <h2>Review</h2>
       <p class="state" id="review-state">LYRIC STATE: …</p>
+      <p class="note" id="review-engine"></p>
       <p class="note">Click a phrase to edit it. Save keeps a draft. It does not approve the lyrics.</p>
       <p class="toolbar">
         <button class="action" id="save" type="button">Save</button>
@@ -172,8 +180,11 @@
       $("export-note").textContent = canExport
         ? "Download the approved lyrics."
         : "Approve the lyrics before downloading.";
-      if (session.busy && currentScreen !== "processing") showScreen("processing");
-      else if (!session.busy && session.screen === "review" && currentScreen === "processing") showScreen("review");
+      if (session.busy) {
+        if (currentScreen !== "processing") showScreen("processing");
+      } else if (session.can_review && (currentScreen === "upload" || currentScreen === "processing")) {
+        showScreen("review");
+      }
       if (session.lyric_state) {
         $("review-state").textContent = "LYRIC STATE: " + session.lyric_state;
         $("review-state").className = "state " + session.lyric_state;
@@ -212,6 +223,8 @@
       if (!payload.ok) return;
       reviewState = payload.review;
       lyricState = payload.lyric_state || "DRAFT";
+      const engineName = [reviewState.transcription_engine, reviewState.transcription_model].filter(Boolean).join(" / ");
+      $("review-engine").textContent = engineName ? "Engine: " + engineName : "";
       const root = $("lyrics");
       root.innerHTML = "";
       root.classList.toggle("approved", lyricState === "APPROVED");
@@ -257,6 +270,7 @@
       }
       const body = new FormData();
       body.append("wav", file, file.name);
+      body.append("engine", $("engine").value);
       showScreen("processing");
       $("process-status").textContent = "Reading the song.";
       const response = await fetch("/api/extract", { method: "POST", body: body });

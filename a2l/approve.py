@@ -38,24 +38,24 @@ ACTIVE_NOT_APPROVED = "NOT_APPROVED"
 APPROVAL_STATUS = "APPROVED"
 
 
-def default_approved_dir(sha: str) -> Path:
-    return pipeline_dir(ingest_job_dir(sha)) / APPROVED_DIRNAME
+def default_approved_dir(sha: str, pipeline_dirname: str | None = None) -> Path:
+    return pipeline_dir(ingest_job_dir(sha), pipeline_dirname) / APPROVED_DIRNAME
 
 
-def default_approved_txt_path(sha: str) -> Path:
-    return default_approved_dir(sha) / APPROVED_TXT_NAME
+def default_approved_txt_path(sha: str, pipeline_dirname: str | None = None) -> Path:
+    return default_approved_dir(sha, pipeline_dirname) / APPROVED_TXT_NAME
 
 
-def default_approved_json_path(sha: str) -> Path:
-    return default_approved_dir(sha) / APPROVED_JSON_NAME
+def default_approved_json_path(sha: str, pipeline_dirname: str | None = None) -> Path:
+    return default_approved_dir(sha, pipeline_dirname) / APPROVED_JSON_NAME
 
 
-def default_approved_history_dir(sha: str) -> Path:
-    return default_approved_dir(sha) / HISTORY_DIRNAME
+def default_approved_history_dir(sha: str, pipeline_dirname: str | None = None) -> Path:
+    return default_approved_dir(sha, pipeline_dirname) / HISTORY_DIRNAME
 
 
-def latest_approval_history_dir(sha: str) -> Path | None:
-    root = default_approved_history_dir(sha)
+def latest_approval_history_dir(sha: str, pipeline_dirname: str | None = None) -> Path | None:
+    root = default_approved_history_dir(sha, pipeline_dirname)
     if not root.is_dir():
         return None
     dirs = sorted(path for path in root.iterdir() if path.is_dir())
@@ -79,16 +79,17 @@ def apply_review_authority_fields(review: dict, lyric_state: str) -> dict:
 
 
 def lyric_display_state(review: dict, sha: str) -> str:
+    dirname = review.get("pipeline_dirname")
     if (
         review.get("approval_status") == APPROVAL_STATUS
         and review.get("usable_as_approved_lyrics") is True
-        and default_approved_json_path(sha).is_file()
-        and default_approved_txt_path(sha).is_file()
+        and default_approved_json_path(sha, pipeline_dirname=dirname).is_file()
+        and default_approved_txt_path(sha, pipeline_dirname=dirname).is_file()
     ):
         return STATE_APPROVED
     if review.get("lyric_state") == STATE_REQUIRES_REAPPROVAL or review.get("reopened_at"):
         return STATE_REQUIRES_REAPPROVAL
-    if default_review_path(sha).is_file():
+    if default_review_path(sha, pipeline_dirname=dirname).is_file():
         return STATE_REVIEWED
     return STATE_DRAFT
 
@@ -124,13 +125,14 @@ def approve_reviewed_lyrics(
     if not text.strip():
         raise ApprovalError("EMPTY_LYRICS", "Cannot approve an empty lyric body.")
 
-    txt_path = default_approved_txt_path(sha)
-    json_path = default_approved_json_path(sha)
+    dirname = review.get("pipeline_dirname")
+    txt_path = default_approved_txt_path(sha, pipeline_dirname=dirname)
+    json_path = default_approved_json_path(sha, pipeline_dirname=dirname)
     assert_not_whisper_baseline(txt_path, sha)
     assert_not_whisper_baseline(json_path, sha)
-    default_approved_dir(sha).mkdir(parents=True, exist_ok=True)
+    default_approved_dir(sha, pipeline_dirname=dirname).mkdir(parents=True, exist_ok=True)
 
-    history = latest_approval_history_dir(sha)
+    history = latest_approval_history_dir(sha, pipeline_dirname=dirname)
     prior = list(review.get("approval_history") or [])
     revision = 1 + len(prior)
     payload = {
@@ -144,6 +146,7 @@ def approve_reviewed_lyrics(
         "source_sha256": sha,
         "transcription_engine": review.get("transcription_engine"),
         "transcription_model": review.get("transcription_model"),
+        "pipeline_dirname": review.get("pipeline_dirname"),
         "approval_event": {
             "approved_at": stamp,
             "approved_by": "OPERATOR",
@@ -209,8 +212,9 @@ def reopen_approved_lyrics(
         )
 
     stamp = now or datetime.now(timezone.utc).isoformat()
-    txt_path = default_approved_txt_path(sha)
-    json_path = default_approved_json_path(sha)
+    dirname = review.get("pipeline_dirname")
+    txt_path = default_approved_txt_path(sha, pipeline_dirname=dirname)
+    json_path = default_approved_json_path(sha, pipeline_dirname=dirname)
     history_dir = _archive_current_approval(sha, review, stamp)
 
     event = {
@@ -251,10 +255,11 @@ def reopen_approved_lyrics(
 
 def _archive_current_approval(sha: str, review: dict, stamp: str) -> Path:
     safe = "".join(ch if ch.isalnum() or ch in ".-" else "-" for ch in stamp)
-    history_dir = default_approved_history_dir(sha) / safe
+    dirname = review.get("pipeline_dirname")
+    history_dir = default_approved_history_dir(sha, pipeline_dirname=dirname) / safe
     history_dir.mkdir(parents=True, exist_ok=True)
-    txt_path = default_approved_txt_path(sha)
-    json_path = default_approved_json_path(sha)
+    txt_path = default_approved_txt_path(sha, pipeline_dirname=dirname)
+    json_path = default_approved_json_path(sha, pipeline_dirname=dirname)
     archived_txt = history_dir / APPROVED_TXT_NAME
     archived_json = history_dir / APPROVED_JSON_NAME
     assert_not_whisper_baseline(history_dir, sha)
@@ -284,7 +289,7 @@ def _archive_current_approval(sha: str, review: dict, stamp: str) -> Path:
 def _write_review_record(review: dict, sha: str) -> Path:
     from a2l.review import REVIEW_FILENAME, REVIEW_TEXT_FILENAME, _human_readable, default_review_dir
 
-    review_dir = default_review_dir(sha)
+    review_dir = default_review_dir(sha, pipeline_dirname=review.get("pipeline_dirname"))
     review_dir.mkdir(parents=True, exist_ok=True)
     json_path = review_dir / REVIEW_FILENAME
     txt_path = review_dir / REVIEW_TEXT_FILENAME

@@ -1,0 +1,18 @@
+{
+  "aci": "ACI-A2L-012",
+  "engine": "nvidia_nemo_parakeet",
+  "model": "parakeet-tdt-0.6b-v2",
+  "source_sha256": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "transcription_seconds": 86.21,
+  "wall_seconds_upload_to_ready": 96.5,
+  "lyric_state": "DRAFT",
+  "approval_status": "NOT_APPROVED",
+  "approved_by_cae": false,
+  "application": "http://127.0.0.1:8781/",
+  "parakeet_artifact_root": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\ingest\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\a2l_pipeline_parakeet",
+  "primary_hashes_unchanged": {
+    "faster_whisper_draft": "3c645aeddce7b7df29e8ce93653c273de3dc1f2e561f33a16af5f3a8cacb0919",
+    "approved_lyrics_txt": "8da23213e2d0b3fb62ae84a9d059b026117baf793e8cacbfc61db857ad2f476c",
+    "whisper1_json": "82ca9474e3cc0179ffdb6e7948df081c4785cd29f0e9a7526d3d318525055471"
+  }
+}

@@ -21,10 +21,17 @@ from a2l.approve import (
     lyric_display_state,
     reopen_approved_lyrics,
 )
-from a2l.engines import FasterWhisperEngine, TranscriptionEngine
-from a2l.errors import ApprovalError, IngestionError, ReviewError
+from a2l.engines import FasterWhisperEngine, ParakeetEngine, TranscriptionEngine
+from a2l.errors import ApprovalError, IngestionError, ReviewError, TranscriptionError
 from a2l.ingest import ingest_wav
-from a2l.pipeline import ROOT
+from a2l.pipeline import (
+    ENGINE_ID_FASTER_WHISPER,
+    ENGINE_ID_NVIDIA_PARAKEET,
+    PIPELINE_DIRNAME,
+    TRANSCRIPTION_DIRNAME,
+    ROOT,
+    pipeline_dirname_for_engine,
+)
 from a2l.review import apply_corrections, load_or_create_review, save_review
 from a2l.review_server import public_state
 from a2l.structure import structure_lyrics
@@ -54,6 +61,9 @@ class AppState:
         self.lock = threading.Lock()
         self.filename = ""
         self.job_id = ""
+        self.pipeline_dirname = PIPELINE_DIRNAME
+        self.engine_id = ENGINE_ID_FASTER_WHISPER
+        self.transcription_seconds = None
         self.screen = "upload"
         self.status = STATUS_IDLE
         self.error = ""
@@ -68,14 +78,17 @@ class AppState:
             status = self.status
             error = self.error
             busy = self.busy
+            dirname = self.pipeline_dirname
         lyric_state = None
         can_export = False
         # Do not create review artifacts while extraction is writing them.
         if job and not busy and not error:
             try:
-                review = load_or_create_review(sha=job)
+                review = load_or_create_review(sha=job, pipeline_dirname=dirname)
                 lyric_state = lyric_display_state(review, job)
-                can_export = lyric_state == "APPROVED" and default_approved_txt_path(job).is_file()
+                can_export = lyric_state == "APPROVED" and default_approved_txt_path(
+                    job, pipeline_dirname=review.get("pipeline_dirname") or dirname
+                ).is_file()
             except ReviewError:
                 lyric_state = None
         return {
@@ -92,10 +105,17 @@ class AppState:
             "has_job": bool(job),
         }
 
-    def start_extract(self, filename: str, wav_bytes: bytes) -> dict:
+    def start_extract(self, filename: str, wav_bytes: bytes, engine_id: str | None = None) -> dict:
         name = Path(filename or "song.wav").name
         if not name.lower().endswith(".wav"):
             return {"ok": False, "error_code": "NOT_WAV", "error": "Please choose a WAV file."}
+        selected = engine_id or ENGINE_ID_FASTER_WHISPER
+        if selected not in {ENGINE_ID_FASTER_WHISPER, ENGINE_ID_NVIDIA_PARAKEET}:
+            return {
+                "ok": False,
+                "error_code": "UNKNOWN_ENGINE",
+                "error": "Choose FASTER-WHISPER or NVIDIA PARAKEET.",
+            }
         with self.lock:
             if self.busy:
                 return {"ok": False, "error_code": "BUSY", "error": "Lyric extraction is already running."}
@@ -106,37 +126,57 @@ class AppState:
             self.screen = "processing"
             self.job_id = ""
             self.source_sha256 = ""
-        thread = threading.Thread(target=self._run_pipeline, args=(name, wav_bytes), daemon=True)
+            self.engine_id = selected
+            self.pipeline_dirname = PIPELINE_DIRNAME
+            self.transcription_seconds = None
+        thread = threading.Thread(target=self._run_pipeline, args=(name, wav_bytes, selected), daemon=True)
         thread.start()
         return {"ok": True, "status": STATUS_READING, "screen": "processing"}
 
-    def _run_pipeline(self, filename: str, wav_bytes: bytes) -> None:
+    def _runtime_engine(self, engine_id: str) -> TranscriptionEngine:
+        if self.engine is not None:
+            return self.engine
+        if engine_id == ENGINE_ID_NVIDIA_PARAKEET:
+            return ParakeetEngine()
+        return FasterWhisperEngine()
+
+    def _run_pipeline(self, filename: str, wav_bytes: bytes, engine_id: str) -> None:
         tmp_dir = None
         try:
             tmp_dir = Path(tempfile.mkdtemp(prefix="a2l-upload-"))
             wav_path = tmp_dir / name_safe(filename)
             wav_path.write_bytes(wav_bytes)
             ingest = ingest_wav(wav_path, self.artifact_root)
+            engine = self._runtime_engine(engine_id)
+            dirname = pipeline_dirname_for_engine(engine)
             with self.lock:
                 self.status = STATUS_EXTRACTING
-            transcribe_from_manifest(ingest.manifest_path, engine=self.engine or FasterWhisperEngine())
+                self.pipeline_dirname = dirname
+            transcribed = transcribe_from_manifest(ingest.manifest_path, engine=engine)
             with self.lock:
                 self.status = STATUS_CHECKING
-            draft_path = ingest.artifact_dir / "a2l_pipeline" / "machine_transcription" / "transcription_draft.json"
+                self.transcription_seconds = transcribed.draft.get("transcription_seconds")
+            draft_path = ingest.artifact_dir / dirname / TRANSCRIPTION_DIRNAME / "transcription_draft.json"
             uncertainty = evaluate_uncertainty(draft_path)
             with self.lock:
                 self.status = STATUS_PREPARING
             structure_lyrics(uncertainty.report_path)
-            load_or_create_review(sha=ingest.job_id)
+            load_or_create_review(sha=ingest.job_id, pipeline_dirname=dirname)
             with self.lock:
                 self.job_id = ingest.job_id
                 self.source_sha256 = ingest.source_sha256
+                self.pipeline_dirname = dirname
                 self.status = STATUS_READY
                 self.screen = "review"
                 self.busy = False
                 self.error = ""
         except IngestionError as exc:
             self._fail(operator_ingest_message(exc))
+        except TranscriptionError as exc:
+            if exc.code == "ENGINE_UNAVAILABLE":
+                self._fail("That transcription engine is not available in this environment.")
+            else:
+                self._fail("Lyric extraction failed. The song file was not changed.")
         except Exception:
             self._fail("Lyric extraction failed. The song file was not changed.")
         finally:
@@ -187,6 +227,7 @@ def operator_state(sha: str, review: dict) -> dict:
         "counts": review.get("counts"),
         "transcription_engine": review.get("transcription_engine"),
         "transcription_model": review.get("transcription_model"),
+        "pipeline_dirname": review.get("pipeline_dirname"),
     }
     return {
         "ok": True,
@@ -196,7 +237,7 @@ def operator_state(sha: str, review: dict) -> dict:
     }
 
 
-def parse_multipart_file(content_type: str, body: bytes) -> tuple[str, bytes]:
+def parse_extract_upload(content_type: str, body: bytes) -> tuple[str, bytes, str]:
     if "multipart/form-data" not in (content_type or ""):
         raise IngestionError("NOT_WAV", "Please choose a WAV file.")
     boundary = ""
@@ -207,37 +248,60 @@ def parse_multipart_file(content_type: str, body: bytes) -> tuple[str, bytes]:
     if not boundary:
         raise IngestionError("NOT_WAV", "Please choose a WAV file.")
     marker = b"--" + boundary.encode("utf-8")
-    start = body.find(marker)
-    if start < 0:
+    filename = None
+    payload = None
+    engine_id = ENGINE_ID_FASTER_WHISPER
+    for raw in body.split(marker):
+        part = raw.lstrip(b"\r\n")
+        if not part or part == b"--" or part.startswith(b"--"):
+            continue
+        header_blob, separator, content = part.partition(b"\r\n\r\n")
+        if not separator:
+            header_blob, separator, content = part.partition(b"\n\n")
+        if not separator:
+            continue
+        if content.endswith(b"\r\n"):
+            content = content[:-2]
+        elif content.endswith(b"\n"):
+            content = content[:-1]
+        headers = header_blob.decode("utf-8", errors="replace")
+        headers_l = headers.lower()
+        if "filename=" in headers_l:
+            name = "song.wav"
+            for token in headers.replace("\r", "\n").split("\n"):
+                if "filename=" in token.lower():
+                    raw_name = token.split("filename=", 1)[1].strip()
+                    if raw_name.startswith('"'):
+                        name = raw_name.split('"', 2)[1]
+                    else:
+                        name = raw_name.split(";", 1)[0].strip()
+            filename = Path(name).name
+            payload = content
+            continue
+        field = _multipart_field_name(headers)
+        if field == "engine":
+            engine_id = content.decode("utf-8", errors="replace").strip() or ENGINE_ID_FASTER_WHISPER
+    if filename is None or payload is None:
         raise IngestionError("NOT_WAV", "Please choose a WAV file.")
-    rest = body[start + len(marker) :]
-    if rest.startswith(b"--"):
-        raise IngestionError("NOT_WAV", "Please choose a WAV file.")
-    if rest.startswith(b"\r\n"):
-        rest = rest[2:]
-    elif rest.startswith(b"\n"):
-        rest = rest[1:]
-    header_blob, separator, file_body = rest.partition(b"\r\n\r\n")
-    if not separator:
-        header_blob, separator, file_body = rest.partition(b"\n\n")
-    if not separator:
-        raise IngestionError("NOT_WAV", "Please choose a WAV file.")
-    headers = header_blob.decode("utf-8", errors="replace")
-    if "filename=" not in headers.lower():
-        raise IngestionError("NOT_WAV", "Please choose a WAV file.")
-    filename = "song.wav"
+    if engine_id not in {ENGINE_ID_FASTER_WHISPER, ENGINE_ID_NVIDIA_PARAKEET}:
+        raise IngestionError("UNKNOWN_ENGINE", "Choose FASTER-WHISPER or NVIDIA PARAKEET.")
+    return filename, payload, engine_id
+
+
+def _multipart_field_name(headers: str) -> str:
     for token in headers.replace("\r", "\n").split("\n"):
-        if "filename=" in token.lower():
-            raw = token.split("filename=", 1)[1].strip()
+        lowered = token.lower()
+        if "content-disposition:" in lowered and "name=" in lowered:
+            raw = token.split("name=", 1)[1].strip()
             if raw.startswith('"'):
-                filename = raw.split('"', 2)[1]
-            else:
-                filename = raw.split(";", 1)[0].strip()
-    end = file_body.find(b"\r\n" + marker)
-    if end < 0:
-        end = file_body.find(b"\n" + marker)
-    payload = file_body[:end] if end >= 0 else file_body
-    return Path(filename).name, payload
+                return raw.split('"', 2)[1]
+            return raw.split(";", 1)[0].strip()
+    return ""
+
+
+def parse_multipart_file(content_type: str, body: bytes) -> tuple[str, bytes]:
+    filename, payload, _engine_id = parse_extract_upload(content_type, body)
+    return filename, payload
 
 
 class AppHandler(BaseHTTPRequestHandler):
@@ -273,8 +337,10 @@ class AppHandler(BaseHTTPRequestHandler):
         body = self.rfile.read(length) if length else b""
         if parsed.path == "/api/extract":
             try:
-                filename, wav_bytes = parse_multipart_file(self.headers.get("Content-Type") or "", body)
-                result = self.app.start_extract(filename, wav_bytes)
+                filename, wav_bytes, engine_id = parse_extract_upload(
+                    self.headers.get("Content-Type") or "", body
+                )
+                result = self.app.start_extract(filename, wav_bytes, engine_id=engine_id)
             except IngestionError as exc:
                 self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
                 return
@@ -286,10 +352,11 @@ class AppHandler(BaseHTTPRequestHandler):
         if not job:
             self._send_json(400, {"ok": False, "error_code": "NO_SONG", "error": "Choose a song first."})
             return
+        dirname = self.app.pipeline_dirname
         if parsed.path == "/api/save":
             updates = {int(item["index"]): str(item.get("human_text", "")) for item in payload.get("lines") or []}
             try:
-                review = load_or_create_review(sha=job)
+                review = load_or_create_review(sha=job, pipeline_dirname=dirname)
                 apply_corrections(review, updates)
                 save_review(review, sha=job)
             except ReviewError as exc:
@@ -299,7 +366,7 @@ class AppHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/approve":
             try:
-                review = load_or_create_review(sha=job)
+                review = load_or_create_review(sha=job, pipeline_dirname=dirname)
                 result = approve_reviewed_lyrics(review, job, confirm=payload.get("confirm") is True)
             except (ReviewError, ApprovalError) as exc:
                 self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
@@ -308,7 +375,7 @@ class AppHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/reopen":
             try:
-                review = load_or_create_review(sha=job)
+                review = load_or_create_review(sha=job, pipeline_dirname=dirname)
                 result = reopen_approved_lyrics(review, job, confirm=payload.get("confirm") is True)
             except (ReviewError, ApprovalError) as exc:
                 self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
@@ -323,7 +390,7 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json(400, {"ok": False, "error_code": "NO_SONG", "error": "Choose a song first."})
             return
         try:
-            review = load_or_create_review(sha=job)
+            review = load_or_create_review(sha=job, pipeline_dirname=self.app.pipeline_dirname)
         except ReviewError as exc:
             self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
             return
@@ -334,7 +401,11 @@ class AppHandler(BaseHTTPRequestHandler):
         if not job:
             self._send_json(400, {"ok": False, "error_code": "NO_SONG", "error": "Choose a song first."})
             return
-        path = default_approved_txt_path(job) if kind == "txt" else default_approved_json_path(job)
+        path = (
+            default_approved_txt_path(job, pipeline_dirname=self.app.pipeline_dirname)
+            if kind == "txt"
+            else default_approved_json_path(job, pipeline_dirname=self.app.pipeline_dirname)
+        )
         if not path.is_file():
             self._send_json(400, {"ok": False, "error_code": "NOT_APPROVED", "error": "Lyrics are not approved yet."})
             return

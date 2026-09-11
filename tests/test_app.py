@@ -41,14 +41,25 @@ def _engine(delay: float = 0.0) -> ScriptedEngine:
     return SlowEngine(result)
 
 
-def _multipart(filename: str, data: bytes) -> tuple[str, bytes]:
+def _multipart(filename: str, data: bytes, engine: str | None = None) -> tuple[str, bytes]:
     boundary = "----A2LTestBoundary"
-    head = (
-        f"--{boundary}\r\n"
-        f'Content-Disposition: form-data; name="wav"; filename="{filename}"\r\n'
-        "Content-Type: audio/wav\r\n\r\n"
-    ).encode("utf-8")
-    return boundary, head + data + f"\r\n--{boundary}--\r\n".encode("utf-8")
+    parts = [
+        (
+            f"--{boundary}\r\n"
+            f'Content-Disposition: form-data; name="wav"; filename="{filename}"\r\n'
+            "Content-Type: audio/wav\r\n\r\n"
+        ).encode("utf-8")
+        + data
+    ]
+    if engine is not None:
+        parts.append(
+            (
+                f"--{boundary}\r\n"
+                f'Content-Disposition: form-data; name="engine"\r\n\r\n'
+                f"{engine}"
+            ).encode("utf-8")
+        )
+    return boundary, b"\r\n".join(parts) + f"\r\n--{boundary}--\r\n".encode("utf-8")
 
 
 def _start(tmp_path: Path, monkeypatch, engine=None):
@@ -280,3 +291,5 @@ def test_app_html_hides_engineering_paths() -> None:
     assert "python -m" not in html
     assert "confirm: true" in html
     assert "approved_lyrics.txt" in html
+    assert 'id="engine"' in html
+    assert "nvidia-parakeet" in html

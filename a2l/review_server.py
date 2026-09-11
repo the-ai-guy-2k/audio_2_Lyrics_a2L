@@ -30,9 +30,10 @@ DEFAULT_PORT = 8765
 
 
 def public_state(sha: str, review: dict) -> dict:
-    txt = default_approved_txt_path(sha)
-    js = default_approved_json_path(sha)
-    history = latest_approval_history_dir(sha)
+    dirname = review.get("pipeline_dirname")
+    txt = default_approved_txt_path(sha, pipeline_dirname=dirname)
+    js = default_approved_json_path(sha, pipeline_dirname=dirname)
+    history = latest_approval_history_dir(sha, pipeline_dirname=dirname)
     return {
         "ok": True,
         "review": review,

@@ -5,6 +5,7 @@ ACI-ATL-002: CONTROL-A machine transcription (non-authoritative draft).
 ACI-ATL-003: uncertainty handling (flag, do not invent).
 ACI-ATL-004: lyric structuring (structure, do not rewrite).
 ACI-A2L-007: faster-whisper / Whisper large-v3 is the primary transcription engine.
+ACI-A2L-012: NVIDIA Parakeet TDT 0.6B v2 is an alternate engine, not the primary.
 ACI-A2L-006: human review and correction (reviewed draft, not approved).
 ACI-A2L-008: explicit human approval writes approved lyric artifacts.
 ACI-A2L-010: operator application frontend.

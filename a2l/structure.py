@@ -49,6 +49,7 @@ def structure_lyrics(uncertainty_report_path: str | Path) -> StructureResult:
     report_before = report_path.read_bytes()
 
     structured = build_structured_draft(draft, report)
+    structured["pipeline_dirname"] = pipeline_root.name
     out_dir = pipeline_root / DRAFT_DIRNAME
     out_dir.mkdir(parents=True, exist_ok=True)
     out_json = out_dir / DRAFT_FILENAME
@@ -112,6 +113,7 @@ def build_structured_draft(transcription_draft: dict, uncertainty_report: dict) 
             raise StructureError("REPORT_INVALID", "Uncertainty item is missing preserved_text.")
         flags = list(item.get("flags") or [])
         status = item.get("status") or "UNVERIFIED_MACHINE_TEXT"
+        lyric_flags = [flag for flag in flags if flag != "NO_ENGINE_CONFIDENCE"]
         lines.append(
             {
                 "index": line_index,
@@ -122,7 +124,7 @@ def build_structured_draft(transcription_draft: dict, uncertainty_report: dict) 
                 "preserved_text": preserved,
                 "status": status,
                 "flags": flags,
-                "uncertain": status == "REQUIRES_LATER_RESOLUTION" or bool(flags),
+                "uncertain": status == "REQUIRES_LATER_RESOLUTION" or bool(lyric_flags),
                 "section_label": None,
             }
         )
@@ -130,6 +132,7 @@ def build_structured_draft(transcription_draft: dict, uncertainty_report: dict) 
             previous_end = item.get("end_seconds")
 
     machine_lines = [line for line in lines if line["kind"] == "machine_line"]
+    engine = transcription_draft.get("engine") or {}
     return {
         "schema_version": SCHEMA_VERSION,
         "produced_by": PRODUCER_ACI,
@@ -139,6 +142,9 @@ def build_structured_draft(transcription_draft: dict, uncertainty_report: dict) 
         "established_lyrics_present": False,
         "control_baseline": uncertainty_report.get("control_baseline") or transcription_draft.get("control_baseline"),
         "ingest_job_id": uncertainty_report.get("ingest_job_id") or transcription_draft.get("ingest_job_id"),
+        "transcription_engine": engine.get("technology"),
+        "transcription_model": engine.get("model"),
+        "pipeline_dirname": (transcription_draft.get("pipeline_dirname") or None),
         "authority_boundary": {
             "mastered_audio": "AUTHORITATIVE_SOURCE",
             "machine_transcription": "NON_AUTHORITATIVE",

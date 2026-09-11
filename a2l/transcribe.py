@@ -7,12 +7,20 @@ Machine output is a non-authoritative draft. It is never approved lyrics.
 from __future__ import annotations
 
 import json
+import time
 from dataclasses import dataclass
 from pathlib import Path
 
 from a2l.errors import TranscriptionError
 from a2l.engines import EngineResult, EngineSegment, FasterWhisperEngine, TranscriptionEngine
-from a2l.pipeline import TRANSCRIPTION_DIRNAME, is_historical_whisper1_path, pipeline_dir
+from a2l.pipeline import (
+    PARAKEET_PIPELINE_DIRNAME,
+    PIPELINE_DIRNAME,
+    TRANSCRIPTION_DIRNAME,
+    is_historical_whisper1_path,
+    pipeline_dir,
+    pipeline_dirname_for_engine,
+)
 from a2l.signal import pcm_energy
 from a2l.wav import sha256_bytes
 
@@ -62,7 +70,9 @@ def transcribe_from_manifest(
 
     energy = pcm_energy(working_path)
     active_engine = engine or default_transcription_engine()
+    started = time.perf_counter()
     engine_result = active_engine.transcribe(working_path)
+    elapsed = round(time.perf_counter() - started, 2)
 
     if source_path.read_bytes() != source_before:
         raise TranscriptionError("SOURCE_MUTATED", "Authoritative source changed during transcription.")
@@ -76,7 +86,13 @@ def transcribe_from_manifest(
         energy=energy,
         engine_result=engine_result,
     )
-    draft_dir = pipeline_dir(job_dir) / DRAFT_DIRNAME
+    draft["transcription_seconds"] = elapsed
+    configuration = dict(draft["engine"].get("configuration") or {})
+    configuration["transcription_seconds"] = elapsed
+    draft["engine"]["configuration"] = configuration
+    dirname = pipeline_dirname_for_engine(active_engine)
+    draft["pipeline_dirname"] = dirname
+    draft_dir = pipeline_dir(job_dir, dirname) / DRAFT_DIRNAME
     draft_dir.mkdir(parents=True, exist_ok=True)
     draft_path = draft_dir / DRAFT_FILENAME
     text_path = draft_dir / DRAFT_TEXT_FILENAME
@@ -84,6 +100,14 @@ def transcribe_from_manifest(
         raise TranscriptionError(
             "WHISPER_PATH_REFUSED",
             f"Refusing to overwrite historical whisper-1 artifacts: {draft_path}",
+        )
+    primary_root = pipeline_dir(job_dir, PIPELINE_DIRNAME).resolve()
+    if dirname == PARAKEET_PIPELINE_DIRNAME and (
+        draft_path.resolve() == primary_root or primary_root in draft_path.resolve().parents
+    ):
+        raise TranscriptionError(
+            "PRIMARY_PATH_REFUSED",
+            "Parakeet must not overwrite the primary faster-whisper pipeline.",
         )
     draft_path.write_text(json.dumps(draft, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     text_path.write_text(_human_readable_draft(draft), encoding="utf-8")
@@ -132,6 +156,11 @@ def build_draft(
     architecture_status = "ACI-ATL-002_BASELINE_NOT_GVCA_LOCKED"
     if engine_result.technology == "faster-whisper":
         architecture_status = "ACI-A2L-007_PRIMARY_FASTER_WHISPER_LARGE_V3"
+    elif "parakeet" in engine_result.technology or "parakeet" in engine_result.model:
+        architecture_status = "ACI-A2L-012_ALTERNATE_NVIDIA_PARAKEET_TDT_0_6B_V2"
+        job_flags.append("NO_ENGINE_CONFIDENCE")
+        job_flags.append("ALTERNATE_ENGINE")
+        job_flags = sorted(set(job_flags))
 
     return {
         "schema_version": SCHEMA_VERSION,
@@ -175,6 +204,17 @@ def build_draft(
                 if engine_result.technology == "faster-whisper"
                 else []
             ),
+            *(
+                [
+                    "Alternate engine is NVIDIA Parakeet TDT 0.6B v2 (ACI-A2L-012).",
+                    "Parakeet does not provide Whisper-style logprob/no-speech/compression signals.",
+                    "Missing confidence is recorded as NO_ENGINE_CONFIDENCE, not invented.",
+                    "Stereo channels were averaged in memory. That is not vocal isolation.",
+                    "Primary faster-whisper artifacts are not overwritten.",
+                ]
+                if "parakeet" in engine_result.technology or "parakeet" in engine_result.model
+                else []
+            ),
         ],
     }
 
@@ -193,6 +233,12 @@ def _flag_segment(segment: EngineSegment, energy: dict) -> dict:
         flags.append("POSSIBLE_HALLUCINATION")
     if not text:
         flags.append("EMPTY_SEGMENT")
+    if (
+        segment.avg_logprob is None
+        and segment.no_speech_prob is None
+        and segment.compression_ratio is None
+    ):
+        flags.append("NO_ENGINE_CONFIDENCE")
     return {
         "start_seconds": segment.start_seconds,
         "end_seconds": segment.end_seconds,

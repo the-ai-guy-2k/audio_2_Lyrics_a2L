@@ -398,3 +398,138 @@ def _optional_float(value) -> float | None:
         return float(value)
     except (TypeError, ValueError):
         return None
+
+
+PARAKEET_TECHNOLOGY = "nvidia_nemo_parakeet"
+PARAKEET_MODEL = "parakeet-tdt-0.6b-v2"
+PARAKEET_MODEL_REPO = "nvidia/parakeet-tdt-0.6b-v2"
+DEFAULT_PARAKEET_NEMO_FILE = Path.home() / ".cache" / "a2l-parakeet" / "parakeet-tdt-0.6b-v2.nemo"
+
+
+class ParakeetEngine:
+    """Validated ACI-A2L-011 NVIDIA Parakeet TDT 0.6B v2. Alternate engine, not primary."""
+
+    technology = PARAKEET_TECHNOLOGY
+    model = PARAKEET_MODEL
+
+    def __init__(self, nemo_file: Path | None = None) -> None:
+        self._nemo_file = Path(nemo_file) if nemo_file else DEFAULT_PARAKEET_NEMO_FILE
+        self._model = None
+
+    def transcribe(self, wav_path: Path) -> EngineResult:
+        if not wav_path.is_file():
+            raise TranscriptionError("WORKING_AUDIO_MISSING", f"Working WAV not found: {wav_path}")
+        os.environ.setdefault("HF_HUB_OFFLINE", "1")
+        try:
+            import nemo.collections.asr as nemo_asr
+            import torch
+        except ImportError as exc:
+            raise TranscriptionError(
+                "ENGINE_UNAVAILABLE",
+                "NVIDIA Parakeet is not installed. Use isolated .venv-parakeet (Python 3.12).",
+            ) from exc
+
+        local = self._nemo_file if self._nemo_file.is_file() else DEFAULT_PARAKEET_NEMO_FILE
+        if not local.is_file():
+            raise TranscriptionError(
+                "ENGINE_UNAVAILABLE",
+                f"Parakeet checkpoint not found: {local}. Refusing HuggingFace download.",
+            )
+
+        captured: list[str] = []
+        timestamps_used = True
+        with warnings.catch_warnings(record=True) as caught:
+            warnings.simplefilter("always")
+            device = torch.device("cpu")
+            if self._model is None:
+                asr_model = nemo_asr.models.ASRModel.restore_from(
+                    restore_path=str(local),
+                    map_location=device,
+                )
+                asr_model.eval()
+                asr_model = asr_model.to(device)
+                self._model = asr_model
+            asr_model = self._model
+            captured.append("channel_selector=average (in-memory stereo mixdown; not vocal isolation)")
+            captured.append("use_lhotse=False so channel_selector is applied")
+            try:
+                output = asr_model.transcribe(
+                    [str(wav_path)],
+                    timestamps=True,
+                    channel_selector="average",
+                    use_lhotse=False,
+                    batch_size=1,
+                    num_workers=0,
+                )
+            except Exception as exc:
+                if "Input shape mismatch" in str(exc):
+                    raise TranscriptionError("ENGINE_INPUT_SHAPE", str(exc)) from exc
+                timestamps_used = False
+                captured.append(f"timestamps=True failed ({type(exc).__name__}: {exc})")
+                output = asr_model.transcribe(
+                    [str(wav_path)],
+                    timestamps=False,
+                    channel_selector="average",
+                    use_lhotse=False,
+                    batch_size=1,
+                    num_workers=0,
+                )
+            for item in caught:
+                captured.append(warnings.formatwarning(item.message, item.category, item.filename, item.lineno))
+
+        hypothesis = output[0] if output else None
+        text = ""
+        if hypothesis is not None:
+            text = getattr(hypothesis, "text", None) or str(hypothesis)
+        segments = _parakeet_segments(hypothesis, text)
+        return EngineResult(
+            technology=self.technology,
+            model=self.model,
+            text=text,
+            language="en",
+            segments=segments,
+            configuration={
+                "model_repo": PARAKEET_MODEL_REPO,
+                "checkpoint": str(local),
+                "nemo_toolkit": _package_version("nemo_toolkit"),
+                "device": str(device),
+                "channel_selector": "average",
+                "use_lhotse": False,
+                "timestamps_used": timestamps_used,
+                "vocal_isolation": "not_applied",
+                "stored_resampling": "none",
+                "in_memory_channel_mix": "average",
+                "in_memory_resample_hz": 16000,
+                "alternate_engine_aci": "ACI-A2L-012",
+                "confidence_signals": "none",
+                "warnings": captured,
+            },
+        )
+
+
+def _parakeet_segments(hypothesis, full_text: str) -> tuple[EngineSegment, ...]:
+    if hypothesis is None:
+        return ()
+    payload = getattr(hypothesis, "timestamp", None)
+    items = []
+    if isinstance(payload, dict):
+        items = payload.get("segment") or payload.get("segments") or []
+    elif payload is not None:
+        items = getattr(payload, "segment", None) or getattr(payload, "segments", None) or []
+    segments = []
+    for item in items or []:
+        if isinstance(item, dict):
+            text = str(item.get("segment") or item.get("text") or "")
+            start = float(item.get("start") or 0)
+            end = float(item.get("end") or 0)
+        else:
+            text = str(getattr(item, "segment", None) or getattr(item, "text", "") or "")
+            start = float(getattr(item, "start", 0) or 0)
+            end = float(getattr(item, "end", 0) or 0)
+        if text.strip():
+            segments.append(EngineSegment(start, end, text, None, None, None))
+    if segments:
+        return tuple(segments)
+    if str(full_text).strip():
+        return (EngineSegment(0.0, 0.0, str(full_text), None, None, None),)
+    return ()

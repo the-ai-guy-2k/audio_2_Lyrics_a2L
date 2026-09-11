@@ -1,7 +1,8 @@
-"""Primary A2L artifact layout (ACI-A2L-007).
+"""Primary A2L artifact layout (ACI-A2L-007 / ACI-A2L-012).
 
 Historical whisper-1 drafts stay under ingest_job/machine_transcription/.
 Primary faster-whisper work lives under ingest_job/a2l_pipeline/.
+Alternate NVIDIA Parakeet work lives under ingest_job/a2l_pipeline_parakeet/.
 """
 
 from __future__ import annotations
@@ -12,6 +13,9 @@ from pathlib import Path
 LOCKED_SHA256 = "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be"
 ROOT = Path(__file__).resolve().parents[1]
 PIPELINE_DIRNAME = "a2l_pipeline"
+PARAKEET_PIPELINE_DIRNAME = "a2l_pipeline_parakeet"
+ENGINE_ID_FASTER_WHISPER = "faster-whisper"
+ENGINE_ID_NVIDIA_PARAKEET = "nvidia-parakeet"
 TRANSCRIPTION_DIRNAME = "machine_transcription"
 UNCERTAINTY_DIRNAME = "uncertainty"
 STRUCTURE_DIRNAME = "structured_lyrics"
@@ -27,8 +31,22 @@ def ingest_job_dir(sha: str = LOCKED_SHA256, artifact_root: Path | None = None) 
     return root / "ingest" / sha
 
 
-def pipeline_dir(job: Path) -> Path:
-    return Path(job) / PIPELINE_DIRNAME
+def pipeline_dir(job: Path, dirname: str | None = None) -> Path:
+    return Path(job) / (dirname or PIPELINE_DIRNAME)
+
+
+def pipeline_dirname_for_engine(engine) -> str:
+    tech = str(getattr(engine, "technology", "") or "").lower()
+    model = str(getattr(engine, "model", "") or "").lower()
+    if "parakeet" in tech or "parakeet" in model or "nemo" in tech:
+        return PARAKEET_PIPELINE_DIRNAME
+    return PIPELINE_DIRNAME
+
+
+def pipeline_dirname_for_engine_id(engine_id: str) -> str:
+    if engine_id == ENGINE_ID_NVIDIA_PARAKEET:
+        return PARAKEET_PIPELINE_DIRNAME
+    return PIPELINE_DIRNAME
 
 
 def historical_whisper1_dir(job: Path) -> Path:
