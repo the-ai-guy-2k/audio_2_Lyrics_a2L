@@ -25,7 +25,7 @@ a2l = "a2l.cli:main"
 include = ["a2l*"]
 
 [tool.setuptools.package-data]
-a2l = ["review.html"]
+a2l = ["review.html", "app.html"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

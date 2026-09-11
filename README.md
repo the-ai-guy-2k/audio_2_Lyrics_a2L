@@ -11,8 +11,9 @@ A2L recovers lyrics from artist-owned/mastered audio.
 - ACI-ATL-004: lyric structuring (structure, do not rewrite)
 - ACI-A2L-006: human review and correction (reviewed draft, not approved until explicit confirmation)
 - ACI-A2L-008: explicit human approval and approved lyric artifacts
+- ACI-A2L-010: operator application frontend
 
-**Not implemented:** vocal isolation, stem separation, normalization, resampling, finished application frontend.
+**Not implemented:** vocal isolation, stem separation, normalization, resampling.
 
 ## Governing product rule
 
@@ -66,6 +67,16 @@ python -m a2l structure artifacts/ingest/<job_id>/a2l_pipeline/uncertainty/uncer
 ```
 
 This produces a timed, annotated lyric draft for human review. It does not rewrite or approve lyrics. Details: [docs/LYRIC_STRUCTURING.md](docs/LYRIC_STRUCTURING.md)
+
+## Application
+
+```bash
+python -m a2l app
+```
+
+Open http://127.0.0.1:8780/
+
+Upload a WAV, extract lyrics, review, approve, and download. Details: [docs/FRONTEND.md](docs/FRONTEND.md)
 
 ## Human review and correction
 

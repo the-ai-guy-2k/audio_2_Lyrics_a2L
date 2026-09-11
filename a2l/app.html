@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>A2L</title>
+  <style>
+    html { color-scheme: light; background: #f6f4ef; }
+    body {
+      margin: 0;
+      background: #f6f4ef;
+      color: #111;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    header {
+      font-family: sans-serif;
+      background: #1b1b1b;
+      color: #fff;
+      padding: 0.9rem 1.25rem;
+    }
+    header h1 { margin: 0; font-size: 1.2rem; letter-spacing: 0.08em; }
+    header p { margin: 0.25rem 0 0; font-size: 0.9rem; color: #ddd; }
+    nav {
+      font-family: sans-serif;
+      display: flex;
+      gap: 0.4rem;
+      padding: 0.75rem 1.25rem;
+      background: #ece8df;
+      flex-wrap: wrap;
+    }
+    nav button {
+      border: 0;
+      background: transparent;
+      padding: 0.4rem 0.7rem;
+      font-size: 0.95rem;
+      color: #444;
+      cursor: pointer;
+    }
+    nav button.current { background: #1b1b1b; color: #fff; }
+    nav button:disabled { color: #999; cursor: default; }
+    main { padding: 1.25rem; max-width: 46rem; }
+    h2 { font-family: sans-serif; font-size: 1.15rem; margin-top: 0; }
+    p, label { font-family: sans-serif; }
+    button.action { font-size: 1rem; padding: 0.5rem 0.9rem; margin-right: 0.4rem; }
+    .filename { font-family: sans-serif; font-weight: bold; }
+    .note { color: #444; }
+    .error { color: #a40000; font-family: sans-serif; }
+    .state { font-family: sans-serif; font-size: 1.15rem; font-weight: bold; }
+    .state.DRAFT { color: #555; }
+    .state.REVIEWED { color: #8a5a00; }
+    .state.REQUIRES_REAPPROVAL { color: #a40; }
+    .state.APPROVED { color: #0a6; }
+    .hidden { display: none; }
+    .legend { font-family: sans-serif; font-size: 0.9rem; }
+    .legend .swatch { padding: 0 0.25rem; }
+    .legend .uncertain { background: #ffe08a; }
+    .legend .corrected { box-shadow: inset 0 -2px 0 #0a6; }
+    .lyrics {
+      font-size: 1.25rem;
+      line-height: 1.75;
+      white-space: normal;
+      overflow-wrap: break-word;
+      pointer-events: none;
+    }
+    .lyrics .phrase {
+      display: inline;
+      cursor: text;
+      border-radius: 0.15rem;
+      pointer-events: auto;
+    }
+    .lyrics .phrase:focus { outline: 2px solid #336; background: #eef3ff; }
+    .lyrics .uncertain { background: #ffe08a; }
+    .lyrics .corrected { box-shadow: inset 0 -2px 0 #0a6; }
+    .lyrics.approved .phrase { cursor: default; }
+    .inspect { font-family: sans-serif; font-size: 0.9rem; color: #333; border-top: 1px solid #ccc; padding-top: 0.75rem; }
+    .toolbar { margin: 0.75rem 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>A2L</h1>
+    <p>Upload a song, extract lyrics, review, then approve.</p>
+  </header>
+  <nav>
+    <button type="button" data-screen="upload">Upload</button>
+    <button type="button" data-screen="processing">Processing</button>
+    <button type="button" data-screen="review">Review</button>
+    <button type="button" data-screen="approval">Approval</button>
+    <button type="button" data-screen="export">Export</button>
+  </nav>
+  <main>
+    <section id="screen-upload">
+      <h2>Upload</h2>
+      <p>Choose a WAV file. The original recording is not changed.</p>
+      <p>
+        <input id="file" type="file" accept=".wav,audio/wav">
+      </p>
+      <p>Selected song: <span class="filename" id="filename">None</span></p>
+      <p class="error" id="upload-error"></p>
+      <button class="action" id="extract" type="button">Extract lyrics</button>
+    </section>
+    <section id="screen-processing" class="hidden">
+      <h2>Processing</h2>
+      <p id="process-status">Waiting…</p>
+      <p class="note">This can take a few minutes for a full song.</p>
+    </section>
+    <section id="screen-review" class="hidden">
+      <h2>Review</h2>
+      <p class="state" id="review-state">LYRIC STATE: …</p>
+      <p class="note">Click a phrase to edit it. Save keeps a draft. It does not approve the lyrics.</p>
+      <p class="toolbar">
+        <button class="action" id="save" type="button">Save</button>
+      </p>
+      <p class="legend">
+        Uncertain phrases are marked <span class="swatch uncertain">like this</span>.
+        Corrected phrases are <span class="swatch corrected">underlined</span>.
+      </p>
+      <div id="lyrics" class="lyrics"></div>
+      <div class="inspect" id="inspect">Click a phrase to see the original machine text.</div>
+    </section>
+    <section id="screen-approval" class="hidden">
+      <h2>Approval</h2>
+      <p class="state" id="approval-state">LYRIC STATE: …</p>
+      <p class="note">Approval is a separate step. Saving is not approval. Machine extraction is not approval.</p>
+      <p class="toolbar">
+        <button class="action" id="approve" type="button">Mark lyrics APPROVED</button>
+        <button class="action" id="reopen" type="button">Reopen for correction</button>
+      </p>
+      <p id="approval-note"></p>
+    </section>
+    <section id="screen-export" class="hidden">
+      <h2>Export</h2>
+      <p id="export-note">Approve the lyrics before downloading.</p>
+      <p class="toolbar">
+        <a class="action" id="download-txt" href="/export/approved_lyrics.txt">Download lyrics</a>
+        <a class="action" id="download-json" href="/export/approved_lyrics.json">Download record</a>
+      </p>
+    </section>
+  </main>
+  <script>
+    let reviewState = null;
+    let lyricState = "DRAFT";
+    let currentScreen = "upload";
+    let pollTimer = null;
+
+    function $(id) { return document.getElementById(id); }
+
+    function showScreen(name) {
+      currentScreen = name;
+      for (const section of document.querySelectorAll("main section")) {
+        section.classList.toggle("hidden", section.id !== "screen-" + name);
+      }
+      for (const button of document.querySelectorAll("nav button")) {
+        button.classList.toggle("current", button.dataset.screen === name);
+      }
+      if (name === "review" || name === "approval") loadReview();
+    }
+
+    async function refreshSession() {
+      const response = await fetch("/api/session");
+      const session = await response.json();
+      $("filename").textContent = session.filename || "None";
+      $("process-status").textContent = session.status || "";
+      $("upload-error").textContent = session.screen === "upload" ? (session.error || "") : "";
+      const canReview = session.can_review;
+      const canExport = session.can_export;
+      document.querySelector('nav button[data-screen="processing"]').disabled = !(session.busy || session.has_job);
+      document.querySelector('nav button[data-screen="review"]').disabled = !canReview;
+      document.querySelector('nav button[data-screen="approval"]').disabled = !canReview;
+      document.querySelector('nav button[data-screen="export"]').disabled = !session.has_job;
+      $("download-txt").style.pointerEvents = canExport ? "auto" : "none";
+      $("download-json").style.pointerEvents = canExport ? "auto" : "none";
+      $("export-note").textContent = canExport
+        ? "Download the approved lyrics."
+        : "Approve the lyrics before downloading.";
+      if (session.busy && currentScreen !== "processing") showScreen("processing");
+      else if (!session.busy && session.screen === "review" && currentScreen === "processing") showScreen("review");
+      if (session.lyric_state) {
+        $("review-state").textContent = "LYRIC STATE: " + session.lyric_state;
+        $("review-state").className = "state " + session.lyric_state;
+        $("approval-state").textContent = "LYRIC STATE: " + session.lyric_state;
+        $("approval-state").className = "state " + session.lyric_state;
+      }
+      $("approve").disabled = session.lyric_state === "APPROVED";
+      $("reopen").disabled = session.lyric_state !== "APPROVED";
+      $("save").disabled = session.lyric_state === "APPROVED";
+      $("approval-note").textContent = session.lyric_state === "APPROVED"
+        ? "These lyrics are approved."
+        : (session.lyric_state === "REQUIRES_REAPPROVAL"
+          ? "Correct the lyrics, save, then approve again."
+          : "");
+      if (session.busy) {
+        if (!pollTimer) pollTimer = setInterval(refreshSession, 700);
+      } else if (pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+      return session;
+    }
+
+    function displayText(line) {
+      return (line.human_text || "").replace(/\s+/g, " ").trim();
+    }
+    function saveText(line, edited) {
+      const original = line.human_text || "";
+      const lead = (original.match(/^\s*/) || [""])[0];
+      return lead + edited.replace(/\s+/g, " ").trim();
+    }
+
+    async function loadReview() {
+      const response = await fetch("/api/state");
+      const payload = await response.json();
+      if (!payload.ok) return;
+      reviewState = payload.review;
+      lyricState = payload.lyric_state || "DRAFT";
+      const root = $("lyrics");
+      root.innerHTML = "";
+      root.classList.toggle("approved", lyricState === "APPROVED");
+      const editable = lyricState !== "APPROVED";
+      for (const line of reviewState.lines) {
+        if (line.kind === "time_gap") continue;
+        const phrase = document.createElement("span");
+        phrase.className = "phrase";
+        if (line.uncertain) phrase.classList.add("uncertain");
+        if (line.corrected) phrase.classList.add("corrected");
+        phrase.dataset.index = String(line.index);
+        phrase.contentEditable = editable ? "plaintext-only" : "false";
+        phrase.spellcheck = false;
+        phrase.textContent = displayText(line);
+        phrase.addEventListener("focus", function () { showInspect(line); });
+        phrase.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") event.preventDefault();
+        });
+        root.appendChild(phrase);
+        root.appendChild(document.createTextNode(" "));
+      }
+      $("inspect").textContent = "Click a phrase to see the original machine text.";
+    }
+
+    function showInspect(line) {
+      const inspect = $("inspect");
+      inspect.textContent = "";
+      inspect.appendChild(document.createTextNode("Original machine text: "));
+      inspect.appendChild(document.createTextNode(line.machine_text || ""));
+    }
+
+    $("file").addEventListener("change", function () {
+      const file = $("file").files[0];
+      $("filename").textContent = file ? file.name : "None";
+      $("upload-error").textContent = "";
+    });
+
+    $("extract").addEventListener("click", async function () {
+      const file = $("file").files[0];
+      if (!file) {
+        $("upload-error").textContent = "Choose a WAV file first.";
+        return;
+      }
+      const body = new FormData();
+      body.append("wav", file, file.name);
+      showScreen("processing");
+      $("process-status").textContent = "Reading the song.";
+      const response = await fetch("/api/extract", { method: "POST", body: body });
+      const payload = await response.json();
+      if (!payload.ok) {
+        showScreen("upload");
+        $("upload-error").textContent = payload.error || "Could not use that file.";
+        return;
+      }
+      refreshSession();
+    });
+
+    $("save").addEventListener("click", async function () {
+      if (!reviewState) return;
+      const byIndex = {};
+      for (const line of reviewState.lines) byIndex[line.index] = line;
+      const lines = [];
+      for (const phrase of document.querySelectorAll("#lyrics .phrase")) {
+        const index = Number(phrase.dataset.index);
+        const line = byIndex[index];
+        lines.push({ index: index, human_text: saveText(line, phrase.textContent || "") });
+      }
+      const response = await fetch("/api/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ lines }),
+      });
+      const payload = await response.json();
+      if (!payload.ok) {
+        $("inspect").textContent = payload.error || "Save failed.";
+        return;
+      }
+      await refreshSession();
+      await loadReview();
+    });
+
+    $("approve").addEventListener("click", async function () {
+      const ok = window.confirm("Approve these lyrics? Saving does not do this.");
+      if (!ok) return;
+      const response = await fetch("/api/approve", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: true }),
+      });
+      const payload = await response.json();
+      if (!payload.ok) {
+        $("approval-note").textContent = payload.error || "Approval failed.";
+        return;
+      }
+      await refreshSession();
+      await loadReview();
+    });
+
+    $("reopen").addEventListener("click", async function () {
+      const ok = window.confirm("Reopen these lyrics for correction? They will need to be approved again.");
+      if (!ok) return;
+      const response = await fetch("/api/reopen", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ confirm: true }),
+      });
+      const payload = await response.json();
+      if (!payload.ok) {
+        $("approval-note").textContent = payload.error || "Could not reopen.";
+        return;
+      }
+      await refreshSession();
+      await loadReview();
+    });
+
+    for (const button of document.querySelectorAll("nav button")) {
+      button.addEventListener("click", function () {
+        if (!button.disabled) showScreen(button.dataset.screen);
+      });
+    }
+
+    showScreen("upload");
+    refreshSession();
+  </script>
+</body>
+</html>

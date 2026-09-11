@@ -20,6 +20,9 @@ from a2l.approve import (
 )
 from a2l.review import LOCKED_SHA256, default_review_path, load_or_create_review
 from a2l.review_server import DEFAULT_HOST, DEFAULT_PORT, serve
+from a2l.app_server import DEFAULT_HOST as APP_HOST
+from a2l.app_server import DEFAULT_PORT as APP_PORT
+from a2l.app_server import serve as serve_app
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -79,6 +82,14 @@ def build_parser() -> argparse.ArgumentParser:
         default=LOCKED_SHA256,
         help="Ingest job id / source SHA-256 (locked song by default).",
     )
+
+    app_parser = subparsers.add_parser(
+        "app",
+        help="Open the A2L application: upload, extract, review, approve, export.",
+    )
+    app_parser.add_argument("--host", default=APP_HOST)
+    app_parser.add_argument("--port", type=int, default=APP_PORT)
+    app_parser.add_argument("--no-browser", action="store_true")
     return parser
 
 
@@ -96,6 +107,8 @@ def main(argv: list[str] | None = None) -> int:
         return _run_structure(Path(args.report_path))
     if args.command == "review":
         return _run_review(args.host, args.port, args.job_id, not args.no_browser)
+    if args.command == "app":
+        return _run_app(args.host, args.port, not args.no_browser)
     parser.error(f"Unknown command: {args.command}")
     return 1
 
@@ -215,6 +228,11 @@ def _run_review(host: str, port: int, job_id: str, open_browser: bool) -> int:
     print("PRIOR APPROVAL ARCHIVE")
     print(str(history.resolve()) if history else "NONE")
     serve(host=host, port=port, sha=job_id, open_browser=open_browser)
+    return 0
+
+
+def _run_app(host: str, port: int, open_browser: bool) -> int:
+    serve_app(host=host, port=port, open_browser=open_browser)
     return 0
 
 
