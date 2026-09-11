@@ -14,6 +14,7 @@ from pathlib import Path
 
 from a2l.errors import ApprovalError
 from a2l.faster_whisper_draft import assert_not_whisper_baseline
+from a2l.metadata import approved_metadata_fields, persist_review_metadata
 from a2l.pipeline import (
     APPROVED_DIRNAME,
     LOCKED_SHA256,
@@ -173,6 +174,7 @@ def approve_reviewed_lyrics(
         "supersedes": str(history.resolve()) if history else None,
         "approved_lyric_text": text,
         "lyric_lines": _approved_lyric_lines(review),
+        **approved_metadata_fields(review),
         "vocal_isolation": "not_applied",
         "llm_rewrite": False,
         "notes": [
@@ -199,6 +201,7 @@ def approve_reviewed_lyrics(
     notes = list(review.get("notes") or [])
     notes.append("Operator explicitly approved these lyrics (ACI-A2L-008).")
     review["notes"] = notes
+    persist_review_metadata(review, sha, job_dir=ingest_job_dir(sha))
     _write_review_record(review, sha)
     from a2l.export import write_derived_exports
 
@@ -262,6 +265,7 @@ def reopen_approved_lyrics(
         "Operator reopened approved lyrics for correction (ACI-A2L-009 Amendment 01). Prior approval archived."
     )
     review["notes"] = notes
+    persist_review_metadata(review, sha, job_dir=ingest_job_dir(sha))
     _write_review_record(review, sha)
     return {
         "review": review,

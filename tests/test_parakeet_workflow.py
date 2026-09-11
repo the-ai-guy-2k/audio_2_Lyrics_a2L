@@ -133,6 +133,9 @@ def test_parakeet_approved_export_is_engine_independent(tmp_path: Path, monkeypa
     structure_lyrics(uncertainty.report_path)
     review = load_or_create_review(sha=ingest.job_id, pipeline_dirname=PARAKEET_PIPELINE_DIRNAME)
     apply_corrections(review, {1: "Play something we can groove to"})
+    from a2l.metadata import apply_song_metadata
+
+    apply_song_metadata(review, "Sangria", "Danni")
     save_review(review, sha=ingest.job_id)
     approved = approve_reviewed_lyrics(review, ingest.job_id, confirm=True)
     canonical = approved["txt_path"].read_text(encoding="utf-8")
@@ -140,8 +143,13 @@ def test_parakeet_approved_export_is_engine_independent(tmp_path: Path, monkeypa
         ingest.job_id,
         pipeline_dirname=PARAKEET_PIPELINE_DIRNAME,
     )
+    payload = json.loads(approved["json_path"].read_text(encoding="utf-8"))
     assert approved["review"]["transcription_engine"] == "nvidia_nemo_parakeet"
-    assert export.text == canonical
+    assert payload["song_title"] == "Sangria"
+    assert payload["artist"] == "Danni"
+    assert export.text.startswith("Sangria\nDanni\n\n")
+    assert export.text.endswith(canonical)
+    assert "Sangria" not in canonical
     assert "Play something we can groove to" in export.text
     assert PARAKEET_PIPELINE_DIRNAME in export.source_txt.parts
     primary_approved = ingest.artifact_dir / PIPELINE_DIRNAME / "approved_lyrics" / "approved_lyrics.txt"

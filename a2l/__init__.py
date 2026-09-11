@@ -10,6 +10,7 @@ ACI-A2L-006: human review and correction (reviewed draft, not approved).
 ACI-A2L-008: explicit human approval writes approved lyric artifacts.
 ACI-A2L-010: operator application frontend.
 ACI-A2L-013: derived approved-lyric export formatting.
+ACI-A2L-014: optional operator-provided song title and artist.
 Vocal isolation remains out of scope.
 """
 

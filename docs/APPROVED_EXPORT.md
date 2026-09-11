@@ -24,7 +24,7 @@ Unapproved lyrics cannot generate these exports.
 
 STANDARD LYRIC SHEET. After approval the operator application moves to **Output** and shows that sheet. No format choice is required to see the normal result.
 
-If the approved JSON already has `song_title`/`title` and/or `artist`, those values are shown above the lyrics. Missing metadata is not invented. The WAV filename is not used as a title.
+If the approved JSON already has `song_title`/`title` and/or `artist` from operator intake (ACI-A2L-014), those values are shown above the lyrics. Missing metadata is not invented. The WAV filename is not used as a title. See [SONG_METADATA.md](SONG_METADATA.md).
 
 ## Format selector
 

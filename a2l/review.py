@@ -112,6 +112,8 @@ def review_from_structured(structured: dict, structured_path: Path, sha: str) ->
         "transcription_engine": structured.get("transcription_engine") or "faster-whisper",
         "transcription_model": structured.get("transcription_model") or "large-v3",
         "pipeline_dirname": structured.get("pipeline_dirname") or PIPELINE_DIRNAME,
+        "song_title": None,
+        "artist": None,
         "ingest_job_id": sha,
         "structured_draft_path": str(structured_path.resolve()),
         "authority_boundary": {
@@ -158,7 +160,9 @@ def load_or_create_review(
     if review_path.is_file():
         review = json.loads(review_path.read_text(encoding="utf-8"))
         _assert_machine_traceable(review, structured)
-        return review
+        from a2l.metadata import overlay_working_metadata
+
+        return overlay_working_metadata(review, sha, job_dir=ingest_job_dir(sha))
     review = review_from_structured(structured, structured_path, sha)
     if dirname:
         review["pipeline_dirname"] = dirname
@@ -166,7 +170,9 @@ def load_or_create_review(
         prior = _existing_review_for_merge(sha)
         if prior is not None:
             _merge_matching_corrections(review, prior)
-    return review
+    from a2l.metadata import overlay_working_metadata
+
+    return overlay_working_metadata(review, sha, job_dir=ingest_job_dir(sha))
 
 
 def _existing_review_for_merge(sha: str) -> dict | None:
@@ -250,6 +256,9 @@ def save_review(review: dict, sha: str = LOCKED_SHA256) -> Path:
     assert_not_whisper_baseline(json_path, sha)
     json_path.write_text(json.dumps(review, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     txt_path.write_text(_human_readable(review), encoding="utf-8")
+    from a2l.metadata import persist_review_metadata
+
+    persist_review_metadata(review, sha, job_dir=ingest_job_dir(sha))
     return json_path.resolve()
 
 
@@ -307,6 +316,8 @@ def _human_readable(review: dict) -> str:
         f"Lyric state: {state}",
         f"Approval: {review['approval_status']}",
         f"Engine: {review.get('transcription_engine')} / {review.get('transcription_model')}",
+        f"Song title: {review.get('song_title') or ''}",
+        f"Artist: {review.get('artist') or ''}",
         f"Human-corrected lines: {review.get('counts', {}).get('human_corrected')}",
         "",
     ]

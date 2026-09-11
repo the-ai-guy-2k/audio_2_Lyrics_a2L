@@ -41,7 +41,13 @@ def _engine(delay: float = 0.0) -> ScriptedEngine:
     return SlowEngine(result)
 
 
-def _multipart(filename: str, data: bytes, engine: str | None = None) -> tuple[str, bytes]:
+def _multipart(
+    filename: str,
+    data: bytes,
+    engine: str | None = None,
+    song_title: str | None = None,
+    artist: str | None = None,
+) -> tuple[str, bytes]:
     boundary = "----A2LTestBoundary"
     parts = [
         (
@@ -57,6 +63,22 @@ def _multipart(filename: str, data: bytes, engine: str | None = None) -> tuple[s
                 f"--{boundary}\r\n"
                 f'Content-Disposition: form-data; name="engine"\r\n\r\n'
                 f"{engine}"
+            ).encode("utf-8")
+        )
+    if song_title is not None:
+        parts.append(
+            (
+                f"--{boundary}\r\n"
+                f'Content-Disposition: form-data; name="song_title"\r\n\r\n'
+                f"{song_title}"
+            ).encode("utf-8")
+        )
+    if artist is not None:
+        parts.append(
+            (
+                f"--{boundary}\r\n"
+                f'Content-Disposition: form-data; name="artist"\r\n\r\n'
+                f"{artist}"
             ).encode("utf-8")
         )
     return boundary, b"\r\n".join(parts) + f"\r\n--{boundary}--\r\n".encode("utf-8")
@@ -199,6 +221,8 @@ def test_extract_review_save_approve_export(tmp_path: Path, monkeypatch) -> None
         assert session["can_review"] is True
         assert session["lyric_state"] in {"DRAFT", "REVIEWED"}
         assert session["filename"] == "demo.wav"
+        assert session["song_title"] is None
+        assert session["artist"] is None
         assert app.job_id
         assert app.job_id != LOCKED_SHA256
         assert source.read_bytes() == before
@@ -291,6 +315,10 @@ def test_extract_review_save_approve_export(tmp_path: Path, monkeypatch) -> None
         assert status == 200
         assert record["approval_event"]["automatic"] is False
         assert record["transcription_engine"] == "faster-whisper"
+        assert record.get("song_title") is None
+        assert record.get("artist") is None
+        assert not sheet["text"].startswith("demo")
+        assert "demo.wav" not in sheet["text"]
 
         status, data, _ = _request(
             port,
@@ -309,6 +337,72 @@ def test_extract_review_save_approve_export(tmp_path: Path, monkeypatch) -> None
         server.shutdown()
 
 
+def test_extract_metadata_persists_and_appears_on_standard_sheet(tmp_path: Path, monkeypatch) -> None:
+    app, server, port = _start(tmp_path, monkeypatch)
+    try:
+        boundary, body = _multipart("demo.wav", pcm_wav_bytes(), song_title="Stomp", artist="Jay")
+        status, _, _ = _request(
+            port,
+            "POST",
+            "/api/extract",
+            body=body,
+            headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
+        )
+        assert status == 200
+        session = _wait_ready(port)
+        assert session["error"] == ""
+        assert session["song_title"] == "Stomp"
+        assert session["artist"] == "Jay"
+        assert session["filename"] == "demo.wav"
+
+        status, data, _ = _request(port, "GET", "/api/state")
+        state = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert state["review"]["song_title"] == "Stomp"
+        assert state["review"]["artist"] == "Jay"
+        machine_line = next(item for item in state["review"]["lines"] if item.get("kind") != "time_gap")
+
+        save_body = json.dumps({
+            "lines": [{"index": machine_line["index"], "human_text": machine_line["human_text"]}],
+            "song_title": "Stomp Corrected",
+            "artist": "Jay",
+        }).encode("utf-8")
+        status, data, _ = _request(
+            port,
+            "POST",
+            "/api/save",
+            body=save_body,
+            headers={"Content-Type": "application/json"},
+        )
+        saved = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert saved["review"]["song_title"] == "Stomp Corrected"
+        assert saved["lyric_state"] != "APPROVED"
+
+        status, data, _ = _request(
+            port,
+            "POST",
+            "/api/approve",
+            body=b'{"confirm": true}',
+            headers={"Content-Type": "application/json"},
+        )
+        assert status == 200
+        canonical = _request(port, "GET", "/export/approved_lyrics.txt")[1].decode("utf-8")
+        record = json.loads(_request(port, "GET", "/export/approved_lyrics.json")[1].decode("utf-8"))
+        sheet = json.loads(_request(port, "GET", "/api/export")[1].decode("utf-8"))
+        plain = json.loads(_request(port, "GET", "/api/export?format=plain-text")[1].decode("utf-8"))
+        assert record["song_title"] == "Stomp Corrected"
+        assert record["artist"] == "Jay"
+        assert "Stomp Corrected" not in canonical
+        assert sheet["text"].startswith("Stomp Corrected\nJay\n\n")
+        assert sheet["text"].endswith(canonical)
+        assert plain["text"] == canonical
+        assert "demo.wav" not in sheet["text"]
+        assert app.job_id
+    finally:
+        server.shutdown()
+
+
 def test_app_html_hides_engineering_paths() -> None:
     html = (Path(__file__).resolve().parents[1] / "a2l" / "app.html").read_text(encoding="utf-8")
     assert "Upload" in html and "Processing" in html and "Review" in html
@@ -321,3 +415,8 @@ def test_app_html_hides_engineering_paths() -> None:
     assert "confirm: true" in html
     assert 'id="engine"' in html
     assert "nvidia-parakeet" in html
+    assert 'id="song-title"' in html
+    assert 'id="artist"' in html
+    assert 'id="review-song-title"' in html
+    assert 'id="review-artist"' in html
+    assert "The file name is not used as the title." in html

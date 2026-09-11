@@ -41,6 +41,7 @@
     h2 { font-family: sans-serif; font-size: 1.15rem; margin-top: 0; }
     p, label { font-family: sans-serif; }
     button.action { font-size: 1rem; padding: 0.5rem 0.9rem; margin-right: 0.4rem; }
+    input[type="text"] { font-size: 1rem; padding: 0.35rem 0.5rem; width: 100%; max-width: 24rem; }
     .filename { font-family: sans-serif; font-weight: bold; }
     .note { color: #444; }
     .error { color: #a40000; font-family: sans-serif; }
@@ -112,6 +113,15 @@
         </select>
       </p>
       <p>Selected song: <span class="filename" id="filename">None</span></p>
+      <p>
+        <label for="song-title">Song title</label><br>
+        <input id="song-title" type="text" autocomplete="off">
+      </p>
+      <p>
+        <label for="artist">Artist</label><br>
+        <input id="artist" type="text" autocomplete="off">
+      </p>
+      <p class="note">Optional. Leave blank if you do not want them on the lyric sheet. The file name is not used as the title.</p>
       <p class="error" id="upload-error"></p>
       <button class="action" id="extract" type="button">Extract lyrics</button>
     </section>
@@ -124,6 +134,14 @@
       <h2>Review</h2>
       <p class="state" id="review-state">LYRIC STATE: …</p>
       <p class="note" id="review-engine"></p>
+      <p>
+        <label for="review-song-title">Song title</label><br>
+        <input id="review-song-title" type="text" autocomplete="off">
+      </p>
+      <p>
+        <label for="review-artist">Artist</label><br>
+        <input id="review-artist" type="text" autocomplete="off">
+      </p>
       <p class="note">Click a phrase to edit it. Save keeps a draft. It does not approve the lyrics.</p>
       <p class="toolbar">
         <button class="action" id="save" type="button">Save</button>
@@ -139,6 +157,7 @@
       <h2>Approval</h2>
       <p class="state" id="approval-state">LYRIC STATE: …</p>
       <p class="note">Approval is a separate step. Saving is not approval. Machine extraction is not approval.</p>
+      <p class="note" id="approval-metadata"></p>
       <p class="toolbar">
         <button class="action" id="approve" type="button">Mark lyrics APPROVED</button>
         <button class="action" id="reopen" type="button">Reopen for correction</button>
@@ -221,6 +240,8 @@
       $("approve").disabled = session.lyric_state === "APPROVED";
       $("reopen").disabled = session.lyric_state !== "APPROVED";
       $("save").disabled = session.lyric_state === "APPROVED";
+      $("review-song-title").disabled = session.lyric_state === "APPROVED";
+      $("review-artist").disabled = session.lyric_state === "APPROVED";
       $("approval-note").textContent = session.lyric_state === "APPROVED"
         ? "These lyrics are approved."
         : (session.lyric_state === "REQUIRES_REAPPROVAL"
@@ -235,7 +256,13 @@
       return session;
     }
 
-    function displayText(line) {
+    function metadataNote(title, artist) {
+      const parts = [];
+      if (title) parts.push(title);
+      if (artist) parts.push(artist);
+      if (!parts.length) return "No song title or artist was entered.";
+      return parts.join(" — ");
+    }
       return (line.human_text || "").replace(/\s+/g, " ").trim();
     }
     function saveText(line, edited) {
@@ -252,6 +279,11 @@
       lyricState = payload.lyric_state || "DRAFT";
       const engineName = [reviewState.transcription_engine, reviewState.transcription_model].filter(Boolean).join(" / ");
       $("review-engine").textContent = engineName ? "Engine: " + engineName : "";
+      $("review-song-title").value = reviewState.song_title || "";
+      $("review-artist").value = reviewState.artist || "";
+      $("review-song-title").disabled = lyricState === "APPROVED";
+      $("review-artist").disabled = lyricState === "APPROVED";
+      $("approval-metadata").textContent = metadataNote(reviewState.song_title, reviewState.artist);
       const root = $("lyrics");
       root.innerHTML = "";
       root.classList.toggle("approved", lyricState === "APPROVED");
@@ -314,6 +346,8 @@
       const body = new FormData();
       body.append("wav", file, file.name);
       body.append("engine", $("engine").value);
+      body.append("song_title", $("song-title").value);
+      body.append("artist", $("artist").value);
       showScreen("processing");
       $("process-status").textContent = "Reading the song.";
       const response = await fetch("/api/extract", { method: "POST", body: body });
@@ -339,7 +373,11 @@
       const response = await fetch("/api/save", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lines }),
+        body: JSON.stringify({
+          lines: lines,
+          song_title: $("review-song-title").value,
+          artist: $("review-artist").value,
+        }),
       });
       const payload = await response.json();
       if (!payload.ok) {

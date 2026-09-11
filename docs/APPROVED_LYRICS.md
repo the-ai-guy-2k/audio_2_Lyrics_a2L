@@ -38,7 +38,7 @@ artifacts/ingest/<sha256>/a2l_pipeline/approved_lyrics/
 
 The TXT is clean lyric lines only: current `human_text` for non-gap rows, one phrase per line. It does not include timestamps, uncertainty flags, confidence, machine provenance labels, or review-interface metadata. Derived export files must not be used as a substitute for these canonical files. See [APPROVED_EXPORT.md](APPROVED_EXPORT.md).
 
-The JSON retains provenance: source SHA, transcription engine/model, approval state, approval event, and the approved text.
+The JSON retains provenance: source SHA, transcription engine/model, approval state, approval event, the approved text, and operator-supplied `song_title` / `artist` when provided (ACI-A2L-014).
 
 Existing audio, machine transcription, uncertainty, structured draft, and human-review files are not overwritten as a substitute for these artifacts. The review JSON is updated only to record that approval happened.
 

@@ -25,6 +25,7 @@ from a2l.engines import FasterWhisperEngine, ParakeetEngine, TranscriptionEngine
 from a2l.errors import ApprovalError, ExportError, IngestionError, ReviewError, TranscriptionError
 from a2l.export import DEFAULT_FORMAT, format_approved_export, public_export_payload
 from a2l.ingest import ingest_wav
+from a2l.metadata import apply_song_metadata, overlay_working_metadata, write_song_metadata
 from a2l.pipeline import (
     ENGINE_ID_FASTER_WHISPER,
     ENGINE_ID_NVIDIA_PARAKEET,
@@ -70,6 +71,8 @@ class AppState:
         self.error = ""
         self.busy = False
         self.source_sha256 = ""
+        self.song_title = None
+        self.artist = None
 
     def snapshot(self) -> dict:
         with self.lock:
@@ -82,6 +85,8 @@ class AppState:
             dirname = self.pipeline_dirname
         lyric_state = None
         can_export = False
+        song_title = None
+        artist = None
         # Do not create review artifacts while extraction is writing them.
         if job and not busy and not error:
             try:
@@ -90,6 +95,8 @@ class AppState:
                 can_export = lyric_state == "APPROVED" and default_approved_txt_path(
                     job, pipeline_dirname=review.get("pipeline_dirname") or dirname
                 ).is_file()
+                song_title = review.get("song_title")
+                artist = review.get("artist")
             except ReviewError:
                 lyric_state = None
         return {
@@ -100,13 +107,22 @@ class AppState:
             "error": error,
             "busy": busy,
             "lyric_state": lyric_state,
+            "song_title": song_title,
+            "artist": artist,
             "can_review": bool(job) and not busy and not error,
             "can_approve": bool(job) and not busy and not error,
             "can_export": can_export,
             "has_job": bool(job),
         }
 
-    def start_extract(self, filename: str, wav_bytes: bytes, engine_id: str | None = None) -> dict:
+    def start_extract(
+        self,
+        filename: str,
+        wav_bytes: bytes,
+        engine_id: str | None = None,
+        song_title=None,
+        artist=None,
+    ) -> dict:
         name = Path(filename or "song.wav").name
         if not name.lower().endswith(".wav"):
             return {"ok": False, "error_code": "NOT_WAV", "error": "Please choose a WAV file."}
@@ -130,7 +146,13 @@ class AppState:
             self.engine_id = selected
             self.pipeline_dirname = PIPELINE_DIRNAME
             self.transcription_seconds = None
-        thread = threading.Thread(target=self._run_pipeline, args=(name, wav_bytes, selected), daemon=True)
+            self.song_title = song_title
+            self.artist = artist
+        thread = threading.Thread(
+            target=self._run_pipeline,
+            args=(name, wav_bytes, selected, song_title, artist),
+            daemon=True,
+        )
         thread.start()
         return {"ok": True, "status": STATUS_READING, "screen": "processing"}
 
@@ -141,7 +163,7 @@ class AppState:
             return ParakeetEngine()
         return FasterWhisperEngine()
 
-    def _run_pipeline(self, filename: str, wav_bytes: bytes, engine_id: str) -> None:
+    def _run_pipeline(self, filename: str, wav_bytes: bytes, engine_id: str, song_title=None, artist=None) -> None:
         tmp_dir = None
         try:
             tmp_dir = Path(tempfile.mkdtemp(prefix="a2l-upload-"))
@@ -162,7 +184,10 @@ class AppState:
             with self.lock:
                 self.status = STATUS_PREPARING
             structure_lyrics(uncertainty.report_path)
-            load_or_create_review(sha=ingest.job_id, pipeline_dirname=dirname)
+            review = load_or_create_review(sha=ingest.job_id, pipeline_dirname=dirname)
+            if lyric_display_state(review, ingest.job_id) != "APPROVED":
+                write_song_metadata(ingest.job_id, song_title, artist, job_dir=ingest.artifact_dir)
+                overlay_working_metadata(review, ingest.job_id, job_dir=ingest.artifact_dir)
             with self.lock:
                 self.job_id = ingest.job_id
                 self.source_sha256 = ingest.source_sha256
@@ -229,6 +254,8 @@ def operator_state(sha: str, review: dict) -> dict:
         "transcription_engine": review.get("transcription_engine"),
         "transcription_model": review.get("transcription_model"),
         "pipeline_dirname": review.get("pipeline_dirname"),
+        "song_title": review.get("song_title"),
+        "artist": review.get("artist"),
     }
     return {
         "ok": True,
@@ -238,7 +265,7 @@ def operator_state(sha: str, review: dict) -> dict:
     }
 
 
-def parse_extract_upload(content_type: str, body: bytes) -> tuple[str, bytes, str]:
+def parse_extract_upload(content_type: str, body: bytes) -> tuple[str, bytes, str, str | None, str | None]:
     if "multipart/form-data" not in (content_type or ""):
         raise IngestionError("NOT_WAV", "Please choose a WAV file.")
     boundary = ""
@@ -252,6 +279,8 @@ def parse_extract_upload(content_type: str, body: bytes) -> tuple[str, bytes, st
     filename = None
     payload = None
     engine_id = ENGINE_ID_FASTER_WHISPER
+    song_title = None
+    artist = None
     for raw in body.split(marker):
         part = raw.lstrip(b"\r\n")
         if not part or part == b"--" or part.startswith(b"--"):
@@ -282,11 +311,15 @@ def parse_extract_upload(content_type: str, body: bytes) -> tuple[str, bytes, st
         field = _multipart_field_name(headers)
         if field == "engine":
             engine_id = content.decode("utf-8", errors="replace").strip() or ENGINE_ID_FASTER_WHISPER
+        elif field == "song_title":
+            song_title = content.decode("utf-8", errors="replace")
+        elif field == "artist":
+            artist = content.decode("utf-8", errors="replace")
     if filename is None or payload is None:
         raise IngestionError("NOT_WAV", "Please choose a WAV file.")
     if engine_id not in {ENGINE_ID_FASTER_WHISPER, ENGINE_ID_NVIDIA_PARAKEET}:
         raise IngestionError("UNKNOWN_ENGINE", "Choose FASTER-WHISPER or NVIDIA PARAKEET.")
-    return filename, payload, engine_id
+    return filename, payload, engine_id, song_title, artist
 
 
 def _multipart_field_name(headers: str) -> str:
@@ -301,7 +334,7 @@ def _multipart_field_name(headers: str) -> str:
 
 
 def parse_multipart_file(content_type: str, body: bytes) -> tuple[str, bytes]:
-    filename, payload, _engine_id = parse_extract_upload(content_type, body)
+    filename, payload, _engine_id, _song_title, _artist = parse_extract_upload(content_type, body)
     return filename, payload
 
 
@@ -344,10 +377,16 @@ class AppHandler(BaseHTTPRequestHandler):
         body = self.rfile.read(length) if length else b""
         if parsed.path == "/api/extract":
             try:
-                filename, wav_bytes, engine_id = parse_extract_upload(
+                filename, wav_bytes, engine_id, song_title, artist = parse_extract_upload(
                     self.headers.get("Content-Type") or "", body
                 )
-                result = self.app.start_extract(filename, wav_bytes, engine_id=engine_id)
+                result = self.app.start_extract(
+                    filename,
+                    wav_bytes,
+                    engine_id=engine_id,
+                    song_title=song_title,
+                    artist=artist,
+                )
             except IngestionError as exc:
                 self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
                 return
@@ -365,6 +404,8 @@ class AppHandler(BaseHTTPRequestHandler):
             try:
                 review = load_or_create_review(sha=job, pipeline_dirname=dirname)
                 apply_corrections(review, updates)
+                if "song_title" in payload or "artist" in payload:
+                    apply_song_metadata(review, payload.get("song_title"), payload.get("artist"))
                 save_review(review, sha=job)
             except ReviewError as exc:
                 self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})

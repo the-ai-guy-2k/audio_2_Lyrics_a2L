@@ -15,3 +15,4 @@
 | [ACI-A2L-011](aci/ACI-A2L-011.md) | NVIDIA Parakeet candidate evaluation | — | `feature/aci-a2l-011-nvidia-candidate` @ `7f3ae80` | EXECUTED on feature branch; awaiting Operator quality review; not promoted; not merged |
 | [ACI-A2L-012](aci/ACI-A2L-012.md) | NVIDIA Parakeet A2L workflow integration | — | `feature/aci-a2l-012-nvidia-workflow` | EXECUTED on feature branch; alternate engine in operator app; not promoted; not approved; not merged |
 | [ACI-A2L-013](aci/ACI-A2L-013.md) | Approved lyric export formatting | [ACR-A2L-013](acr/ACR-A2L-013.md) | `feature/aci-a2l-013-approved-export-formatting` @ `18bcd53` | EXECUTED on feature branch; derived Standard Lyric Sheet after approval; canonical TXT/JSON preserved; not merged |
+| [ACI-A2L-014](aci/ACI-A2L-014.md) | Song metadata intake | — | `feature/aci-a2l-014-song-metadata` | EXECUTED on feature branch; optional title/artist; filename not used as title; not merged |
