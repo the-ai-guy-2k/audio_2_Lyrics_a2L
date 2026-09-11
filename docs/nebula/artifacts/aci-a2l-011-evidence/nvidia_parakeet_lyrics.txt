@@ -1,0 +1,12 @@
+NVIDIA PARAKEET MACHINE TRANSCRIPTION
+CANDIDATE ONLY — NON_AUTHORITATIVE_MACHINE_DRAFT
+NOT APPROVED LYRICS
+Not the A2L primary engine. No LLM repair was applied.
+engine: NVIDIA NeMo Speech / Parakeet
+model: nvidia/parakeet-tdt-0.6b-v2
+nemo: 3.0.0
+device: cpu
+source_sha256: bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be
+
+----- BEGIN ACTUAL MACHINE TEXT -----
+Hear them, Mr. Guitar Man. You've got the power in your hands. We got some work weak blues to share. And you never let us down, yeah. Play something we can starve to. Something we can groove to. Something we can get our butts about these seats and move to. Hug us with that old school form. None of that slowed down, balanced stuff. We came here to dance and get a little foot loose. Play something we can starve to. Play something we can stall to. Don't mean to put you on the spot. But I'll drop a twenty-four kid arrived. Bring some kick-ass to this dial. If you want this crowd to come alive, play something we can stall to. Something we can groove to. Something we can get our butts about these seats and move to. Cloak us with that old school funk. None of that slow down balanced stuff. We came here to dance and get a little foot loose. Play something we can stall to play something we can stall to. Something we can groove to. Something we can get our butts about these seats and move to. Clock us with that old school form. None of that slowed down balanced stuff. We came here to dance and get a little foot loose. Play something we can stop to. Something we can groove to. Something we can get our butts up out of these seats and move to. Cloak us with that old school funk. None of that slowed down, balanced stuff. We came here to dance and get a little foot loose. Play something we can stall to. Play something we can start to. Play something we can start to. Play something we can start to.

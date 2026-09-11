@@ -1,0 +1,25 @@
+# Isolated ACI-A2L-011 NVIDIA Parakeet environment.
+# Do not install into the default A2L Python 3.14 interpreter.
+# Use .venv-parakeet (Python 3.12.10, gitignored).
+#
+# Exact runtime used on this workstation:
+#   Python 3.12.10
+#   nemo-toolkit==3.0.0
+#   torch==2.14.0+cpu
+#   torchaudio==2.11.0+cpu
+#
+# Install:
+#   py -3.12 -m venv .venv-parakeet
+#   .venv-parakeet\Scripts\python.exe -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+#   .venv-parakeet\Scripts\python.exe -m pip install "nemo-toolkit[asr]==3.0.0"
+#
+# Model checkpoint (local, not in git):
+#   %USERPROFILE%\.cache\a2l-parakeet\parakeet-tdt-0.6b-v2.nemo
+#   2,472,222,720 bytes
+#   HuggingFace: nvidia/parakeet-tdt-0.6b-v2
+#
+# English-only TDT 0.6B v2 is the candidate. v3 exists (multilingual) and was not substituted.
+
+nemo-toolkit[asr]==3.0.0
+torch==2.14.0
+torchaudio==2.11.0
