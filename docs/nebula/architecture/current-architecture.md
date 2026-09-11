@@ -1,15 +1,15 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-016 on `feature/aci-a2l-016-export-filenames`, branched from the ACI-A2L-015 validated MVP.
+**Authority:** ACI-A2L-017 promotion of the validated ACI-A2L-016 MVP to `deployable`.
 
 ## Implemented flow
 
 ```text
-Operator application (python -m a2l app)
+Operator application (python -m a2l app)  ← product-facing, http://127.0.0.1:8780/
   Upload WAV + optional song title / artist (filename is not the title)
     → choose engine BEFORE transcription
-      default: faster-whisper / Whisper large-v3  → ingest_job/a2l_pipeline/
-      alternate: NVIDIA Parakeet / TDT-0.6B-V2   → ingest_job/a2l_pipeline_parakeet/
+      PRIMARY: faster-whisper / Whisper large-v3  → ingest_job/a2l_pipeline/
+      ALTERNATE: NVIDIA Parakeet / TDT-0.6B-V2   → ingest_job/a2l_pipeline_parakeet/
   → ingest (CONTROL A)
   → persist operator metadata at ingest_job/song_metadata.json
   → transcribe (selected engine; whisper-1 baseline preserved)
@@ -23,9 +23,10 @@ Operator application (python -m a2l app)
   → optional reopen (archives prior approval + derived exports) → metadata may be corrected → reapprove
 ```
 
-The engineering review page remains `python -m a2l review` at http://127.0.0.1:8765/ and continues to default to the primary faster-whisper `a2l_pipeline`.
+Primary supported start: `.venv-faster-whisper\Scripts\python.exe -m a2l app`  
+See [OPERATOR_START.md](../../OPERATOR_START.md).
 
-This workstation's Parakeet-enabled operator app for ACI-A2L-012 review: http://127.0.0.1:8781/
+The engineering review page remains `python -m a2l review` at http://127.0.0.1:8765/ and is **not** the product-facing path.
 
 Fixed test song: [FIXED_TEST_SONG.md](../FIXED_TEST_SONG.md)
 

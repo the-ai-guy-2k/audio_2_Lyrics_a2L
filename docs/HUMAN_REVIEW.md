@@ -2,6 +2,8 @@
 
 Review the primary faster-whisper large-v3 structured lyric draft. Correct machine errors. Preserve original machine text. Saving a review does **not** approve lyrics.
 
+The **product-facing** operator application is `python -m a2l app` at http://127.0.0.1:8780/. This page is the engineering review interface.
+
 ## Open the interface
 
 From the repository root:
