@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution adds optional song title and 
 ## Constraints honored
 
 - New branch `feature/aci-a2l-014-song-metadata` from `feature/aci-a2l-013-approved-export-formatting` @ `1518c3c5ae32ba7261db68cf7ba6d40903b8b19d`.
+- Implementation commit: `44a880d`.
 - Fields: SONG TITLE and ARTIST only. Both optional.
 - WAV filename is not the song title. Missing values are left empty.
 - Metadata is stored independently from machine-generated lyrics (`song_metadata.json` at the ingest job) and copied onto the review and approved JSON.

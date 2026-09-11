@@ -20,7 +20,7 @@ Not merged. Not pushed.
 | --- | --- |
 | Branch | `feature/aci-a2l-014-song-metadata` |
 | Base | `feature/aci-a2l-013-approved-export-formatting` @ `1518c3c5ae32ba7261db68cf7ba6d40903b8b19d` |
-| Implementation | recorded in ACR-A2L-014 after this commit |
+| Implementation | `44a880d` |
 
 ## Metadata intake implementation
 
@@ -82,3 +82,7 @@ No album, songwriter, publisher, copyright, ISRC, lookup, cover art, new engines
 ## Merge / push status
 
 Not merged. Not pushed.
+
+## Commit information
+
+`44a880d` on `feature/aci-a2l-014-song-metadata` (implementation). Follow-up commit records this SHA in ACR-A2L-014.
