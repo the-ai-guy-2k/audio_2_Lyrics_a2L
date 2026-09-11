@@ -115,6 +115,39 @@ def test_parakeet_review_save_is_not_approval(tmp_path: Path, monkeypatch) -> No
     assert not primary_review.is_file()
 
 
+def test_parakeet_approved_export_is_engine_independent(tmp_path: Path, monkeypatch) -> None:
+    from a2l.approve import approve_reviewed_lyrics
+    from a2l.export import format_approved_export
+
+    artifact_root = tmp_path / "artifacts"
+
+    def job_dir(sha=None, artifact_root=artifact_root):
+        return artifact_root / "ingest" / sha
+
+    monkeypatch.setattr("a2l.review.ingest_job_dir", job_dir)
+    monkeypatch.setattr("a2l.approve.ingest_job_dir", job_dir)
+    source = write_pcm_wav(tmp_path / "mastered.wav")
+    ingest = ingest_wav(source, artifact_root)
+    transcribed = transcribe_from_manifest(ingest.manifest_path, engine=_parakeet_engine())
+    uncertainty = evaluate_uncertainty(transcribed.draft_path)
+    structure_lyrics(uncertainty.report_path)
+    review = load_or_create_review(sha=ingest.job_id, pipeline_dirname=PARAKEET_PIPELINE_DIRNAME)
+    apply_corrections(review, {1: "Play something we can groove to"})
+    save_review(review, sha=ingest.job_id)
+    approved = approve_reviewed_lyrics(review, ingest.job_id, confirm=True)
+    canonical = approved["txt_path"].read_text(encoding="utf-8")
+    export = format_approved_export(
+        ingest.job_id,
+        pipeline_dirname=PARAKEET_PIPELINE_DIRNAME,
+    )
+    assert approved["review"]["transcription_engine"] == "nvidia_nemo_parakeet"
+    assert export.text == canonical
+    assert "Play something we can groove to" in export.text
+    assert PARAKEET_PIPELINE_DIRNAME in export.source_txt.parts
+    primary_approved = ingest.artifact_dir / PIPELINE_DIRNAME / "approved_lyrics" / "approved_lyrics.txt"
+    assert not primary_approved.is_file()
+
+
 def test_app_parakeet_selection_uses_isolated_chain(tmp_path: Path, monkeypatch) -> None:
     source = write_pcm_wav(tmp_path / "mastered.wav")
     before = source.read_bytes()

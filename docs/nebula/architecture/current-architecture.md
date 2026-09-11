@@ -1,13 +1,13 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-012 on `feature/aci-a2l-012-nvidia-workflow`.
+**Authority:** ACI-A2L-013 on `feature/aci-a2l-013-approved-export-formatting`.
 
 ## Implemented flow
 
 ```text
 Operator application (python -m a2l app)
   Upload WAV
-  → choose engine BEFORE transcription
+    → choose engine BEFORE transcription
       default: faster-whisper / Whisper large-v3  → ingest_job/a2l_pipeline/
       alternate: NVIDIA Parakeet / TDT-0.6B-V2   → ingest_job/a2l_pipeline_parakeet/
   → ingest (CONTROL A)
@@ -16,8 +16,9 @@ Operator application (python -m a2l app)
   → lyric structuring (timed annotated draft, do not rewrite)
   → human review (paragraph lyrics, correct, save does not approve)
   → explicit human approval (confirm=true)
-  → export approved_lyrics.txt / approved_lyrics.json
-  → optional reopen (archives prior approval) → reapprove
+  → canonical approved_lyrics.txt / approved_lyrics.json
+  → derived Output presentations (default: STANDARD LYRIC SHEET)
+  → optional reopen (archives prior approval + derived exports) → reapprove
 ```
 
 The engineering review page remains `python -m a2l review` at http://127.0.0.1:8765/ and continues to default to the primary faster-whisper `a2l_pipeline`.
@@ -26,4 +27,4 @@ This workstation's Parakeet-enabled operator app for ACI-A2L-012 review: http://
 
 Fixed test song: [FIXED_TEST_SONG.md](../FIXED_TEST_SONG.md)
 
-No verse/chorus labels. Vocal isolation is not in the pipeline. The locked Jay song's **faster-whisper** approved lyrics (ACI-A2L-009 Amendment 01, revision 2) were not modified. Parakeet output is a separate unapproved chain.
+No verse/chorus labels are invented. Vocal isolation is not in the pipeline. After approval the operator Output screen shows a Standard Lyric Sheet derived from the approved artifact; canonical TXT/JSON remain authoritative. The locked Jay song's **faster-whisper** approved lyrics (ACI-A2L-009 Amendment 01, revision 2) were not modified. Parakeet output is a separate unapproved chain.

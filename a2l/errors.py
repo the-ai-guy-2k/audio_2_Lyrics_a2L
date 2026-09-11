@@ -55,3 +55,12 @@ class ApprovalError(Exception):
         self.code = code
         self.message = message
         super().__init__(f"{code}: {message}")
+
+
+class ExportError(Exception):
+    """Clean failure for derived approved-lyric export formatting."""
+
+    def __init__(self, code: str, message: str) -> None:
+        self.code = code
+        self.message = message
+        super().__init__(f"{code}: {message}")

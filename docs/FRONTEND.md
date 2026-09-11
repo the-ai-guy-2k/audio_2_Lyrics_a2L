@@ -20,11 +20,12 @@ The engineering review page remains `python -m a2l review` at http://127.0.0.1:8
 
 ## Workflow
 
-Upload → Extract lyrics → Review / correct → Approve → Export
+Upload → Extract lyrics → Review / correct → Approve → Output
 
 - Upload uses existing WAV ingest. The original recording is not modified.
-- Extract uses ingest → faster-whisper / Whisper large-v3 → uncertainty → structuring.
+- Extract uses ingest → selected engine (default faster-whisper / Whisper large-v3, or NVIDIA Parakeet) → uncertainty → structuring.
 - Review keeps paragraph lyrics, uncertainty marks, Save (not approval), and reopen/reapproval.
-- Export offers `approved_lyrics.txt` and `approved_lyrics.json` only after APPROVED.
+- After approval, Output shows STANDARD LYRIC SHEET by default. The operator may select PLAIN TEXT or STRUCTURED LYRICS, then preview, copy, or download that presentation.
+- Canonical `approved_lyrics.txt` / `approved_lyrics.json` remain the authoritative files. Formatted files are derived.
 
 Internal paths, SHAs, and engine details stay off the screen.

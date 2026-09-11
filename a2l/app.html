@@ -73,6 +73,16 @@
     .lyrics.approved .phrase { cursor: default; }
     .inspect { font-family: sans-serif; font-size: 0.9rem; color: #333; border-top: 1px solid #ccc; padding-top: 0.75rem; }
     .toolbar { margin: 0.75rem 0; }
+    .output-preview {
+      font-size: 1.2rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-wrap: break-word;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 1rem 1.1rem;
+      min-height: 8rem;
+    }
   </style>
 </head>
 <body>
@@ -85,7 +95,7 @@
     <button type="button" data-screen="processing">Processing</button>
     <button type="button" data-screen="review">Review</button>
     <button type="button" data-screen="approval">Approval</button>
-    <button type="button" data-screen="export">Export</button>
+    <button type="button" data-screen="export">Output</button>
   </nav>
   <main>
     <section id="screen-upload">
@@ -136,11 +146,21 @@
       <p id="approval-note"></p>
     </section>
     <section id="screen-export" class="hidden">
-      <h2>Export</h2>
-      <p id="export-note">Approve the lyrics before downloading.</p>
+      <h2>Output</h2>
+      <p class="state" id="output-state">LYRIC STATE: …</p>
+      <p id="output-note">Approve the lyrics to see the lyric sheet.</p>
+      <p>
+        <label for="output-format">Output format</label><br>
+        <select id="output-format">
+          <option value="standard-lyric-sheet" selected>STANDARD LYRIC SHEET</option>
+          <option value="plain-text">PLAIN TEXT</option>
+          <option value="structured-lyrics">STRUCTURED LYRICS</option>
+        </select>
+      </p>
+      <pre class="output-preview" id="output-preview"></pre>
       <p class="toolbar">
-        <a class="action" id="download-txt" href="/export/approved_lyrics.txt">Download lyrics</a>
-        <a class="action" id="download-json" href="/export/approved_lyrics.json">Download record</a>
+        <button class="action" id="copy-output" type="button">Copy</button>
+        <a class="action" id="download-output" href="/export/output.txt?format=standard-lyric-sheet">Download</a>
       </p>
     </section>
   </main>
@@ -161,6 +181,7 @@
         button.classList.toggle("current", button.dataset.screen === name);
       }
       if (name === "review" || name === "approval") loadReview();
+      if (name === "export") loadOutput();
     }
 
     async function refreshSession() {
@@ -174,14 +195,20 @@
       document.querySelector('nav button[data-screen="processing"]').disabled = !(session.busy || session.has_job);
       document.querySelector('nav button[data-screen="review"]').disabled = !canReview;
       document.querySelector('nav button[data-screen="approval"]').disabled = !canReview;
-      document.querySelector('nav button[data-screen="export"]').disabled = !session.has_job;
-      $("download-txt").style.pointerEvents = canExport ? "auto" : "none";
-      $("download-json").style.pointerEvents = canExport ? "auto" : "none";
-      $("export-note").textContent = canExport
-        ? "Download the approved lyrics."
-        : "Approve the lyrics before downloading.";
+      document.querySelector('nav button[data-screen="export"]').disabled = !canExport;
+      $("copy-output").disabled = !canExport;
+      $("download-output").style.pointerEvents = canExport ? "auto" : "none";
+      $("output-note").textContent = canExport
+        ? "These are the approved lyrics."
+        : "Approve the lyrics to see the lyric sheet.";
+      if (session.lyric_state) {
+        $("output-state").textContent = "LYRIC STATE: " + session.lyric_state;
+        $("output-state").className = "state " + session.lyric_state;
+      }
       if (session.busy) {
         if (currentScreen !== "processing") showScreen("processing");
+      } else if (session.lyric_state === "APPROVED" && (currentScreen === "upload" || currentScreen === "processing" || currentScreen === "approval")) {
+        showScreen("export");
       } else if (session.can_review && (currentScreen === "upload" || currentScreen === "processing")) {
         showScreen("review");
       }
@@ -247,6 +274,22 @@
         root.appendChild(document.createTextNode(" "));
       }
       $("inspect").textContent = "Click a phrase to see the original machine text.";
+    }
+
+    async function loadOutput() {
+      const format = $("output-format").value || "standard-lyric-sheet";
+      const response = await fetch("/api/export?format=" + encodeURIComponent(format));
+      const payload = await response.json();
+      if (!payload.ok) {
+        $("output-preview").textContent = "";
+        $("copy-output").disabled = true;
+        $("download-output").style.pointerEvents = "none";
+        return;
+      }
+      $("output-preview").textContent = payload.text || "";
+      $("download-output").href = "/export/output.txt?format=" + encodeURIComponent(payload.format);
+      $("copy-output").disabled = false;
+      $("download-output").style.pointerEvents = "auto";
     }
 
     function showInspect(line) {
@@ -321,7 +364,6 @@
         return;
       }
       await refreshSession();
-      await loadReview();
     });
 
     $("reopen").addEventListener("click", async function () {
@@ -339,6 +381,21 @@
       }
       await refreshSession();
       await loadReview();
+    });
+
+    $("output-format").addEventListener("change", function () {
+      loadOutput();
+    });
+
+    $("copy-output").addEventListener("click", async function () {
+      const text = $("output-preview").textContent || "";
+      if (!text) return;
+      try {
+        await navigator.clipboard.writeText(text);
+        $("output-note").textContent = "Copied.";
+      } catch (err) {
+        $("output-note").textContent = "Select the lyrics and copy them.";
+      }
     });
 
     for (const button of document.querySelectorAll("nav button")) {

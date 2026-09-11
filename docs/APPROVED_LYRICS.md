@@ -29,9 +29,14 @@ To correct after approval: **Reopen for correction** (`POST /api/reopen` `{ "con
 artifacts/ingest/<sha256>/a2l_pipeline/approved_lyrics/
   approved_lyrics.txt
   approved_lyrics.json
+  exports/                  # derived presentations (ACI-A2L-013); not authoritative
+    lyric-sheet.txt
+    lyrics.txt
+    structured-lyrics.txt
+    export_provenance.json
 ```
 
-The TXT is clean lyric lines only: current `human_text` for non-gap rows, one phrase per line. It does not include timestamps, uncertainty flags, confidence, machine provenance labels, or review-interface metadata.
+The TXT is clean lyric lines only: current `human_text` for non-gap rows, one phrase per line. It does not include timestamps, uncertainty flags, confidence, machine provenance labels, or review-interface metadata. Derived export files must not be used as a substitute for these canonical files. See [APPROVED_EXPORT.md](APPROVED_EXPORT.md).
 
 The JSON retains provenance: source SHA, transcription engine/model, approval state, approval event, and the approved text.
 

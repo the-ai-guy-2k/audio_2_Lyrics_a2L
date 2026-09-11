@@ -105,6 +105,21 @@ def clean_approved_text(review: dict) -> str:
     return "\n".join(lines) + ("\n" if lines else "")
 
 
+def _approved_lyric_lines(review: dict) -> list[dict]:
+    lines = []
+    for item in review.get("lines") or []:
+        if item.get("kind") == "time_gap":
+            continue
+        text = " ".join(str(item.get("human_text") or "").split()).strip()
+        if not text:
+            continue
+        label = item.get("section_label")
+        if label is not None:
+            label = " ".join(str(label).split()).strip() or None
+        lines.append({"text": text, "section_label": label})
+    return lines
+
+
 def approve_reviewed_lyrics(
     review: dict,
     sha: str,
@@ -157,6 +172,7 @@ def approve_reviewed_lyrics(
         "approval_history": prior,
         "supersedes": str(history.resolve()) if history else None,
         "approved_lyric_text": text,
+        "lyric_lines": _approved_lyric_lines(review),
         "vocal_isolation": "not_applied",
         "llm_rewrite": False,
         "notes": [
@@ -165,8 +181,8 @@ def approve_reviewed_lyrics(
             "This review JSON is provenance. Authoritative lyric files are approved_lyrics.txt/json.",
         ],
     }
-    json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-    txt_path.write_text(text, encoding="utf-8")
+    json_path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8", newline="\n")
+    txt_path.write_text(text, encoding="utf-8", newline="\n")
 
     apply_review_authority_fields(review, STATE_APPROVED)
     review["approved_at"] = stamp
@@ -184,6 +200,9 @@ def approve_reviewed_lyrics(
     notes.append("Operator explicitly approved these lyrics (ACI-A2L-008).")
     review["notes"] = notes
     _write_review_record(review, sha)
+    from a2l.export import write_derived_exports
+
+    write_derived_exports(sha, pipeline_dirname=dirname)
     return {
         "review": review,
         "txt_path": txt_path.resolve(),
@@ -267,6 +286,11 @@ def _archive_current_approval(sha: str, review: dict, stamp: str) -> Path:
         shutil.move(str(txt_path), archived_txt)
     if json_path.is_file():
         shutil.move(str(json_path), archived_json)
+    exports_dir = default_approved_dir(sha, pipeline_dirname=dirname) / "exports"
+    archived_exports = None
+    if exports_dir.is_dir():
+        archived_exports = history_dir / "exports"
+        shutil.move(str(exports_dir), archived_exports)
     manifest = {
         "superseded_at": stamp,
         "prior_approved_at": review.get("approved_at"),
@@ -277,6 +301,7 @@ def _archive_current_approval(sha: str, review: dict, stamp: str) -> Path:
         },
         "archived_txt": str(archived_txt) if archived_txt.is_file() else None,
         "archived_json": str(archived_json) if archived_json.is_file() else None,
+        "archived_exports": str(archived_exports) if archived_exports else None,
         "reason": "EXPLICIT_REOPEN_FOR_CORRECTION",
     }
     (history_dir / "superseded_manifest.json").write_text(

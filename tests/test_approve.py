@@ -17,6 +17,7 @@ from a2l.approve import (
     STATE_REVIEWED,
     approve_reviewed_lyrics,
     clean_approved_text,
+    default_approved_dir,
     default_approved_history_dir,
     default_approved_json_path,
     default_approved_txt_path,
@@ -155,6 +156,9 @@ def test_reopen_archives_prior_approval_and_unlocks_edits(tmp_path: Path, monkey
     archived = result["archived_dir"]
     assert (archived / "approved_lyrics.txt").is_file()
     assert (archived / "approved_lyrics.json").is_file()
+    assert (archived / "exports" / "lyric-sheet.txt").is_file()
+    assert (archived / "exports" / "export_provenance.json").is_file()
+    assert not (default_approved_dir(FIXTURE_SHA) / "exports").exists()
     assert "Hook us with that old school funk" in (archived / "approved_lyrics.txt").read_text(encoding="utf-8")
     reloaded = load_saved_review(sha=FIXTURE_SHA)
     assert lyric_display_state(reloaded, FIXTURE_SHA) == STATE_REQUIRES_REAPPROVAL
@@ -171,6 +175,7 @@ def test_reopen_archives_prior_approval_and_unlocks_edits(tmp_path: Path, monkey
     body = second["txt_path"].read_text(encoding="utf-8")
     assert "Thanks for watching the show" in body
     assert (archived / "approved_lyrics.txt").is_file()
+    assert (second["txt_path"].parent / "exports" / "lyric-sheet.txt").is_file()
     payload = json.loads(second["json_path"].read_text(encoding="utf-8"))
     assert payload["supersedes"] == str(archived)
     assert payload["approval_event"]["revision"] == 2

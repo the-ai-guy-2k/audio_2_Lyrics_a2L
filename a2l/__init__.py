@@ -9,6 +9,7 @@ ACI-A2L-012: NVIDIA Parakeet TDT 0.6B v2 is an alternate engine, not the primary
 ACI-A2L-006: human review and correction (reviewed draft, not approved).
 ACI-A2L-008: explicit human approval writes approved lyric artifacts.
 ACI-A2L-010: operator application frontend.
+ACI-A2L-013: derived approved-lyric export formatting.
 Vocal isolation remains out of scope.
 """
 

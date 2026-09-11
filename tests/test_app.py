@@ -107,7 +107,7 @@ def test_app_page_loads(tmp_path: Path, monkeypatch) -> None:
         assert status == 200
         assert "Extract lyrics" in html
         assert "Mark lyrics APPROVED" in html
-        assert "Download lyrics" in html
+        assert "Download" in html
         assert "SHA" not in html
         assert LOCKED_SHA256 not in html
         session = json.loads(_request(port, "GET", "/api/session")[1].decode("utf-8"))
@@ -225,8 +225,12 @@ def test_extract_review_save_approve_export(tmp_path: Path, monkeypatch) -> None
         saved = json.loads(data.decode("utf-8"))
         assert status == 200
         assert saved["lyric_state"] != "APPROVED"
-        export_status, export_body, _ = _request(port, "GET", "/export/approved_lyrics.txt")
+        export_status, export_body, _ = _request(port, "GET", "/api/export")
         assert export_status == 400
+        export_payload = json.loads(export_body.decode("utf-8"))
+        assert export_payload["error_code"] == "NOT_APPROVED"
+        canonical_status, _, _ = _request(port, "GET", "/export/approved_lyrics.txt")
+        assert canonical_status == 400
 
         status, data, _ = _request(
             port,
@@ -253,12 +257,34 @@ def test_extract_review_save_approve_export(tmp_path: Path, monkeypatch) -> None
         assert approved["review"]["active_lyric_authority"] == "AUTHORITATIVE_APPROVED_LYRICS"
 
         status, data, headers = _request(port, "GET", "/export/approved_lyrics.txt")
-        text = data.decode("utf-8")
+        canonical = data.decode("utf-8")
         assert status == 200
-        assert "Play something we can groove to" in text
-        assert "00:" not in text
-        assert "UNCERTAIN" not in text
+        assert "Play something we can groove to" in canonical
+        assert "00:" not in canonical
+        assert "UNCERTAIN" not in canonical
         assert "approved_lyrics.txt" in (headers.getheader("Content-Disposition") or "")
+        canonical_bytes = data
+
+        status, data, _ = _request(port, "GET", "/api/export")
+        sheet = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert sheet["format"] == "standard-lyric-sheet"
+        assert sheet["format_label"] == "STANDARD LYRIC SHEET"
+        assert sheet["usable_as_approved_lyrics"] is False
+        assert sheet["text"] == canonical
+        assert "Play something we can groove to" in sheet["text"]
+
+        status, data, _ = _request(port, "GET", "/api/export?format=plain-text")
+        plain = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert plain["format"] == "plain-text"
+        assert plain["text"] == canonical
+
+        status, data, headers = _request(port, "GET", "/export/output.txt?format=standard-lyric-sheet")
+        assert status == 200
+        assert data.decode("utf-8") == sheet["text"]
+        assert "lyric-sheet.txt" in (headers.getheader("Content-Disposition") or "")
+        assert _request(port, "GET", "/export/approved_lyrics.txt")[1] == canonical_bytes
 
         status, data, _ = _request(port, "GET", "/export/approved_lyrics.json")
         record = json.loads(data.decode("utf-8"))
@@ -286,10 +312,12 @@ def test_extract_review_save_approve_export(tmp_path: Path, monkeypatch) -> None
 def test_app_html_hides_engineering_paths() -> None:
     html = (Path(__file__).resolve().parents[1] / "a2l" / "app.html").read_text(encoding="utf-8")
     assert "Upload" in html and "Processing" in html and "Review" in html
-    assert "Approval" in html and "Export" in html
+    assert "Approval" in html and "Output" in html
+    assert "STANDARD LYRIC SHEET" in html
+    assert 'id="output-format"' in html
+    assert "standard-lyric-sheet" in html
     assert "artifacts/ingest" not in html
     assert "python -m" not in html
     assert "confirm: true" in html
-    assert "approved_lyrics.txt" in html
     assert 'id="engine"' in html
     assert "nvidia-parakeet" in html

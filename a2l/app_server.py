@@ -12,7 +12,7 @@ import webbrowser
 from functools import partial
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 from a2l.approve import (
     approve_reviewed_lyrics,
@@ -22,7 +22,8 @@ from a2l.approve import (
     reopen_approved_lyrics,
 )
 from a2l.engines import FasterWhisperEngine, ParakeetEngine, TranscriptionEngine
-from a2l.errors import ApprovalError, IngestionError, ReviewError, TranscriptionError
+from a2l.errors import ApprovalError, ExportError, IngestionError, ReviewError, TranscriptionError
+from a2l.export import DEFAULT_FORMAT, format_approved_export, public_export_payload
 from a2l.ingest import ingest_wav
 from a2l.pipeline import (
     ENGINE_ID_FASTER_WHISPER,
@@ -323,11 +324,17 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path == "/api/state":
             self._review_state()
             return
+        if parsed.path == "/api/export":
+            self._formatted_export(parsed)
+            return
         if parsed.path in ("/export/lyrics.txt", "/export/approved_lyrics.txt"):
             self._export("txt")
             return
         if parsed.path in ("/export/lyrics.json", "/export/approved_lyrics.json"):
             self._export("json")
+            return
+        if parsed.path in ("/export/output.txt", "/export/lyric-sheet.txt"):
+            self._download_formatted(parsed)
             return
         self._send(404, b"not found", "text/plain; charset=utf-8")
 
@@ -395,6 +402,39 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
             return
         self._send_json(200, operator_state(job, review))
+
+    def _formatted_export(self, parsed) -> None:
+        job = self.app.job_id
+        if not job:
+            self._send_json(400, {"ok": False, "error_code": "NO_SONG", "error": "Choose a song first."})
+            return
+        format_id = (parse_qs(parsed.query).get("format") or [DEFAULT_FORMAT])[0]
+        try:
+            result = format_approved_export(job, format_id, pipeline_dirname=self.app.pipeline_dirname)
+        except ExportError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        self._send_json(200, public_export_payload(result))
+
+    def _download_formatted(self, parsed) -> None:
+        job = self.app.job_id
+        if not job:
+            self._send_json(400, {"ok": False, "error_code": "NO_SONG", "error": "Choose a song first."})
+            return
+        format_id = (parse_qs(parsed.query).get("format") or [DEFAULT_FORMAT])[0]
+        try:
+            result = format_approved_export(job, format_id, pipeline_dirname=self.app.pipeline_dirname)
+        except ExportError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        data = result.text.encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.send_header("Content-Length", str(len(data)))
+        self.send_header("Content-Disposition", f'attachment; filename="{result.download_name}"')
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(data)
 
     def _export(self, kind: str) -> None:
         job = self.app.job_id
