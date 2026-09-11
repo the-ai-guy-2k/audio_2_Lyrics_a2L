@@ -20,7 +20,7 @@ Not merged. Not pushed. Not deployed.
 | --- | --- |
 | Branch | `feature/aci-a2l-015-release-readiness` |
 | Base | `feature/aci-a2l-014-song-metadata` @ `1f57a7eb1f60ace0a71501974ef498afcdd87dd3` |
-| Implementation | recorded in ACR-A2L-015 after this commit |
+| Implementation | `3ae25fb` |
 
 ## Supported application start
 
@@ -147,3 +147,7 @@ None.
 ## Merge / push status
 
 Not merged. Not pushed. Not deployed.
+
+## Commit information
+
+`3ae25fb` on `feature/aci-a2l-015-release-readiness` (validation records). Follow-up commit records this SHA in ACR-A2L-015.

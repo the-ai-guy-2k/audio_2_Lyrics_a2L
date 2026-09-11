@@ -2,6 +2,7 @@
 
 MVP release-readiness validation. No product capability was added. Locked Jay artifacts were not rewritten. Transcription was not rerun.
 
+- Validation record commit: `3ae25fb`
 - `runtime_validation.json` — startup smoke, locked-song hashes, regression counts, engine governance
 - Application smoke: `python -m a2l app --host 127.0.0.1 --port 8799 --no-browser` → `GET /` 200, `GET /api/session` 200
 - Supported operator URL: http://127.0.0.1:8780/
