@@ -4,20 +4,22 @@
 **ACI:** ACI-A2L-017 — MVP baseline promotion to deployable  
 **AIW:** CAE  
 **Date:** 2026-09-11  
-**Recommendation:** recorded after promotion
+**Recommendation:** **PASS** (promoted to `deployable`; not deployed to cloud)
 
 ---
 
 ## Execution status
 
-Documentation cleanup, 011/012 traceability restoration from existing evidence, regression, and promotion to `deployable`. No product capability added.
+COMPLETE. Documentation cleanup, 011/012 traceability restoration from existing evidence, regression (104 passed), and promotion to `deployable`. No product capability added.
 
-## Source baseline
+## Branch / commits
 
 | Item | Value |
 | --- | --- |
 | Source branch | `feature/aci-a2l-016-export-filenames` |
-| Validated implementation | `3937749547503d4ad5264771db3cd09496b2ad94` |
+| Source commit | `3937749547503d4ad5264771db3cd09496b2ad94` |
+| 017 branch | `feature/aci-a2l-017-mvp-baseline-promotion` |
+| Implementation | `a197bf5` |
 | Extract-button repair | present (`displayText` in `a2l/app.html`) |
 
 ## Pre-merge hygiene
@@ -52,6 +54,15 @@ Root README now leads with the operator application, primary `.venv-faster-whisp
 - ACR-A2L-012 written from existing 012 completion report and evidence (alternate engine; not promoted; Parakeet lyrics not approved).
 - No ACI-A2L-011 completion report exists in-tree; that gap is recorded in ACR-A2L-011.
 
-## Regression / promotion / push
+## Regression
 
-Filled after the suite run and branch operations.
+| Item | Value |
+| --- | --- |
+| Python | 3.14.3 |
+| Command | `py -3.14 -m pytest tests --ignore=tests/test_parakeet_candidate.py` |
+| Result | **104 passed**, 0 failed |
+| Ignored | untracked parked `tests/test_parakeet_candidate.py` |
+
+## Promotion / push
+
+Filled on `deployable` after the history-preserving merge.
