@@ -64,3 +64,12 @@ class ExportError(Exception):
         self.code = code
         self.message = message
         super().__init__(f"{code}: {message}")
+
+
+class ReleaseError(Exception):
+    """Clean failure for song release record handling."""
+
+    def __init__(self, code: str, message: str) -> None:
+        self.code = code
+        self.message = message
+        super().__init__(f"{code}: {message}")

@@ -22,7 +22,7 @@ from a2l.approve import (
     reopen_approved_lyrics,
 )
 from a2l.engines import FasterWhisperEngine, ParakeetEngine, TranscriptionEngine
-from a2l.errors import ApprovalError, ExportError, IngestionError, ReviewError, TranscriptionError
+from a2l.errors import ApprovalError, ExportError, IngestionError, ReleaseError, ReviewError, TranscriptionError
 from a2l.export import (
     DEFAULT_FORMAT,
     content_disposition_attachment,
@@ -31,6 +31,11 @@ from a2l.export import (
 )
 from a2l.ingest import ingest_wav
 from a2l.metadata import apply_song_metadata, overlay_working_metadata, write_song_metadata
+from a2l.release_record import (
+    load_or_create_release_record,
+    public_release_payload,
+    save_release_record,
+)
 from a2l.pipeline import (
     ENGINE_ID_FASTER_WHISPER,
     ENGINE_ID_NVIDIA_PARAKEET,
@@ -92,8 +97,11 @@ class AppState:
         can_export = False
         song_title = None
         artist = None
+        can_release = False
+        release_readiness = None
         # Do not create review artifacts while extraction is writing them.
         if job and not busy and not error:
+            can_release = True
             try:
                 review = load_or_create_review(sha=job, pipeline_dirname=dirname)
                 lyric_state = lyric_display_state(review, job)
@@ -104,6 +112,16 @@ class AppState:
                 artist = review.get("artist")
             except ReviewError:
                 lyric_state = None
+            try:
+                record = load_or_create_release_record(
+                    job,
+                    pipeline_dirname=dirname,
+                    artifact_root=self.artifact_root,
+                    persist=False,
+                )
+                release_readiness = record.get("release_readiness")
+            except (ReleaseError, ReviewError):
+                release_readiness = None
         return {
             "ok": True,
             "filename": filename,
@@ -117,6 +135,8 @@ class AppState:
             "can_review": bool(job) and not busy and not error,
             "can_approve": bool(job) and not busy and not error,
             "can_export": can_export,
+            "can_release": can_release,
+            "release_readiness": release_readiness,
             "has_job": bool(job),
         }
 
@@ -365,6 +385,9 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path == "/api/export":
             self._formatted_export(parsed)
             return
+        if parsed.path == "/api/release-record":
+            self._release_record()
+            return
         if parsed.path in ("/export/lyrics.txt", "/export/approved_lyrics.txt"):
             self._export("txt")
             return
@@ -435,6 +458,9 @@ class AppHandler(BaseHTTPRequestHandler):
                 return
             self._send_json(200, operator_state(job, result["review"]))
             return
+        if parsed.path == "/api/release-record":
+            self._save_release_record(payload)
+            return
         self._send(404, b"not found", "text/plain; charset=utf-8")
 
     def _review_state(self) -> None:
@@ -448,6 +474,39 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
             return
         self._send_json(200, operator_state(job, review))
+
+    def _release_record(self) -> None:
+        job = self.app.job_id
+        if not job:
+            self._send_json(400, {"ok": False, "error_code": "NO_SONG", "error": "Choose a song first."})
+            return
+        try:
+            record = load_or_create_release_record(
+                job,
+                pipeline_dirname=self.app.pipeline_dirname,
+                artifact_root=self.app.artifact_root,
+            )
+        except (ReleaseError, ReviewError) as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        self._send_json(200, public_release_payload(record))
+
+    def _save_release_record(self, payload: dict) -> None:
+        job = self.app.job_id
+        if not job:
+            self._send_json(400, {"ok": False, "error_code": "NO_SONG", "error": "Choose a song first."})
+            return
+        try:
+            record = save_release_record(
+                job,
+                updates=payload,
+                pipeline_dirname=self.app.pipeline_dirname,
+                artifact_root=self.app.artifact_root,
+            )
+        except (ReleaseError, ReviewError) as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        self._send_json(200, public_release_payload(record))
 
     def _formatted_export(self, parsed) -> None:
         job = self.app.job_id

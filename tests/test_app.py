@@ -415,10 +415,92 @@ def test_extract_metadata_persists_and_appears_on_standard_sheet(tmp_path: Path,
         server.shutdown()
 
 
+def test_release_record_round_trip_and_readiness(tmp_path: Path, monkeypatch) -> None:
+    app, server, port = _start(tmp_path, monkeypatch)
+    try:
+        boundary, body = _multipart("demo.wav", pcm_wav_bytes(), song_title="Stomp To", artist="Jay Garrett")
+        assert _request(
+            port,
+            "POST",
+            "/api/extract",
+            body=body,
+            headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
+        )[0] == 200
+        session = _wait_ready(port)
+        assert session["can_release"] is True
+        status, data, _ = _request(port, "GET", "/api/release-record")
+        record = json.loads(data.decode("utf-8"))
+        assert status == 200
+        fields = {item["id"]: item for item in record["fields"]}
+        assert fields["song_title"]["status"] == "AVAILABLE"
+        assert fields["song_title"]["value"] == "Stomp To"
+        assert fields["primary_artist"]["value"] == "Jay Garrett"
+        assert fields["track_duration"]["status"] == "AVAILABLE"
+        assert fields["master_audio"]["status"] == "AVAILABLE"
+        assert fields["approved_lyrics"]["status"] == "MISSING"
+        assert fields["songwriters"]["status"] == "MISSING"
+        assert fields["isrc"]["status"] == "MISSING"
+        assert fields["isrc"]["value"] is None
+        assert record["release_readiness"] == "INCOMPLETE"
+        assert "demo.wav" not in json.dumps(fields["song_title"])
+
+        save_body = json.dumps({
+            "explicit_clean": "clean",
+            "songwriters": "Jay Garrett",
+            "copyright_year": "2026",
+            "copyright_owner": "Jay Garrett",
+            "isrc": "USRC17607839",
+        }).encode("utf-8")
+        status, data, _ = _request(
+            port,
+            "POST",
+            "/api/release-record",
+            body=save_body,
+            headers={"Content-Type": "application/json"},
+        )
+        saved = json.loads(data.decode("utf-8"))
+        assert status == 200
+        saved_fields = {item["id"]: item for item in saved["fields"]}
+        assert saved_fields["isrc"]["value"] == "USRC17607839"
+        assert saved["release_readiness"] == "INCOMPLETE"
+
+        status, data, _ = _request(port, "GET", "/api/release-record")
+        reloaded = json.loads(data.decode("utf-8"))
+        assert {item["id"]: item for item in reloaded["fields"]}["isrc"]["value"] == "USRC17607839"
+
+        assert _request(
+            port,
+            "POST",
+            "/api/approve",
+            body=b'{"confirm": true}',
+            headers={"Content-Type": "application/json"},
+        )[0] == 200
+        canonical = _request(port, "GET", "/export/approved_lyrics.txt")[1]
+        status, data, _ = _request(port, "GET", "/api/release-record")
+        after = json.loads(data.decode("utf-8"))
+        after_fields = {item["id"]: item for item in after["fields"]}
+        assert after_fields["approved_lyrics"]["status"] == "AVAILABLE"
+        assert after["release_readiness"] == "READY"
+        assert after_fields["track_number"]["status"] == "MISSING"
+        assert _request(port, "GET", "/export/approved_lyrics.txt")[1] == canonical
+        sheet = json.loads(_request(port, "GET", "/api/export")[1].decode("utf-8"))
+        assert sheet["download_name"] == "Jay Garrett - Stomp To.txt"
+        assert sheet["format"] == "standard-lyric-sheet"
+        path = tmp_path / "artifacts" / "ingest" / app.job_id / "song_release_record.json"
+        assert path.is_file()
+        stored = json.loads(path.read_text(encoding="utf-8"))
+        assert stored["usable_as_approved_lyrics"] is False
+        assert stored["not_a_release_or_distribution"] is True
+    finally:
+        server.shutdown()
+
+
 def test_app_html_hides_engineering_paths() -> None:
     html = (Path(__file__).resolve().parents[1] / "a2l" / "app.html").read_text(encoding="utf-8")
     assert "Upload" in html and "Processing" in html and "Review" in html
     assert "Approval" in html and "Output" in html
+    assert "Release" in html
+    assert "Song Release Record" in html
     assert "STANDARD LYRIC SHEET" in html
     assert 'id="output-format"' in html
     assert "standard-lyric-sheet" in html

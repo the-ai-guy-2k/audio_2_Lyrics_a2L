@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-017 promotion of the validated ACI-A2L-016 MVP to `deployable`.
+**Authority:** ACI-A2L-REL-001 song release record on `feature/aci-a2l-rel-001-song-release-record`, branched from `deployable`.
 
 ## Implemented flow
 
@@ -20,6 +20,7 @@ Operator application (python -m a2l app)  ← product-facing, http://127.0.0.1:8
   → canonical approved_lyrics.txt / approved_lyrics.json (title/artist retained if supplied)
   → derived Output presentations (default: STANDARD LYRIC SHEET uses supplied metadata)
   → user download filename from supplied Artist / Song Title (sanitized; does not rename canonical files)
+  → song release record (credits/rights/ISRC if entered; missing stays MISSING; not distribution)
   → optional reopen (archives prior approval + derived exports) → metadata may be corrected → reapprove
 ```
 
