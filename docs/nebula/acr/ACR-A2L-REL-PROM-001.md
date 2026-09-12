@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-REL-PROM-001 — Promote song release record to deployable  
 **Date recorded:** 2026-09-11  
 **Branch:** `feature/aci-a2l-rel-prom-001`  
-**Commit:** `721070f`  
+**Commit:** `721070f` (docs); promotion merge `9f3d78e` on `deployable`  
 **Status:** COMPLETE — promoted to `deployable` (merge SHA recorded after this ACR)  
 **Product changes:** none. Promotion of validated ACI-A2L-REL-001 only.
 
