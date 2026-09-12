@@ -67,7 +67,7 @@ class ExportError(Exception):
 
 
 class ReleaseError(Exception):
-    """Clean failure for song release record handling."""
+    """Clean failure for song release record or album manifest handling."""
 
     def __init__(self, code: str, message: str) -> None:
         self.code = code

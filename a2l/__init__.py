@@ -13,6 +13,7 @@ ACI-A2L-013: derived approved-lyric export formatting.
 ACI-A2L-014: optional operator-provided song title and artist.
 ACI-A2L-016: user-download filenames from operator-supplied title/artist.
 ACI-A2L-REL-001: song release record (Current Truth; not distribution).
+ACI-A2L-REL-002: album release manifest (organizes song records; not album READY).
 Vocal isolation remains out of scope.
 """
 

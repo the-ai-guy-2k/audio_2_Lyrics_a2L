@@ -99,6 +99,14 @@
     .readiness { font-family: sans-serif; font-size: 1.15rem; font-weight: bold; }
     .readiness.READY { color: #0a6; }
     .readiness.INCOMPLETE { color: #8a5a00; }
+    .track-row {
+      font-family: sans-serif;
+      border-top: 1px solid #ddd;
+      padding: 0.7rem 0;
+    }
+    .track-head { font-weight: bold; }
+    .track-missing { margin: 0.35rem 0 0.2rem 0; font-size: 0.9rem; }
+    .track-actions { margin-top: 0.4rem; }
   </style>
 </head>
 <body>
@@ -113,6 +121,7 @@
     <button type="button" data-screen="approval">Approval</button>
     <button type="button" data-screen="export">Output</button>
     <button type="button" data-screen="release">Release</button>
+    <button type="button" data-screen="album">Album</button>
   </nav>
   <main>
     <section id="screen-upload">
@@ -208,12 +217,59 @@
       </p>
       <p class="note" id="release-save-status"></p>
     </section>
+    <section id="screen-album" class="hidden">
+      <h2>Album Release Manifest</h2>
+      <p class="note">This album view organizes existing song release records. It does not decide whether an album is ready, and it does not distribute the album.</p>
+      <p>
+        <label for="album-select">Existing albums</label><br>
+        <select id="album-select">
+          <option value="">Select an album</option>
+        </select>
+      </p>
+      <p class="toolbar">
+        <button class="action" id="create-album" type="button">Create album</button>
+      </p>
+      <p>
+        <label for="album-title">Album Title</label><br>
+        <input id="album-title" type="text" autocomplete="off">
+      </p>
+      <p>
+        <label for="album-artist">Primary Artist</label><br>
+        <input id="album-artist" type="text" autocomplete="off">
+      </p>
+      <p>
+        <label for="album-release-type">Release Type</label><br>
+        <select id="album-release-type">
+          <option value="">Not entered</option>
+          <option value="album">Album</option>
+          <option value="ep">EP</option>
+          <option value="single">Single</option>
+        </select>
+      </p>
+      <p class="note" id="album-summary">TRACKS: 0</p>
+      <p class="note" id="album-truth-note"></p>
+      <div id="album-tracks"></div>
+      <p>
+        <label for="album-song-picker">Add an existing song</label><br>
+        <select id="album-song-picker">
+          <option value="">Choose a song</option>
+        </select>
+      </p>
+      <p class="toolbar">
+        <button class="action" id="add-album-track" type="button">Add song</button>
+        <button class="action" id="save-album" type="button">Save album</button>
+      </p>
+      <p class="note" id="album-save-status"></p>
+    </section>
   </main>
   <script>
     let reviewState = null;
     let lyricState = "DRAFT";
     let currentScreen = "upload";
     let pollTimer = null;
+    let albumId = "";
+    let albumTracks = [];
+    let catalogSongs = [];
 
     function $(id) { return document.getElementById(id); }
 
@@ -228,6 +284,7 @@
       if (name === "review" || name === "approval") loadReview();
       if (name === "export") loadOutput();
       if (name === "release") loadRelease();
+      if (name === "album") loadAlbumScreen();
     }
 
     async function refreshSession() {
@@ -260,6 +317,8 @@
       }
       if (session.busy) {
         if (currentScreen !== "processing") showScreen("processing");
+      } else if (currentScreen === "album" || currentScreen === "release") {
+        /* keep the operator on Album or the song release record */
       } else if (session.lyric_state === "APPROVED" && (currentScreen === "upload" || currentScreen === "processing" || currentScreen === "approval")) {
         showScreen("export");
       } else if (session.can_review && (currentScreen === "upload" || currentScreen === "processing")) {
@@ -430,6 +489,213 @@
       }
     }
 
+    function albumLabel(item) {
+      const title = item.album_title || "No title entered";
+      const artist = item.primary_artist || "";
+      return artist ? title + " — " + artist : title;
+    }
+
+    function songLabel(item) {
+      const title = item.song_title || "No title entered";
+      const artist = item.primary_artist || "";
+      return artist ? title + " — " + artist : title;
+    }
+
+    function padTrack(position) {
+      const text = String(position || 0);
+      return text.length < 2 ? "0" + text : text;
+    }
+
+    function renderAlbumTracks(summary) {
+      const root = $("album-tracks");
+      root.innerHTML = "";
+      const counts = summary || {};
+      $("album-summary").textContent =
+        "TRACKS: " + (counts.tracks || 0)
+        + "  SONG RECORDS READY: " + (counts.song_records_ready || 0)
+        + "  SONG RECORDS INCOMPLETE: " + (counts.song_records_incomplete || 0);
+      albumTracks.forEach(function (track, index) {
+        const row = document.createElement("div");
+        row.className = "track-row";
+        const head = document.createElement("p");
+        head.className = "track-head";
+        const title = track.song_title || "No title entered";
+        head.textContent = padTrack(track.position || index + 1) + " | " + title + " | Release Record: " + (track.release_readiness || "INCOMPLETE");
+        row.appendChild(head);
+        const lyrics = document.createElement("p");
+        lyrics.className = "note";
+        lyrics.textContent = "Approved lyrics: " + (track.approved_lyrics_status || "MISSING");
+        row.appendChild(lyrics);
+        const missing = track.missing_fields || [];
+        if (missing.length) {
+          const list = document.createElement("div");
+          list.className = "track-missing";
+          missing.forEach(function (field) {
+            const line = document.createElement("p");
+            line.className = "note";
+            line.textContent = (field.label || field.id) + " ........ " + (field.status || "MISSING");
+            list.appendChild(line);
+          });
+          row.appendChild(list);
+        }
+        const actions = document.createElement("p");
+        actions.className = "track-actions";
+        const up = document.createElement("button");
+        up.type = "button";
+        up.className = "action";
+        up.textContent = "Move up";
+        up.disabled = index === 0;
+        up.addEventListener("click", function () { moveAlbumTrack(index, -1); });
+        const down = document.createElement("button");
+        down.type = "button";
+        down.className = "action";
+        down.textContent = "Move down";
+        down.disabled = index === albumTracks.length - 1;
+        down.addEventListener("click", function () { moveAlbumTrack(index, 1); });
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "action";
+        remove.textContent = "Remove from album";
+        remove.addEventListener("click", function () { removeAlbumTrack(index); });
+        const openRelease = document.createElement("button");
+        openRelease.type = "button";
+        openRelease.className = "action";
+        openRelease.textContent = "Open song release record";
+        openRelease.addEventListener("click", function () { openAlbumSong(track.ingest_job_id); });
+        actions.appendChild(up);
+        actions.appendChild(down);
+        actions.appendChild(remove);
+        actions.appendChild(openRelease);
+        row.appendChild(actions);
+        root.appendChild(row);
+      });
+    }
+
+    function applyAlbum(payload) {
+      albumId = payload.release_id || "";
+      $("album-title").value = payload.album_title || "";
+      $("album-artist").value = payload.primary_artist || "";
+      $("album-release-type").value = payload.release_type || "";
+      $("album-truth-note").textContent = payload.current_truth_note || "";
+      albumTracks = (payload.tracks || []).map(function (track) { return track; });
+      renderAlbumTracks(payload.summary);
+      const select = $("album-select");
+      if (albumId) select.value = albumId;
+    }
+
+    async function loadAlbumList() {
+      const select = $("album-select");
+      const current = albumId;
+      select.innerHTML = "";
+      const blank = document.createElement("option");
+      blank.value = "";
+      blank.textContent = "Select an album";
+      select.appendChild(blank);
+      try {
+        const response = await fetch("/api/albums");
+        const payload = await response.json();
+        for (const item of payload.albums || []) {
+          const option = document.createElement("option");
+          option.value = item.release_id;
+          option.textContent = albumLabel(item);
+          select.appendChild(option);
+        }
+        if (current) select.value = current;
+      } catch (err) {
+        $("album-save-status").textContent = "Could not load albums. Refresh the page and try again.";
+      }
+    }
+
+    async function loadCatalogSongs() {
+      const picker = $("album-song-picker");
+      picker.innerHTML = "";
+      const blank = document.createElement("option");
+      blank.value = "";
+      blank.textContent = "Choose a song";
+      picker.appendChild(blank);
+      try {
+        const response = await fetch("/api/catalog-songs");
+        const payload = await response.json();
+        catalogSongs = payload.songs || [];
+        for (const item of catalogSongs) {
+          const option = document.createElement("option");
+          option.value = item.ingest_job_id;
+          option.textContent = songLabel(item);
+          picker.appendChild(option);
+        }
+      } catch (err) {
+        $("album-save-status").textContent = "Could not load songs. Refresh the page and try again.";
+      }
+    }
+
+    async function loadAlbum(id) {
+      if (!id) return;
+      try {
+        const response = await fetch("/api/album?id=" + encodeURIComponent(id));
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("album-save-status").textContent = payload.error || "That album could not be found.";
+          return;
+        }
+        applyAlbum(payload);
+        await loadAlbumList();
+      } catch (err) {
+        $("album-save-status").textContent = "Could not load the album. Refresh the page and try again.";
+      }
+    }
+
+    async function loadAlbumScreen() {
+      $("album-save-status").textContent = "";
+      await loadAlbumList();
+      await loadCatalogSongs();
+      if (albumId) await loadAlbum(albumId);
+      else renderAlbumTracks({ tracks: albumTracks.length, song_records_ready: 0, song_records_incomplete: albumTracks.length });
+    }
+
+    function moveAlbumTrack(index, delta) {
+      const next = index + delta;
+      if (next < 0 || next >= albumTracks.length) return;
+      const copy = albumTracks[index];
+      albumTracks[index] = albumTracks[next];
+      albumTracks[next] = copy;
+      albumTracks.forEach(function (track, position) { track.position = position + 1; });
+      renderAlbumTracks({
+        tracks: albumTracks.length,
+        song_records_ready: albumTracks.filter(function (track) { return track.release_readiness === "READY"; }).length,
+        song_records_incomplete: albumTracks.filter(function (track) { return track.release_readiness !== "READY"; }).length,
+      });
+    }
+
+    function removeAlbumTrack(index) {
+      albumTracks.splice(index, 1);
+      albumTracks.forEach(function (track, position) { track.position = position + 1; });
+      renderAlbumTracks({
+        tracks: albumTracks.length,
+        song_records_ready: albumTracks.filter(function (track) { return track.release_readiness === "READY"; }).length,
+        song_records_incomplete: albumTracks.filter(function (track) { return track.release_readiness !== "READY"; }).length,
+      });
+    }
+
+    async function openAlbumSong(jobId) {
+      if (!jobId) return;
+      try {
+        const response = await fetch("/api/open-song", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ingest_job_id: jobId }),
+        });
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("album-save-status").textContent = payload.error || "That song could not be opened.";
+          return;
+        }
+        await refreshSession();
+        showScreen("release");
+      } catch (err) {
+        $("album-save-status").textContent = "Could not open the song release record. Refresh the page and try again.";
+      }
+    }
+
     function showInspect(line) {
       const inspect = $("inspect");
       inspect.textContent = "";
@@ -569,6 +835,103 @@
         $("output-note").textContent = "Copied.";
       } catch (err) {
         $("output-note").textContent = "Select the lyrics and copy them.";
+      }
+    });
+
+    $("create-album").addEventListener("click", async function () {
+      try {
+        const response = await fetch("/api/albums", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            album_title: $("album-title").value,
+            primary_artist: $("album-artist").value,
+            release_type: $("album-release-type").value,
+          }),
+        });
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("album-save-status").textContent = payload.error || "Could not create the album.";
+          return;
+        }
+        applyAlbum(payload);
+        await loadAlbumList();
+        await loadCatalogSongs();
+        $("album-save-status").textContent = "Album created.";
+      } catch (err) {
+        $("album-save-status").textContent = "Could not create the album. Refresh the page and try again.";
+      }
+    });
+
+    $("album-select").addEventListener("change", async function () {
+      const id = $("album-select").value;
+      if (!id) return;
+      $("album-save-status").textContent = "";
+      await loadAlbum(id);
+    });
+
+    $("add-album-track").addEventListener("click", function () {
+      const picker = $("album-song-picker");
+      const jobId = picker.value;
+      if (!jobId) {
+        $("album-save-status").textContent = "Choose an existing song first.";
+        return;
+      }
+      if (albumTracks.some(function (track) { return track.ingest_job_id === jobId; })) {
+        $("album-save-status").textContent = "That song is already on this album.";
+        return;
+      }
+      const song = catalogSongs.filter(function (item) { return item.ingest_job_id === jobId; })[0];
+      if (!song) {
+        $("album-save-status").textContent = "Choose an existing song first.";
+        return;
+      }
+      albumTracks.push({
+        ingest_job_id: song.ingest_job_id,
+        position: albumTracks.length + 1,
+        song_title: song.song_title,
+        primary_artist: song.primary_artist,
+        track_duration_seconds: song.track_duration_seconds,
+        release_readiness: song.release_readiness,
+        approved_lyrics_status: song.approved_lyrics_status,
+        missing_fields: song.missing_fields || [],
+      });
+      picker.value = "";
+      renderAlbumTracks({
+        tracks: albumTracks.length,
+        song_records_ready: albumTracks.filter(function (track) { return track.release_readiness === "READY"; }).length,
+        song_records_incomplete: albumTracks.filter(function (track) { return track.release_readiness !== "READY"; }).length,
+      });
+      $("album-save-status").textContent = "Song added. Save the album to keep this track list.";
+    });
+
+    $("save-album").addEventListener("click", async function () {
+      if (!albumId) {
+        $("album-save-status").textContent = "Create an album first.";
+        return;
+      }
+      try {
+        const response = await fetch("/api/album", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            id: albumId,
+            album_title: $("album-title").value,
+            primary_artist: $("album-artist").value,
+            release_type: $("album-release-type").value,
+            track_ids: albumTracks.map(function (track) { return track.ingest_job_id; }),
+          }),
+        });
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("album-save-status").textContent = payload.error || "Could not save the album.";
+          return;
+        }
+        applyAlbum(payload);
+        await loadAlbumList();
+        $("album-save-status").textContent = "Saved.";
+      } catch (err) {
+        $("album-save-status").textContent = "Could not save the album. Refresh the page and try again.";
       }
     });
 
