@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution adds an album-level manifest 
 ## Constraints honored
 
 - New branch `feature/aci-a2l-rel-002-album-release-manifest` from validated `deployable` @ `cc5dade1b3113c0433134bbe7a1e4a23e2208d0e`.
+- Implementation commit: `153a116`.
 - Consumes existing `artifacts/ingest/<sha256>/song_release_record.json`. Does not create competing per-song release truth.
 - Operator-entered album fields only: Album Title, Primary Artist, Release Type (Album / EP / Single). Not inferred from filenames, directories, track count, or song metadata.
 - Track membership references existing A2L song identity and Song Release Record.

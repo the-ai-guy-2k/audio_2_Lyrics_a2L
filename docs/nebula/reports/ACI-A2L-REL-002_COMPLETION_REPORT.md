@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified. REL-003 not started.
 | --- | --- |
 | Branch | `feature/aci-a2l-rel-002-album-release-manifest` |
 | Base | `deployable` @ `cc5dade1b3113c0433134bbe7a1e4a23e2208d0e` |
-| Implementation | (recorded in ACR after commit) |
+| Implementation | `153a116` |
 
 ## Persistence
 
