@@ -37,7 +37,7 @@
     }
     nav button.current { background: #1b1b1b; color: #fff; }
     nav button:disabled { color: #999; cursor: default; }
-    main { padding: 1.25rem; max-width: 46rem; }
+    main { padding: 1.25rem; max-width: 52rem; }
     h2 { font-family: sans-serif; font-size: 1.15rem; margin-top: 0; }
     p, label { font-family: sans-serif; }
     button.action { font-size: 1rem; padding: 0.5rem 0.9rem; margin-right: 0.4rem; }
@@ -84,6 +84,21 @@
       padding: 1rem 1.1rem;
       min-height: 8rem;
     }
+    .field-row {
+      font-family: sans-serif;
+      display: grid;
+      grid-template-columns: 13.5rem 6.8rem minmax(10rem, 1fr);
+      gap: 0.45rem 0.6rem;
+      align-items: center;
+      margin: 0.4rem 0;
+    }
+    .field-row label { margin: 0; }
+    .field-row input, .field-row select { width: 100%; max-width: 28rem; font-size: 1rem; padding: 0.3rem 0.45rem; }
+    .status.AVAILABLE { color: #0a6; font-weight: bold; }
+    .status.MISSING { color: #8a5a00; font-weight: bold; }
+    .readiness { font-family: sans-serif; font-size: 1.15rem; font-weight: bold; }
+    .readiness.READY { color: #0a6; }
+    .readiness.INCOMPLETE { color: #8a5a00; }
   </style>
 </head>
 <body>
@@ -97,6 +112,7 @@
     <button type="button" data-screen="review">Review</button>
     <button type="button" data-screen="approval">Approval</button>
     <button type="button" data-screen="export">Output</button>
+    <button type="button" data-screen="release">Release</button>
   </nav>
   <main>
     <section id="screen-upload">
@@ -182,6 +198,16 @@
         <a class="action" id="download-output" href="/export/output.txt?format=standard-lyric-sheet">Download</a>
       </p>
     </section>
+    <section id="screen-release" class="hidden">
+      <h2>Song Release Record</h2>
+      <p class="readiness INCOMPLETE" id="release-readiness">RELEASE RECORD: …</p>
+      <p class="note" id="release-note">This record prepares one song for an album or release. It does not distribute the song.</p>
+      <div id="release-fields"></div>
+      <p class="toolbar">
+        <button class="action" id="save-release" type="button">Save release record</button>
+      </p>
+      <p class="note" id="release-save-status"></p>
+    </section>
   </main>
   <script>
     let reviewState = null;
@@ -201,6 +227,7 @@
       }
       if (name === "review" || name === "approval") loadReview();
       if (name === "export") loadOutput();
+      if (name === "release") loadRelease();
     }
 
     async function refreshSession() {
@@ -217,6 +244,7 @@
       document.querySelector('nav button[data-screen="review"]').disabled = !canReview;
       document.querySelector('nav button[data-screen="approval"]').disabled = !canReview;
       document.querySelector('nav button[data-screen="export"]').disabled = !canExport;
+      document.querySelector('nav button[data-screen="release"]').disabled = !session.can_release;
       $("copy-output").disabled = !canExport;
       $("download-output").style.pointerEvents = canExport ? "auto" : "none";
       $("output-note").textContent = canExport
@@ -225,6 +253,10 @@
       if (session.lyric_state) {
         $("output-state").textContent = "LYRIC STATE: " + session.lyric_state;
         $("output-state").className = "state " + session.lyric_state;
+      }
+      if (session.release_readiness) {
+        $("release-readiness").textContent = "RELEASE RECORD: " + session.release_readiness;
+        $("release-readiness").className = "readiness " + session.release_readiness;
       }
       if (session.busy) {
         if (currentScreen !== "processing") showScreen("processing");
@@ -335,6 +367,69 @@
       }
     }
 
+    async function loadRelease() {
+      const root = $("release-fields");
+      root.innerHTML = "";
+      $("release-save-status").textContent = "";
+      try {
+        const response = await fetch("/api/release-record");
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("release-note").textContent = payload.error || "The song release record is not available.";
+          return;
+        }
+        $("release-readiness").textContent = "RELEASE RECORD: " + payload.release_readiness;
+        $("release-readiness").className = "readiness " + payload.release_readiness;
+        $("release-note").textContent = payload.release_readiness_note || "This record prepares one song for an album or release. It does not distribute the song.";
+        for (const field of payload.fields || []) {
+          const row = document.createElement("div");
+          row.className = "field-row";
+          const label = document.createElement("label");
+          label.setAttribute("for", "release-" + field.id);
+          label.textContent = field.label;
+          const status = document.createElement("span");
+          status.className = "status " + field.status;
+          status.textContent = field.status;
+          row.appendChild(label);
+          row.appendChild(status);
+          if (field.input === "select") {
+            const select = document.createElement("select");
+            select.id = "release-" + field.id;
+            select.dataset.field = field.id;
+            const blank = document.createElement("option");
+            blank.value = "";
+            blank.textContent = "Not entered";
+            select.appendChild(blank);
+            for (const option of field.options || []) {
+              const item = document.createElement("option");
+              item.value = option.id;
+              item.textContent = option.label;
+              if (field.value === option.id) item.selected = true;
+              select.appendChild(item);
+            }
+            select.disabled = !field.editable;
+            row.appendChild(select);
+          } else if (field.editable) {
+            const input = document.createElement("input");
+            input.type = "text";
+            input.id = "release-" + field.id;
+            input.dataset.field = field.id;
+            input.autocomplete = "off";
+            input.value = field.display || "";
+            row.appendChild(input);
+          } else {
+            const value = document.createElement("span");
+            value.id = "release-" + field.id;
+            value.textContent = field.display || "—";
+            row.appendChild(value);
+          }
+          root.appendChild(row);
+        }
+      } catch (err) {
+        $("release-note").textContent = "The song release record is not available. Refresh the page and try again.";
+      }
+    }
+
     function showInspect(line) {
       const inspect = $("inspect");
       inspect.textContent = "";
@@ -439,6 +534,31 @@
 
     $("output-format").addEventListener("change", function () {
       loadOutput();
+    });
+
+    $("save-release").addEventListener("click", async function () {
+      const body = {};
+      for (const node of document.querySelectorAll("#release-fields [data-field]")) {
+        body[node.dataset.field] = node.value;
+      }
+      if (body.primary_artist !== undefined) body.artist = body.primary_artist;
+      try {
+        const response = await fetch("/api/release-record", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("release-save-status").textContent = payload.error || "Could not save the release record.";
+          return;
+        }
+        $("release-save-status").textContent = "Saved.";
+        await refreshSession();
+        await loadRelease();
+      } catch (err) {
+        $("release-save-status").textContent = "Could not save the release record. Refresh the page and try again.";
+      }
     });
 
     $("copy-output").addEventListener("click", async function () {

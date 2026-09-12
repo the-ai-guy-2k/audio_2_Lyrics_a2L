@@ -48,3 +48,5 @@ PLAIN TEXT remains the canonical lyric body. STRUCTURED LYRICS remains section p
 
 User-downloaded lyric files use the same operator-supplied fields (ACI-A2L-016). Example when both exist: `Jay Garrett - Stomp To.txt`. Title-only, artist-only, and missing-metadata fallbacks are documented in [APPROVED_EXPORT.md](APPROVED_EXPORT.md). Filename sanitization does not change stored `song_title` / `artist`.
 
+The Song Release Record (ACI-A2L-REL-001) reuses this same title/artist authority. It does not create a second conflicting source.
+

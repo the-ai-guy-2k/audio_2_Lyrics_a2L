@@ -24,7 +24,7 @@ NVIDIA Parakeet / TDT-0.6B-V2 is an **alternate** engine in a separate `.venv-pa
 
 ## Workflow
 
-Upload → optional Song title / Artist → Extract lyrics → Review / correct → Approve → Output
+Upload → optional Song title / Artist → Extract lyrics → Review / correct → Approve → Output → Release record
 
 - Upload uses existing WAV ingest. The original recording is not modified.
 - Song title and artist are optional. The file name is not used as the title. Missing values are not invented.
@@ -32,5 +32,6 @@ Upload → optional Song title / Artist → Extract lyrics → Review / correct 
 - Review keeps paragraph lyrics, uncertainty marks, Save (not approval), and reopen/reapproval. Title and artist can be corrected before approval.
 - After approval, Output shows STANDARD LYRIC SHEET by default, including any supplied title/artist. The operator may select PLAIN TEXT or STRUCTURED LYRICS, then preview, copy, or download that presentation. Download filenames use Artist and Song Title when supplied (ACI-A2L-016); the WAV file name is not used.
 - Canonical `approved_lyrics.txt` / `approved_lyrics.json` remain the authoritative files. Formatted files are derived.
+- **Release** collects song-level release Current Truth (credits, rights, ISRC if entered). Missing fields stay MISSING. READY is record completeness, not commercial release. See [SONG_RELEASE_RECORD.md](SONG_RELEASE_RECORD.md).
 
 Internal paths, SHAs, and engine details stay off the screen.
