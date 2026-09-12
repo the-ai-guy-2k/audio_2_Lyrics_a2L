@@ -2,6 +2,7 @@
 
 Promotion of validated ACI-A2L-REL-001 (Song Release Record) into `deployable`. No new product capability.
 
+- Remote: `origin/deployable` and `origin/main` fast-forwarded to `a4f1551` (not a force-push).
 - Promotion merge on `deployable`: `9f3d78e`
 - Source: `feature/aci-a2l-rel-001-song-release-record` @ `96d6d05`
 - Prior `deployable`: `18852ff`
