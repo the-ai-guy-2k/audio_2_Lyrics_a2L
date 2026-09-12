@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-REL-001 song release record on `feature/aci-a2l-rel-001-song-release-record`, branched from `deployable`.
+**Authority:** ACI-A2L-REL-PROM-001 promotion of the validated Song Release Record (ACI-A2L-REL-001) to `deployable`.
 
 ## Implemented flow
 
