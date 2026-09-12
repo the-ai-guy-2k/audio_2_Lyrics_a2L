@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified.
 | --- | --- |
 | Branch | `feature/aci-a2l-rel-001-song-release-record` |
 | Base | `deployable` @ `18852ffd4db0eae611b0c1cff9609af93090d88d` |
-| Implementation | recorded in follow-up ACR commit |
+| Implementation | `d5c0d7a` |
 
 ## Filename-generation / persistence
 
