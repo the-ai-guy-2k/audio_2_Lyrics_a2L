@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution promotes validated ACI-A2L-RE
 ## Constraints honored
 
 - Source: `feature/aci-a2l-rel-001-song-release-record` @ `96d6d057266f5ec2a2f9c5845e7faa96fea378eb`.
+- Implementation commit: `721070f`.
 - Source baseline: `deployable` @ `18852ffd4db0eae611b0c1cff9609af93090d88d`.
 - No new product capability, album-level work, UPC/ISRC generation, distributor integration, or REL-002.
 - History-preserving `--no-ff` merge. No squash. No force-push.
