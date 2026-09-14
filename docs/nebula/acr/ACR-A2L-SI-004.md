@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-004 — Key + Mode engine candidate validation  
 **Date recorded:** 2026-09-14  
 **Branch:** `feature/aci-a2l-si-004-key-mode`  
-**Commit:** implementation (SHA recorded after commit)  
+**Commit:** `fae5a3d`  
 **Status:** EXECUTED on feature branch — not merged; ENGINE WIN pending Operator  
 **Product changes:** isolated Key + Mode candidate only; lyric/release authority unchanged; Song Intelligence Record not created; chords not estimated
 

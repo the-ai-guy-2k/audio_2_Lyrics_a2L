@@ -14,7 +14,7 @@ Determine whether A2L can extract useful Key + Mode intelligence from the govern
 ## Constraints honored
 
 - New branch `feature/aci-a2l-si-004-key-mode` from SI-003 `feature/aci-a2l-si-003-structure-resolution` @ `0a4f256`.
-- Implementation commit recorded after commit.
+- Implementation commit: `fae5a3d`.
 - Locked master SHA-256 `bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be` unchanged.
 - Selected candidate: librosa `chroma_cqt` + Krumhansl-Schmuckler / Krumhansl-Kessler template correlation on the finished mix.
 - Rejected: Essentia (AGPL/NC), madmom neural key models (NC weights).

@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified. Audio Intelligence w
 | --- | --- |
 | Branch | `feature/aci-a2l-si-004-key-mode` |
 | Base | SI-003 `feature/aci-a2l-si-003-structure-resolution` @ `0a4f256` |
-| Implementation | recorded after commit |
+| Implementation | `fae5a3d` |
 
 ## Engine
 
