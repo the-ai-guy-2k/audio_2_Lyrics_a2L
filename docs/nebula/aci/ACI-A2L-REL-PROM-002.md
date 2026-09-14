@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution promotes validated ACI-A2L-RE
 ## Constraints honored
 
 - Source: `feature/aci-a2l-rel-002-album-release-manifest` @ `474473a74903f403c29876df7a42b06218562e43`.
+- Promotion docs commit: `eb8cad0`.
 - Implementation commits: `153a116` (capability), `474473a` (ACR / traceability).
 - Source baseline: `deployable` @ `cc5dade1b3113c0433134bbe7a1e4a23e2208d0e`.
 - No new product capability. Album Release Readiness (REL-003) was not started.
