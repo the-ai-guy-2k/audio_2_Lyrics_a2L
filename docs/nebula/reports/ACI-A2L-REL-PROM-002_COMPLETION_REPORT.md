@@ -54,7 +54,7 @@ COMPLETE. Validated ACI-A2L-REL-002 was merged into `deployable` with history pr
 | --- | --- |
 | Merge strategy | `git checkout deployable` then `git merge --no-ff feature/aci-a2l-rel-prom-002` |
 | `deployable` | `cab061d7a8ee7efe8bf293debb008d2ed50651a9` |
-| `main` | (recorded after sync) |
+| `main` | fast-forward to `3768eec8d9bb1afad5fac42a3404182be55de451` (no unique `main` history) |
 | Cloud deploy | not performed |
-| Remote `deployable` | (recorded after push) |
-| Remote `main` | (recorded after push) |
+| Remote `deployable` | PUSHED (`origin/deployable` @ `3768eec`; fast-forward, not force) |
+| Remote `main` | PUSHED (`origin/main` @ `3768eec`; fast-forward, not force) |
