@@ -134,6 +134,7 @@ def test_app_page_loads(tmp_path: Path, monkeypatch) -> None:
         assert LOCKED_SHA256 not in html
         session = json.loads(_request(port, "GET", "/api/session")[1].decode("utf-8"))
         assert session["has_job"] is False
+        assert session["can_album"] is True
         assert app.job_id == ""
     finally:
         server.shutdown()
@@ -495,12 +496,138 @@ def test_release_record_round_trip_and_readiness(tmp_path: Path, monkeypatch) ->
         server.shutdown()
 
 
+def test_album_manifest_round_trip_and_live_song_truth(tmp_path: Path, monkeypatch) -> None:
+    from a2l.ingest import ingest_wav
+    from a2l.metadata import write_song_metadata
+    from tests.wav_fixtures import write_pcm_wav
+
+    app, server, port = _start(tmp_path, monkeypatch)
+    try:
+        session = json.loads(_request(port, "GET", "/api/session")[1].decode("utf-8"))
+        assert session["can_album"] is True
+        status, data, _ = _request(
+            port,
+            "POST",
+            "/api/albums",
+            body=json.dumps({"album_title": "Demo Album", "primary_artist": "Jay Garrett", "release_type": "album"}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        created = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert created["album_title"] == "Demo Album"
+        assert created["primary_artist"] == "Jay Garrett"
+        assert created["release_type"] == "album"
+        assert created["album_ready_determination"] is False
+        assert created["summary"]["tracks"] == 0
+
+        boundary, body = _multipart("demo.wav", pcm_wav_bytes(), song_title="Song A", artist="Jay Garrett")
+        assert _request(
+            port,
+            "POST",
+            "/api/extract",
+            body=body,
+            headers={"Content-Type": f"multipart/form-data; boundary={boundary}"},
+        )[0] == 200
+        session = _wait_ready(port)
+        first_job = app.job_id
+        assert session["error"] == ""
+        assert first_job
+
+        second_wav = write_pcm_wav(tmp_path / "other.wav", frame_count=8820)
+        second = ingest_wav(second_wav, tmp_path / "artifacts")
+        write_song_metadata(second.job_id, "Song B", "Jay Garrett", job_dir=second.artifact_dir)
+
+        status, data, _ = _request(port, "GET", "/api/catalog-songs")
+        catalog = json.loads(data.decode("utf-8"))
+        assert status == 200
+        ids = {item["ingest_job_id"] for item in catalog["songs"]}
+        assert first_job in ids
+        assert second.job_id in ids
+
+        status, data, _ = _request(
+            port,
+            "POST",
+            "/api/album",
+            body=json.dumps({
+                "id": created["release_id"],
+                "album_title": "Demo Album",
+                "primary_artist": "Jay Garrett",
+                "release_type": "single",
+                "track_ids": [second.job_id, first_job],
+            }).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        saved = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert saved["release_type"] == "single"
+        assert [item["ingest_job_id"] for item in saved["tracks"]] == [second.job_id, first_job]
+        assert saved["tracks"][0]["song_title"] == "Song B"
+        assert saved["tracks"][1]["song_title"] == "Song A"
+        assert saved["tracks"][0]["release_readiness"] == "INCOMPLETE"
+        missing = {item["label"] for item in saved["tracks"][0]["missing_fields"]}
+        assert "Songwriter(s)" in missing
+        assert "ISRC" in missing
+
+        status, data, _ = _request(port, "GET", f"/api/album?id={created['release_id']}")
+        reloaded = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert [item["ingest_job_id"] for item in reloaded["tracks"]] == [second.job_id, first_job]
+
+        status, data, _ = _request(
+            port,
+            "POST",
+            "/api/open-song",
+            body=json.dumps({"ingest_job_id": second.job_id}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        opened = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert app.job_id == second.job_id
+        status, data, _ = _request(port, "GET", "/api/release-record")
+        record = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert record["release_readiness"] == "INCOMPLETE"
+        save_body = json.dumps({"songwriters": "Jay Garrett", "isrc": "USRC17607839"}).encode("utf-8")
+        assert _request(port, "POST", "/api/release-record", body=save_body, headers={"Content-Type": "application/json"})[0] == 200
+        status, data, _ = _request(port, "GET", f"/api/album?id={created['release_id']}")
+        refreshed = json.loads(data.decode("utf-8"))
+        refreshed_missing = {item["id"] for item in refreshed["tracks"][0]["missing_fields"]}
+        assert "songwriters" not in refreshed_missing
+        assert "isrc" not in refreshed_missing
+        assert refreshed["tracks"][0]["release_readiness"] == "INCOMPLETE"
+        assert "album_ready" not in refreshed
+        assert refreshed["album_ready_determination"] is False
+
+        status, data, _ = _request(
+            port,
+            "POST",
+            "/api/album",
+            body=json.dumps({
+                "id": created["release_id"],
+                "track_ids": [first_job],
+            }).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        after_remove = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert [item["ingest_job_id"] for item in after_remove["tracks"]] == [first_job]
+        assert (second.artifact_dir / "ingest_manifest.json").is_file()
+        assert (tmp_path / "artifacts" / "releases" / created["release_id"] / "album_release_manifest.json").is_file()
+    finally:
+        server.shutdown()
+
+
 def test_app_html_hides_engineering_paths() -> None:
     html = (Path(__file__).resolve().parents[1] / "a2l" / "app.html").read_text(encoding="utf-8")
     assert "Upload" in html and "Processing" in html and "Review" in html
     assert "Approval" in html and "Output" in html
     assert "Release" in html
+    assert "Album" in html
+    assert "Album Release Manifest" in html
     assert "Song Release Record" in html
+    assert "Create album" in html
+    assert "ALBUM READY" not in html
+    assert "DISTRIBUTION READY" not in html
     assert "STANDARD LYRIC SHEET" in html
     assert 'id="output-format"' in html
     assert "standard-lyric-sheet" in html

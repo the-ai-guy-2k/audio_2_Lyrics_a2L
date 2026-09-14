@@ -14,6 +14,16 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+from a2l.album_manifest import (
+    create_album_manifest,
+    detect_pipeline_dirname,
+    list_album_manifests,
+    list_catalog_songs,
+    load_album_manifest,
+    original_filename_for_song,
+    public_album_payload,
+    save_album_manifest,
+)
 from a2l.approve import (
     approve_reviewed_lyrics,
     default_approved_json_path,
@@ -136,6 +146,7 @@ class AppState:
             "can_approve": bool(job) and not busy and not error,
             "can_export": can_export,
             "can_release": can_release,
+            "can_album": True,
             "release_readiness": release_readiness,
             "has_job": bool(job),
         }
@@ -388,6 +399,15 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path == "/api/release-record":
             self._release_record()
             return
+        if parsed.path == "/api/albums":
+            self._list_albums()
+            return
+        if parsed.path == "/api/album":
+            self._get_album(parsed)
+            return
+        if parsed.path == "/api/catalog-songs":
+            self._catalog_songs()
+            return
         if parsed.path in ("/export/lyrics.txt", "/export/approved_lyrics.txt"):
             self._export("txt")
             return
@@ -422,6 +442,15 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json(status, result)
             return
         payload = json.loads(body.decode("utf-8") or "{}") if body else {}
+        if parsed.path == "/api/albums":
+            self._create_album(payload)
+            return
+        if parsed.path == "/api/album":
+            self._save_album(payload)
+            return
+        if parsed.path == "/api/open-song":
+            self._open_song(payload)
+            return
         job = self.app.job_id
         if not job:
             self._send_json(400, {"ok": False, "error_code": "NO_SONG", "error": "Choose a song first."})
@@ -507,6 +536,74 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
             return
         self._send_json(200, public_release_payload(record))
+
+    def _list_albums(self) -> None:
+        albums = list_album_manifests(artifact_root=self.app.artifact_root)
+        self._send_json(200, {"ok": True, "albums": albums})
+
+    def _catalog_songs(self) -> None:
+        songs = list_catalog_songs(artifact_root=self.app.artifact_root)
+        self._send_json(200, {"ok": True, "songs": songs})
+
+    def _get_album(self, parsed) -> None:
+        release_id = (parse_qs(parsed.query).get("id") or [""])[0]
+        if not release_id:
+            self._send_json(400, {"ok": False, "error_code": "ALBUM_NOT_FOUND", "error": "That album could not be found."})
+            return
+        try:
+            record = load_album_manifest(release_id, artifact_root=self.app.artifact_root)
+        except ReleaseError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        self._send_json(200, public_album_payload(record))
+
+    def _create_album(self, payload: dict) -> None:
+        try:
+            record = create_album_manifest(
+                album_title=payload.get("album_title"),
+                primary_artist=payload.get("primary_artist"),
+                release_type=payload.get("release_type"),
+                artifact_root=self.app.artifact_root,
+            )
+        except ReleaseError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        self._send_json(200, public_album_payload(record))
+
+    def _save_album(self, payload: dict) -> None:
+        release_id = payload.get("id") or payload.get("release_id")
+        if not release_id:
+            self._send_json(400, {"ok": False, "error_code": "ALBUM_NOT_FOUND", "error": "That album could not be found."})
+            return
+        try:
+            record = save_album_manifest(
+                str(release_id),
+                updates=payload,
+                artifact_root=self.app.artifact_root,
+            )
+        except ReleaseError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        self._send_json(200, public_album_payload(record))
+
+    def _open_song(self, payload: dict) -> None:
+        ingest_job_id = payload.get("ingest_job_id") or payload.get("id")
+        try:
+            filename = original_filename_for_song(str(ingest_job_id or ""), artifact_root=self.app.artifact_root)
+            job = "".join(ch for ch in str(ingest_job_id or "") if ch.isalnum())
+            job_dir = self.app.artifact_root / "ingest" / job
+            dirname = detect_pipeline_dirname(job_dir)
+        except ReleaseError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        with self.app.lock:
+            self.app.job_id = job
+            self.app.pipeline_dirname = dirname
+            self.app.filename = filename
+            self.app.error = ""
+            self.app.busy = False
+            self.app.screen = "release"
+        self._send_json(200, self.app.snapshot())
 
     def _formatted_export(self, parsed) -> None:
         job = self.app.job_id

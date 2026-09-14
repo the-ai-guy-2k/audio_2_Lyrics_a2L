@@ -64,9 +64,9 @@ The formal validated release branch is `deployable`.
 
 ## Application workflow
 
-Upload WAV → optional Song title / Artist → Extract lyrics → Review / correct → Approve → Output (Standard Lyric Sheet, with optional Plain Text / Structured Lyrics). Download names use supplied metadata when present. **Release** holds the per-song release record.
+Upload WAV → optional Song title / Artist → Extract lyrics → Review / correct → Approve → Output (Standard Lyric Sheet, with optional Plain Text / Structured Lyrics). Download names use supplied metadata when present. **Release** holds the per-song release record. **Album** organizes those records into an Operator-ordered album view.
 
-Details: [docs/FRONTEND.md](docs/FRONTEND.md), [docs/SONG_METADATA.md](docs/SONG_METADATA.md), [docs/APPROVED_EXPORT.md](docs/APPROVED_EXPORT.md), [docs/SONG_RELEASE_RECORD.md](docs/SONG_RELEASE_RECORD.md)
+Details: [docs/FRONTEND.md](docs/FRONTEND.md), [docs/SONG_METADATA.md](docs/SONG_METADATA.md), [docs/APPROVED_EXPORT.md](docs/APPROVED_EXPORT.md), [docs/SONG_RELEASE_RECORD.md](docs/SONG_RELEASE_RECORD.md), [docs/ALBUM_RELEASE_MANIFEST.md](docs/ALBUM_RELEASE_MANIFEST.md)
 
 The locked Jay song is **APPROVED** (ACI-A2L-009 Amendment 01, revision 2). Details: [docs/APPROVED_LYRICS.md](docs/APPROVED_LYRICS.md)
 

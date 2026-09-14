@@ -57,8 +57,8 @@ READY requires:
 
 Optional (do not block READY): Featured Artist(s), Track Number, Disc Number, Composer(s), Producer(s), Publisher / Publishing Information, ISRC.
 
-Track Number is optional at the individual-song stage. Album sequencing is out of scope.
+Track Number is optional at the individual-song stage. Album sequencing is handled by the Album Release Manifest (ACI-A2L-REL-002), not by this per-song record.
 
 ## Out of scope
 
-Album-wide management, UPC/ISRC generation, distributor submission, streaming-store integrations, copyright/PRO/publishing registration, royalty splits, artwork, marketing, scheduling.
+UPC/ISRC generation, distributor submission, streaming-store integrations, copyright/PRO/publishing registration, royalty splits, artwork, marketing, scheduling. Album-level READY belongs to a later ACI.
