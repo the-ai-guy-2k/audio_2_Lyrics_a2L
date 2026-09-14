@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-REL-002 album release manifest on the Song Release Record baseline.
+**Authority:** ACI-A2L-REL-PROM-002 promotion of the validated Album Release Manifest (ACI-A2L-REL-002) to `deployable`.
 
 ## Implemented flow
 
