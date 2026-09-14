@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified. Key / Mode not start
 | --- | --- |
 | Branch | `feature/aci-a2l-si-003-structure-resolution` |
 | Base | SI-002 `feature/aci-a2l-si-002-rhythm-structure` @ `97c0cf0` |
-| Implementation | recorded in ACR after commit |
+| Implementation | `f26865f` |
 
 ## Investigation
 

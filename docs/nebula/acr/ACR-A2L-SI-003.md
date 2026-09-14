@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-003 — Structure analysis resolution  
 **Date recorded:** 2026-09-14  
 **Branch:** `feature/aci-a2l-si-003-structure-resolution`  
-**Commit:** pending implementation SHA  
+**Commit:** `f26865f`  
 **Status:** EXECUTED on feature branch — not merged; STRUCTURE WIN pending Operator  
 **Product changes:** diagnostic All-In-One mixed-audio structure path only; HTDemucs not accepted as A2L capability; lyric/release authority unchanged
 
