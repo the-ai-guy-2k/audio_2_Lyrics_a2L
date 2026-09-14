@@ -10,7 +10,7 @@ Permanent copy of the Operator ACI. This execution adds a portable A2L release-p
 ## Constraints honored
 
 - New branch `feature/aci-a2l-rel-004-release-package-export` from validated `deployable` @ `2a754ed07a6e7513a4f3a6e1376696f67a04b6ec`.
-- Implementation commit recorded in ACR-A2L-REL-004.
+- Implementation commit: `5e0593c`.
 - Consumes existing Album Release Manifest, Album Release Readiness, Song Release Records, and approved lyric exports. Does not create competing authority.
 - READY and INCOMPLETE albums may both export. INCOMPLETE status and blocking gaps are preserved in the package.
 - ZIP is a derived artifact under `artifacts/releases/<release-id>/exports/`.

@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified. Phase 2 not started.
 | --- | --- |
 | Branch | `feature/aci-a2l-rel-004-release-package-export` |
 | Base | `deployable` @ `2a754ed07a6e7513a4f3a6e1376696f67a04b6ec` |
-| Implementation | recorded in ACR-A2L-REL-004 |
+| Implementation | `5e0593c` |
 
 ## Persistence
 
