@@ -1,0 +1,318 @@
+{
+  "candidate": "ACI-A2L-SI-006",
+  "authority": {
+    "approved_lyrics": "AUTHORITATIVE INPUT",
+    "lexical_measurements": "MEASURED",
+    "themes": "MACHINE-DERIVED",
+    "emotional_character": "MACHINE-DERIVED",
+    "subject_matter": "MACHINE-DERIVED",
+    "synopsis": "MACHINE-DERIVED"
+  },
+  "usable_as_song_facts": false,
+  "song_intelligence_record_created": false,
+  "audio_transcribed": false,
+  "engine": "in-repo deterministic lyric NLP",
+  "method": "stdlib tokenization, line-bounded repeated n-gram ranking, content-word frequency, and bounded lexical emotion overlap on approved lyric text",
+  "license": "original A2L spike code; no third-party model weights",
+  "gpu_required": false,
+  "cloud_required": false,
+  "download_required": false,
+  "device": "cpu",
+  "approved_lyrics": {
+    "path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\ingest\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\a2l_pipeline\\approved_lyrics\\approved_lyrics.txt",
+    "json_path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\ingest\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\a2l_pipeline\\approved_lyrics\\approved_lyrics.json",
+    "revision": 2,
+    "source_sha256": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+    "text_sha256_before": "b44a58d6e86fcf77815f9e5e17e69a0b666651b5d70b6dc61f77f93c85f1a361",
+    "text_sha256_after": "b44a58d6e86fcf77815f9e5e17e69a0b666651b5d70b6dc61f77f93c85f1a361",
+    "txt_sha256_before": "8da23213e2d0b3fb62ae84a9d059b026117baf793e8cacbfc61db857ad2f476c",
+    "txt_sha256_after": "8da23213e2d0b3fb62ae84a9d059b026117baf793e8cacbfc61db857ad2f476c",
+    "json_sha256_before": "d9e4c685d09067fe098867c245f2cc63addbcfa400e79962f8c088bb609bc3e4",
+    "json_sha256_after": "d9e4c685d09067fe098867c245f2cc63addbcfa400e79962f8c088bb609bc3e4"
+  },
+  "analysis_seconds": 0.003156299999318435,
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "python_executable": "C:\\Users\\tim\\AppData\\Local\\Programs\\Python\\Python314\\python.exe",
+    "cpu": "Intel64 Family 6 Model 140 Stepping 2, GenuineIntel",
+    "machine": "AMD64",
+    "device": "cpu",
+    "notes": "Lyric Intelligence is stdlib-only on CPU. No model download. No cloud."
+  },
+  "package_versions": {
+    "python": "3.14.3"
+  },
+  "memory": {
+    "samples": 0,
+    "sampled_peak_working_set_bytes": 0,
+    "os_peak_working_set_bytes": 24530944,
+    "final_working_set_bytes": 23711744,
+    "peak_working_set_bytes": 24530944,
+    "peak_working_set_mb": 23.4,
+    "sampler": "GetProcessMemoryInfo"
+  },
+  "errors": [],
+  "lyric_intelligence": {
+    "token_count": 291,
+    "line_count": 40,
+    "themes": [
+      {
+        "phrase": "hook us with that old school funk",
+        "count": 4,
+        "token_length": 7,
+        "content_tokens": 4,
+        "score": 16,
+        "rank": 1
+      },
+      {
+        "phrase": "none of that slow down ballad stuff",
+        "count": 4,
+        "token_length": 7,
+        "content_tokens": 4,
+        "score": 16,
+        "rank": 2
+      },
+      {
+        "phrase": "play something we can stomp to",
+        "count": 6,
+        "token_length": 6,
+        "content_tokens": 2,
+        "score": 12,
+        "rank": 3
+      },
+      {
+        "phrase": "these seats and move",
+        "count": 4,
+        "token_length": 4,
+        "content_tokens": 2,
+        "score": 8,
+        "rank": 4
+      },
+      {
+        "phrase": "we came here to dance and get a",
+        "count": 3,
+        "token_length": 8,
+        "content_tokens": 2,
+        "score": 6,
+        "rank": 5
+      },
+      {
+        "phrase": "came here to dance and get a little",
+        "count": 3,
+        "token_length": 8,
+        "content_tokens": 2,
+        "score": 6,
+        "rank": 6
+      }
+    ],
+    "keywords": [
+      {
+        "keyword": "play",
+        "count": 9,
+        "score": 9,
+        "rank": 1
+      },
+      {
+        "keyword": "stomp",
+        "count": 8,
+        "score": 8,
+        "rank": 2
+      },
+      {
+        "keyword": "down",
+        "count": 5,
+        "score": 5,
+        "rank": 3
+      },
+      {
+        "keyword": "groove",
+        "count": 4,
+        "score": 4,
+        "rank": 4
+      },
+      {
+        "keyword": "butts",
+        "count": 4,
+        "score": 4,
+        "rank": 5
+      },
+      {
+        "keyword": "seats",
+        "count": 4,
+        "score": 4,
+        "rank": 6
+      },
+      {
+        "keyword": "move",
+        "count": 4,
+        "score": 4,
+        "rank": 7
+      },
+      {
+        "keyword": "hook",
+        "count": 4,
+        "score": 4,
+        "rank": 8
+      },
+      {
+        "keyword": "old",
+        "count": 4,
+        "score": 4,
+        "rank": 9
+      },
+      {
+        "keyword": "school",
+        "count": 4,
+        "score": 4,
+        "rank": 10
+      },
+      {
+        "keyword": "funk",
+        "count": 4,
+        "score": 4,
+        "rank": 11
+      },
+      {
+        "keyword": "slow",
+        "count": 4,
+        "score": 4,
+        "rank": 12
+      }
+    ],
+    "emotional_character": {
+      "label": "energetic",
+      "overlap_count": 29,
+      "ranked": [
+        {
+          "label": "energetic",
+          "overlap_count": 29,
+          "hits": {
+            "stomp": 8,
+            "groove": 4,
+            "move": 4,
+            "dance": 4,
+            "funk": 4,
+            "alive": 1,
+            "kick-ass": 1,
+            "footloose": 3
+          },
+          "rank": 1
+        },
+        {
+          "label": "celebratory",
+          "overlap_count": 17,
+          "hits": {
+            "dance": 4,
+            "footloose": 3,
+            "groove": 4,
+            "funk": 4,
+            "crowd": 1,
+            "alive": 1
+          },
+          "rank": 2
+        },
+        {
+          "label": "nostalgic",
+          "overlap_count": 8,
+          "hits": {
+            "old": 4,
+            "school": 4
+          },
+          "rank": 3
+        },
+        {
+          "label": "relaxed",
+          "overlap_count": 8,
+          "hits": {
+            "ballad": 4,
+            "slow": 4
+          },
+          "rank": 4
+        },
+        {
+          "label": "humorous",
+          "overlap_count": 4,
+          "hits": {
+            "butts": 4
+          },
+          "rank": 5
+        },
+        {
+          "label": "melancholic",
+          "overlap_count": 2,
+          "hits": {
+            "blues": 1,
+            "bored": 1
+          },
+          "rank": 6
+        },
+        {
+          "label": "rebellious",
+          "overlap_count": 1,
+          "hits": {
+            "kick-ass": 1
+          },
+          "rank": 7
+        },
+        {
+          "label": "defiant",
+          "overlap_count": 1,
+          "hits": {
+            "kick-ass": 1
+          },
+          "rank": 8
+        },
+        {
+          "label": "reflective",
+          "overlap_count": 1,
+          "hits": {
+            "blues": 1
+          },
+          "rank": 9
+        },
+        {
+          "label": "romantic",
+          "overlap_count": 0,
+          "hits": {},
+          "rank": 10
+        }
+      ],
+      "authority": "MACHINE-DERIVED",
+      "score_kind": "lexicon token overlap count; not a calibrated sentiment probability"
+    },
+    "subject_matter": {
+      "text": "Mr. Guitar Man; hook us with that old school funk; none of that slow down ballad stuff; play something we can stomp to",
+      "authority": "MACHINE-DERIVED"
+    },
+    "synopsis": {
+      "text": "The approved lyrics open by addressing 'Mr. Guitar Man'. A repeated lyric phrase is 'hook us with that old school funk'. The same lyric body also includes: old school funk; not slow down ballad stuff; work week blues; dance and get a little footloose.",
+      "authority": "MACHINE-DERIVED"
+    },
+    "lexical_measurements": {
+      "authority": "MEASURED",
+      "theme_counts": {
+        "hook us with that old school funk": 4,
+        "none of that slow down ballad stuff": 4,
+        "play something we can stomp to": 6,
+        "these seats and move": 4,
+        "we came here to dance and get a": 3,
+        "came here to dance and get a little": 3
+      },
+      "keyword_counts": {
+        "play": 9,
+        "stomp": 8,
+        "down": 5,
+        "groove": 4,
+        "butts": 4,
+        "seats": 4,
+        "move": 4,
+        "hook": 4,
+        "old": 4,
+        "school": 4,
+        "funk": 4,
+        "slow": 4
+      }
+    }
+  }
+}
