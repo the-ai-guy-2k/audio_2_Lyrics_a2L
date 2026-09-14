@@ -2,6 +2,7 @@
 
 Promotion of validated ACI-A2L-REL-004 (Release Package Export) into `deployable`. No new product capability.
 
+- Remote: `origin/deployable` and `origin/main` fast-forwarded to `9eb9cf2` (not a force-push).
 - Promotion merge on `deployable`: `f9360b5`
 - Source: `feature/aci-a2l-rel-004-release-package-export` @ `849a31e`
 - Implementation: `5e0593c`
