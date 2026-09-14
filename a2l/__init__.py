@@ -15,6 +15,7 @@ ACI-A2L-016: user-download filenames from operator-supplied title/artist.
 ACI-A2L-REL-001: song release record (Current Truth; not distribution).
 ACI-A2L-REL-002: album release manifest (organizes song records; membership/order).
 ACI-A2L-REL-003: album release readiness (A2L INTERNAL READY/INCOMPLETE; not distribution).
+ACI-A2L-REL-004: release package export (derived ZIP from current governed truth; not distribution).
 Vocal isolation remains out of scope.
 """
 

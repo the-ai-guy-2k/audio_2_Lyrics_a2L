@@ -42,4 +42,4 @@ Track membership and order remain owned by the Album Release Manifest.
 
 ## Out of scope
 
-Distributor/store readiness, ISRC/UPC generation, registrations, Release Package Export, marketing, mastering.
+Distributor/store readiness, ISRC/UPC generation, registrations, marketing, mastering. Release Package Export is ACI-A2L-REL-004; see [RELEASE_PACKAGE_EXPORT.md](RELEASE_PACKAGE_EXPORT.md).

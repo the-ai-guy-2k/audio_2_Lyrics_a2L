@@ -262,7 +262,9 @@
         <button class="action" id="add-album-track" type="button">Add song</button>
         <button class="action" id="save-album" type="button">Save album</button>
         <button class="action" id="assess-album" type="button">Assess release readiness</button>
+        <button class="action" id="export-album-package" type="button">Export release package</button>
       </p>
+      <p class="note">Export is allowed when readiness is INCOMPLETE. The package keeps the current internal readiness status.</p>
       <p class="note" id="album-save-status"></p>
       <div class="readiness-box">
         <h2>Release Readiness</h2>
@@ -1053,6 +1055,42 @@
         $("album-save-status").textContent = "Readiness updated from current records.";
       } catch (err) {
         $("album-save-status").textContent = "Could not assess release readiness. Refresh the page and try again.";
+      }
+    });
+
+    $("export-album-package").addEventListener("click", async function () {
+      if (!albumId) {
+        $("album-save-status").textContent = "Create an album first.";
+        return;
+      }
+      try {
+        const zip = await fetch("/export/release-package?id=" + encodeURIComponent(albumId));
+        if (!zip.ok) {
+          let message = "Could not export the release package.";
+          try {
+            const payload = await zip.json();
+            message = payload.error || message;
+          } catch (parseErr) {}
+          $("album-save-status").textContent = message;
+          return;
+        }
+        const blob = await zip.blob();
+        const header = zip.headers.get("Content-Disposition") || "";
+        const star = /filename\*=UTF-8''([^;]+)/i.exec(header);
+        const quoted = /filename="([^"]+)"/i.exec(header);
+        const downloadName = decodeURIComponent((star && star[1]) || (quoted && quoted[1]) || "A2L_Release_Package.zip");
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = downloadName;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(link.href);
+        await loadAlbumReadiness(albumId);
+        const state = $("album-readiness").textContent || "A2L INTERNAL RELEASE READINESS: INCOMPLETE";
+        $("album-save-status").textContent = "Package exported. " + state;
+      } catch (err) {
+        $("album-save-status").textContent = "Could not export the release package. Refresh the page and try again.";
       }
     });
 

@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-REL-PROM-003 promotion of the validated Album Release Readiness (ACI-A2L-REL-003) to `deployable`.
+**Authority:** ACI-A2L-REL-PROM-004 promotion of the validated Release Package Export (ACI-A2L-REL-004) to `deployable`.
 
 ## Implemented flow
 
@@ -23,6 +23,7 @@ Operator application (python -m a2l app)  ← product-facing, http://127.0.0.1:8
   → song release record (credits/rights/ISRC if entered; missing stays MISSING; not distribution)
   → album release manifest (Operator album identity + ordered song membership; live song-record truth)
   → album release readiness (A2L INTERNAL READY/INCOMPLETE from current manifest + song records; not distributor readiness)
+  → release package export (derived ZIP of current governed album/song artifacts; master audio referenced, not copied; not a distributor package)
   → optional reopen (archives prior approval + derived exports) → metadata may be corrected → reapprove
 ```
 
@@ -33,4 +34,4 @@ The engineering review page remains `python -m a2l review` at http://127.0.0.1:8
 
 Fixed test song: [FIXED_TEST_SONG.md](../FIXED_TEST_SONG.md)
 
-No verse/chorus labels are invented. Vocal isolation is not in the pipeline. Song title and artist are operator-supplied and optional; the WAV filename is not used as a title. After approval the operator Output screen shows a Standard Lyric Sheet derived from the approved artifact; canonical TXT/JSON remain authoritative. Downloaded files are named from that metadata when present. The Album screen organizes existing Song Release Records. Release Readiness reports A2L INTERNAL READY/INCOMPLETE from current governed records; it is not distributor or commercial readiness. The locked Jay song's **faster-whisper** approved lyrics (ACI-A2L-009 Amendment 01, revision 2) were not modified. Parakeet output is a separate unapproved chain.
+No verse/chorus labels are invented. Vocal isolation is not in the pipeline. Song title and artist are operator-supplied and optional; the WAV filename is not used as a title. After approval the operator Output screen shows a Standard Lyric Sheet derived from the approved artifact; canonical TXT/JSON remain authoritative. Downloaded files are named from that metadata when present. The Album screen organizes existing Song Release Records. Release Readiness reports A2L INTERNAL READY/INCOMPLETE from current governed records; it is not distributor or commercial readiness. Album **Export release package** writes a derived ZIP of that current truth; it does not copy master audio or invent missing release data. The locked Jay song's **faster-whisper** approved lyrics (ACI-A2L-009 Amendment 01, revision 2) were not modified. Parakeet output is a separate unapproved chain.
