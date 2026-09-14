@@ -4,13 +4,13 @@
 **ACI:** ACI-A2L-SI-006 — Lyric Intelligence engine candidate validation  
 **AIW:** CAE  
 **Date:** 2026-09-14  
-**Recommendation:** **EXECUTED** on feature branch. ENGINEERING WIN is **YES**. SEMANTIC VALIDATION is **PENDING JAY**. Not merged.
+**Recommendation:** **PASS** on feature branch. ENGINEERING WIN is **YES**. SEMANTIC VALIDATION is **PENDING JAY**. Network stop not triggered. Not merged.
 
 ---
 
 ## Execution status
 
-COMPLETE on bounded feature branch. In-repo deterministic NLP analyzed the locked song's HUMAN-APPROVED lyrics (revision 2) on CPU. The WAV was not transcribed. No cloud. No model download. Engine #3 / CLAP was not resumed. Results are MACHINE-DERIVED except lexical counts (MEASURED). The Approved Lyric Artifact was not modified. No Song Intelligence Record was created.
+COMPLETE on bounded feature branch against the APPROVED ACI. In-repo deterministic NLP analyzed the locked song's HUMAN-APPROVED lyrics (revision 2) on CPU. The WAV was not transcribed. No cloud. No model download. Network stop rule not triggered. Engine #3 / CLAP was not resumed and the incomplete CLAP transfer was not restarted. Results are MACHINE-DERIVED except lexical counts (MEASURED). The Approved Lyric Artifact was not modified. No Song Intelligence Record was created.
 
 Not merged. Not pushed. `deployable` / `main` not modified.
 
@@ -122,12 +122,27 @@ SEMANTIC VALIDATION: PENDING JAY
 
 ## Minority Report
 
-1. **Approved text still contains caption-like residue.** `Thanks for watching!` and the repeated line `Play something we can start to` were not stripped. They are part of the approved artifact. The engine did not invent them and did not clean them.
+WHAT IS BEING DONE: Approved lyric text still contains caption-like residue (`Thanks for watching!` and `Play something we can start to`). The engine consumed the artifact unchanged and did not clean it.  
+WHY IT MATTERS: Semantic outputs can include non-song residue that is present in the approved source.  
+PA IMPACT: NONE for engineering; Jay semantic review may flag those lines.  
+DISPOSITION: INFORMATIONAL
 
-2. **Theme rank is content-token density, not literary importance.** `old school funk` outranks the more frequent `play something we can stomp to` because the ranking score is `count * content_tokens`. Engine truth is preserved.
+WHAT IS BEING DONE: Theme rank uses `count * content_tokens`, so `old school funk` outranks the more frequent `play something we can stomp to`. Engine truth is preserved; results were not rewritten.  
+WHY IT MATTERS: Ranking is deterministic density, not literary importance.  
+PA IMPACT: NONE  
+DISPOSITION: INFORMATIONAL
 
-3. **Emotional character is lexicon overlap**, not a claim about Jay's intent. `energetic` won on tokens such as stomp / groove / dance / funk / alive / footloose.
+WHAT IS BEING DONE: Emotional character `energetic` is bounded lexicon overlap (stomp / groove / dance / funk / alive / footloose), not artist intent.  
+WHY IT MATTERS: MACHINE-DERIVED emotion is not HUMAN-APPROVED meaning.  
+PA IMPACT: NONE  
+DISPOSITION: INFORMATIONAL
 
-4. **Engine #3 remains deferred.** This ACI did not download CLAP and did not resume Audio Intelligence.
+WHAT IS BEING DONE: Engine #3 CLAP acquisition remains deferred. Observed incomplete `pytorch_model.bin` (~740 MB; ~139 MB / ~18%; ~245 KB/s; ~10 min; terminated). Restart not authorized. This ACI did not resume Audio Intelligence.  
+WHY IT MATTERS: Distinguishes infrastructure deferral from Engine #3 technical failure and from Engine #4 success.  
+PA IMPACT: NONE for this ACI  
+DISPOSITION: DEFERRED (Engine #3 only)
 
-5. **Quality of meaning is Jay's call.** CAE accepts only that structured, grounded candidate intelligence was produced on the laptop.
+WHAT IS BEING DONE: Semantic / musical quality is reserved for Jay. CAE accepts only that structured, grounded candidate intelligence was produced on CPU.  
+WHY IT MATTERS: ENGINEERING WIN and SEMANTIC VALIDATION are separate gates.  
+PA IMPACT: NONE  
+DISPOSITION: INFORMATIONAL
