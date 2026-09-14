@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-REL-004 Release Package Export on `feature/aci-a2l-rel-004-release-package-export`, branched from `deployable` @ `2a754ed07a6e7513a4f3a6e1376696f67a04b6ec`.
+**Authority:** ACI-A2L-REL-PROM-004 promotion of the validated Release Package Export (ACI-A2L-REL-004) to `deployable`.
 
 ## Implemented flow
 
