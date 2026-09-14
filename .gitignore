@@ -12,6 +12,7 @@ htmlcov/
 .venv-parakeet/
 .venv-faster-whisper/
 .venv-all-in-one/
+.venv-key-mode/
 venv/
 env/
 

@@ -1,0 +1,5 @@
+# Isolated ACI-A2L-SI-004 sidecar. Do not install into the main A2L Python 3.14 environment.
+# Create with: py -3.12 -m venv .venv-key-mode
+librosa==1.0.0
+numpy==2.5.3
+soundfile==0.14.0

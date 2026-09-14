@@ -1,0 +1,23 @@
+MACHINE-DERIVED KEY + MODE
+ACI-A2L-SI-004
+NOT AUTHORITATIVE SONG FACTS
+NOT A SONG INTELLIGENCE RECORD
+Chords were not estimated.
+
+engine: librosa chroma_cqt + Krumhansl-Schmuckler
+method: chroma_cqt mean vector correlated with Krumhansl-Kessler major/minor profiles
+librosa: 1.0.0
+device: cpu
+source_sha256: bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be
+
+KEY: A
+MODE: major
+CONFIDENCE: 0.03561118190641567
+SCORE: 0.7640792482309879
+
+ALTERNATE CANDIDATES:
+  A major  score=0.7641
+  D major  score=0.7173
+  A minor  score=0.5502
+  F# minor  score=0.5189
+  E major  score=0.3376
