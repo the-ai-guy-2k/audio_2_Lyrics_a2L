@@ -14,6 +14,7 @@ Determine whether one Rhythm + Structure analysis engine can advance the A2L Son
 ## Constraints honored
 
 - New branch `feature/aci-a2l-si-002-rhythm-structure` from validated `deployable` / `main` @ `70bc6509f4c484906153efa10d8a3505ff240a3b`.
+- Implementation commit: `d989e7f`.
 - Locked master: `01Stomp to MIX MSTR 24bit_48hz.wav`
 - SHA-256 `bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be`
 - Isolated sidecar `.venv-all-in-one` (Python 3.12). MIR dependencies were not installed into the Python 3.14 A2L application environment.

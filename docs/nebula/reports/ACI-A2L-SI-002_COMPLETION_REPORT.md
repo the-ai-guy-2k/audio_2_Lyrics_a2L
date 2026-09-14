@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified. No other Song Intell
 | --- | --- |
 | Branch | `feature/aci-a2l-si-002-rhythm-structure` |
 | Base | `deployable` / `main` @ `70bc6509f4c484906153efa10d8a3505ff240a3b` |
-| Implementation | recorded in ACR after commit |
+| Implementation | `d989e7f` |
 
 ## Engine
 
