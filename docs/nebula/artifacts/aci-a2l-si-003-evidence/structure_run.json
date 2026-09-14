@@ -1,0 +1,26 @@
+{
+  "started_utc": "2026-09-14T22:04:11.065289+00:00",
+  "finished_utc": "2026-09-14T22:10:01.871738+00:00",
+  "ok": true,
+  "raw_path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\candidates\\all-in-one-infer\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\si-003-structure-resolution\\structure_raw.json",
+  "txt_path": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\artifacts\\candidates\\all-in-one-infer\\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\\si-003-structure-resolution\\structure_readable.txt",
+  "source_sha_unchanged": true,
+  "protected_artifacts_unchanged": true,
+  "si002_evidence_unchanged": true,
+  "cpu_execution": true,
+  "gpu_required": false,
+  "cloud_required": false,
+  "source_separation": "DIAGNOSTIC",
+  "analysis_seconds": 343.2616530000014,
+  "memory": {
+    "samples": 677,
+    "sampled_peak_working_set_bytes": 4094513152,
+    "os_peak_working_set_bytes": 4102279168,
+    "final_working_set_bytes": 476680192,
+    "peak_working_set_bytes": 4102279168,
+    "peak_working_set_mb": 3912.2,
+    "sampler": "GetProcessMemoryInfo"
+  },
+  "errors": [],
+  "cwd": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l"
+}
