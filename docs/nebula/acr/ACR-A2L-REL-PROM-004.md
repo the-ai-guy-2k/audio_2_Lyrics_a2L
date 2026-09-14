@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-REL-PROM-004 — Promote release package export to deployable  
 **Date recorded:** 2026-09-14  
 **Branch:** `feature/aci-a2l-rel-prom-004`  
-**Commit:** `c56d33e` (docs); promotion merge recorded on `deployable`  
+**Commit:** `c56d33e` (docs); promotion merge `f9360b5` on `deployable`  
 **Status:** COMPLETE — promoted to `deployable`  
 **Product changes:** none. Promotion of validated ACI-A2L-REL-004 only.
 
