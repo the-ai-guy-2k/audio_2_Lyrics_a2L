@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution adds A2L INTERNAL RELEASE REA
 ## Constraints honored
 
 - New branch `feature/aci-a2l-rel-003-album-release-readiness` from validated `deployable` @ `2188f47cb866cf7c85506383c8db22ab18ae7e33`.
+- Implementation commit: `96bbb7e`.
 - Consumes existing Album Release Manifest and current Song Release Records. Does not create competing song or lyric authority.
 - READY / INCOMPLETE is A2L internal completeness only.
 - Album required: Album Title, Primary Artist, Release Type, at least one track.

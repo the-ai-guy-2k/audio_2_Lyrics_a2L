@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified. REL-004 not started.
 | --- | --- |
 | Branch | `feature/aci-a2l-rel-003-album-release-readiness` |
 | Base | `deployable` @ `2188f47cb866cf7c85506383c8db22ab18ae7e33` |
-| Implementation | (recorded in ACR after commit) |
+| Implementation | `96bbb7e` |
 
 ## Persistence
 
