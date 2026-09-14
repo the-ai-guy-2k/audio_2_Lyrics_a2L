@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified.
 | --- | --- |
 | Branch | `feature/aci-a2l-si-006-lyric-intelligence` |
 | Base | SI-004 `feature/aci-a2l-si-004-key-mode` @ `0b0279d` |
-| Implementation | recorded after commit |
+| Implementation | `108144c` |
 
 ## Engine
 

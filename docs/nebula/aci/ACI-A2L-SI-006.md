@@ -14,7 +14,7 @@ Determine whether A2L can derive useful semantic Song Intelligence from governed
 ## Constraints honored
 
 - New branch `feature/aci-a2l-si-006-lyric-intelligence` from SI-004 `feature/aci-a2l-si-004-key-mode` @ `0b0279d` (Engine #3 / SI-005 deferred; CLAP download not resumed).
-- Implementation commit recorded after commit.
+- Implementation commit: `108144c`.
 - Locked song SHA-256 `bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be`. WAV was not transcribed.
 - Input: ingest `a2l_pipeline/approved_lyrics` revision 2 (AUTHORITATIVE_APPROVED_LYRICS). Draft transcription was not substituted.
 - Method: in-repo deterministic NLP (stdlib tokenization, line-bounded repeated n-grams, content-word frequency, bounded lexical emotion overlap). No LLM. No cloud. No model download.
