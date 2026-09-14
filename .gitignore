@@ -11,11 +11,17 @@ htmlcov/
 .venv/
 .venv-parakeet/
 .venv-faster-whisper/
+.venv-all-in-one/
 venv/
 env/
 
 # Isolated candidate runtime (not the whisper-1 baseline)
 artifacts/candidates/
+
+# Accidental All-In-One byproducts if a run uses default cwd paths
+/demix/
+/spec/
+/struct/
 
 # OS / editor
 .DS_Store

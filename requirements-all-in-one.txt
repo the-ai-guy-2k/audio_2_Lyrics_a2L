@@ -1,0 +1,14 @@
+# Isolated ACI-A2L-SI-002 sidecar. Do not install into the main A2L Python 3.14 environment.
+# Create with: py -3.12 -m venv .venv-all-in-one
+# Install torch/torchaudio from the CPU index first:
+#   python -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+# Then: python -m pip install -r requirements-all-in-one.txt
+all-in-one-infer==3.1.0
+demucs-infer==4.2.2
+madmom-infer==0.2.0
+torch==2.14.0
+torchaudio==2.11.0
+librosa==1.0.0
+numpy==2.5.3
+huggingface_hub==1.31.0
+soundfile==0.14.0
