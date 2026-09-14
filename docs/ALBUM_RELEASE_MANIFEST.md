@@ -82,4 +82,4 @@ Album title, primary artist, and release type are `OPERATOR_ENTERED`. Track orde
 
 ## Out of scope
 
-Distributor submission, UPC/ISRC generation, registrations, royalty splits, artwork, marketing, mastering. Release Package Export belongs to a later ACI.
+Distributor submission, UPC/ISRC generation, registrations, royalty splits, artwork, marketing, mastering. Release Package Export is ACI-A2L-REL-004; see [RELEASE_PACKAGE_EXPORT.md](RELEASE_PACKAGE_EXPORT.md).

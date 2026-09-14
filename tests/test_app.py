@@ -140,6 +140,40 @@ def test_app_page_loads(tmp_path: Path, monkeypatch) -> None:
         server.shutdown()
 
 
+def test_release_package_export_does_not_require_current_song(tmp_path: Path, monkeypatch) -> None:
+    app, server, port = _start(tmp_path, monkeypatch)
+    try:
+        status, data, _ = _request(
+            port,
+            "POST",
+            "/api/albums",
+            body=json.dumps({"album_title": "Empty Package", "primary_artist": "Jay Garrett", "release_type": "album"}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        created = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert app.job_id == ""
+        status, data, _ = _request(
+            port,
+            "POST",
+            "/api/release-package",
+            body=json.dumps({"id": created["release_id"]}).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+        )
+        payload = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert payload["ok"] is True
+        assert payload["overall_state"] == "INCOMPLETE"
+        assert payload["download_name"] == "Jay_Garrett_Empty_Package_A2L_Release_Package.zip"
+        assert app.job_id == ""
+        status, data, headers = _request(port, "GET", f"/export/release-package?id={created['release_id']}")
+        assert status == 200
+        assert data[:2] == b"PK"
+        assert "Empty_Package" in (headers.getheader("Content-Disposition") or "")
+    finally:
+        server.shutdown()
+
+
 def test_rejects_invalid_upload(tmp_path: Path, monkeypatch) -> None:
     _, server, port = _start(tmp_path, monkeypatch)
     try:
@@ -623,6 +657,22 @@ def test_album_manifest_round_trip_and_live_song_truth(tmp_path: Path, monkeypat
         assert any(item["id"] == "songwriters" and item["blocking"] is True for item in readiness["tracks"][0]["blocking_missing_fields"])
         assert any(item["id"] == "isrc" and item["blocking"] is False for item in readiness["tracks"][0]["optional_missing_fields"])
         assert (tmp_path / "artifacts" / "releases" / created["release_id"] / "album_release_readiness.json").is_file()
+
+        status, data, headers = _request(port, "POST", "/api/release-package", body=json.dumps({"id": created["release_id"]}).encode("utf-8"), headers={"Content-Type": "application/json"})
+        package = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert package["ok"] is True
+        assert package["overall_state"] == "INCOMPLETE"
+        assert package["master_audio_included"] is False
+        assert package["distributor_package"] is False
+        assert package["download_name"].endswith("_A2L_Release_Package.zip")
+        assert app.job_id == second.job_id
+
+        status, data, headers = _request(port, "GET", f"/export/release-package?id={created['release_id']}")
+        assert status == 200
+        assert headers.getheader("Content-Type") == "application/zip"
+        assert "A2L_Release_Package.zip" in (headers.getheader("Content-Disposition") or "")
+        assert data[:2] == b"PK"
     finally:
         server.shutdown()
 
@@ -637,6 +687,7 @@ def test_app_html_hides_engineering_paths() -> None:
     assert "Song Release Record" in html
     assert "Create album" in html
     assert "Assess release readiness" in html
+    assert "Export release package" in html
     assert "A2L INTERNAL RELEASE READINESS" in html
     assert "MISSING — BLOCKING" in html
     assert "MISSING — OPTIONAL" in html

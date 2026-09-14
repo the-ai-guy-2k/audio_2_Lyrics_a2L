@@ -42,6 +42,11 @@ from a2l.export import (
 )
 from a2l.ingest import ingest_wav
 from a2l.metadata import apply_song_metadata, overlay_working_metadata, write_song_metadata
+from a2l.release_package import (
+    export_release_package,
+    package_content_disposition,
+    public_package_payload,
+)
 from a2l.release_record import (
     load_or_create_release_record,
     public_release_payload,
@@ -412,6 +417,12 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path == "/api/album-readiness":
             self._album_readiness(parsed)
             return
+        if parsed.path == "/api/release-package":
+            self._release_package(parsed)
+            return
+        if parsed.path in ("/export/release-package", "/export/release-package.zip"):
+            self._download_release_package(parsed)
+            return
         if parsed.path in ("/export/lyrics.txt", "/export/approved_lyrics.txt"):
             self._export("txt")
             return
@@ -457,6 +468,9 @@ class AppHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/album-readiness":
             self._save_album_readiness(payload)
+            return
+        if parsed.path == "/api/release-package":
+            self._save_release_package(payload)
             return
         job = self.app.job_id
         if not job:
@@ -630,6 +644,50 @@ class AppHandler(BaseHTTPRequestHandler):
             self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
             return
         self._send_json(200, public_readiness_payload(record))
+
+    def _release_package(self, parsed) -> None:
+        release_id = (parse_qs(parsed.query).get("id") or [""])[0]
+        self._export_release_package(release_id)
+
+    def _save_release_package(self, payload: dict) -> None:
+        release_id = payload.get("id") or payload.get("release_id")
+        self._export_release_package(str(release_id or ""))
+
+    def _export_release_package(self, release_id: str) -> None:
+        if not release_id:
+            self._send_json(400, {"ok": False, "error_code": "ALBUM_NOT_FOUND", "error": "That album could not be found."})
+            return
+        try:
+            result = export_release_package(release_id, artifact_root=self.app.artifact_root)
+        except ReleaseError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        except ExportError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        self._send_json(200, public_package_payload(result))
+
+    def _download_release_package(self, parsed) -> None:
+        release_id = (parse_qs(parsed.query).get("id") or [""])[0]
+        if not release_id:
+            self._send_json(400, {"ok": False, "error_code": "ALBUM_NOT_FOUND", "error": "That album could not be found."})
+            return
+        try:
+            result = export_release_package(release_id, artifact_root=self.app.artifact_root)
+        except ReleaseError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        except ExportError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        data = Path(result["zip_path"]).read_bytes()
+        self.send_response(200)
+        self.send_header("Content-Type", "application/zip")
+        self.send_header("Content-Length", str(len(data)))
+        self.send_header("Content-Disposition", package_content_disposition(result["download_name"]))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(data)
 
     def _formatted_export(self, parsed) -> None:
         job = self.app.job_id
