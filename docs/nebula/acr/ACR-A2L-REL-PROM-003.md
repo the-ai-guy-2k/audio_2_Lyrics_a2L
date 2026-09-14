@@ -3,8 +3,8 @@
 **ACI:** ACI-A2L-REL-PROM-003 — Promote album release readiness to deployable  
 **Date recorded:** 2026-09-14  
 **Branch:** `feature/aci-a2l-rel-prom-003`  
-**Commit:** `48df175` (docs); promotion merge recorded after this ACR  
-**Status:** COMPLETE — promoted to `deployable` (merge SHA recorded after this ACR)  
+**Commit:** `48df175` (docs); promotion merge `46cdb1c` on `deployable`  
+**Status:** COMPLETE — promoted to `deployable`  
 **Product changes:** none. Promotion of validated ACI-A2L-REL-003 only.
 
 ## Accepted outcome

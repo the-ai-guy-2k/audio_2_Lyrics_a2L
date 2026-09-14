@@ -2,6 +2,7 @@
 
 Promotion of validated ACI-A2L-REL-003 (Album Release Readiness) into `deployable`. No new product capability.
 
+- Promotion merge on `deployable`: `46cdb1c`
 - Source: `feature/aci-a2l-rel-003-album-release-readiness` @ `5b84cd5`
 - Implementation: `96bbb7e`
 - Prior `deployable`: `2188f47`
