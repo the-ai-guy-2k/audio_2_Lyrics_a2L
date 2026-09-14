@@ -74,7 +74,7 @@ Descriptive counts only:
 - SONG RECORDS READY
 - SONG RECORDS INCOMPLETE
 
-This capability does **not** determine ALBUM READY, DISTRIBUTION READY, RELEASE READY, PUBLISHING READY, or RELEASED.
+This capability does **not** determine DISTRIBUTION READY, RELEASE READY, PUBLISHING READY, or RELEASED. A2L internal album completeness is assessed separately by [ALBUM_RELEASE_READINESS.md](ALBUM_RELEASE_READINESS.md).
 
 ## Provenance
 
@@ -82,4 +82,4 @@ Album title, primary artist, and release type are `OPERATOR_ENTERED`. Track orde
 
 ## Out of scope
 
-Album Release Readiness (ACI-A2L-REL-003), distributor submission, UPC/ISRC generation, registrations, royalty splits, artwork, marketing, mastering.
+Distributor submission, UPC/ISRC generation, registrations, royalty splits, artwork, marketing, mastering. Release Package Export belongs to a later ACI.

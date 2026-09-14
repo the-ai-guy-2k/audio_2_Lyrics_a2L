@@ -613,6 +613,16 @@ def test_album_manifest_round_trip_and_live_song_truth(tmp_path: Path, monkeypat
         assert [item["ingest_job_id"] for item in after_remove["tracks"]] == [first_job]
         assert (second.artifact_dir / "ingest_manifest.json").is_file()
         assert (tmp_path / "artifacts" / "releases" / created["release_id"] / "album_release_manifest.json").is_file()
+
+        status, data, _ = _request(port, "POST", "/api/album-readiness", body=json.dumps({"id": created["release_id"]}).encode("utf-8"), headers={"Content-Type": "application/json"})
+        readiness = json.loads(data.decode("utf-8"))
+        assert status == 200
+        assert readiness["overall_state"] == "INCOMPLETE"
+        assert readiness["assessment_type"] == "A2L_INTERNAL_RELEASE_READINESS"
+        assert readiness["distributor_readiness"] is False
+        assert any(item["id"] == "songwriters" and item["blocking"] is True for item in readiness["tracks"][0]["blocking_missing_fields"])
+        assert any(item["id"] == "isrc" and item["blocking"] is False for item in readiness["tracks"][0]["optional_missing_fields"])
+        assert (tmp_path / "artifacts" / "releases" / created["release_id"] / "album_release_readiness.json").is_file()
     finally:
         server.shutdown()
 
@@ -626,6 +636,10 @@ def test_app_html_hides_engineering_paths() -> None:
     assert "Album Release Manifest" in html
     assert "Song Release Record" in html
     assert "Create album" in html
+    assert "Assess release readiness" in html
+    assert "A2L INTERNAL RELEASE READINESS" in html
+    assert "MISSING — BLOCKING" in html
+    assert "MISSING — OPTIONAL" in html
     assert "ALBUM READY" not in html
     assert "DISTRIBUTION READY" not in html
     assert "STANDARD LYRIC SHEET" in html

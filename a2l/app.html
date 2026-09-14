@@ -107,6 +107,9 @@
     .track-head { font-weight: bold; }
     .track-missing { margin: 0.35rem 0 0.2rem 0; font-size: 0.9rem; }
     .track-actions { margin-top: 0.4rem; }
+    .gap.BLOCKING { color: #a40000; }
+    .gap.OPTIONAL { color: #8a5a00; }
+    .readiness-box { font-family: sans-serif; border-top: 1px solid #ccc; margin-top: 1.25rem; padding-top: 0.9rem; }
   </style>
 </head>
 <body>
@@ -219,7 +222,7 @@
     </section>
     <section id="screen-album" class="hidden">
       <h2>Album Release Manifest</h2>
-      <p class="note">This album view organizes existing song release records. It does not decide whether an album is ready, and it does not distribute the album.</p>
+      <p class="note">This album view organizes existing song release records. Release Readiness below reports A2L internal completeness. It does not distribute the album.</p>
       <p>
         <label for="album-select">Existing albums</label><br>
         <select id="album-select">
@@ -258,8 +261,15 @@
       <p class="toolbar">
         <button class="action" id="add-album-track" type="button">Add song</button>
         <button class="action" id="save-album" type="button">Save album</button>
+        <button class="action" id="assess-album" type="button">Assess release readiness</button>
       </p>
       <p class="note" id="album-save-status"></p>
+      <div class="readiness-box">
+        <h2>Release Readiness</h2>
+        <p class="readiness INCOMPLETE" id="album-readiness">A2L INTERNAL RELEASE READINESS: …</p>
+        <p class="note" id="album-readiness-note">READY means A2L internal release-information completeness. It does not mean the album was commercially released or sent to a distributor.</p>
+        <div id="album-readiness-detail"></div>
+      </div>
     </section>
   </main>
   <script>
@@ -581,6 +591,94 @@
       renderAlbumTracks(payload.summary);
       const select = $("album-select");
       if (albumId) select.value = albumId;
+      if (albumId) loadAlbumReadiness(albumId);
+    }
+
+    function gapLine(field, kind) {
+      const line = document.createElement("p");
+      line.className = "note gap " + kind;
+      line.textContent = (field.label || field.id) + " ........ " + (kind === "BLOCKING" ? "MISSING — BLOCKING" : "MISSING — OPTIONAL");
+      return line;
+    }
+
+    function renderAlbumReadiness(payload) {
+      const state = payload.overall_state || "INCOMPLETE";
+      $("album-readiness").textContent = "A2L INTERNAL RELEASE READINESS: " + state;
+      $("album-readiness").className = "readiness " + state;
+      $("album-readiness-note").textContent = payload.readiness_note || "";
+      const root = $("album-readiness-detail");
+      root.innerHTML = "";
+      const summary = payload.summary || {};
+      const counts = document.createElement("p");
+      counts.className = "note";
+      counts.textContent = "Tracks: " + (summary.tracks || 0) + "  Ready: " + (summary.ready_tracks || 0) + "  Incomplete: " + (summary.incomplete_tracks || 0);
+      root.appendChild(counts);
+      const albumHead = document.createElement("p");
+      albumHead.className = "track-head";
+      albumHead.textContent = "Album-level gaps";
+      root.appendChild(albumHead);
+      const albumGaps = payload.missing_album_fields || [];
+      if (!albumGaps.length) {
+        const none = document.createElement("p");
+        none.className = "note";
+        none.textContent = "NONE";
+        root.appendChild(none);
+      } else {
+        albumGaps.forEach(function (field) { root.appendChild(gapLine(field, "BLOCKING")); });
+      }
+      (payload.tracks || []).forEach(function (track) {
+        if (track.release_readiness === "READY" && !(track.optional_missing_fields || []).length) return;
+        const row = document.createElement("div");
+        row.className = "track-row";
+        const head = document.createElement("p");
+        head.className = "track-head";
+        const title = track.song_title || "No title entered";
+        head.textContent = "Track " + padTrack(track.position) + " — " + title + " — " + (track.release_readiness || "INCOMPLETE");
+        row.appendChild(head);
+        const blocking = track.blocking_missing_fields || [];
+        if (blocking.length) {
+          const miss = document.createElement("p");
+          miss.className = "note";
+          miss.textContent = "Missing:";
+          row.appendChild(miss);
+          blocking.forEach(function (field) { row.appendChild(gapLine(field, "BLOCKING")); });
+        }
+        const optional = track.optional_missing_fields || [];
+        if (optional.length) {
+          const opt = document.createElement("p");
+          opt.className = "note";
+          opt.textContent = "Optional:";
+          row.appendChild(opt);
+          optional.forEach(function (field) { row.appendChild(gapLine(field, "OPTIONAL")); });
+        }
+        if (track.ingest_job_id) {
+          const actions = document.createElement("p");
+          actions.className = "track-actions";
+          const openRelease = document.createElement("button");
+          openRelease.type = "button";
+          openRelease.className = "action";
+          openRelease.textContent = "Open song release record";
+          openRelease.addEventListener("click", function () { openAlbumSong(track.ingest_job_id); });
+          actions.appendChild(openRelease);
+          row.appendChild(actions);
+        }
+        root.appendChild(row);
+      });
+    }
+
+    async function loadAlbumReadiness(id) {
+      if (!id) return;
+      try {
+        const response = await fetch("/api/album-readiness?id=" + encodeURIComponent(id));
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("album-readiness-note").textContent = payload.error || "Release readiness is not available.";
+          return;
+        }
+        renderAlbumReadiness(payload);
+      } catch (err) {
+        $("album-readiness-note").textContent = "Could not assess release readiness. Refresh the page and try again.";
+      }
     }
 
     async function loadAlbumList() {
@@ -932,6 +1030,29 @@
         $("album-save-status").textContent = "Saved.";
       } catch (err) {
         $("album-save-status").textContent = "Could not save the album. Refresh the page and try again.";
+      }
+    });
+
+    $("assess-album").addEventListener("click", async function () {
+      if (!albumId) {
+        $("album-save-status").textContent = "Create an album first.";
+        return;
+      }
+      try {
+        const response = await fetch("/api/album-readiness", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: albumId }),
+        });
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("album-save-status").textContent = payload.error || "Could not assess release readiness.";
+          return;
+        }
+        renderAlbumReadiness(payload);
+        $("album-save-status").textContent = "Readiness updated from current records.";
+      } catch (err) {
+        $("album-save-status").textContent = "Could not assess release readiness. Refresh the page and try again.";
       }
     });
 

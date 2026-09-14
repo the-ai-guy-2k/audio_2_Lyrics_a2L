@@ -14,6 +14,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
+from a2l.album_readiness import assess_album_readiness, public_readiness_payload
 from a2l.album_manifest import (
     create_album_manifest,
     detect_pipeline_dirname,
@@ -408,6 +409,9 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path == "/api/catalog-songs":
             self._catalog_songs()
             return
+        if parsed.path == "/api/album-readiness":
+            self._album_readiness(parsed)
+            return
         if parsed.path in ("/export/lyrics.txt", "/export/approved_lyrics.txt"):
             self._export("txt")
             return
@@ -450,6 +454,9 @@ class AppHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/open-song":
             self._open_song(payload)
+            return
+        if parsed.path == "/api/album-readiness":
+            self._save_album_readiness(payload)
             return
         job = self.app.job_id
         if not job:
@@ -604,6 +611,25 @@ class AppHandler(BaseHTTPRequestHandler):
             self.app.busy = False
             self.app.screen = "release"
         self._send_json(200, self.app.snapshot())
+
+    def _album_readiness(self, parsed) -> None:
+        release_id = (parse_qs(parsed.query).get("id") or [""])[0]
+        self._assess_album_readiness(release_id)
+
+    def _save_album_readiness(self, payload: dict) -> None:
+        release_id = payload.get("id") or payload.get("release_id")
+        self._assess_album_readiness(str(release_id or ""))
+
+    def _assess_album_readiness(self, release_id: str) -> None:
+        if not release_id:
+            self._send_json(400, {"ok": False, "error_code": "ALBUM_NOT_FOUND", "error": "That album could not be found."})
+            return
+        try:
+            record = assess_album_readiness(release_id, artifact_root=self.app.artifact_root)
+        except ReleaseError as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        self._send_json(200, public_readiness_payload(record))
 
     def _formatted_export(self, parsed) -> None:
         job = self.app.job_id
