@@ -18,7 +18,7 @@ FINISHED MASTER WAV → AUDIO INTELLIGENCE ANALYSIS → STRUCTURED AUDIO CHARACT
 ## Constraints honored
 
 - New branch `feature/aci-a2l-si-007-audio-intelligence` from SI-006 `feature/aci-a2l-si-006-lyric-intelligence` @ `e5efb38`.
-- Implementation commit recorded after commit.
+- Implementation commit: `f1e7125`.
 - Locked master SHA-256 `bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be` unchanged. Source audio was not remastered, normalized, or overwritten.
 - Selected candidate: Hugging Face `transformers` `ClapModel` with `laion/larger_clap_music` revision `a0b4534a14f58e20944452dff00a22a06ce629d1`.
 - License: Apache-2.0 (commercially acceptable). Runtime gate refuses non-commercial licenses.

@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-007 — Audio Intelligence engine candidate validation  
 **Date recorded:** 2026-09-14  
 **Branch:** `feature/aci-a2l-si-007-audio-intelligence`  
-**Commit:** implementation (SHA recorded after commit)  
+**Commit:** `f1e7125`  
 **Status:** APPROVED ACI EXECUTED on feature branch — not merged; PASS; ENGINEERING WIN yes; MUSICAL VALIDATION pending Jay  
 **Product changes:** isolated Audio Intelligence candidate only; master WAV and approved lyrics unchanged; Song Intelligence Record not created
 
