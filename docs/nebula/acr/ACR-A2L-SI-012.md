@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-012 — Governed Song Intelligence Record  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-si-012-song-intelligence-record`  
-**Commit:** pending implementation commit  
+**Commit:** `c2f62ba`  
 **Status:** COMPLETE on feature branch — not merged  
 **Product changes:** one governed Song Intelligence Record per analyzed song; UI consumes it; temporary aggregation remains a derived cache.
 

@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution creates one governed Song Int
 ## Constraints honored
 
 - Branch `feature/aci-a2l-si-012-song-intelligence-record` from `deployable` / `main` @ `bb72ef4156aa7767d913d0864ae8b08420391f14`.
+- Implementation commit: `c2f62ba`.
 - Record path: `artifacts/ingest/<job>/song_intelligence_record.json`.
 - Record type: `SONG_INTELLIGENCE_RECORD`. Schema version: `1.0.0`.
 - Temporary UI aggregation remains `TEMPORARY_UI_AGGREGATION` at `song_intelligence_ui/ui_aggregation.json`. It is a derived cache and does not outrank the SIR.
