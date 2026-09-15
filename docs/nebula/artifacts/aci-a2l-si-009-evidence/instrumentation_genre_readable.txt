@@ -1,0 +1,197 @@
+MACHINE-DERIVED INSTRUMENTATION + GENRE / STYLE
+ACI-A2L-SI-009
+NOT AUTHORITATIVE SONG FACTS
+NOT A SONG INTELLIGENCE RECORD
+AST AudioSet tags are MACHINE-DERIVED sigmoid scores, not calibrated probabilities.
+CLAP Energy / Acoustic / Vocal results were not replaced.
+
+engine: transformers ASTForAudioClassification
+checkpoint: MIT/ast-finetuned-audioset-10-10-0.4593
+revision: f826b80d28226b62986cc218e5cec390b1096902
+model_license: bsd-3-clause
+software_license: Apache-2.0 (transformers, huggingface_hub); BSD-style (torch); ISC (librosa)
+device: cpu
+source_sha256: bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be
+score_kind: sigmoid_score is the mean AudioSet multi-label sigmoid over 10.24s chunks; it is a model-native ranking score, not a calibrated probability
+source_preprocessing: in-memory librosa load to 16 kHz mono float32 for AST; source WAV was not overwritten, remastered, or normalized on disk
+
+RAW TOP AUDIOSET TAGS
+1. Music                                sigmoid=0.7304
+2. Grunge                               sigmoid=0.1673
+3. Independent music                    sigmoid=0.1099
+4. Rock and roll                        sigmoid=0.0833
+5. Rock music                           sigmoid=0.0790
+6. Musical instrument                   sigmoid=0.0751
+7. Singing                              sigmoid=0.0712
+8. Guitar                               sigmoid=0.0654
+9. Progressive rock                     sigmoid=0.0595
+10. Country                              sigmoid=0.0554
+11. Plucked string instrument            sigmoid=0.0512
+12. Punk rock                            sigmoid=0.0403
+13. Speech                               sigmoid=0.0376
+14. Psychedelic rock                     sigmoid=0.0315
+15. Heavy metal                          sigmoid=0.0314
+16. Pop music                            sigmoid=0.0308
+17. Exciting music                       sigmoid=0.0278
+18. Bluegrass                            sigmoid=0.0277
+19. Electric guitar                      sigmoid=0.0269
+20. Roll                                 sigmoid=0.0266
+21. Happy music                          sigmoid=0.0262
+22. Blues                                sigmoid=0.0161
+23. Song                                 sigmoid=0.0155
+24. Sound effect                         sigmoid=0.0145
+25. Rhythm and blues                     sigmoid=0.0130
+26. Strum                                sigmoid=0.0118
+27. Jingle (music)                       sigmoid=0.0113
+28. Soundtrack music                     sigmoid=0.0110
+29. Dance music                          sigmoid=0.0108
+30. Ska                                  sigmoid=0.0094
+31. Drum                                 sigmoid=0.0092
+32. Acoustic guitar                      sigmoid=0.0090
+33. Drum kit                             sigmoid=0.0081
+34. Effects unit                         sigmoid=0.0081
+35. Bass guitar                          sigmoid=0.0073
+36. Distortion                           sigmoid=0.0071
+37. Theme music                          sigmoid=0.0071
+38. Jazz                                 sigmoid=0.0070
+39. Christian music                      sigmoid=0.0068
+40. Background music                     sigmoid=0.0064
+
+INSTRUMENTATION (native AudioSet subset)
+1. Guitar                               sigmoid=0.0654
+2. Plucked string instrument            sigmoid=0.0512
+3. Electric guitar                      sigmoid=0.0269
+4. Strum                                sigmoid=0.0118
+5. Drum                                 sigmoid=0.0092
+6. Acoustic guitar                      sigmoid=0.0090
+7. Drum kit                             sigmoid=0.0081
+8. Bass guitar                          sigmoid=0.0073
+9. Percussion                           sigmoid=0.0054
+10. Tapping (guitar technique)           sigmoid=0.0046
+11. Bass drum                            sigmoid=0.0031
+12. Sampler                              sigmoid=0.0028
+13. Bowed string instrument              sigmoid=0.0028
+14. Violin, fiddle                       sigmoid=0.0027
+15. Snare drum                           sigmoid=0.0024
+16. Orchestra                            sigmoid=0.0020
+17. Rimshot                              sigmoid=0.0019
+18. Steel guitar, slide guitar           sigmoid=0.0017
+19. Cello                                sigmoid=0.0014
+20. Cymbal                               sigmoid=0.0014
+21. Banjo                                sigmoid=0.0013
+22. Piano                                sigmoid=0.0012
+23. Drum roll                            sigmoid=0.0011
+24. Hi-hat                               sigmoid=0.0011
+25. Keyboard (musical)                   sigmoid=0.0009
+26. Timpani                              sigmoid=0.0008
+27. Pizzicato                            sigmoid=0.0006
+28. Mandolin                             sigmoid=0.0006
+29. Electric piano                       sigmoid=0.0006
+30. Double bass                          sigmoid=0.0006
+31. Brass instrument                     sigmoid=0.0005
+32. Marimba, xylophone                   sigmoid=0.0005
+33. Accordion                            sigmoid=0.0004
+34. Synthesizer                          sigmoid=0.0004
+35. Wind instrument, woodwind instrument sigmoid=0.0004
+36. Glockenspiel                         sigmoid=0.0004
+37. Mallet percussion                    sigmoid=0.0003
+38. Flute                                sigmoid=0.0003
+39. Trumpet                              sigmoid=0.0003
+40. Wood block                           sigmoid=0.0003
+41. Sitar                                sigmoid=0.0003
+42. String section                       sigmoid=0.0003
+43. Trombone                             sigmoid=0.0003
+44. Tabla                                sigmoid=0.0003
+45. Harpsichord                          sigmoid=0.0002
+46. Ukulele                              sigmoid=0.0002
+47. Harmonica                            sigmoid=0.0002
+48. Gong                                 sigmoid=0.0002
+49. Drum machine                         sigmoid=0.0002
+50. Zither                               sigmoid=0.0002
+51. Rattle (instrument)                  sigmoid=0.0002
+52. Bell                                 sigmoid=0.0002
+53. Saxophone                            sigmoid=0.0002
+54. Harp                                 sigmoid=0.0002
+55. French horn                          sigmoid=0.0002
+56. Organ                                sigmoid=0.0001
+57. Electronic organ                     sigmoid=0.0001
+58. Tambourine                           sigmoid=0.0001
+59. Vibraphone                           sigmoid=0.0001
+60. Tubular bells                        sigmoid=0.0001
+61. Didgeridoo                           sigmoid=0.0001
+62. Clarinet                             sigmoid=0.0001
+63. Hammond organ                        sigmoid=0.0001
+64. Steelpan                             sigmoid=0.0001
+65. Maraca                               sigmoid=0.0001
+66. Theremin                             sigmoid=0.0001
+67. Bagpipes                             sigmoid=0.0001
+68. Scratching (performance technique)   sigmoid=0.0000
+
+INSTRUMENTATION RESULT: NO WIN
+discrimination: STILL WEAK top_margin=0.014172635972499847 spread=0.0653574979660334 strong_count=0
+
+INSTRUMENT GROUPS (deterministic max of native members; raw preserved above)
+1. guitar_family                        sigmoid=0.0654
+2. plucked_other                        sigmoid=0.0512
+3. drums_percussion                     sigmoid=0.0092
+4. synthesizer_electronic               sigmoid=0.0028
+5. strings_bowed                        sigmoid=0.0028
+6. keyboard_piano_organ                 sigmoid=0.0012
+7. brass                                sigmoid=0.0005
+8. woodwind                             sigmoid=0.0004
+
+GENRE / STYLE (native AudioSet subset)
+1. Grunge                               sigmoid=0.1673
+2. Independent music                    sigmoid=0.1099
+3. Rock and roll                        sigmoid=0.0833
+4. Rock music                           sigmoid=0.0790
+5. Progressive rock                     sigmoid=0.0595
+6. Country                              sigmoid=0.0554
+7. Punk rock                            sigmoid=0.0403
+8. Psychedelic rock                     sigmoid=0.0315
+9. Heavy metal                          sigmoid=0.0314
+10. Pop music                            sigmoid=0.0308
+11. Bluegrass                            sigmoid=0.0277
+12. Blues                                sigmoid=0.0161
+13. Rhythm and blues                     sigmoid=0.0130
+14. Dance music                          sigmoid=0.0108
+15. Ska                                  sigmoid=0.0094
+16. Jazz                                 sigmoid=0.0070
+17. Christian music                      sigmoid=0.0068
+18. Funk                                 sigmoid=0.0057
+19. Soul music                           sigmoid=0.0039
+20. Gospel music                         sigmoid=0.0026
+21. Music of Asia                        sigmoid=0.0026
+22. Middle Eastern music                 sigmoid=0.0024
+23. Disco                                sigmoid=0.0022
+24. Electronic music                     sigmoid=0.0020
+25. Folk music                           sigmoid=0.0019
+26. New-age music                        sigmoid=0.0018
+27. Music of Africa                      sigmoid=0.0012
+28. Techno                               sigmoid=0.0012
+29. Music for children                   sigmoid=0.0011
+30. Reggae                               sigmoid=0.0010
+31. Afrobeat                             sigmoid=0.0010
+32. Music of Latin America               sigmoid=0.0009
+33. House music                          sigmoid=0.0009
+34. Classical music                      sigmoid=0.0008
+35. Swing music                          sigmoid=0.0008
+36. Flamenco                             sigmoid=0.0008
+37. Electronica                          sigmoid=0.0007
+38. Hip hop music                        sigmoid=0.0007
+39. Traditional music                    sigmoid=0.0006
+40. Ambient music                        sigmoid=0.0005
+41. Music of Bollywood                   sigmoid=0.0005
+42. Trance music                         sigmoid=0.0004
+43. Carnatic music                       sigmoid=0.0003
+44. Electronic dance music               sigmoid=0.0003
+45. Dubstep                              sigmoid=0.0002
+46. Salsa music                          sigmoid=0.0002
+47. Drum and bass                        sigmoid=0.0001
+48. Opera                                sigmoid=0.0001
+
+GENRE / STYLE RESULT: WIN
+discrimination: USEFUL top_margin=0.05733160674571991 spread=0.16713261874974705 strong_count=1
+
+ENGINE #3 RESULT: PARTIAL PASS
+MUSICAL VALIDATION: PENDING JAY

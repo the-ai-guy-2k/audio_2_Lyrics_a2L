@@ -1,0 +1,2125 @@
+{
+  "candidate": "ACI-A2L-SI-009",
+  "repair_attempt": "2 of 3",
+  "authority": {
+    "master_wav": "AUTHORITATIVE INPUT",
+    "native_ast_tags": "MACHINE-DERIVED",
+    "instrumentation": "MACHINE-DERIVED",
+    "genre_style": "MACHINE-DERIVED",
+    "grouped_tags": "MACHINE-DERIVED"
+  },
+  "usable_as_song_facts": false,
+  "song_intelligence_record_created": false,
+  "clap_replaced": false,
+  "clap_prompt_engineering_continued": false,
+  "chords_estimated": false,
+  "engine": "transformers ASTForAudioClassification",
+  "checkpoint": "MIT/ast-finetuned-audioset-10-10-0.4593",
+  "checkpoint_revision": "f826b80d28226b62986cc218e5cec390b1096902",
+  "model_source": "https://huggingface.co/MIT/ast-finetuned-audioset-10-10-0.4593/tree/f826b80d28226b62986cc218e5cec390b1096902",
+  "method": "in-memory 16 kHz mono resample of the locked master; AST log-mel spectrogram per 10.24s chunk; mean-pool sigmoid scores across chunks; native AudioSet 527 tags preserved; instrument and genre subsets filtered from native names; optional documented groups use max(member scores)",
+  "software_license": "Apache-2.0 (transformers, huggingface_hub); BSD-style (torch); ISC (librosa)",
+  "model_license": "bsd-3-clause",
+  "license_evidence": {
+    "huggingface_card": "license: bsd-3-clause",
+    "original_ast_repo": "BSD 3-Clause License (Yuan Gong, 2021)",
+    "audioset_dataset": "CC BY 4.0",
+    "audioset_ontology": "CC BY-SA 4.0 (native class names emitted; ontology not adapted)",
+    "not_inferred_from_transformers_license": true
+  },
+  "score_kind": "sigmoid_score is the mean AudioSet multi-label sigmoid over 10.24s chunks; it is a model-native ranking score, not a calibrated probability",
+  "instrument_labels": [
+    "Accordion",
+    "Acoustic guitar",
+    "Bagpipes",
+    "Banjo",
+    "Bass drum",
+    "Bass guitar",
+    "Bell",
+    "Bowed string instrument",
+    "Brass instrument",
+    "Cello",
+    "Clarinet",
+    "Cymbal",
+    "Didgeridoo",
+    "Double bass",
+    "Drum",
+    "Drum kit",
+    "Drum machine",
+    "Drum roll",
+    "Electric guitar",
+    "Electric piano",
+    "Electronic organ",
+    "Flute",
+    "French horn",
+    "Glockenspiel",
+    "Gong",
+    "Guitar",
+    "Hammond organ",
+    "Harmonica",
+    "Harp",
+    "Harpsichord",
+    "Hi-hat",
+    "Keyboard (musical)",
+    "Mallet percussion",
+    "Mandolin",
+    "Maraca",
+    "Marimba, xylophone",
+    "Orchestra",
+    "Organ",
+    "Percussion",
+    "Piano",
+    "Pizzicato",
+    "Plucked string instrument",
+    "Rattle (instrument)",
+    "Rimshot",
+    "Sampler",
+    "Saxophone",
+    "Scratching (performance technique)",
+    "Sitar",
+    "Snare drum",
+    "Steel guitar, slide guitar",
+    "Steelpan",
+    "String section",
+    "Strum",
+    "Synthesizer",
+    "Tabla",
+    "Tambourine",
+    "Tapping (guitar technique)",
+    "Theremin",
+    "Timpani",
+    "Trombone",
+    "Trumpet",
+    "Tubular bells",
+    "Ukulele",
+    "Vibraphone",
+    "Violin, fiddle",
+    "Wind instrument, woodwind instrument",
+    "Wood block",
+    "Zither"
+  ],
+  "genre_labels": [
+    "Afrobeat",
+    "Ambient music",
+    "Bluegrass",
+    "Blues",
+    "Carnatic music",
+    "Christian music",
+    "Classical music",
+    "Country",
+    "Dance music",
+    "Disco",
+    "Drum and bass",
+    "Dubstep",
+    "Electronic dance music",
+    "Electronic music",
+    "Electronica",
+    "Flamenco",
+    "Folk music",
+    "Funk",
+    "Gospel music",
+    "Grunge",
+    "Heavy metal",
+    "Hip hop music",
+    "House music",
+    "Independent music",
+    "Jazz",
+    "Middle Eastern music",
+    "Music for children",
+    "Music of Africa",
+    "Music of Asia",
+    "Music of Bollywood",
+    "Music of Latin America",
+    "New-age music",
+    "Opera",
+    "Pop music",
+    "Progressive rock",
+    "Psychedelic rock",
+    "Punk rock",
+    "Reggae",
+    "Rhythm and blues",
+    "Rock and roll",
+    "Rock music",
+    "Salsa music",
+    "Ska",
+    "Soul music",
+    "Swing music",
+    "Techno",
+    "Traditional music",
+    "Trance music"
+  ],
+  "instrument_groups": {
+    "guitar_family": [
+      "Guitar",
+      "Electric guitar",
+      "Acoustic guitar",
+      "Bass guitar",
+      "Steel guitar, slide guitar",
+      "Tapping (guitar technique)",
+      "Strum"
+    ],
+    "drums_percussion": [
+      "Percussion",
+      "Drum kit",
+      "Drum machine",
+      "Drum",
+      "Snare drum",
+      "Rimshot",
+      "Drum roll",
+      "Bass drum",
+      "Cymbal",
+      "Hi-hat",
+      "Tambourine",
+      "Wood block",
+      "Rattle (instrument)",
+      "Maraca",
+      "Gong",
+      "Timpani",
+      "Tabla"
+    ],
+    "keyboard_piano_organ": [
+      "Keyboard (musical)",
+      "Piano",
+      "Electric piano",
+      "Organ",
+      "Electronic organ",
+      "Hammond organ",
+      "Harpsichord"
+    ],
+    "synthesizer_electronic": [
+      "Synthesizer",
+      "Sampler",
+      "Drum machine"
+    ],
+    "strings_bowed": [
+      "Bowed string instrument",
+      "String section",
+      "Violin, fiddle",
+      "Pizzicato",
+      "Cello",
+      "Double bass",
+      "Orchestra"
+    ],
+    "plucked_other": [
+      "Plucked string instrument",
+      "Banjo",
+      "Sitar",
+      "Mandolin",
+      "Zither",
+      "Ukulele",
+      "Harp"
+    ],
+    "brass": [
+      "Brass instrument",
+      "French horn",
+      "Trumpet",
+      "Trombone"
+    ],
+    "woodwind": [
+      "Wind instrument, woodwind instrument",
+      "Flute",
+      "Saxophone",
+      "Clarinet",
+      "Harmonica"
+    ]
+  },
+  "gpu_required": false,
+  "cloud_required": false,
+  "device": "cpu",
+  "sidecar": ".venv-clap (reused SI-007 CPU torch/transformers; AST added no new packages)",
+  "source_path": "C:\\Users\\tim\\Desktop\\Jays_stuff\\2026_album\\Masters - 24bit_48hz\\Masters  - 24bit_48hz\\01Stomp to MIX MSTR 24bit_48hz.wav",
+  "source_sha256_before": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "source_sha256_after": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "ingest_source_sha256_before": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "ingest_source_sha256_after": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "analysis_seconds": 118.55721330000233,
+  "package_versions": {
+    "transformers": "4.44.2",
+    "torch": "2.14.0+cpu",
+    "librosa": "1.0.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "soundfile": "0.14.0",
+    "huggingface_hub": "0.36.2",
+    "safetensors": "0.8.0"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "python_executable": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\.venv-clap\\Scripts\\python.exe",
+    "cpu": "Intel64 Family 6 Model 140 Stepping 2, GenuineIntel",
+    "machine": "AMD64",
+    "torch": "2.14.0+cpu",
+    "torch_cuda_available": false,
+    "device": "cpu",
+    "notes": "Instrumentation/genre AST is forced to CPU. GPU may exist but is not required. No cloud inference is used. Hugging Face Hub is weight distribution only."
+  },
+  "venv_bytes": 1175776203,
+  "cache_bytes_after": 346432009,
+  "checkpoint_snapshot_bytes": 346432008,
+  "checkpoint_state": {
+    "snapshot_dir": "C:\\Users\\tim\\.cache\\a2l-ast\\huggingface\\hub\\models--MIT--ast-finetuned-audioset-10-10-0.4593\\snapshots\\f826b80d28226b62986cc218e5cec390b1096902",
+    "weight_files": [],
+    "weight_bytes": 0,
+    "local_files_only": false,
+    "action": "download_required",
+    "download_required": true,
+    "weight_bytes_after": 346404948,
+    "weight_files_after": [
+      "model.safetensors"
+    ],
+    "local_files_only_after": true
+  },
+  "memory": {
+    "samples": 233,
+    "sampled_peak_working_set_bytes": 727986176,
+    "os_peak_working_set_bytes": 732241920,
+    "final_working_set_bytes": 366481408,
+    "peak_working_set_bytes": 732241920,
+    "peak_working_set_mb": 698.3,
+    "sampler": "GetProcessMemoryInfo"
+  },
+  "errors": [],
+  "clap_comparison": {
+    "available": true,
+    "source": "preserved SI-008 evidence; CLAP was not rerun",
+    "engine3_result": "PARTIAL PASS",
+    "category_results": {
+      "instrumentation": "NO WIN",
+      "genre_style": "NO WIN",
+      "vocal_character": "PARTIAL",
+      "acoustic_electronic": "WIN"
+    },
+    "clap": {
+      "instrumentation": {
+        "clap_result": "NO WIN",
+        "selected_method": "ensemble",
+        "top1": "synthesizer",
+        "top1_cosine": 0.026273112141062906,
+        "top2": "organ",
+        "top_margin": 0.004241892760306079,
+        "spread": 0.02406022083248042,
+        "assessment": "STILL WEAK"
+      },
+      "genre_style": {
+        "clap_result": "NO WIN",
+        "selected_method": "bare",
+        "top1": "country rock",
+        "top1_cosine": 0.04825496904705318,
+        "top2": "roots rock",
+        "top_margin": 0.001543876337780685,
+        "spread": 0.039971496285914246,
+        "assessment": "STILL WEAK"
+      }
+    }
+  },
+  "instrumentation_genre": {
+    "license": "bsd-3-clause",
+    "checkpoint_state": {
+      "snapshot_dir": "C:\\Users\\tim\\.cache\\a2l-ast\\huggingface\\hub\\models--MIT--ast-finetuned-audioset-10-10-0.4593\\snapshots\\f826b80d28226b62986cc218e5cec390b1096902",
+      "weight_files": [],
+      "weight_bytes": 0,
+      "local_files_only": false,
+      "action": "download_required",
+      "download_required": true,
+      "weight_bytes_after": 346404948,
+      "weight_files_after": [
+        "model.safetensors"
+      ],
+      "local_files_only_after": true
+    },
+    "cache_bytes_after": 346432009,
+    "checkpoint_snapshot_bytes": 346432008,
+    "sample_rate_derived": 16000,
+    "source_preprocessing": "in-memory librosa load to 16 kHz mono float32 for AST; source WAV was not overwritten, remastered, or normalized on disk",
+    "duration_seconds": 207.12125,
+    "chunk_count": 21,
+    "chunk_seconds": 10.24,
+    "inference_seconds": 87.46231160000025,
+    "id2label_count": 527,
+    "score_kind": "sigmoid_score is the mean AudioSet multi-label sigmoid over 10.24s chunks; it is a model-native ranking score, not a calibrated probability",
+    "raw_top": [
+      {
+        "index": 137,
+        "label": "Music",
+        "display": "Music",
+        "sigmoid_score": 0.730405330657959,
+        "rank": 1,
+        "score": 0.730405330657959,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 222,
+        "label": "Grunge",
+        "display": "Grunge",
+        "sigmoid_score": 0.16727261245250702,
+        "rank": 2,
+        "score": 0.16727261245250702,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 265,
+        "label": "Independent music",
+        "display": "Independent music",
+        "sigmoid_score": 0.10994100570678711,
+        "rank": 3,
+        "score": 0.10994100570678711,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 224,
+        "label": "Rock and roll",
+        "display": "Rock and roll",
+        "sigmoid_score": 0.08332537114620209,
+        "rank": 4,
+        "score": 0.08332537114620209,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 219,
+        "label": "Rock music",
+        "display": "Rock music",
+        "sigmoid_score": 0.07899338006973267,
+        "rank": 5,
+        "score": 0.07899338006973267,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 138,
+        "label": "Musical instrument",
+        "display": "Musical instrument",
+        "sigmoid_score": 0.07510928064584732,
+        "rank": 6,
+        "score": 0.07510928064584732,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 27,
+        "label": "Singing",
+        "display": "Singing",
+        "sigmoid_score": 0.07115114480257034,
+        "rank": 7,
+        "score": 0.07115114480257034,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 140,
+        "label": "Guitar",
+        "display": "Guitar",
+        "sigmoid_score": 0.0653844028711319,
+        "rank": 8,
+        "score": 0.0653844028711319,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 223,
+        "label": "Progressive rock",
+        "display": "Progressive rock",
+        "sigmoid_score": 0.05951002612709999,
+        "rank": 9,
+        "score": 0.05951002612709999,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 229,
+        "label": "Country",
+        "display": "Country",
+        "sigmoid_score": 0.05538802593946457,
+        "rank": 10,
+        "score": 0.05538802593946457,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 139,
+        "label": "Plucked string instrument",
+        "display": "Plucked string instrument",
+        "sigmoid_score": 0.05121176689863205,
+        "rank": 11,
+        "score": 0.05121176689863205,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 221,
+        "label": "Punk rock",
+        "display": "Punk rock",
+        "sigmoid_score": 0.04025788977742195,
+        "rank": 12,
+        "score": 0.04025788977742195,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 0,
+        "label": "Speech",
+        "display": "Speech",
+        "sigmoid_score": 0.037611011415719986,
+        "rank": 13,
+        "score": 0.037611011415719986,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 225,
+        "label": "Psychedelic rock",
+        "display": "Psychedelic rock",
+        "sigmoid_score": 0.031456489115953445,
+        "rank": 14,
+        "score": 0.031456489115953445,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 220,
+        "label": "Heavy metal",
+        "display": "Heavy metal",
+        "sigmoid_score": 0.03144822642207146,
+        "rank": 15,
+        "score": 0.03144822642207146,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 216,
+        "label": "Pop music",
+        "display": "Pop music",
+        "sigmoid_score": 0.030844183638691902,
+        "rank": 16,
+        "score": 0.030844183638691902,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 280,
+        "label": "Exciting music",
+        "display": "Exciting music",
+        "sigmoid_score": 0.027840379625558853,
+        "rank": 17,
+        "score": 0.027840379625558853,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 231,
+        "label": "Bluegrass",
+        "display": "Bluegrass",
+        "sigmoid_score": 0.02769593894481659,
+        "rank": 18,
+        "score": 0.02769593894481659,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 141,
+        "label": "Electric guitar",
+        "display": "Electric guitar",
+        "sigmoid_score": 0.0269489549100399,
+        "rank": 19,
+        "score": 0.0269489549100399,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 477,
+        "label": "Roll",
+        "display": "Roll",
+        "sigmoid_score": 0.026565566658973694,
+        "rank": 20,
+        "score": 0.026565566658973694,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 276,
+        "label": "Happy music",
+        "display": "Happy music",
+        "sigmoid_score": 0.026220982894301414,
+        "rank": 21,
+        "score": 0.026220982894301414,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 251,
+        "label": "Blues",
+        "display": "Blues",
+        "sigmoid_score": 0.01613209955394268,
+        "rank": 22,
+        "score": 0.01613209955394268,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 266,
+        "label": "Song",
+        "display": "Song",
+        "sigmoid_score": 0.015466414391994476,
+        "rank": 23,
+        "score": 0.015466414391994476,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 504,
+        "label": "Sound effect",
+        "display": "Sound effect",
+        "sigmoid_score": 0.01454995758831501,
+        "rank": 24,
+        "score": 0.01454995758831501,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 226,
+        "label": "Rhythm and blues",
+        "display": "Rhythm and blues",
+        "sigmoid_score": 0.01301939133554697,
+        "rank": 25,
+        "score": 0.01301939133554697,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 146,
+        "label": "Strum",
+        "display": "Strum",
+        "sigmoid_score": 0.011790601536631584,
+        "rank": 26,
+        "score": 0.011790601536631584,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 269,
+        "label": "Jingle (music)",
+        "display": "Jingle (music)",
+        "sigmoid_score": 0.011303585022687912,
+        "rank": 27,
+        "score": 0.011303585022687912,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 270,
+        "label": "Soundtrack music",
+        "display": "Soundtrack music",
+        "sigmoid_score": 0.011041603051126003,
+        "rank": 28,
+        "score": 0.011041603051126003,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 274,
+        "label": "Dance music",
+        "display": "Dance music",
+        "sigmoid_score": 0.010836107656359673,
+        "rank": 29,
+        "score": 0.010836107656359673,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 263,
+        "label": "Ska",
+        "display": "Ska",
+        "sigmoid_score": 0.00935124047100544,
+        "rank": 30,
+        "score": 0.00935124047100544,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 164,
+        "label": "Drum",
+        "display": "Drum",
+        "sigmoid_score": 0.009160633198916912,
+        "rank": 31,
+        "score": 0.009160633198916912,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 143,
+        "label": "Acoustic guitar",
+        "display": "Acoustic guitar",
+        "sigmoid_score": 0.008978433907032013,
+        "rank": 32,
+        "score": 0.008978433907032013,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 162,
+        "label": "Drum kit",
+        "display": "Drum kit",
+        "sigmoid_score": 0.008117183111608028,
+        "rank": 33,
+        "score": 0.008117183111608028,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 463,
+        "label": "Effects unit",
+        "display": "Effects unit",
+        "sigmoid_score": 0.008088265545666218,
+        "rank": 34,
+        "score": 0.008088265545666218,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 142,
+        "label": "Bass guitar",
+        "display": "Bass guitar",
+        "sigmoid_score": 0.0072641633450984955,
+        "rank": 35,
+        "score": 0.0072641633450984955,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 517,
+        "label": "Distortion",
+        "display": "Distortion",
+        "sigmoid_score": 0.007134914398193359,
+        "rank": 36,
+        "score": 0.007134914398193359,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 268,
+        "label": "Theme music",
+        "display": "Theme music",
+        "sigmoid_score": 0.007106762379407883,
+        "rank": 37,
+        "score": 0.007106762379407883,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 235,
+        "label": "Jazz",
+        "display": "Jazz",
+        "sigmoid_score": 0.006989454850554466,
+        "rank": 38,
+        "score": 0.006989454850554466,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 258,
+        "label": "Christian music",
+        "display": "Christian music",
+        "sigmoid_score": 0.006774344481527805,
+        "rank": 39,
+        "score": 0.006774344481527805,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 267,
+        "label": "Background music",
+        "display": "Background music",
+        "sigmoid_score": 0.0063618868589401245,
+        "rank": 40,
+        "score": 0.0063618868589401245,
+        "score_kind": "sigmoid_score"
+      }
+    ],
+    "instrumentation": {
+      "taxonomy": "native AudioSet instrument labels; SI-007 CLAP vocabulary was not forced",
+      "ranked": [
+        {
+          "index": 140,
+          "label": "Guitar",
+          "display": "Guitar",
+          "sigmoid_score": 0.0653844028711319,
+          "rank": 1,
+          "score": 0.0653844028711319,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 139,
+          "label": "Plucked string instrument",
+          "display": "Plucked string instrument",
+          "sigmoid_score": 0.05121176689863205,
+          "rank": 2,
+          "score": 0.05121176689863205,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 141,
+          "label": "Electric guitar",
+          "display": "Electric guitar",
+          "sigmoid_score": 0.0269489549100399,
+          "rank": 3,
+          "score": 0.0269489549100399,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 146,
+          "label": "Strum",
+          "display": "Strum",
+          "sigmoid_score": 0.011790601536631584,
+          "rank": 4,
+          "score": 0.011790601536631584,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 164,
+          "label": "Drum",
+          "display": "Drum",
+          "sigmoid_score": 0.009160633198916912,
+          "rank": 5,
+          "score": 0.009160633198916912,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 143,
+          "label": "Acoustic guitar",
+          "display": "Acoustic guitar",
+          "sigmoid_score": 0.008978433907032013,
+          "rank": 6,
+          "score": 0.008978433907032013,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 162,
+          "label": "Drum kit",
+          "display": "Drum kit",
+          "sigmoid_score": 0.008117183111608028,
+          "rank": 7,
+          "score": 0.008117183111608028,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 142,
+          "label": "Bass guitar",
+          "display": "Bass guitar",
+          "sigmoid_score": 0.0072641633450984955,
+          "rank": 8,
+          "score": 0.0072641633450984955,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 161,
+          "label": "Percussion",
+          "display": "Percussion",
+          "sigmoid_score": 0.005448951851576567,
+          "rank": 9,
+          "score": 0.005448951851576567,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 145,
+          "label": "Tapping (guitar technique)",
+          "display": "Tapping (guitar technique)",
+          "sigmoid_score": 0.004631567746400833,
+          "rank": 10,
+          "score": 0.004631567746400833,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 168,
+          "label": "Bass drum",
+          "display": "Bass drum",
+          "sigmoid_score": 0.0030668785329908133,
+          "rank": 11,
+          "score": 0.0030668785329908133,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 159,
+          "label": "Sampler",
+          "display": "Sampler",
+          "sigmoid_score": 0.002800154499709606,
+          "rank": 12,
+          "score": 0.002800154499709606,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 189,
+          "label": "Bowed string instrument",
+          "display": "Bowed string instrument",
+          "sigmoid_score": 0.002799327950924635,
+          "rank": 13,
+          "score": 0.002799327950924635,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 191,
+          "label": "Violin, fiddle",
+          "display": "Violin, fiddle",
+          "sigmoid_score": 0.0027175203431397676,
+          "rank": 14,
+          "score": 0.0027175203431397676,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 165,
+          "label": "Snare drum",
+          "display": "Snare drum",
+          "sigmoid_score": 0.002398027339950204,
+          "rank": 15,
+          "score": 0.002398027339950204,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 184,
+          "label": "Orchestra",
+          "display": "Orchestra",
+          "sigmoid_score": 0.0020089272875338793,
+          "rank": 16,
+          "score": 0.0020089272875338793,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 166,
+          "label": "Rimshot",
+          "display": "Rimshot",
+          "sigmoid_score": 0.001896595349535346,
+          "rank": 17,
+          "score": 0.001896595349535346,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 144,
+          "label": "Steel guitar, slide guitar",
+          "display": "Steel guitar, slide guitar",
+          "sigmoid_score": 0.001687859185039997,
+          "rank": 18,
+          "score": 0.001687859185039997,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 193,
+          "label": "Cello",
+          "display": "Cello",
+          "sigmoid_score": 0.0014389784773811698,
+          "rank": 19,
+          "score": 0.0014389784773811698,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 171,
+          "label": "Cymbal",
+          "display": "Cymbal",
+          "sigmoid_score": 0.001387324184179306,
+          "rank": 20,
+          "score": 0.001387324184179306,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 147,
+          "label": "Banjo",
+          "display": "Banjo",
+          "sigmoid_score": 0.0013185454299673438,
+          "rank": 21,
+          "score": 0.0013185454299673438,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 153,
+          "label": "Piano",
+          "display": "Piano",
+          "sigmoid_score": 0.0012183438520878553,
+          "rank": 22,
+          "score": 0.0012183438520878553,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 167,
+          "label": "Drum roll",
+          "display": "Drum roll",
+          "sigmoid_score": 0.0011191976955160499,
+          "rank": 23,
+          "score": 0.0011191976955160499,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 172,
+          "label": "Hi-hat",
+          "display": "Hi-hat",
+          "sigmoid_score": 0.0010978197678923607,
+          "rank": 24,
+          "score": 0.0010978197678923607,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 152,
+          "label": "Keyboard (musical)",
+          "display": "Keyboard (musical)",
+          "sigmoid_score": 0.0009332058252766728,
+          "rank": 25,
+          "score": 0.0009332058252766728,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 169,
+          "label": "Timpani",
+          "display": "Timpani",
+          "sigmoid_score": 0.00079263438237831,
+          "rank": 26,
+          "score": 0.00079263438237831,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 192,
+          "label": "Pizzicato",
+          "display": "Pizzicato",
+          "sigmoid_score": 0.000613899901509285,
+          "rank": 27,
+          "score": 0.000613899901509285,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 149,
+          "label": "Mandolin",
+          "display": "Mandolin",
+          "sigmoid_score": 0.0006025948096066713,
+          "rank": 28,
+          "score": 0.0006025948096066713,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 154,
+          "label": "Electric piano",
+          "display": "Electric piano",
+          "sigmoid_score": 0.0005986832547932863,
+          "rank": 29,
+          "score": 0.0005986832547932863,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 194,
+          "label": "Double bass",
+          "display": "Double bass",
+          "sigmoid_score": 0.0005679820897057652,
+          "rank": 30,
+          "score": 0.0005679820897057652,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 185,
+          "label": "Brass instrument",
+          "display": "Brass instrument",
+          "sigmoid_score": 0.0005255485302768648,
+          "rank": 31,
+          "score": 0.0005255485302768648,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 180,
+          "label": "Marimba, xylophone",
+          "display": "Marimba, xylophone",
+          "sigmoid_score": 0.0005153364036232233,
+          "rank": 32,
+          "score": 0.0005153364036232233,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 209,
+          "label": "Accordion",
+          "display": "Accordion",
+          "sigmoid_score": 0.0004197761882096529,
+          "rank": 33,
+          "score": 0.0004197761882096529,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 158,
+          "label": "Synthesizer",
+          "display": "Synthesizer",
+          "sigmoid_score": 0.0003986940428148955,
+          "rank": 34,
+          "score": 0.0003986940428148955,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 195,
+          "label": "Wind instrument, woodwind instrument",
+          "display": "Wind instrument, woodwind instrument",
+          "sigmoid_score": 0.0003813636431004852,
+          "rank": 35,
+          "score": 0.0003813636431004852,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 181,
+          "label": "Glockenspiel",
+          "display": "Glockenspiel",
+          "sigmoid_score": 0.0003668878343887627,
+          "rank": 36,
+          "score": 0.0003668878343887627,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 179,
+          "label": "Mallet percussion",
+          "display": "Mallet percussion",
+          "sigmoid_score": 0.00033266213722527027,
+          "rank": 37,
+          "score": 0.00033266213722527027,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 196,
+          "label": "Flute",
+          "display": "Flute",
+          "sigmoid_score": 0.00031192059395834804,
+          "rank": 38,
+          "score": 0.00031192059395834804,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 187,
+          "label": "Trumpet",
+          "display": "Trumpet",
+          "sigmoid_score": 0.00030885852174833417,
+          "rank": 39,
+          "score": 0.00030885852174833417,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 173,
+          "label": "Wood block",
+          "display": "Wood block",
+          "sigmoid_score": 0.0002955090021714568,
+          "rank": 40,
+          "score": 0.0002955090021714568,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 148,
+          "label": "Sitar",
+          "display": "Sitar",
+          "sigmoid_score": 0.00029365852242335677,
+          "rank": 41,
+          "score": 0.00029365852242335677,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 190,
+          "label": "String section",
+          "display": "String section",
+          "sigmoid_score": 0.0002745228703133762,
+          "rank": 42,
+          "score": 0.0002745228703133762,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 188,
+          "label": "Trombone",
+          "display": "Trombone",
+          "sigmoid_score": 0.00026308983797207475,
+          "rank": 43,
+          "score": 0.00026308983797207475,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 170,
+          "label": "Tabla",
+          "display": "Tabla",
+          "sigmoid_score": 0.00026232723030261695,
+          "rank": 44,
+          "score": 0.00026232723030261695,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 160,
+          "label": "Harpsichord",
+          "display": "Harpsichord",
+          "sigmoid_score": 0.00024039653362706304,
+          "rank": 45,
+          "score": 0.00024039653362706304,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 151,
+          "label": "Ukulele",
+          "display": "Ukulele",
+          "sigmoid_score": 0.0002388387656537816,
+          "rank": 46,
+          "score": 0.0002388387656537816,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 208,
+          "label": "Harmonica",
+          "display": "Harmonica",
+          "sigmoid_score": 0.0002251017722301185,
+          "rank": 47,
+          "score": 0.0002251017722301185,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 177,
+          "label": "Gong",
+          "display": "Gong",
+          "sigmoid_score": 0.0002219761227024719,
+          "rank": 48,
+          "score": 0.0002219761227024719,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 163,
+          "label": "Drum machine",
+          "display": "Drum machine",
+          "sigmoid_score": 0.00021374101925175637,
+          "rank": 49,
+          "score": 0.00021374101925175637,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 150,
+          "label": "Zither",
+          "display": "Zither",
+          "sigmoid_score": 0.00020933714404236525,
+          "rank": 50,
+          "score": 0.00020933714404236525,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 175,
+          "label": "Rattle (instrument)",
+          "display": "Rattle (instrument)",
+          "sigmoid_score": 0.0001836635492509231,
+          "rank": 51,
+          "score": 0.0001836635492509231,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 200,
+          "label": "Bell",
+          "display": "Bell",
+          "sigmoid_score": 0.00017928860324900597,
+          "rank": 52,
+          "score": 0.00017928860324900597,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 197,
+          "label": "Saxophone",
+          "display": "Saxophone",
+          "sigmoid_score": 0.0001703856250969693,
+          "rank": 53,
+          "score": 0.0001703856250969693,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 199,
+          "label": "Harp",
+          "display": "Harp",
+          "sigmoid_score": 0.0001686401665210724,
+          "rank": 54,
+          "score": 0.0001686401665210724,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 186,
+          "label": "French horn",
+          "display": "French horn",
+          "sigmoid_score": 0.00016451625560875982,
+          "rank": 55,
+          "score": 0.00016451625560875982,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 155,
+          "label": "Organ",
+          "display": "Organ",
+          "sigmoid_score": 0.00014764403749722987,
+          "rank": 56,
+          "score": 0.00014764403749722987,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 156,
+          "label": "Electronic organ",
+          "display": "Electronic organ",
+          "sigmoid_score": 0.00012159078323747963,
+          "rank": 57,
+          "score": 0.00012159078323747963,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 174,
+          "label": "Tambourine",
+          "display": "Tambourine",
+          "sigmoid_score": 0.00011820180952781811,
+          "rank": 58,
+          "score": 0.00011820180952781811,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 182,
+          "label": "Vibraphone",
+          "display": "Vibraphone",
+          "sigmoid_score": 0.0001106568452087231,
+          "rank": 59,
+          "score": 0.0001106568452087231,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 178,
+          "label": "Tubular bells",
+          "display": "Tubular bells",
+          "sigmoid_score": 0.00010876346641452983,
+          "rank": 60,
+          "score": 0.00010876346641452983,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 211,
+          "label": "Didgeridoo",
+          "display": "Didgeridoo",
+          "sigmoid_score": 0.00010121112427441403,
+          "rank": 61,
+          "score": 0.00010121112427441403,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 198,
+          "label": "Clarinet",
+          "display": "Clarinet",
+          "sigmoid_score": 0.00010113900498254225,
+          "rank": 62,
+          "score": 0.00010113900498254225,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 157,
+          "label": "Hammond organ",
+          "display": "Hammond organ",
+          "sigmoid_score": 9.83279969659634e-05,
+          "rank": 63,
+          "score": 9.83279969659634e-05,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 183,
+          "label": "Steelpan",
+          "display": "Steelpan",
+          "sigmoid_score": 9.56309522734955e-05,
+          "rank": 64,
+          "score": 9.56309522734955e-05,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 176,
+          "label": "Maraca",
+          "display": "Maraca",
+          "sigmoid_score": 8.90935625648126e-05,
+          "rank": 65,
+          "score": 8.90935625648126e-05,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 213,
+          "label": "Theremin",
+          "display": "Theremin",
+          "sigmoid_score": 7.90134581620805e-05,
+          "rank": 66,
+          "score": 7.90134581620805e-05,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 210,
+          "label": "Bagpipes",
+          "display": "Bagpipes",
+          "sigmoid_score": 7.634273788426071e-05,
+          "rank": 67,
+          "score": 7.634273788426071e-05,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 215,
+          "label": "Scratching (performance technique)",
+          "display": "Scratching (performance technique)",
+          "sigmoid_score": 2.6904905098490417e-05,
+          "rank": 68,
+          "score": 2.6904905098490417e-05,
+          "score_kind": "sigmoid_score"
+        }
+      ],
+      "separation": {
+        "top1": "Guitar",
+        "top1_sigmoid": 0.0653844028711319,
+        "top2": "Plucked string instrument",
+        "top2_sigmoid": 0.05121176689863205,
+        "top_margin": 0.014172635972499847,
+        "spread": 0.0653574979660334,
+        "max_sigmoid": 0.0653844028711319,
+        "min_sigmoid": 2.6904905098490417e-05,
+        "strong_count": 0,
+        "strong_labels": [],
+        "weak_count": 66,
+        "label_count": 68
+      },
+      "assessment": {
+        "category_result": "NO WIN",
+        "assessment": "STILL WEAK",
+        "top_margin": 0.014172635972499847,
+        "spread": 0.0653574979660334,
+        "strong_count": 0,
+        "weak_count": 66,
+        "thresholds": {
+          "strong_score": 0.15,
+          "weak_score": 0.05,
+          "margin_win": 0.05,
+          "margin_partial": 0.02,
+          "spread_win": 0.1,
+          "score_kind": "sigmoid_score is the mean AudioSet multi-label sigmoid over 10.24s chunks; it is a model-native ranking score, not a calibrated probability"
+        }
+      },
+      "groups": [
+        {
+          "group": "guitar_family",
+          "label": "guitar_family",
+          "mapping": "max(member sigmoid_score)",
+          "members_present": [
+            "Guitar",
+            "Electric guitar",
+            "Acoustic guitar",
+            "Bass guitar",
+            "Steel guitar, slide guitar",
+            "Tapping (guitar technique)",
+            "Strum"
+          ],
+          "sigmoid_score": 0.0653844028711319,
+          "member_scores": {
+            "Guitar": 0.0653844028711319,
+            "Electric guitar": 0.0269489549100399,
+            "Acoustic guitar": 0.008978433907032013,
+            "Bass guitar": 0.0072641633450984955,
+            "Steel guitar, slide guitar": 0.001687859185039997,
+            "Tapping (guitar technique)": 0.004631567746400833,
+            "Strum": 0.011790601536631584
+          },
+          "rank": 1,
+          "score": 0.0653844028711319,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "group": "plucked_other",
+          "label": "plucked_other",
+          "mapping": "max(member sigmoid_score)",
+          "members_present": [
+            "Plucked string instrument",
+            "Banjo",
+            "Sitar",
+            "Mandolin",
+            "Zither",
+            "Ukulele",
+            "Harp"
+          ],
+          "sigmoid_score": 0.05121176689863205,
+          "member_scores": {
+            "Plucked string instrument": 0.05121176689863205,
+            "Banjo": 0.0013185454299673438,
+            "Sitar": 0.00029365852242335677,
+            "Mandolin": 0.0006025948096066713,
+            "Zither": 0.00020933714404236525,
+            "Ukulele": 0.0002388387656537816,
+            "Harp": 0.0001686401665210724
+          },
+          "rank": 2,
+          "score": 0.05121176689863205,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "group": "drums_percussion",
+          "label": "drums_percussion",
+          "mapping": "max(member sigmoid_score)",
+          "members_present": [
+            "Percussion",
+            "Drum kit",
+            "Drum machine",
+            "Drum",
+            "Snare drum",
+            "Rimshot",
+            "Drum roll",
+            "Bass drum",
+            "Cymbal",
+            "Hi-hat",
+            "Tambourine",
+            "Wood block",
+            "Rattle (instrument)",
+            "Maraca",
+            "Gong",
+            "Timpani",
+            "Tabla"
+          ],
+          "sigmoid_score": 0.009160633198916912,
+          "member_scores": {
+            "Percussion": 0.005448951851576567,
+            "Drum kit": 0.008117183111608028,
+            "Drum machine": 0.00021374101925175637,
+            "Drum": 0.009160633198916912,
+            "Snare drum": 0.002398027339950204,
+            "Rimshot": 0.001896595349535346,
+            "Drum roll": 0.0011191976955160499,
+            "Bass drum": 0.0030668785329908133,
+            "Cymbal": 0.001387324184179306,
+            "Hi-hat": 0.0010978197678923607,
+            "Tambourine": 0.00011820180952781811,
+            "Wood block": 0.0002955090021714568,
+            "Rattle (instrument)": 0.0001836635492509231,
+            "Maraca": 8.90935625648126e-05,
+            "Gong": 0.0002219761227024719,
+            "Timpani": 0.00079263438237831,
+            "Tabla": 0.00026232723030261695
+          },
+          "rank": 3,
+          "score": 0.009160633198916912,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "group": "synthesizer_electronic",
+          "label": "synthesizer_electronic",
+          "mapping": "max(member sigmoid_score)",
+          "members_present": [
+            "Synthesizer",
+            "Sampler",
+            "Drum machine"
+          ],
+          "sigmoid_score": 0.002800154499709606,
+          "member_scores": {
+            "Synthesizer": 0.0003986940428148955,
+            "Sampler": 0.002800154499709606,
+            "Drum machine": 0.00021374101925175637
+          },
+          "rank": 4,
+          "score": 0.002800154499709606,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "group": "strings_bowed",
+          "label": "strings_bowed",
+          "mapping": "max(member sigmoid_score)",
+          "members_present": [
+            "Bowed string instrument",
+            "String section",
+            "Violin, fiddle",
+            "Pizzicato",
+            "Cello",
+            "Double bass",
+            "Orchestra"
+          ],
+          "sigmoid_score": 0.002799327950924635,
+          "member_scores": {
+            "Bowed string instrument": 0.002799327950924635,
+            "String section": 0.0002745228703133762,
+            "Violin, fiddle": 0.0027175203431397676,
+            "Pizzicato": 0.000613899901509285,
+            "Cello": 0.0014389784773811698,
+            "Double bass": 0.0005679820897057652,
+            "Orchestra": 0.0020089272875338793
+          },
+          "rank": 5,
+          "score": 0.002799327950924635,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "group": "keyboard_piano_organ",
+          "label": "keyboard_piano_organ",
+          "mapping": "max(member sigmoid_score)",
+          "members_present": [
+            "Keyboard (musical)",
+            "Piano",
+            "Electric piano",
+            "Organ",
+            "Electronic organ",
+            "Hammond organ",
+            "Harpsichord"
+          ],
+          "sigmoid_score": 0.0012183438520878553,
+          "member_scores": {
+            "Keyboard (musical)": 0.0009332058252766728,
+            "Piano": 0.0012183438520878553,
+            "Electric piano": 0.0005986832547932863,
+            "Organ": 0.00014764403749722987,
+            "Electronic organ": 0.00012159078323747963,
+            "Hammond organ": 9.83279969659634e-05,
+            "Harpsichord": 0.00024039653362706304
+          },
+          "rank": 6,
+          "score": 0.0012183438520878553,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "group": "brass",
+          "label": "brass",
+          "mapping": "max(member sigmoid_score)",
+          "members_present": [
+            "Brass instrument",
+            "French horn",
+            "Trumpet",
+            "Trombone"
+          ],
+          "sigmoid_score": 0.0005255485302768648,
+          "member_scores": {
+            "Brass instrument": 0.0005255485302768648,
+            "French horn": 0.00016451625560875982,
+            "Trumpet": 0.00030885852174833417,
+            "Trombone": 0.00026308983797207475
+          },
+          "rank": 7,
+          "score": 0.0005255485302768648,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "group": "woodwind",
+          "label": "woodwind",
+          "mapping": "max(member sigmoid_score)",
+          "members_present": [
+            "Wind instrument, woodwind instrument",
+            "Flute",
+            "Saxophone",
+            "Clarinet",
+            "Harmonica"
+          ],
+          "sigmoid_score": 0.0003813636431004852,
+          "member_scores": {
+            "Wind instrument, woodwind instrument": 0.0003813636431004852,
+            "Flute": 0.00031192059395834804,
+            "Saxophone": 0.0001703856250969693,
+            "Clarinet": 0.00010113900498254225,
+            "Harmonica": 0.0002251017722301185
+          },
+          "rank": 8,
+          "score": 0.0003813636431004852,
+          "score_kind": "sigmoid_score"
+        }
+      ]
+    },
+    "genre_style": {
+      "taxonomy": "native AudioSet genre/style labels; SI-007 CLAP vocabulary was not forced",
+      "ranked": [
+        {
+          "index": 222,
+          "label": "Grunge",
+          "display": "Grunge",
+          "sigmoid_score": 0.16727261245250702,
+          "rank": 1,
+          "score": 0.16727261245250702,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 265,
+          "label": "Independent music",
+          "display": "Independent music",
+          "sigmoid_score": 0.10994100570678711,
+          "rank": 2,
+          "score": 0.10994100570678711,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 224,
+          "label": "Rock and roll",
+          "display": "Rock and roll",
+          "sigmoid_score": 0.08332537114620209,
+          "rank": 3,
+          "score": 0.08332537114620209,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 219,
+          "label": "Rock music",
+          "display": "Rock music",
+          "sigmoid_score": 0.07899338006973267,
+          "rank": 4,
+          "score": 0.07899338006973267,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 223,
+          "label": "Progressive rock",
+          "display": "Progressive rock",
+          "sigmoid_score": 0.05951002612709999,
+          "rank": 5,
+          "score": 0.05951002612709999,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 229,
+          "label": "Country",
+          "display": "Country",
+          "sigmoid_score": 0.05538802593946457,
+          "rank": 6,
+          "score": 0.05538802593946457,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 221,
+          "label": "Punk rock",
+          "display": "Punk rock",
+          "sigmoid_score": 0.04025788977742195,
+          "rank": 7,
+          "score": 0.04025788977742195,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 225,
+          "label": "Psychedelic rock",
+          "display": "Psychedelic rock",
+          "sigmoid_score": 0.031456489115953445,
+          "rank": 8,
+          "score": 0.031456489115953445,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 220,
+          "label": "Heavy metal",
+          "display": "Heavy metal",
+          "sigmoid_score": 0.03144822642207146,
+          "rank": 9,
+          "score": 0.03144822642207146,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 216,
+          "label": "Pop music",
+          "display": "Pop music",
+          "sigmoid_score": 0.030844183638691902,
+          "rank": 10,
+          "score": 0.030844183638691902,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 231,
+          "label": "Bluegrass",
+          "display": "Bluegrass",
+          "sigmoid_score": 0.02769593894481659,
+          "rank": 11,
+          "score": 0.02769593894481659,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 251,
+          "label": "Blues",
+          "display": "Blues",
+          "sigmoid_score": 0.01613209955394268,
+          "rank": 12,
+          "score": 0.01613209955394268,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 226,
+          "label": "Rhythm and blues",
+          "display": "Rhythm and blues",
+          "sigmoid_score": 0.01301939133554697,
+          "rank": 13,
+          "score": 0.01301939133554697,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 274,
+          "label": "Dance music",
+          "display": "Dance music",
+          "sigmoid_score": 0.010836107656359673,
+          "rank": 14,
+          "score": 0.010836107656359673,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 263,
+          "label": "Ska",
+          "display": "Ska",
+          "sigmoid_score": 0.00935124047100544,
+          "rank": 15,
+          "score": 0.00935124047100544,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 235,
+          "label": "Jazz",
+          "display": "Jazz",
+          "sigmoid_score": 0.006989454850554466,
+          "rank": 16,
+          "score": 0.006989454850554466,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 258,
+          "label": "Christian music",
+          "display": "Christian music",
+          "sigmoid_score": 0.006774344481527805,
+          "rank": 17,
+          "score": 0.006774344481527805,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 232,
+          "label": "Funk",
+          "display": "Funk",
+          "sigmoid_score": 0.005720139481127262,
+          "rank": 18,
+          "score": 0.005720139481127262,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 227,
+          "label": "Soul music",
+          "display": "Soul music",
+          "sigmoid_score": 0.003920202609151602,
+          "rank": 19,
+          "score": 0.003920202609151602,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 259,
+          "label": "Gospel music",
+          "display": "Gospel music",
+          "sigmoid_score": 0.0026485458947718143,
+          "rank": 20,
+          "score": 0.0026485458947718143,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 260,
+          "label": "Music of Asia",
+          "display": "Music of Asia",
+          "sigmoid_score": 0.0026242751628160477,
+          "rank": 21,
+          "score": 0.0026242751628160477,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 234,
+          "label": "Middle Eastern music",
+          "display": "Middle Eastern music",
+          "sigmoid_score": 0.002442599507048726,
+          "rank": 22,
+          "score": 0.002442599507048726,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 236,
+          "label": "Disco",
+          "display": "Disco",
+          "sigmoid_score": 0.002236471278592944,
+          "rank": 23,
+          "score": 0.002236471278592944,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 239,
+          "label": "Electronic music",
+          "display": "Electronic music",
+          "sigmoid_score": 0.002007147064432502,
+          "rank": 24,
+          "score": 0.002007147064432502,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 233,
+          "label": "Folk music",
+          "display": "Folk music",
+          "sigmoid_score": 0.001898786285892129,
+          "rank": 25,
+          "score": 0.001898786285892129,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 253,
+          "label": "New-age music",
+          "display": "New-age music",
+          "sigmoid_score": 0.001845566090196371,
+          "rank": 26,
+          "score": 0.001845566090196371,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 256,
+          "label": "Music of Africa",
+          "display": "Music of Africa",
+          "sigmoid_score": 0.0012048346688970923,
+          "rank": 27,
+          "score": 0.0012048346688970923,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 241,
+          "label": "Techno",
+          "display": "Techno",
+          "sigmoid_score": 0.0011704107746481895,
+          "rank": 28,
+          "score": 0.0011704107746481895,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 252,
+          "label": "Music for children",
+          "display": "Music for children",
+          "sigmoid_score": 0.0010707014007493854,
+          "rank": 29,
+          "score": 0.0010707014007493854,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 228,
+          "label": "Reggae",
+          "display": "Reggae",
+          "sigmoid_score": 0.0010301258880645037,
+          "rank": 30,
+          "score": 0.0010301258880645037,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 257,
+          "label": "Afrobeat",
+          "display": "Afrobeat",
+          "sigmoid_score": 0.0009810281917452812,
+          "rank": 31,
+          "score": 0.0009810281917452812,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 248,
+          "label": "Music of Latin America",
+          "display": "Music of Latin America",
+          "sigmoid_score": 0.0009172121644951403,
+          "rank": 32,
+          "score": 0.0009172121644951403,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 240,
+          "label": "House music",
+          "display": "House music",
+          "sigmoid_score": 0.0008671373361721635,
+          "rank": 33,
+          "score": 0.0008671373361721635,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 237,
+          "label": "Classical music",
+          "display": "Classical music",
+          "sigmoid_score": 0.0008451546309515834,
+          "rank": 34,
+          "score": 0.0008451546309515834,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 230,
+          "label": "Swing music",
+          "display": "Swing music",
+          "sigmoid_score": 0.0008212898392230272,
+          "rank": 35,
+          "score": 0.0008212898392230272,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 250,
+          "label": "Flamenco",
+          "display": "Flamenco",
+          "sigmoid_score": 0.0007806764333508909,
+          "rank": 36,
+          "score": 0.0007806764333508909,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 244,
+          "label": "Electronica",
+          "display": "Electronica",
+          "sigmoid_score": 0.0006806888850405812,
+          "rank": 37,
+          "score": 0.0006806888850405812,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 217,
+          "label": "Hip hop music",
+          "display": "Hip hop music",
+          "sigmoid_score": 0.0006572435377165675,
+          "rank": 38,
+          "score": 0.0006572435377165675,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 264,
+          "label": "Traditional music",
+          "display": "Traditional music",
+          "sigmoid_score": 0.000556887243874371,
+          "rank": 39,
+          "score": 0.000556887243874371,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 246,
+          "label": "Ambient music",
+          "display": "Ambient music",
+          "sigmoid_score": 0.0005060996627435088,
+          "rank": 40,
+          "score": 0.0005060996627435088,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 262,
+          "label": "Music of Bollywood",
+          "display": "Music of Bollywood",
+          "sigmoid_score": 0.0004844650102313608,
+          "rank": 41,
+          "score": 0.0004844650102313608,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 247,
+          "label": "Trance music",
+          "display": "Trance music",
+          "sigmoid_score": 0.00038337608566507697,
+          "rank": 42,
+          "score": 0.00038337608566507697,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 261,
+          "label": "Carnatic music",
+          "display": "Carnatic music",
+          "sigmoid_score": 0.0003246260457672179,
+          "rank": 43,
+          "score": 0.0003246260457672179,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 245,
+          "label": "Electronic dance music",
+          "display": "Electronic dance music",
+          "sigmoid_score": 0.00032357973395846784,
+          "rank": 44,
+          "score": 0.00032357973395846784,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 242,
+          "label": "Dubstep",
+          "display": "Dubstep",
+          "sigmoid_score": 0.00024104909971356392,
+          "rank": 45,
+          "score": 0.00024104909971356392,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 249,
+          "label": "Salsa music",
+          "display": "Salsa music",
+          "sigmoid_score": 0.00023170330678112805,
+          "rank": 46,
+          "score": 0.00023170330678112805,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 243,
+          "label": "Drum and bass",
+          "display": "Drum and bass",
+          "sigmoid_score": 0.00014524873404297978,
+          "rank": 47,
+          "score": 0.00014524873404297978,
+          "score_kind": "sigmoid_score"
+        },
+        {
+          "index": 238,
+          "label": "Opera",
+          "display": "Opera",
+          "sigmoid_score": 0.00013999370275996625,
+          "rank": 48,
+          "score": 0.00013999370275996625,
+          "score_kind": "sigmoid_score"
+        }
+      ],
+      "separation": {
+        "top1": "Grunge",
+        "top1_sigmoid": 0.16727261245250702,
+        "top2": "Independent music",
+        "top2_sigmoid": 0.10994100570678711,
+        "top_margin": 0.05733160674571991,
+        "spread": 0.16713261874974705,
+        "max_sigmoid": 0.16727261245250702,
+        "min_sigmoid": 0.00013999370275996625,
+        "strong_count": 1,
+        "strong_labels": [
+          "Grunge"
+        ],
+        "weak_count": 42,
+        "label_count": 48
+      },
+      "assessment": {
+        "category_result": "WIN",
+        "assessment": "USEFUL",
+        "top_margin": 0.05733160674571991,
+        "spread": 0.16713261874974705,
+        "strong_count": 1,
+        "weak_count": 42,
+        "thresholds": {
+          "strong_score": 0.15,
+          "weak_score": 0.05,
+          "margin_win": 0.05,
+          "margin_partial": 0.02,
+          "spread_win": 0.1,
+          "score_kind": "sigmoid_score is the mean AudioSet multi-label sigmoid over 10.24s chunks; it is a model-native ranking score, not a calibrated probability"
+        }
+      }
+    },
+    "generic_parents": [
+      {
+        "index": 137,
+        "label": "Music",
+        "display": "Music",
+        "sigmoid_score": 0.730405330657959,
+        "rank": 1,
+        "score": 0.730405330657959,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 138,
+        "label": "Musical instrument",
+        "display": "Musical instrument",
+        "sigmoid_score": 0.07510928064584732,
+        "rank": 2,
+        "score": 0.07510928064584732,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 266,
+        "label": "Song",
+        "display": "Song",
+        "sigmoid_score": 0.015466414391994476,
+        "rank": 3,
+        "score": 0.015466414391994476,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 269,
+        "label": "Jingle (music)",
+        "display": "Jingle (music)",
+        "sigmoid_score": 0.011303585022687912,
+        "rank": 4,
+        "score": 0.011303585022687912,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 270,
+        "label": "Soundtrack music",
+        "display": "Soundtrack music",
+        "sigmoid_score": 0.011041603051126003,
+        "rank": 5,
+        "score": 0.011041603051126003,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 268,
+        "label": "Theme music",
+        "display": "Theme music",
+        "sigmoid_score": 0.007106762379407883,
+        "rank": 6,
+        "score": 0.007106762379407883,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 267,
+        "label": "Background music",
+        "display": "Background music",
+        "sigmoid_score": 0.0063618868589401245,
+        "rank": 7,
+        "score": 0.0063618868589401245,
+        "score_kind": "sigmoid_score"
+      },
+      {
+        "index": 254,
+        "label": "Vocal music",
+        "display": "Vocal music",
+        "sigmoid_score": 0.0010292710503563285,
+        "rank": 8,
+        "score": 0.0010292710503563285,
+        "score_kind": "sigmoid_score"
+      }
+    ],
+    "category_results": {
+      "instrumentation": "NO WIN",
+      "genre_style": "WIN"
+    },
+    "engine3_result": "PARTIAL PASS"
+  },
+  "cache": {
+    "cache_root": "C:\\Users\\tim\\.cache\\a2l-ast",
+    "hf_home": "C:\\Users\\tim\\.cache\\a2l-ast\\huggingface",
+    "torch_home": "C:\\Users\\tim\\.cache\\a2l-ast\\torch",
+    "bytes_before": 1
+  }
+}
