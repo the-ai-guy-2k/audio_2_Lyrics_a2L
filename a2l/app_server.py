@@ -33,7 +33,7 @@ from a2l.approve import (
     reopen_approved_lyrics,
 )
 from a2l.engines import FasterWhisperEngine, ParakeetEngine, TranscriptionEngine
-from a2l.errors import ApprovalError, ExportError, IngestionError, ReleaseError, ReviewError, TranscriptionError
+from a2l.errors import ApprovalError, ExportError, IngestionError, ReleaseError, ReviewError, SongIntelligenceError, TranscriptionError
 from a2l.export import (
     DEFAULT_FORMAT,
     content_disposition_attachment,
@@ -62,6 +62,7 @@ from a2l.pipeline import (
 )
 from a2l.review import apply_corrections, load_or_create_review, save_review
 from a2l.review_server import public_state
+from a2l.song_intelligence import SongIntelligenceController, catalog_payload, DEFAULT_CAPABILITY
 from a2l.structure import structure_lyrics
 from a2l.transcribe import transcribe_from_manifest
 from a2l.uncertainty import evaluate_uncertainty
@@ -83,9 +84,11 @@ class AppState:
         self,
         artifact_root: Path | None = None,
         engine: TranscriptionEngine | None = None,
+        si_runners: dict | None = None,
     ) -> None:
         self.artifact_root = Path(artifact_root) if artifact_root else ROOT / "artifacts"
         self.engine = engine
+        self.song_intelligence = SongIntelligenceController(self.artifact_root, runners=si_runners)
         self.lock = threading.Lock()
         self.filename = ""
         self.job_id = ""
@@ -138,6 +141,7 @@ class AppState:
                 release_readiness = record.get("release_readiness")
             except (ReleaseError, ReviewError):
                 release_readiness = None
+        intelligence = self.song_intelligence.snapshot()
         return {
             "ok": True,
             "filename": filename,
@@ -153,8 +157,11 @@ class AppState:
             "can_export": can_export,
             "can_release": can_release,
             "can_album": True,
+            "can_intelligence": True,
             "release_readiness": release_readiness,
             "has_job": bool(job),
+            "si_busy": bool(intelligence.get("busy")),
+            "song_intelligence": intelligence,
         }
 
     def start_extract(
@@ -178,6 +185,8 @@ class AppState:
         with self.lock:
             if self.busy:
                 return {"ok": False, "error_code": "BUSY", "error": "Lyric extraction is already running."}
+            if self.song_intelligence.busy:
+                return {"ok": False, "error_code": "BUSY", "error": "Song Intelligence analysis is already running."}
             self.busy = True
             self.filename = name
             self.error = ""
@@ -197,6 +206,23 @@ class AppState:
         )
         thread.start()
         return {"ok": True, "status": STATUS_READING, "screen": "processing"}
+
+    def start_song_intelligence(self, ingest_job_id: str, capability: str | None, engines: list[str] | None) -> dict:
+        with self.lock:
+            extract_busy = self.busy
+        if extract_busy:
+            raise SongIntelligenceError("BUSY", "Lyric extraction is already running.")
+        result = self.song_intelligence.start(ingest_job_id, capability, engines)
+        job = "".join(ch for ch in str(ingest_job_id or "") if ch.isalnum())
+        job_dir = self.artifact_root / "ingest" / job
+        dirname = detect_pipeline_dirname(job_dir)
+        filename = original_filename_for_song(job, artifact_root=self.artifact_root)
+        with self.lock:
+            self.job_id = job
+            self.pipeline_dirname = dirname
+            self.filename = filename
+            self.error = ""
+        return result
 
     def _runtime_engine(self, engine_id: str) -> TranscriptionEngine:
         if self.engine is not None:
@@ -414,6 +440,12 @@ class AppHandler(BaseHTTPRequestHandler):
         if parsed.path == "/api/catalog-songs":
             self._catalog_songs()
             return
+        if parsed.path == "/api/song-intelligence-catalog":
+            self._song_intelligence_catalog()
+            return
+        if parsed.path == "/api/song-intelligence":
+            self._song_intelligence_state()
+            return
         if parsed.path == "/api/album-readiness":
             self._album_readiness(parsed)
             return
@@ -465,6 +497,9 @@ class AppHandler(BaseHTTPRequestHandler):
             return
         if parsed.path == "/api/open-song":
             self._open_song(payload)
+            return
+        if parsed.path == "/api/song-intelligence":
+            self._start_song_intelligence(payload)
             return
         if parsed.path == "/api/album-readiness":
             self._save_album_readiness(payload)
@@ -565,6 +600,28 @@ class AppHandler(BaseHTTPRequestHandler):
     def _catalog_songs(self) -> None:
         songs = list_catalog_songs(artifact_root=self.app.artifact_root)
         self._send_json(200, {"ok": True, "songs": songs})
+
+    def _song_intelligence_catalog(self) -> None:
+        self._send_json(200, catalog_payload(artifact_root=self.app.artifact_root))
+
+    def _song_intelligence_state(self) -> None:
+        self._send_json(200, self.app.song_intelligence.snapshot())
+
+    def _start_song_intelligence(self, payload: dict) -> None:
+        ingest_job_id = payload.get("ingest_job_id") or payload.get("id") or self.app.job_id
+        capability = payload.get("capability") or DEFAULT_CAPABILITY
+        engines = payload.get("engines")
+        if isinstance(engines, str):
+            engines = [engines]
+        if engines is not None and not isinstance(engines, list):
+            self._send_json(400, {"ok": False, "error_code": "UNKNOWN_ENGINE", "error": "Choose an available analysis engine."})
+            return
+        try:
+            result = self.app.start_song_intelligence(str(ingest_job_id or ""), capability, engines)
+        except (SongIntelligenceError, ReleaseError) as exc:
+            self._send_json(400, {"ok": False, "error_code": exc.code, "error": exc.message})
+            return
+        self._send_json(200, result)
 
     def _get_album(self, parsed) -> None:
         release_id = (parse_qs(parsed.query).get("id") or [""])[0]

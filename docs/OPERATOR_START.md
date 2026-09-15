@@ -43,6 +43,8 @@ Same URL: http://127.0.0.1:8780/
 
 That interpreter on this workstation is Python 3.14.3 and does **not** include faster-whisper. Upload and review UI load. Extract with FASTER-WHISPER returns: "That transcription engine is not available in this environment." Do not treat default Python 3.14 as capable of faster-whisper extraction.
 
+Song Intelligence is on the same operator URL. Full Song Intelligence is the default. Heavyweight analyzers run sequentially in their isolated environments (`.venv-key-mode`, `.venv-clap`, `.venv-all-in-one`) when the UI interpreter cannot import them. GPU and cloud are not required.
+
 ## Alternate engine (NVIDIA Parakeet)
 
 Parakeet is alternate. It is not the primary engine and is not promoted.

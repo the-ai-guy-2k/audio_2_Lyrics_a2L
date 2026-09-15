@@ -110,12 +110,33 @@
     .gap.BLOCKING { color: #a40000; }
     .gap.OPTIONAL { color: #8a5a00; }
     .readiness-box { font-family: sans-serif; border-top: 1px solid #ccc; margin-top: 1.25rem; padding-top: 0.9rem; }
+    .si-status-row { font-family: sans-serif; margin: 0.35rem 0; }
+    .si-card {
+      font-family: sans-serif;
+      background: #fff;
+      border: 1px solid #ddd;
+      padding: 0.85rem 1rem;
+      margin: 0.7rem 0;
+    }
+    .si-card h3 { margin: 0 0 0.4rem; font-size: 1rem; }
+    .si-value { font-size: 1.2rem; margin: 0.2rem 0 0.35rem; }
+    .si-meta { font-size: 0.85rem; color: #444; margin: 0.15rem 0; }
+    .badge { font-size: 0.8rem; font-weight: bold; margin-right: 0.4rem; }
+    .badge.Complete { color: #0a6; }
+    .badge.Partial { color: #8a5a00; }
+    .badge.Unavailable, .badge.Failed, .badge.Waiting { color: #a40000; }
+    .badge.Running { color: #336; }
+    .si-lyrics { white-space: pre-wrap; line-height: 1.6; font-size: 1.1rem; }
+    details.advanced { font-family: sans-serif; margin: 0.8rem 0; }
+    details.advanced summary { cursor: pointer; font-weight: bold; }
+    .engine-list label, .output-select label { display: block; margin: 0.25rem 0; }
+    .si-note { font-size: 0.9rem; color: #555; }
   </style>
 </head>
 <body>
   <header>
     <h1>A2L</h1>
-    <p>Upload a song, extract lyrics, review, then approve.</p>
+    <p>Upload a song, extract lyrics, review, approve, and analyze Song Intelligence.</p>
   </header>
   <nav>
     <button type="button" data-screen="upload">Upload</button>
@@ -125,6 +146,7 @@
     <button type="button" data-screen="export">Output</button>
     <button type="button" data-screen="release">Release</button>
     <button type="button" data-screen="album">Album</button>
+    <button type="button" data-screen="intelligence">Song Intelligence</button>
   </nav>
   <main>
     <section id="screen-upload">
@@ -273,6 +295,38 @@
         <div id="album-readiness-detail"></div>
       </div>
     </section>
+    <section id="screen-intelligence" class="hidden">
+      <h2>Song Intelligence</h2>
+      <p class="note">One Song Intelligence view of selected analysis. These results are not a governed Song Intelligence Record and are not human-approved musical facts.</p>
+      <p>
+        <label for="si-song">Song</label><br>
+        <select id="si-song">
+          <option value="">Choose a song</option>
+        </select>
+      </p>
+      <p>
+        <label for="si-capability">What to analyze</label><br>
+        <select id="si-capability">
+          <option value="full_song_intelligence" selected>Full Song Intelligence</option>
+        </select>
+      </p>
+      <details class="advanced" id="si-advanced">
+        <summary>Advanced engine selection</summary>
+        <p class="note">Optional. Leave closed to run the selected analysis with its promoted engines. Advanced choices only narrow that analysis; they do not invent extra engines.</p>
+        <div class="engine-list" id="si-engines"></div>
+      </details>
+      <p class="toolbar">
+        <button class="action" id="analyze-song" type="button">Analyze song</button>
+      </p>
+      <p class="note" id="si-run-status">Choose a song, keep Full Song Intelligence, then analyze.</p>
+      <p class="error" id="si-error"></p>
+      <div id="si-modules"></div>
+      <details class="advanced" id="si-output-select">
+        <summary>Choose result groups to view</summary>
+        <div class="output-select" id="si-groups"></div>
+      </details>
+      <div id="si-results"></div>
+    </section>
   </main>
   <script>
     let reviewState = null;
@@ -297,6 +351,7 @@
       if (name === "export") loadOutput();
       if (name === "release") loadRelease();
       if (name === "album") loadAlbumScreen();
+      if (name === "intelligence") loadIntelligenceScreen();
     }
 
     async function refreshSession() {
@@ -328,9 +383,9 @@
         $("release-readiness").className = "readiness " + session.release_readiness;
       }
       if (session.busy) {
-        if (currentScreen !== "processing") showScreen("processing");
-      } else if (currentScreen === "album" || currentScreen === "release") {
-        /* keep the operator on Album or the song release record */
+        if (currentScreen !== "processing" && currentScreen !== "intelligence") showScreen("processing");
+      } else if (currentScreen === "album" || currentScreen === "release" || currentScreen === "intelligence") {
+        /* keep the operator on Album, Release, or Song Intelligence */
       } else if (session.lyric_state === "APPROVED" && (currentScreen === "upload" || currentScreen === "processing" || currentScreen === "approval")) {
         showScreen("export");
       } else if (session.can_review && (currentScreen === "upload" || currentScreen === "processing")) {
@@ -352,11 +407,15 @@
         : (session.lyric_state === "REQUIRES_REAPPROVAL"
           ? "Correct the lyrics, save, then approve again."
           : "");
-      if (session.busy) {
+      if (session.busy || session.si_busy) {
         if (!pollTimer) pollTimer = setInterval(refreshSession, 700);
       } else if (pollTimer) {
         clearInterval(pollTimer);
         pollTimer = null;
+      }
+      if (currentScreen === "intelligence") {
+        $("analyze-song").disabled = !!session.si_busy;
+        renderIntelligence(session.song_intelligence || {});
       }
       return session;
     }
@@ -1099,6 +1158,272 @@
         if (!button.disabled) showScreen(button.dataset.screen);
       });
     }
+
+    let siCatalog = { songs: [], capabilities: [], engines: [], output_groups: [] };
+    let visibleGroups = { song: true, lyrics: true, music: true, sound: true, meaning: true, provenance: true };
+
+    async function loadIntelligenceScreen() {
+      const response = await fetch("/api/song-intelligence-catalog");
+      siCatalog = await response.json();
+      const songSelect = $("si-song");
+      const current = songSelect.value;
+      songSelect.innerHTML = "";
+      const blank = document.createElement("option");
+      blank.value = "";
+      blank.textContent = "Choose a song";
+      songSelect.appendChild(blank);
+      for (const song of siCatalog.songs || []) {
+        const option = document.createElement("option");
+        option.value = song.ingest_job_id;
+        option.textContent = song.label;
+        songSelect.appendChild(option);
+      }
+      if (current && Array.from(songSelect.options).some(function (item) { return item.value === current; })) {
+        songSelect.value = current;
+      }
+      const capSelect = $("si-capability");
+      const capCurrent = capSelect.value || "full_song_intelligence";
+      capSelect.innerHTML = "";
+      for (const item of siCatalog.capabilities || []) {
+        const option = document.createElement("option");
+        option.value = item.id;
+        option.textContent = item.label;
+        capSelect.appendChild(option);
+      }
+      capSelect.value = capCurrent;
+      renderEngineChoices();
+      renderGroupChoices();
+      await refreshSession();
+    }
+
+    function selectedCapabilityEngines() {
+      const capability = $("si-capability").value || "full_song_intelligence";
+      const match = (siCatalog.capabilities || []).find(function (item) { return item.id === capability; });
+      const allowed = new Set();
+      const full = capability === "full_song_intelligence";
+      for (const engine of siCatalog.engines || []) {
+        if (full) allowed.add(engine.id);
+        else if (capability === "lyrics" && engine.id === "lyrics_workflow") allowed.add(engine.id);
+        else if (capability === "rhythm_structure" && engine.id === "rhythm_structure") allowed.add(engine.id);
+        else if (capability === "key_mode" && engine.id === "key_mode") allowed.add(engine.id);
+        else if (capability === "audio_intelligence" && (engine.id === "clap_audio" || engine.id === "ast_genre" || engine.id === "panns_instrumentation")) allowed.add(engine.id);
+        else if (capability === "lyric_intelligence" && engine.id === "lyric_intelligence") allowed.add(engine.id);
+      }
+      if (match) {
+        /* capability list from server is labels only; engine membership is known above */
+      }
+      return allowed;
+    }
+
+    function renderEngineChoices() {
+      const allowed = selectedCapabilityEngines();
+      const box = $("si-engines");
+      box.innerHTML = "";
+      for (const engine of siCatalog.engines || []) {
+        const label = document.createElement("label");
+        const boxInput = document.createElement("input");
+        boxInput.type = "checkbox";
+        boxInput.value = engine.id;
+        boxInput.checked = allowed.has(engine.id);
+        boxInput.disabled = !allowed.has(engine.id);
+        label.appendChild(boxInput);
+        label.appendChild(document.createTextNode(" " + engine.label + " — " + engine.technical));
+        box.appendChild(label);
+      }
+    }
+
+    function renderGroupChoices() {
+      const box = $("si-groups");
+      if (box.dataset.ready === "1") return;
+      box.innerHTML = "";
+      const full = document.createElement("label");
+      const fullBox = document.createElement("input");
+      fullBox.type = "checkbox";
+      fullBox.id = "si-group-all";
+      fullBox.checked = true;
+      full.appendChild(fullBox);
+      full.appendChild(document.createTextNode(" Full Song Report"));
+      box.appendChild(full);
+      const groups = siCatalog.output_groups || [
+        { id: "song", label: "Song" },
+        { id: "lyrics", label: "Lyrics" },
+        { id: "music", label: "Music Analysis" },
+        { id: "sound", label: "Audio / Sound Analysis" },
+        { id: "meaning", label: "Lyric Meaning" },
+        { id: "provenance", label: "Provenance / Authority" }
+      ];
+      for (const group of groups) {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "checkbox";
+        input.dataset.group = group.id;
+        input.checked = true;
+        input.className = "si-group-box";
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(" " + group.label));
+        box.appendChild(label);
+      }
+      box.dataset.ready = "1";
+      fullBox.addEventListener("change", function () {
+        for (const input of box.querySelectorAll(".si-group-box")) {
+          input.checked = fullBox.checked;
+          visibleGroups[input.dataset.group] = input.checked;
+        }
+        renderIntelligenceFromDom();
+      });
+      for (const input of box.querySelectorAll(".si-group-box")) {
+        input.addEventListener("change", function () {
+          visibleGroups[input.dataset.group] = input.checked;
+          const allOn = Array.from(box.querySelectorAll(".si-group-box")).every(function (item) { return item.checked; });
+          fullBox.checked = allOn;
+          renderIntelligenceFromDom();
+        });
+      }
+    }
+
+    let lastIntelligence = {};
+
+    function renderIntelligenceFromDom() {
+      renderIntelligence(lastIntelligence);
+    }
+
+    function renderIntelligence(payload) {
+      lastIntelligence = payload || {};
+      const status = lastIntelligence.status || "Choose a song, then analyze.";
+      const current = lastIntelligence.current_engine ? " Currently running: " + lastIntelligence.current_engine + "." : "";
+      $("si-run-status").textContent = status + current;
+      $("si-error").textContent = lastIntelligence.error || "";
+      const modules = $("si-modules");
+      modules.innerHTML = "";
+      for (const item of lastIntelligence.modules || []) {
+        const row = document.createElement("p");
+        row.className = "si-status-row";
+        const badge = document.createElement("span");
+        badge.className = "badge " + (item.status || "Waiting");
+        badge.textContent = item.status || "Waiting";
+        row.appendChild(badge);
+        row.appendChild(document.createTextNode(item.label + (item.message ? " — " + item.message : "")));
+        modules.appendChild(row);
+      }
+      const results = $("si-results");
+      results.innerHTML = "";
+      const groups = ["song", "lyrics", "music", "sound", "meaning", "provenance"];
+      const titles = {
+        song: "Song",
+        lyrics: "Lyrics",
+        music: "Music",
+        sound: "Sound",
+        meaning: "Meaning",
+        provenance: "Provenance / Authority"
+      };
+      for (const group of groups) {
+        if (!visibleGroups[group]) continue;
+        const fields = (lastIntelligence.fields || []).filter(function (item) { return item.group === group; });
+        if (!fields.length) continue;
+        const heading = document.createElement("h2");
+        heading.textContent = titles[group] || group;
+        results.appendChild(heading);
+        for (const field of fields) {
+          results.appendChild(renderFieldCard(field));
+        }
+      }
+    }
+
+    function renderFieldCard(field) {
+      const card = document.createElement("div");
+      card.className = "si-card";
+      const title = document.createElement("h3");
+      title.textContent = field.label || "";
+      card.appendChild(title);
+      const value = document.createElement("div");
+      value.className = field.id === "approved_lyrics" ? "si-lyrics" : "si-value";
+      if (Array.isArray(field.value)) {
+        value.textContent = field.value.join("\n");
+      } else {
+        value.textContent = field.value == null ? "" : String(field.value);
+      }
+      card.appendChild(value);
+      const status = document.createElement("p");
+      status.className = "si-meta";
+      const badge = document.createElement("span");
+      badge.className = "badge " + (field.status || "");
+      badge.textContent = field.status || "";
+      status.appendChild(badge);
+      status.appendChild(document.createTextNode(field.authority || ""));
+      card.appendChild(status);
+      const engine = document.createElement("p");
+      engine.className = "si-meta";
+      engine.textContent = "Engine: " + (field.engine_label || "") + (field.engine_technical ? " (" + field.engine_technical + ")" : "");
+      card.appendChild(engine);
+      if (field.validation_state) {
+        const validation = document.createElement("p");
+        validation.className = "si-meta";
+        validation.textContent = field.validation_state;
+        card.appendChild(validation);
+      }
+      if (field.note) {
+        const note = document.createElement("p");
+        note.className = "si-note";
+        note.textContent = field.note;
+        card.appendChild(note);
+      }
+      if (field.evidence && field.evidence.length) {
+        const evidence = document.createElement("p");
+        evidence.className = "si-meta";
+        evidence.textContent = "Evidence: " + formatEvidence(field.evidence);
+        card.appendChild(evidence);
+      }
+      return card;
+    }
+
+    function formatEvidence(evidence) {
+      try {
+        return evidence.map(function (item) {
+          if (typeof item === "string") return item;
+          if (item && item.label && item.score != null) return item.label + " " + item.score;
+          return JSON.stringify(item);
+        }).join("; ");
+      } catch (err) {
+        return "";
+      }
+    }
+
+    $("si-capability").addEventListener("change", renderEngineChoices);
+    $("analyze-song").addEventListener("click", async function () {
+      $("si-error").textContent = "";
+      const ingestJobId = $("si-song").value;
+      if (!ingestJobId) {
+        $("si-error").textContent = "Choose a song first.";
+        return;
+      }
+      const engines = [];
+      for (const input of $("si-engines").querySelectorAll("input[type=checkbox]")) {
+        if (input.checked && !input.disabled) engines.push(input.value);
+      }
+      $("analyze-song").disabled = true;
+      try {
+        const response = await fetch("/api/song-intelligence", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ingest_job_id: ingestJobId,
+            capability: $("si-capability").value || "full_song_intelligence",
+            engines: engines
+          })
+        });
+        const payload = await response.json();
+        if (!payload.ok) {
+          $("si-error").textContent = payload.error || "Analysis could not start.";
+          $("analyze-song").disabled = false;
+          return;
+        }
+        renderIntelligence(payload);
+        await refreshSession();
+      } catch (err) {
+        $("si-error").textContent = "Analysis could not start.";
+        $("analyze-song").disabled = false;
+      }
+    });
 
     showScreen("upload");
     refreshSession();
