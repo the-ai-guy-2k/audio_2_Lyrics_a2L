@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-SI-011 Song Intelligence product UI on the validated SI analyzer baseline (ACI-A2L-SI-PROM-001 through SI-010). Product-facing operator path remains http://127.0.0.1:8780/.
+**Authority:** ACI-A2L-SI-PROM-002 promotion of the validated Song Intelligence product UI (ACI-A2L-SI-011) to `deployable`. Product-facing operator path remains http://127.0.0.1:8780/.
 
 ## Implemented flow
 

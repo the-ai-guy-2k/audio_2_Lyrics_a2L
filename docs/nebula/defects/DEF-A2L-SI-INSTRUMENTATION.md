@@ -5,7 +5,7 @@
 **Disposition:** DEFER TO BUG-FIX LANE  
 **Must not block:** continued Song Intelligence development  
 **No fourth repair ACI.**  
-**Promotion:** Preserved unchanged by ACI-A2L-SI-PROM-001. Not closed. Not marked WIN.
+**Promotion:** Preserved unchanged by ACI-A2L-SI-PROM-001 and ACI-A2L-SI-PROM-002. Not closed. Not marked WIN.
 
 ## Current engineering truth
 
