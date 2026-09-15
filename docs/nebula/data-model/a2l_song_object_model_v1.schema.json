@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://a2l.local/schemas/a2l_song_object_model_v1.schema.json",
+  "title": "A2L_SONG",
+  "description": "Machine-readable companion to A2L_SONG_OBJECT_MODEL_V1.md (ACI-A2L-DM-001). Documentation is authoritative for semantics. This schema does not implement a Song Registry.",
+  "type": "object",
+  "required": [
+    "record_type",
+    "schema_version",
+    "song_id",
+    "identity",
+    "source",
+    "lyrics",
+    "intelligence",
+    "release",
+    "relationships",
+    "lifecycle_state"
+  ],
+  "properties": {
+    "record_type": { "const": "A2L_SONG" },
+    "schema_version": { "const": "1.0.0" },
+    "song_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque Song identity. Must not equal ingest_job_id, source SHA-256, filename, or SIR revision."
+    },
+    "identity": {
+      "type": "object",
+      "required": ["title", "artist", "duration_seconds"],
+      "properties": {
+        "title": { "$ref": "#/$defs/governedValue" },
+        "artist": { "$ref": "#/$defs/governedValue" },
+        "duration_seconds": { "$ref": "#/$defs/governedValue" }
+      },
+      "additionalProperties": false
+    },
+    "source": {
+      "type": "object",
+      "required": ["current_master_revision", "masters"],
+      "properties": {
+        "current_master_revision": { "type": ["integer", "null"], "minimum": 1 },
+        "masters": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/masterRevision" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "lyrics": {
+      "type": "object",
+      "properties": {
+        "approved_lyrics_ref": { "type": ["string", "null"] },
+        "review_ref": { "type": ["string", "null"] },
+        "transcription_draft_ref": { "type": ["string", "null"] },
+        "pipeline_dirname": { "type": ["string", "null"] },
+        "approval_status": { "type": ["string", "null"] },
+        "lyric_revision": { "type": ["integer", "string", "null"] },
+        "authority": { "type": ["string", "null"] },
+        "transcription_provenance": {
+          "type": "object",
+          "properties": {
+            "engine": { "type": ["string", "null"] },
+            "model": { "type": ["string", "null"] },
+            "generated_at": { "type": ["string", "null"] }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "intelligence": {
+      "type": "object",
+      "required": [
+        "sir_ref",
+        "rhythm_structure",
+        "key_mode",
+        "audio_intelligence",
+        "lyric_intelligence"
+      ],
+      "properties": {
+        "sir_ref": { "type": ["string", "null"] },
+        "sir_revision": { "type": ["integer", "null"] },
+        "rhythm_structure": { "$ref": "#/$defs/intelligenceSectionRef" },
+        "key_mode": { "$ref": "#/$defs/intelligenceSectionRef" },
+        "audio_intelligence": { "$ref": "#/$defs/intelligenceSectionRef" },
+        "lyric_intelligence": { "$ref": "#/$defs/intelligenceSectionRef" }
+      },
+      "additionalProperties": true
+    },
+    "release": {
+      "type": "object",
+      "properties": {
+        "song_release_record_ref": { "type": ["string", "null"] },
+        "release_readiness": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "relationships": {
+      "type": "object",
+      "required": ["albums"],
+      "properties": {
+        "albums": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "release_id": { "type": ["string", "null"] },
+              "album_manifest_ref": { "type": ["string", "null"] },
+              "position": { "type": ["integer", "null"] }
+            },
+            "additionalProperties": true
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "lifecycle_state": {
+      "type": "string",
+      "enum": [
+        "UNREGISTERED",
+        "REGISTERED",
+        "MASTER_ASSOCIATED",
+        "LYRICS_IN_PROGRESS",
+        "LYRICS_APPROVED",
+        "INTELLIGENCE_PRESENT",
+        "RELEASE_PRESENT",
+        "ALBUM_LINKED"
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "governedValue": {
+      "type": "object",
+      "required": ["value", "status", "authority"],
+      "properties": {
+        "value": {},
+        "status": {
+          "type": "string",
+          "enum": [
+            "AVAILABLE",
+            "MISSING",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "FAILED",
+            "NOT_RUN"
+          ]
+        },
+        "authority": { "type": ["string", "null"] },
+        "source_ref": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    },
+    "masterRevision": {
+      "type": "object",
+      "required": ["master_revision", "role", "source_sha256", "ingest_job_id"],
+      "properties": {
+        "master_revision": { "type": "integer", "minimum": 1 },
+        "role": { "type": "string", "enum": ["CURRENT", "SUPERSEDED"] },
+        "source_sha256": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "ingest_job_id": { "type": "string", "minLength": 1 },
+        "source_ref": { "type": ["string", "null"] },
+        "working_ref": { "type": ["string", "null"] },
+        "ingest_manifest_ref": { "type": ["string", "null"] },
+        "associated_at": { "type": ["string", "null"] },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "intelligenceSectionRef": {
+      "type": "object",
+      "required": ["section_ref", "run_state"],
+      "properties": {
+        "section_ref": { "type": "string" },
+        "run_state": {
+          "type": "string",
+          "enum": [
+            "AVAILABLE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "FAILED",
+            "NOT_RUN",
+            "MISSING"
+          ]
+        },
+        "authority": { "type": ["string", "null"] },
+        "result_origin": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    }
+  }
+}
