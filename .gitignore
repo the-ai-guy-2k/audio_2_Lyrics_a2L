@@ -13,6 +13,7 @@ htmlcov/
 .venv-faster-whisper/
 .venv-all-in-one/
 .venv-key-mode/
+.venv-clap/
 venv/
 env/
 

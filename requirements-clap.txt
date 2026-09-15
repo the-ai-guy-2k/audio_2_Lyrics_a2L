@@ -1,0 +1,12 @@
+# Isolated ACI-A2L-SI-007 sidecar. Do not install into the main A2L Python 3.14 environment.
+# Create with: py -3.12 -m venv .venv-clap
+# Install torch from the CPU index first:
+#   python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+# Then: python -m pip install -r requirements-clap.txt
+torch==2.14.0
+transformers==4.44.2
+librosa==1.0.0
+numpy==2.5.3
+soundfile==0.14.0
+huggingface_hub==0.36.2
+tokenizers==0.19.1
