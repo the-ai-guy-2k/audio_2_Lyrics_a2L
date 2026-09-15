@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-009 — Instrumentation & genre resolution candidate  
 **Date recorded:** 2026-09-14  
 **Branch:** `feature/aci-a2l-si-009-instrumentation-genre-resolution`  
-**Commit:** pending implementation commit  
+**Commit:** `fd41713`  
 **Status:** APPROVED ACI EXECUTED on feature branch — not merged; ENGINE #3 PARTIAL PASS; MUSICAL VALIDATION pending Jay  
 **Product changes:** isolated AST instrumentation/genre candidate only; CLAP not replaced; master WAV unchanged; Song Intelligence Record not created
 

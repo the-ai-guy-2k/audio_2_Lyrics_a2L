@@ -19,6 +19,7 @@ FINISHED MASTER WAV → SPECIALIZED MUSIC-TAGGING ANALYZER → INSTRUMENTATION +
 ## Constraints honored
 
 - New branch `feature/aci-a2l-si-009-instrumentation-genre-resolution` from SI-008 `feature/aci-a2l-si-008-audio-classification-resolution` @ `1b61291`.
+- Implementation commit: `fd41713`.
 - Selected candidate: Hugging Face `transformers` `ASTForAudioClassification` with `MIT/ast-finetuned-audioset-10-10-0.4593` revision `f826b80d28226b62986cc218e5cec390b1096902`.
 - Model/checkpoint license verified independently of the library license: Hugging Face card `license: bsd-3-clause`; original AST repo BSD 3-Clause (Yuan Gong, 2021). AudioSet dataset CC BY 4.0; ontology CC BY-SA 4.0 (native class names emitted; ontology not adapted).
 - Software: Apache-2.0 (transformers, huggingface_hub); BSD-style (torch); ISC (librosa).

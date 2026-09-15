@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified.
 | --- | --- |
 | Branch | `feature/aci-a2l-si-009-instrumentation-genre-resolution` |
 | Base | SI-008 `feature/aci-a2l-si-008-audio-classification-resolution` @ `1b61291` |
-| Implementation | pending first commit |
+| Implementation | `fd41713` |
 
 ## Candidate
 
