@@ -19,6 +19,7 @@ FINISHED MASTER WAV → SPECIALIZED INSTRUMENT-PRESENCE ANALYSIS → USEFUL INST
 ## Constraints honored
 
 - New branch `feature/aci-a2l-si-010-instrumentation-final-resolution` from SI-009 `feature/aci-a2l-si-009-instrumentation-genre-resolution` @ `627aeb0`.
+- Implementation commit: `85c67c9`.
 - Selected candidate: PANNs Cnn14 (`Cnn14_mAP=0.431.pth`, Zenodo 3987831). Audio tagging / independent multi-label presence, not a genre classifier.
 - Model license verified independently of library license: Zenodo metadata `license.id = cc-by-4.0`. Code MIT (`qiuqiangkong/audioset_tagging_cnn`, `torchlibrosa`).
 - Isolated sidecar reuse of `.venv-clap`. Not installed into Python 3.14 A2L. Cache `%USERPROFILE%\.cache\a2l-panns`.

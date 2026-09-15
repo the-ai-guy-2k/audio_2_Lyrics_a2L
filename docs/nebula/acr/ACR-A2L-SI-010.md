@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-010 — Instrumentation final resolution  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-si-010-instrumentation-final-resolution`  
-**Commit:** pending implementation commit  
+**Commit:** `85c67c9`  
 **Status:** APPROVED ACI EXECUTED on feature branch — not merged; ENGINE #3 PARTIAL PASS — ACCEPTED FOR CONTINUED BUILD; instrumentation defect deferred to bug-fix lane  
 **Product changes:** isolated PANNs instrument-presence candidate only; AST/CLAP not retuned; master WAV unchanged; Song Intelligence Record not created
 

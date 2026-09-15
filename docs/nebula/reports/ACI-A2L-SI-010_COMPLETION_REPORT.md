@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified.
 | --- | --- |
 | Branch | `feature/aci-a2l-si-010-instrumentation-final-resolution` |
 | Base | SI-009 `feature/aci-a2l-si-009-instrumentation-genre-resolution` @ `627aeb0` |
-| Implementation | pending first commit |
+| Implementation | `85c67c9` |
 
 ## Candidate
 
