@@ -1,8 +1,10 @@
-# Song Intelligence product UI (ACI-A2L-SI-011)
+# Song Intelligence product UI (ACI-A2L-SI-011 / ACI-A2L-SI-012)
 
 Operator application (product-facing): http://127.0.0.1:8780/ → **Song Intelligence**
 
-This screen orchestrates the promoted Song Intelligence analyzers and shows results in one human-readable view. It is **not** the governed Song Intelligence Record. It does not approve Song Intelligence. It does not change approved lyric authority.
+This screen orchestrates the promoted Song Intelligence analyzers. After analysis it displays the current governed Song Intelligence Record. It does not approve Song Intelligence. It does not change approved lyric authority.
+
+See [SONG_INTELLIGENCE_RECORD.md](SONG_INTELLIGENCE_RECORD.md).
 
 ## Default path
 
@@ -18,7 +20,7 @@ Advanced engine selection is optional and closed by default. It can only narrow 
 | Kind | Meaning |
 | --- | --- |
 | AUTHORITATIVE INPUT | Operator-entered song identity or approved lyrics used as input |
-| MEASURED | Direct measurement (duration, RMS, onsets) |
+| MEASURED | Direct measurement (duration, RMS, onsets, lexical counts) |
 | MACHINE-DERIVED | Analyzer output; not a human-approved song fact |
 | HUMAN-APPROVED / AUTHORITATIVE | Existing approved lyrics only |
 
@@ -26,12 +28,12 @@ Vocal characteristics and instrumentation remain **Partial**. They are not shown
 
 Lyric Intelligence requires **AUTHORITATIVE APPROVED LYRICS**. Unapproved transcription is not substituted.
 
-## Temporary aggregation
+## Governed record vs temporary aggregation
 
-If a file is written for display, it lives at `artifacts/ingest/<job>/song_intelligence_ui/ui_aggregation.json`.
+Governed record: `artifacts/ingest/<job>/song_intelligence_record.json` (`SONG_INTELLIGENCE_RECORD`).
 
-Kind: `TEMPORARY_UI_AGGREGATION`. It is derived, non-authoritative, and is not a Song Intelligence Record.
+Derived cache: `artifacts/ingest/<job>/song_intelligence_ui/ui_aggregation.json` (`TEMPORARY_UI_AGGREGATION`). It does not outrank the SIR.
 
 ## Out of scope
 
-Governed Song Intelligence Record, Song Intelligence approval, instrumentation repair, chords, mastering QC, source separation as a product, distributor integrations.
+Song Intelligence approval, instrumentation repair, chords, mastering QC, source separation as a product, distributor integrations, final SI export.

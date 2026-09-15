@@ -1,8 +1,9 @@
-"""ACI-A2L-SI-011 Song Intelligence product orchestration.
+"""ACI-A2L-SI-011/012 Song Intelligence product orchestration.
 
-Derived, non-authoritative UI aggregation. This is not the governed
-Song Intelligence Record. Analyzer thresholds and engines are not
-changed. Instrumentation remains PARTIAL.
+Analyzer thresholds and engines are not changed. Instrumentation
+remains PARTIAL. After analysis, the governed Song Intelligence
+Record is the combined data source. Temporary UI aggregation is a
+derived cache and does not outrank the record.
 """
 
 from __future__ import annotations
@@ -22,8 +23,14 @@ from a2l.metadata import normalize_field
 from a2l.pipeline import PIPELINE_DIRNAME
 from a2l.release_record import load_or_create_release_record
 from a2l.song_intelligence_engines import ENGINE_CATALOG, default_runners
+from a2l.song_intelligence_record import (
+    RECORD_TYPE,
+    display_payload_from_sir,
+    load_sir,
+    persist_sir_from_run,
+)
 
-PRODUCER_ACI = "ACI-A2L-SI-011"
+PRODUCER_ACI = "ACI-A2L-SI-012"
 AGGREGATION_KIND = "TEMPORARY_UI_AGGREGATION"
 UI_DIRNAME = "song_intelligence_ui"
 AGGREGATION_FILENAME = "ui_aggregation.json"
@@ -34,6 +41,7 @@ STATUS_COMPLETE = "Complete"
 STATUS_PARTIAL = "Partial"
 STATUS_UNAVAILABLE = "Unavailable"
 STATUS_FAILED = "Failed"
+STATUS_NOT_RUN = "Not run"
 
 CAPABILITIES = {
     "full_song_intelligence": {
@@ -157,17 +165,19 @@ def public_payload(record: dict | None) -> dict:
             "available": False,
             "busy": False,
             "status": "Choose a song, then analyze.",
-            "kind": AGGREGATION_KIND,
+            "kind": RECORD_TYPE,
             "song_intelligence_record": False,
         }
-    return {
+    if record.get("record_type") == RECORD_TYPE:
+        return display_payload_from_sir(record)
+    aggregation = {
         "ok": True,
         "available": True,
         "busy": record.get("status") == STATUS_RUNNING,
         "kind": record.get("kind") or AGGREGATION_KIND,
         "song_intelligence_record": False,
         "usable_as_song_facts": False,
-        "producer_aci": PRODUCER_ACI,
+        "producer_aci": record.get("producer_aci") or PRODUCER_ACI,
         "status": record.get("status"),
         "current_engine": record.get("current_engine"),
         "capability": record.get("capability"),
@@ -181,7 +191,9 @@ def public_payload(record: dict | None) -> dict:
         "peak_memory_bytes": record.get("peak_memory_bytes"),
         "master_hash_unchanged": record.get("master_hash_unchanged"),
         "notes": record.get("notes") or [],
+        "governed_record_ref": record.get("governed_record_ref"),
     }
+    return aggregation
 
 
 def load_song_context(ingest_job_id: str, artifact_root: Path) -> dict:
@@ -277,6 +289,7 @@ def empty_run(capability: str, engines: list[str], song: dict) -> dict:
         "usable_as_song_facts": False,
         "song_intelligence_record": False,
         "producer_aci": PRODUCER_ACI,
+        "ingest_job_id": song.get("ingest_job_id"),
         "status": STATUS_WAITING,
         "current_engine": None,
         "capability": capability,
@@ -291,8 +304,8 @@ def empty_run(capability: str, engines: list[str], song: dict) -> dict:
         },
         "error": "",
         "notes": [
-            "This display is a temporary derived aggregation for the product UI.",
-            "It is not the governed Song Intelligence Record.",
+            "This display is a temporary derived aggregation while analysis is running.",
+            "After analysis completes, the governed Song Intelligence Record is the combined data source.",
             "Machine-derived values are not human-approved.",
         ],
         "started_at": None,
@@ -377,11 +390,24 @@ def _field(
     }
 
 
-def persist_run(song: dict, record: dict) -> Path:
+def persist_run(song: dict, record: dict, sir: dict | None = None) -> Path:
     ui_dir = song["ui_dir"]
     ui_dir.mkdir(parents=True, exist_ok=True)
     path = ui_dir / AGGREGATION_FILENAME
-    path.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    aggregation = json.loads(json.dumps(record))
+    aggregation["kind"] = AGGREGATION_KIND
+    aggregation["song_intelligence_record"] = False
+    aggregation["usable_as_song_facts"] = False
+    aggregation["outranks_sir"] = False
+    if sir:
+        aggregation["governed_record_ref"] = f"ingest/{song['ingest_job_id']}/song_intelligence_record.json"
+        aggregation["governed_revision"] = sir.get("revision")
+        aggregation["notes"] = [
+            "This file is a derived UI cache.",
+            "It does not outrank the governed Song Intelligence Record.",
+            f"Governed record: ingest/{song['ingest_job_id']}/song_intelligence_record.json",
+        ]
+    path.write_text(json.dumps(aggregation, indent=2) + "\n", encoding="utf-8")
     return path
 
 
@@ -423,6 +449,8 @@ def run_analysis(
         status = result.get("status") or STATUS_FAILED
         record["modules"][index]["status"] = status
         record["modules"][index]["message"] = result.get("message") or ""
+        record["modules"][index]["result_origin"] = result.get("result_origin") or "GENERATED"
+        record["modules"][index]["source_artifact_ref"] = result.get("source_artifact_ref")
         record["fields"].extend(result.get("fields") or [])
         peak_memory = _max_memory(peak_memory, _working_set_bytes())
         _emit(on_update, record)
@@ -434,9 +462,12 @@ def run_analysis(
     record["peak_memory_bytes"] = peak_memory
     record["master_hash_unchanged"] = bool(source_before and source_before == source_after)
     record["status"] = _overall_status(record["modules"])
-    persist_run(song, record)
-    _emit(on_update, record)
-    return record
+    sir = persist_sir_from_run(song, record)
+    persist_run(song, record, sir=sir)
+    display = display_payload_from_sir(sir)
+    display["busy"] = False
+    _emit(on_update, display)
+    return display
 
 
 def _overall_status(modules: list[dict]) -> str:
@@ -506,13 +537,31 @@ class SongIntelligenceController:
         self.record: dict | None = None
         self.error = ""
 
-    def snapshot(self) -> dict:
+    def snapshot(self, ingest_job_id: str | None = None) -> dict:
         with self.lock:
             record = json.loads(json.dumps(self.record)) if self.record else None
             busy = self.busy
             error = self.error
+        if busy:
+            payload = public_payload(record)
+            payload["busy"] = True
+            if error and not payload.get("error"):
+                payload["error"] = error
+            return payload
+        job = ingest_job_id or (record or {}).get("ingest_job_id")
+        if job:
+            try:
+                stored = load_sir(job, artifact_root=self.artifact_root)
+            except SongIntelligenceError:
+                stored = None
+            if stored:
+                payload = display_payload_from_sir(stored)
+                payload["busy"] = False
+                if error and not payload.get("error"):
+                    payload["error"] = error
+                return payload
         payload = public_payload(record)
-        payload["busy"] = busy
+        payload["busy"] = False
         if error and not payload.get("error"):
             payload["error"] = error
         return payload

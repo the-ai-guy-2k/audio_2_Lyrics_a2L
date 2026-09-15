@@ -444,7 +444,7 @@ class AppHandler(BaseHTTPRequestHandler):
             self._song_intelligence_catalog()
             return
         if parsed.path == "/api/song-intelligence":
-            self._song_intelligence_state()
+            self._song_intelligence_state(parsed)
             return
         if parsed.path == "/api/album-readiness":
             self._album_readiness(parsed)
@@ -604,8 +604,9 @@ class AppHandler(BaseHTTPRequestHandler):
     def _song_intelligence_catalog(self) -> None:
         self._send_json(200, catalog_payload(artifact_root=self.app.artifact_root))
 
-    def _song_intelligence_state(self) -> None:
-        self._send_json(200, self.app.song_intelligence.snapshot())
+    def _song_intelligence_state(self, parsed) -> None:
+        ingest_job_id = (parse_qs(parsed.query).get("ingest_job_id") or [""])[0]
+        self._send_json(200, self.app.song_intelligence.snapshot(ingest_job_id or None))
 
     def _start_song_intelligence(self, payload: dict) -> None:
         ingest_job_id = payload.get("ingest_job_id") or payload.get("id") or self.app.job_id

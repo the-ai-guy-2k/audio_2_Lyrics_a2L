@@ -1,7 +1,8 @@
 """Promoted Song Intelligence engine adapters for the product UI.
 
-Calls existing candidate analyze functions. Does not retune thresholds,
-repair instrumentation, or create a governed Song Intelligence Record.
+Calls existing candidate analyze functions. Does not retune thresholds
+or repair instrumentation. Results feed the governed Song Intelligence
+Record without changing analyzer behavior.
 """
 
 from __future__ import annotations
@@ -256,10 +257,21 @@ def run_lyric_intelligence(song: dict) -> dict:
         validation_state="PENDING HUMAN VALIDATION",
         note="Interpretive outputs remain machine-derived. Semantic validation is pending Jay.",
     )
+    measured = dict(
+        engine_id="lyric_intelligence",
+        engine_label=spec["label"],
+        engine_technical=spec["technical"],
+        authority="MEASURED",
+        status=STATUS_COMPLETE,
+        validation_state="",
+        note="Lexical counts from approved lyric text. Not semantic interpretation.",
+    )
     return {
         "status": STATUS_COMPLETE,
         "message": "",
         "fields": [
+            _field("token_count", "meaning", "Token count", analysis.get("token_count"), **measured),
+            _field("line_count", "meaning", "Line count", analysis.get("line_count"), **measured),
             _field("themes", "meaning", "Themes / subject phrases", themes or ["unavailable"], **shared),
             _field("subject_matter", "meaning", "Subject matter", subject, **shared),
             _field("emotional_character", "meaning", "Emotional character", emotion, **shared),
@@ -529,7 +541,9 @@ def run_panns_instrumentation(song: dict) -> dict:
                 note=(
                     "Partial. Low/weak evidence. Clipwise mean is the song-level score; "
                     "window max is not treated as a song-level WIN. "
-                    f"Analyzer assessment: {category}."
+                    f"Analyzer assessment: {category}. "
+                    "Known defect: docs/nebula/defects/DEF-A2L-SI-INSTRUMENTATION.md. "
+                    "Deferred to the bug-fix lane."
                 ),
             )
         ],

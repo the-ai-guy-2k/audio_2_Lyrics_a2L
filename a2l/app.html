@@ -297,7 +297,7 @@
     </section>
     <section id="screen-intelligence" class="hidden">
       <h2>Song Intelligence</h2>
-      <p class="note">One Song Intelligence view of selected analysis. These results are not a governed Song Intelligence Record and are not human-approved musical facts.</p>
+      <p class="note">One Song Intelligence view of the governed Song Intelligence Record. Analyzer values stay classified by authority. They are not automatically human-approved musical facts.</p>
       <p>
         <label for="si-song">Song</label><br>
         <select id="si-song">
@@ -1193,7 +1193,16 @@
       capSelect.value = capCurrent;
       renderEngineChoices();
       renderGroupChoices();
+      await loadSongIntelligence();
       await refreshSession();
+    }
+
+    async function loadSongIntelligence() {
+      const ingestJobId = $("si-song").value;
+      const path = ingestJobId ? "/api/song-intelligence?ingest_job_id=" + encodeURIComponent(ingestJobId) : "/api/song-intelligence";
+      const response = await fetch(path);
+      const payload = await response.json();
+      renderIntelligence(payload);
     }
 
     function selectedCapabilityEngines() {
@@ -1389,6 +1398,7 @@
     }
 
     $("si-capability").addEventListener("change", renderEngineChoices);
+    $("si-song").addEventListener("change", function () { loadSongIntelligence(); });
     $("analyze-song").addEventListener("click", async function () {
       $("si-error").textContent = "";
       const ingestJobId = $("si-song").value;

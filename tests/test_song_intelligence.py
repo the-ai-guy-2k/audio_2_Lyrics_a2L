@@ -30,6 +30,7 @@ from a2l.song_intelligence import (
     resolve_engines,
     run_analysis,
 )
+from a2l.song_intelligence_record import RECORD_TYPE, RUN_NOT_RUN
 from tests.test_review import _structured
 from tests.wav_fixtures import write_pcm_wav
 
@@ -261,19 +262,9 @@ def test_full_and_selective_analysis_and_provenance(tmp_path: Path, monkeypatch)
         )
         assert status == 200
         result = _wait_si(port)
-        assert result["song_intelligence_record"] is False
-        assert result["kind"] == AGGREGATION_KIND
+        assert result["song_intelligence_record"] is True
+        assert result["kind"] == RECORD_TYPE
         assert result["usable_as_song_facts"] is False
-        engine_ids = [item["id"] for item in result["modules"]]
-        assert engine_ids == [
-            "lyrics_workflow",
-            "rhythm_structure",
-            "key_mode",
-            "clap_audio",
-            "ast_genre",
-            "panns_instrumentation",
-            "lyric_intelligence",
-        ]
         fields = {item["id"]: item for item in result["fields"]}
         assert fields["approved_lyrics"]["authority"] == "AUTHORITATIVE"
         assert fields["key_mode"]["authority"] == "MACHINE-DERIVED"
@@ -283,6 +274,8 @@ def test_full_and_selective_analysis_and_provenance(tmp_path: Path, monkeypatch)
         assert fields["ast_genre"]["engine_id"] == "ast_genre"
         assert "PENDING HUMAN VALIDATION" in fields["key_mode"]["validation_state"]
         assert result["master_hash_unchanged"] is True
+        assert result["revision"] == 1
+        assert (ingest.artifact_dir / "song_intelligence_record.json").is_file()
         assert (ingest.artifact_dir / "authoritative_source" / "source.wav").read_bytes() == source_before
 
         status, data, _ = _request(
@@ -294,8 +287,12 @@ def test_full_and_selective_analysis_and_provenance(tmp_path: Path, monkeypatch)
         )
         assert status == 200
         selected = _wait_si(port)
-        assert [item["id"] for item in selected["modules"]] == ["key_mode"]
         assert selected["capability"] == "key_mode"
+        assert selected["engines_requested"] == ["key_mode"]
+        assert selected["revision"] == 2
+        module_ids = [item["id"] for item in selected["modules"]]
+        assert "key_mode" in module_ids
+        assert selected["kind"] == RECORD_TYPE
     finally:
         server.shutdown()
 
@@ -319,8 +316,9 @@ def test_advanced_engine_selection_and_lyrics_dependency(tmp_path: Path, monkeyp
         )
         assert status == 200
         result = _wait_si(port)
-        assert [item["id"] for item in result["modules"]] == ["ast_genre"]
-        assert result["fields"][-1]["value"] == "Grunge"
+        assert result["engines_requested"] == ["ast_genre"]
+        values = {item["id"]: item["value"] for item in result["fields"]}
+        assert values["ast_genre"] == "Grunge"
 
         status, data, _ = _request(
             port,
@@ -331,8 +329,9 @@ def test_advanced_engine_selection_and_lyrics_dependency(tmp_path: Path, monkeyp
         )
         assert status == 200
         missing = _wait_si(port)
-        assert missing["modules"][0]["status"] == STATUS_UNAVAILABLE
-        assert "Approved Lyrics Required" in missing["modules"][0]["message"]
+        by_id = {item["id"]: item for item in missing["modules"]}
+        assert by_id["lyric_intelligence"]["status"] == STATUS_UNAVAILABLE
+        assert "Approved Lyrics Required" in by_id["lyric_intelligence"]["message"]
     finally:
         server.shutdown()
 
@@ -351,7 +350,7 @@ def test_failure_isolation_keeps_successful_modules(tmp_path: Path, monkeypatch)
         )
         result = _wait_si(port)
         by_id = {item["id"]: item for item in result["modules"]}
-        assert by_id["clap_audio"]["status"] == STATUS_PARTIAL
+        assert by_id["clap_audio:vocal_characteristics"]["status"] == STATUS_PARTIAL
         assert by_id["ast_genre"]["status"] == STATUS_COMPLETE
         assert by_id["panns_instrumentation"]["status"] == STATUS_FAILED
         values = {item["id"]: item["value"] for item in result["fields"]}
@@ -369,17 +368,23 @@ def test_advanced_cannot_expand_beyond_capability() -> None:
 
 def test_aggregation_is_not_a_record(tmp_path: Path, monkeypatch) -> None:
     ingest = _ingest(tmp_path, monkeypatch)
-    record = run_analysis(
+    display = run_analysis(
         ingest.job_id,
         "rhythm_structure",
         None,
         tmp_path / "artifacts",
         runners=_fake_runners(),
     )
-    assert record["kind"] == AGGREGATION_KIND
-    assert record["song_intelligence_record"] is False
-    assert record["usable_as_song_facts"] is False
+    assert display["kind"] == RECORD_TYPE
+    assert display["song_intelligence_record"] is True
+    assert display["usable_as_song_facts"] is False
     stored = json.loads((ingest.artifact_dir / "song_intelligence_ui" / "ui_aggregation.json").read_text(encoding="utf-8"))
+    assert stored["kind"] == AGGREGATION_KIND
     assert stored["song_intelligence_record"] is False
+    assert stored["outranks_sir"] is False
+    sir = json.loads((ingest.artifact_dir / "song_intelligence_record.json").read_text(encoding="utf-8"))
+    assert sir["record_type"] == RECORD_TYPE
+    assert sir["rhythm_structure"]["run_state"] != RUN_NOT_RUN
+    assert sir["key_mode"]["run_state"] == RUN_NOT_RUN
     catalog = catalog_payload(tmp_path / "artifacts")
     assert catalog["songs"][0]["song_title"] == "Stomp To"
