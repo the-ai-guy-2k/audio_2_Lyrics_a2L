@@ -1,0 +1,608 @@
+{
+  "candidate": "ACI-A2L-SI-007",
+  "authority": {
+    "master_wav": "AUTHORITATIVE INPUT",
+    "clap_rankings": "MACHINE-DERIVED",
+    "instrumentation": "MACHINE-DERIVED",
+    "genre_style": "MACHINE-DERIVED",
+    "vocal_character": "MACHINE-DERIVED",
+    "acoustic_electronic": "MACHINE-DERIVED",
+    "energy_measurements": "MEASURED",
+    "energy_label": "MACHINE-DERIVED"
+  },
+  "usable_as_song_facts": false,
+  "song_intelligence_record_created": false,
+  "chords_estimated": false,
+  "lyric_intelligence": false,
+  "engine": "transformers ClapModel",
+  "checkpoint": "laion/larger_clap_music",
+  "checkpoint_revision": "a0b4534a14f58e20944452dff00a22a06ce629d1",
+  "model_source": "https://huggingface.co/laion/larger_clap_music/tree/a0b4534a14f58e20944452dff00a22a06ce629d1",
+  "method": "mean-pooled 10s CLAP audio embeddings ranked against bounded text vocabularies; text vectors use EOS-token projection (LAION convention); energy from RMS and onset density",
+  "license": "apache-2.0",
+  "score_kind": "cosine_similarity is the ranking score; softmax_within_category is a within-list softmax of CLAP logits and is not a calibrated probability",
+  "prompt_templates": {
+    "instrumentation": "a song featuring {label}",
+    "genre_style": "{label} music",
+    "vocal_character": "a song with {label}",
+    "acoustic_electronic": "{label} music"
+  },
+  "vocabularies": {
+    "instrumentation": [
+      "electric guitar",
+      "acoustic guitar",
+      "bass guitar",
+      "drums",
+      "percussion",
+      "piano",
+      "keyboard",
+      "organ",
+      "fiddle",
+      "violin",
+      "banjo",
+      "harmonica",
+      "synthesizer"
+    ],
+    "genre_style": [
+      "country",
+      "country rock",
+      "southern rock",
+      "rock",
+      "blues",
+      "funk",
+      "pop",
+      "americana",
+      "roots rock"
+    ],
+    "vocal_character": [
+      "vocals present",
+      "predominantly instrumental",
+      "male lead vocal",
+      "female lead vocal",
+      "prominent lead vocal",
+      "backing vocals"
+    ],
+    "acoustic_electronic": [
+      "predominantly acoustic",
+      "mixed acoustic/electric",
+      "predominantly electric",
+      "electronic/synth-heavy"
+    ]
+  },
+  "gpu_required": false,
+  "cloud_required": false,
+  "device": "cpu",
+  "source_path": "C:\\Users\\tim\\Desktop\\Jays_stuff\\2026_album\\Masters - 24bit_48hz\\Masters  - 24bit_48hz\\01Stomp to MIX MSTR 24bit_48hz.wav",
+  "source_sha256_before": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "source_sha256_after": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "ingest_source_sha256_before": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "ingest_source_sha256_after": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "analysis_seconds": 16.949163100001897,
+  "package_versions": {
+    "transformers": "4.44.2",
+    "torch": "2.14.0+cpu",
+    "librosa": "1.0.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "soundfile": "0.14.0",
+    "huggingface_hub": "0.36.2"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "python_executable": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\.venv-clap\\Scripts\\python.exe",
+    "cpu": "Intel64 Family 6 Model 140 Stepping 2, GenuineIntel",
+    "machine": "AMD64",
+    "torch": "2.14.0+cpu",
+    "torch_cuda_available": false,
+    "device": "cpu",
+    "notes": "Audio Intelligence is forced to CPU. GPU may exist but is not required. No cloud inference is used."
+  },
+  "venv_bytes": 1175776203,
+  "cache_bytes_after": 1557087032,
+  "checkpoint_snapshot_bytes": 1556261854,
+  "checkpoint_state": {
+    "expected_bytes": 776444665,
+    "expected_sha256": "5c289311f4a030d768af7ffbfdecd01b008aa64824211899a4e59f4f9d154fd1",
+    "blob_bytes": 776444665,
+    "snapshot_bytes_before": 776444665,
+    "action": "snapshot_complete",
+    "local_files_only": true
+  },
+  "memory": {
+    "samples": 33,
+    "sampled_peak_working_set_bytes": 1112551424,
+    "os_peak_working_set_bytes": 1112588288,
+    "final_working_set_bytes": 398008320,
+    "peak_working_set_bytes": 1112588288,
+    "peak_working_set_mb": 1061.0,
+    "sampler": "GetProcessMemoryInfo"
+  },
+  "errors": [],
+  "audio_intelligence": {
+    "license": "apache-2.0",
+    "checkpoint_state": {
+      "expected_bytes": 776444665,
+      "expected_sha256": "5c289311f4a030d768af7ffbfdecd01b008aa64824211899a4e59f4f9d154fd1",
+      "blob_bytes": 776444665,
+      "snapshot_bytes_before": 776444665,
+      "action": "snapshot_complete",
+      "local_files_only": true
+    },
+    "cache_bytes_after": 1557087032,
+    "checkpoint_snapshot_bytes": 1556261854,
+    "logit_scale": 1.027732253074646,
+    "chunk_count": 21,
+    "chunk_ranges": [
+      {
+        "start": 0,
+        "end": 480000
+      },
+      {
+        "start": 480000,
+        "end": 960000
+      },
+      {
+        "start": 960000,
+        "end": 1440000
+      },
+      {
+        "start": 1440000,
+        "end": 1920000
+      },
+      {
+        "start": 1920000,
+        "end": 2400000
+      },
+      {
+        "start": 2400000,
+        "end": 2880000
+      },
+      {
+        "start": 2880000,
+        "end": 3360000
+      },
+      {
+        "start": 3360000,
+        "end": 3840000
+      },
+      {
+        "start": 3840000,
+        "end": 4320000
+      },
+      {
+        "start": 4320000,
+        "end": 4800000
+      },
+      {
+        "start": 4800000,
+        "end": 5280000
+      },
+      {
+        "start": 5280000,
+        "end": 5760000
+      },
+      {
+        "start": 5760000,
+        "end": 6240000
+      },
+      {
+        "start": 6240000,
+        "end": 6720000
+      },
+      {
+        "start": 6720000,
+        "end": 7200000
+      },
+      {
+        "start": 7200000,
+        "end": 7680000
+      },
+      {
+        "start": 7680000,
+        "end": 8160000
+      },
+      {
+        "start": 8160000,
+        "end": 8640000
+      },
+      {
+        "start": 8640000,
+        "end": 9120000
+      },
+      {
+        "start": 9120000,
+        "end": 9600000
+      },
+      {
+        "start": 9600000,
+        "end": 9941818
+      }
+    ],
+    "sample_rate": 48000,
+    "duration_seconds": 207.12120833333333,
+    "rankings": {
+      "instrumentation": [
+        {
+          "label": "drums",
+          "display": "Drums",
+          "prompt": "a song featuring drums",
+          "cosine_similarity": 0.04111470100533156,
+          "clap_logit": 0.04225490429869982,
+          "softmax_within_category": 0.07963190843536772,
+          "score": 0.04111470100533156,
+          "score_kind": "cosine_similarity",
+          "rank": 1
+        },
+        {
+          "label": "piano",
+          "display": "Piano",
+          "prompt": "a song featuring piano",
+          "cosine_similarity": 0.04082308405677593,
+          "clap_logit": 0.04195520015512598,
+          "softmax_within_category": 0.07960804599846316,
+          "score": 0.04082308405677593,
+          "score_kind": "cosine_similarity",
+          "rank": 2
+        },
+        {
+          "label": "percussion",
+          "display": "Percussion",
+          "prompt": "a song featuring percussion",
+          "cosine_similarity": 0.040802233654561315,
+          "clap_logit": 0.04193377152428045,
+          "softmax_within_category": 0.07960634012531045,
+          "score": 0.040802233654561315,
+          "score_kind": "cosine_similarity",
+          "rank": 3
+        },
+        {
+          "label": "violin",
+          "display": "Violin",
+          "prompt": "a song featuring violin",
+          "cosine_similarity": 0.04061405989580714,
+          "clap_logit": 0.04174037928322649,
+          "softmax_within_category": 0.07959094636535637,
+          "score": 0.04061405989580714,
+          "score_kind": "cosine_similarity",
+          "rank": 4
+        },
+        {
+          "label": "keyboard",
+          "display": "Keyboard",
+          "prompt": "a song featuring keyboard",
+          "cosine_similarity": 0.040595541375530106,
+          "clap_logit": 0.04172134720265857,
+          "softmax_within_category": 0.07958943159846729,
+          "score": 0.040595541375530106,
+          "score_kind": "cosine_similarity",
+          "rank": 5
+        },
+        {
+          "label": "organ",
+          "display": "Organ",
+          "prompt": "a song featuring organ",
+          "cosine_similarity": 0.04012275909387129,
+          "clap_logit": 0.04123545360311558,
+          "softmax_within_category": 0.07955076899677835,
+          "score": 0.04012275909387129,
+          "score_kind": "cosine_similarity",
+          "rank": 6
+        },
+        {
+          "label": "synthesizer",
+          "display": "Synthesizer",
+          "prompt": "a song featuring synthesizer",
+          "cosine_similarity": -0.020885229119170456,
+          "clap_logit": -0.02146442357862526,
+          "softmax_within_category": 0.07471609601714162,
+          "score": -0.020885229119170456,
+          "score_kind": "cosine_similarity",
+          "rank": 7
+        },
+        {
+          "label": "banjo",
+          "display": "Banjo",
+          "prompt": "a song featuring banjo",
+          "cosine_similarity": -0.021104807587397093,
+          "clap_logit": -0.0216900914525025,
+          "softmax_within_category": 0.07469923689696148,
+          "score": -0.021104807587397093,
+          "score_kind": "cosine_similarity",
+          "rank": 8
+        },
+        {
+          "label": "bass guitar",
+          "display": "Bass Guitar",
+          "prompt": "a song featuring bass guitar",
+          "cosine_similarity": -0.02150108947468123,
+          "clap_logit": -0.022097363129373698,
+          "softmax_within_category": 0.07466882020783788,
+          "score": -0.02150108947468123,
+          "score_kind": "cosine_similarity",
+          "rank": 9
+        },
+        {
+          "label": "electric guitar",
+          "display": "Electric Guitar",
+          "prompt": "a song featuring electric guitar",
+          "cosine_similarity": -0.021655662323543632,
+          "clap_logit": -0.02225622263159922,
+          "softmax_within_category": 0.07465695929836193,
+          "score": -0.021655662323543632,
+          "score_kind": "cosine_similarity",
+          "rank": 10
+        },
+        {
+          "label": "acoustic guitar",
+          "display": "Acoustic Guitar",
+          "prompt": "a song featuring acoustic guitar",
+          "cosine_similarity": -0.021662944093059237,
+          "clap_logit": -0.022263706340989863,
+          "softmax_within_category": 0.07465640058946517,
+          "score": -0.021662944093059237,
+          "score_kind": "cosine_similarity",
+          "rank": 11
+        },
+        {
+          "label": "fiddle",
+          "display": "Fiddle",
+          "prompt": "a song featuring fiddle",
+          "cosine_similarity": -0.02267542591733702,
+          "clap_logit": -0.023304266567452,
+          "softmax_within_category": 0.0745787565120362,
+          "score": -0.02267542591733702,
+          "score_kind": "cosine_similarity",
+          "rank": 12
+        },
+        {
+          "label": "harmonica",
+          "display": "Harmonica",
+          "prompt": "a song featuring harmonica",
+          "cosine_similarity": -0.02440524377717599,
+          "clap_logit": -0.025082056173953066,
+          "softmax_within_category": 0.07444628895845234,
+          "score": -0.02440524377717599,
+          "score_kind": "cosine_similarity",
+          "rank": 13
+        }
+      ],
+      "genre_style": [
+        {
+          "label": "pop",
+          "display": "Pop",
+          "prompt": "pop music",
+          "cosine_similarity": 0.04560281769270141,
+          "clap_logit": 0.046867486573872345,
+          "softmax_within_category": 0.11319295114894797,
+          "score": 0.04560281769270141,
+          "score_kind": "cosine_similarity",
+          "rank": 1
+        },
+        {
+          "label": "country",
+          "display": "Country",
+          "prompt": "country music",
+          "cosine_similarity": 0.04515621646015302,
+          "clap_logit": 0.046408500082919475,
+          "softmax_within_category": 0.11314100903477574,
+          "score": 0.04515621646015302,
+          "score_kind": "cosine_similarity",
+          "rank": 2
+        },
+        {
+          "label": "rock",
+          "display": "Rock",
+          "prompt": "rock music",
+          "cosine_similarity": 0.04405406901007466,
+          "clap_logit": 0.04527578760082997,
+          "softmax_within_category": 0.11301292535629122,
+          "score": 0.04405406901007466,
+          "score_kind": "cosine_similarity",
+          "rank": 3
+        },
+        {
+          "label": "americana",
+          "display": "Americana",
+          "prompt": "americana music",
+          "cosine_similarity": 0.04053513761351828,
+          "clap_logit": 0.04165926830823197,
+          "softmax_within_category": 0.1126049501012837,
+          "score": 0.04053513761351828,
+          "score_kind": "cosine_similarity",
+          "rank": 4
+        },
+        {
+          "label": "southern rock",
+          "display": "Southern Rock",
+          "prompt": "southern rock music",
+          "cosine_similarity": 0.03980204699841421,
+          "clap_logit": 0.04090584743866319,
+          "softmax_within_category": 0.11252014313354201,
+          "score": 0.03980204699841421,
+          "score_kind": "cosine_similarity",
+          "rank": 5
+        },
+        {
+          "label": "country rock",
+          "display": "Country Rock",
+          "prompt": "country rock music",
+          "cosine_similarity": 0.009204649376828187,
+          "clap_logit": 0.009459915042809769,
+          "softmax_within_category": 0.10903689631965892,
+          "score": 0.009204649376828187,
+          "score_kind": "cosine_similarity",
+          "rank": 6
+        },
+        {
+          "label": "roots rock",
+          "display": "Roots Rock",
+          "prompt": "roots rock music",
+          "cosine_similarity": 0.007942708696425507,
+          "clap_logit": 0.00816297790409297,
+          "softmax_within_category": 0.10889557398223473,
+          "score": 0.007942708696425507,
+          "score_kind": "cosine_similarity",
+          "rank": 7
+        },
+        {
+          "label": "funk",
+          "display": "Funk",
+          "prompt": "funk music",
+          "cosine_similarity": 0.007656218362763882,
+          "clap_logit": 0.007868542547994802,
+          "softmax_within_category": 0.10886351599486582,
+          "score": 0.007656218362763882,
+          "score_kind": "cosine_similarity",
+          "rank": 8
+        },
+        {
+          "label": "blues",
+          "display": "Blues",
+          "prompt": "blues music",
+          "cosine_similarity": 0.0064803376439901295,
+          "clap_logit": 0.006660052007542419,
+          "softmax_within_category": 0.10873203492839996,
+          "score": 0.0064803376439901295,
+          "score_kind": "cosine_similarity",
+          "rank": 9
+        }
+      ],
+      "vocal_character": [
+        {
+          "label": "female lead vocal",
+          "display": "Female Lead Vocal",
+          "prompt": "a song with female lead vocal",
+          "cosine_similarity": 0.020983567363439655,
+          "clap_logit": 0.021565488963971445,
+          "softmax_within_category": 0.17043659912827375,
+          "score": 0.020983567363439655,
+          "score_kind": "cosine_similarity",
+          "rank": 1
+        },
+        {
+          "label": "male lead vocal",
+          "display": "Male Lead Vocal",
+          "prompt": "a song with male lead vocal",
+          "cosine_similarity": 0.020358425502011935,
+          "clap_logit": 0.020923010510235058,
+          "softmax_within_category": 0.17032713245436087,
+          "score": 0.020358425502011935,
+          "score_kind": "cosine_similarity",
+          "rank": 2
+        },
+        {
+          "label": "prominent lead vocal",
+          "display": "Prominent Lead Vocal",
+          "prompt": "a song with prominent lead vocal",
+          "cosine_similarity": 0.019498348784464693,
+          "clap_logit": 0.020039081927493183,
+          "softmax_within_category": 0.17017664195479357,
+          "score": 0.019498348784464693,
+          "score_kind": "cosine_similarity",
+          "rank": 3
+        },
+        {
+          "label": "predominantly instrumental",
+          "display": "Predominantly Instrumental",
+          "prompt": "a song with predominantly instrumental",
+          "cosine_similarity": -0.02117419858534146,
+          "clap_logit": -0.02176140681916296,
+          "softmax_within_category": 0.16320979827312082,
+          "score": -0.02117419858534146,
+          "score_kind": "cosine_similarity",
+          "rank": 4
+        },
+        {
+          "label": "vocals present",
+          "display": "Vocals Present",
+          "prompt": "a song with vocals present",
+          "cosine_similarity": -0.022812555045816797,
+          "clap_logit": -0.02344519859562668,
+          "softmax_within_category": 0.16293521818966658,
+          "score": -0.022812555045816797,
+          "score_kind": "cosine_similarity",
+          "rank": 5
+        },
+        {
+          "label": "backing vocals",
+          "display": "Backing Vocals",
+          "prompt": "a song with backing vocals",
+          "cosine_similarity": -0.02293563075900172,
+          "clap_logit": -0.023571687475636992,
+          "softmax_within_category": 0.16291460999978444,
+          "score": -0.02293563075900172,
+          "score_kind": "cosine_similarity",
+          "rank": 6
+        }
+      ],
+      "acoustic_electronic": [
+        {
+          "label": "mixed acoustic/electric",
+          "display": "Mixed Acoustic/electric",
+          "prompt": "mixed acoustic/electric music",
+          "cosine_similarity": 0.0186767897361546,
+          "clap_logit": 0.01919473919573959,
+          "softmax_within_category": 0.2571246607750889,
+          "score": 0.0186767897361546,
+          "score_kind": "cosine_similarity",
+          "rank": 1
+        },
+        {
+          "label": "electronic/synth-heavy",
+          "display": "Electronic/synth-heavy",
+          "prompt": "electronic/synth-heavy music",
+          "cosine_similarity": -0.010487763683192026,
+          "clap_logit": -0.010778612999841388,
+          "softmax_within_category": 0.2495321280091075,
+          "score": -0.010487763683192026,
+          "score_kind": "cosine_similarity",
+          "rank": 2
+        },
+        {
+          "label": "predominantly acoustic",
+          "display": "Predominantly Acoustic",
+          "prompt": "predominantly acoustic music",
+          "cosine_similarity": -0.02165643156301207,
+          "clap_logit": -0.022257013203811273,
+          "softmax_within_category": 0.24668427405165957,
+          "score": -0.02165643156301207,
+          "score_kind": "cosine_similarity",
+          "rank": 3
+        },
+        {
+          "label": "predominantly electric",
+          "display": "Predominantly Electric",
+          "prompt": "predominantly electric music",
+          "cosine_similarity": -0.021756374962371695,
+          "clap_logit": -0.02235972825881508,
+          "softmax_within_category": 0.24665893716414397,
+          "score": -0.021756374962371695,
+          "score_kind": "cosine_similarity",
+          "rank": 4
+        }
+      ]
+    },
+    "energy": {
+      "authority_measured": {
+        "rms_mean": 0.23789680004119873,
+        "rms_peak": 0.4968408942222595,
+        "onset_count": 1047,
+        "onset_density_per_second": 5.055011065380597,
+        "duration_seconds": 207.12120833333333,
+        "sample_rate": 48000
+      },
+      "authority_machine_derived": {
+        "energy_label": "HIGH ENERGY",
+        "rule": "HIGH ENERGY if rms_mean>=0.15; MEDIUM ENERGY if rms_mean>=0.08; else LOW ENERGY. Not a loudness or mastering/QC judgment."
+      }
+    },
+    "score_kind": "cosine_similarity is the ranking score; softmax_within_category is a within-list softmax of CLAP logits and is not a calibrated probability"
+  },
+  "cache": {
+    "cache_root": "C:\\Users\\tim\\.cache\\a2l-clap",
+    "hf_home": "C:\\Users\\tim\\.cache\\a2l-clap\\huggingface",
+    "torch_home": "C:\\Users\\tim\\.cache\\a2l-clap\\torch",
+    "bytes_before": 1557087032
+  }
+}

@@ -1,0 +1,16 @@
+# Isolated ACI-A2L-SI-009 sidecar.
+# Reuses the SI-007 .venv-clap environment (same CPU torch/transformers).
+# Do not install into the main A2L Python 3.14 environment.
+# Do not duplicate a second ~1 GB torch install unless .venv-clap is absent.
+#
+# If creating a dedicated sidecar:
+#   py -3.12 -m venv .venv-ast
+#   python -m pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   python -m pip install -r requirements-ast.txt
+torch==2.14.0
+transformers==4.44.2
+librosa==1.0.0
+numpy==2.5.3
+soundfile==0.14.0
+huggingface_hub==0.36.2
+tokenizers==0.19.1

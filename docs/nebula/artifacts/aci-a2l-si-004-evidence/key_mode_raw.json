@@ -1,0 +1,100 @@
+{
+  "candidate": "ACI-A2L-SI-004",
+  "authority": "MACHINE-DERIVED",
+  "usable_as_song_facts": false,
+  "song_intelligence_record_created": false,
+  "chords_estimated": false,
+  "engine": "librosa chroma_cqt + Krumhansl-Schmuckler",
+  "method": "chroma_cqt mean vector correlated with Krumhansl-Kessler major/minor profiles",
+  "license": "librosa ISC; numpy/scipy BSD; Krumhansl-Kessler profiles from published literature",
+  "rejected_candidates": [
+    "Essentia KeyExtractor \u2014 AGPL / NC model concern",
+    "madmom neural key recognition \u2014 NC pretrained weights"
+  ],
+  "gpu_required": false,
+  "cloud_required": false,
+  "device": "cpu",
+  "source_path": "C:\\Users\\tim\\Desktop\\Jays_stuff\\2026_album\\Masters - 24bit_48hz\\Masters  - 24bit_48hz\\01Stomp to MIX MSTR 24bit_48hz.wav",
+  "source_sha256_before": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "source_sha256_after": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "ingest_source_sha256_before": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "ingest_source_sha256_after": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "analysis_seconds": 26.024705800000447,
+  "package_versions": {
+    "librosa": "1.0.0",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "soundfile": "0.14.0"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "python_executable": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\.venv-key-mode\\Scripts\\python.exe",
+    "cpu": "Intel64 Family 6 Model 140 Stepping 2, GenuineIntel",
+    "machine": "AMD64",
+    "device": "cpu",
+    "notes": "Key + Mode analysis is CPU-only. No neural key model is downloaded."
+  },
+  "venv_bytes": 413116929,
+  "memory": {
+    "samples": 50,
+    "sampled_peak_working_set_bytes": 817750016,
+    "os_peak_working_set_bytes": 839565312,
+    "final_working_set_bytes": 247033856,
+    "peak_working_set_bytes": 839565312,
+    "peak_working_set_mb": 800.7,
+    "sampler": "GetProcessMemoryInfo"
+  },
+  "errors": [],
+  "key_mode": {
+    "key": "A",
+    "mode": "major",
+    "score": 0.7640792482309879,
+    "confidence": 0.03561118190641567,
+    "margin_over_runner_up": 0.04673553877196257,
+    "alternates": [
+      {
+        "key": "A",
+        "mode": "major",
+        "score": 0.7640792482309879
+      },
+      {
+        "key": "D",
+        "mode": "major",
+        "score": 0.7173437094590254
+      },
+      {
+        "key": "A",
+        "mode": "minor",
+        "score": 0.5501841296045424
+      },
+      {
+        "key": "F#",
+        "mode": "minor",
+        "score": 0.5189350544549824
+      },
+      {
+        "key": "E",
+        "mode": "major",
+        "score": 0.33755372720917826
+      }
+    ],
+    "chroma_mean": [
+      0.43717843294143677,
+      0.44787365198135376,
+      0.5948191285133362,
+      0.4190254509449005,
+      0.5550061464309692,
+      0.3746136724948883,
+      0.54132479429245,
+      0.5359287858009338,
+      0.5551959276199341,
+      0.8339365124702454,
+      0.48245105147361755,
+      0.5221889019012451
+    ],
+    "sample_rate": 48000,
+    "duration_seconds": 207.12120833333333,
+    "chroma_frames": 19418
+  }
+}

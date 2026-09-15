@@ -1,0 +1,35 @@
+MACHINE-DERIVED RHYTHM + STRUCTURE
+ACI-A2L-SI-002
+NOT AUTHORITATIVE SONG FACTS
+NOT A SONG INTELLIGENCE RECORD
+Do not write these values into approved lyrics or release authority.
+
+engine: all-in-one-infer
+engine_version: 3.1.0
+model: harmonix-all
+device: cpu
+analysis_path: mix-as-stems
+source_separation_invoked: False
+source_sha256: bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be
+
+INPUT MAPPING:
+Finished master mix presented as bass/drums/other/vocals without HTDemucs.
+Harmonix was trained on separated stems. This mapping is mix-first, not the official mixed-audio pipeline.
+working_copy: The locked master is 24-bit PCM. madmom-infer/scipy wavfile mmap cannot read 3-byte samples. This working copy is 32-bit PCM at the same sample rate and channel count. The authoritative source was not modified.
+
+BPM: 98
+BEATS: 298
+DOWNBEATS: 74
+
+STRUCTURE:
+00:00–00:02 start
+00:02–00:19 chorus
+00:19–00:36 verse
+00:36–01:10 chorus
+01:10–01:30 chorus
+01:30–01:54 chorus
+01:54–02:23 chorus
+02:23–02:42 chorus
+02:42–02:57 chorus
+02:57–03:20 chorus
+03:20–03:27 end

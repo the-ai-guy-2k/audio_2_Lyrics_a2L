@@ -1,0 +1,47 @@
+MACHINE-DERIVED LYRIC INTELLIGENCE
+ACI-A2L-SI-006
+APPROVED LYRICS ARE AUTHORITATIVE INPUT
+THIS ANALYSIS IS NOT AUTHORITATIVE SONG FACTS
+NOT A SONG INTELLIGENCE RECORD
+Audio was not transcribed.
+
+engine: in-repo deterministic lyric NLP
+method: stdlib tokenization, line-bounded repeated n-gram ranking, content-word frequency, and bounded lexical emotion overlap on approved lyric text
+license: original A2L spike code; no third-party model weights
+approved_source: C:\Users\tim\Documents\business_related\The_AI_Guy\nebula\2 - TAIG2K_SOFTWARE\audio_2_lyrics_a2l\artifacts\ingest\bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be\a2l_pipeline\approved_lyrics\approved_lyrics.txt
+approved_revision: 2
+approved_text_sha256: b44a58d6e86fcf77815f9e5e17e69a0b666651b5d70b6dc61f77f93c85f1a361
+
+THEMES:
+1. hook us with that old school funk  (count=4)
+2. none of that slow down ballad stuff  (count=4)
+3. play something we can stomp to  (count=6)
+4. these seats and move  (count=4)
+5. we came here to dance and get a  (count=3)
+6. came here to dance and get a little  (count=3)
+
+KEYWORDS / CONCEPTS:
+1. play  (count=9)
+2. stomp  (count=8)
+3. down  (count=5)
+4. groove  (count=4)
+5. butts  (count=4)
+6. seats  (count=4)
+7. move  (count=4)
+8. hook  (count=4)
+9. old  (count=4)
+10. school  (count=4)
+11. funk  (count=4)
+12. slow  (count=4)
+
+EMOTIONAL CHARACTER:
+energetic
+
+SUBJECT MATTER:
+Mr. Guitar Man; hook us with that old school funk; none of that slow down ballad stuff; play something we can stomp to
+
+SONG SYNOPSIS:
+The approved lyrics open by addressing 'Mr. Guitar Man'. A repeated lyric phrase is 'hook us with that old school funk'. The same lyric body also includes: old school funk; not slow down ballad stuff; work week blues; dance and get a little footloose.
+
+METHOD:
+stdlib tokenization, line-bounded repeated n-gram ranking, content-word frequency, and bounded lexical emotion overlap on approved lyric text
