@@ -72,8 +72,8 @@ Audio Intelligence composition preserved: Energy WIN (CLAP + measurement), Acous
 | --- | --- |
 | Merge strategy | `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-001` |
 | Promotion merge | `dd4faf5d8f0e434f75995970bf568558840f90a7` |
-| Docs commits | `f0e2812`, `ce838f5`, `6ded20f` |
-| `deployable` after | `6ded20f08d01d084fbad8b67d43cecb024394ece` |
+| Docs commits | `f0e2812`, `ce838f5`, `6ded20f`, `7bc2812` |
+| `deployable` after | `7bc2812e90f97817bb712d748c8ba44a6bafcd6f` |
 | `main` after | fast-forward to the same commit (no unique `main` history) |
 | Cloud deploy | not performed |
 
