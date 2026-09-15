@@ -24,7 +24,7 @@ NVIDIA Parakeet / TDT-0.6B-V2 is an **alternate** engine in a separate `.venv-pa
 
 ## Workflow
 
-Upload → optional Song title / Artist → Extract lyrics → Review / correct → Approve → Output → Release record → Album manifest → Release Readiness → Release package export
+Upload → optional Song title / Artist → Extract lyrics → Review / correct → Approve → Output → Release record → Album manifest → Release Readiness → Release package export → Song Intelligence
 
 - Upload uses existing WAV ingest. The original recording is not modified.
 - Song title and artist are optional. The file name is not used as the title. Missing values are not invented.
@@ -36,5 +36,6 @@ Upload → optional Song title / Artist → Extract lyrics → Review / correct 
 - **Album** aggregates existing Song Release Records into one Operator-ordered album view. Missing per-song fields stay visible. See [ALBUM_RELEASE_MANIFEST.md](ALBUM_RELEASE_MANIFEST.md).
 - **Release Readiness** on Album reports A2L INTERNAL RELEASE READINESS (READY or INCOMPLETE). READY is internal completeness, not distributor or commercial release. See [ALBUM_RELEASE_READINESS.md](ALBUM_RELEASE_READINESS.md).
 - **Export release package** on Album writes a portable ZIP of current governed album/song artifacts. READY and INCOMPLETE albums may both export. Master audio is not copied. See [RELEASE_PACKAGE_EXPORT.md](RELEASE_PACKAGE_EXPORT.md).
+- **Song Intelligence** analyzes a governed song with Full Song Intelligence as the default. Advanced engine selection is optional. Results are a derived UI aggregation, not a governed Song Intelligence Record. See [SONG_INTELLIGENCE_UI.md](SONG_INTELLIGENCE_UI.md).
 
 Internal paths, SHAs, and engine details stay off the screen.

@@ -16,6 +16,7 @@ ACI-A2L-REL-001: song release record (Current Truth; not distribution).
 ACI-A2L-REL-002: album release manifest (organizes song records; membership/order).
 ACI-A2L-REL-003: album release readiness (A2L INTERNAL READY/INCOMPLETE; not distribution).
 ACI-A2L-REL-004: release package export (derived ZIP from current governed truth; not distribution).
+ACI-A2L-SI-011: Song Intelligence product UI (orchestration and display; not a governed Song Intelligence Record).
 Vocal isolation remains out of scope.
 """
 
