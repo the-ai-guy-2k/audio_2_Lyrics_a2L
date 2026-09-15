@@ -1,0 +1,130 @@
+MACHINE-DERIVED CLAP CLASSIFICATION RESOLUTION
+ACI-A2L-SI-008
+NOT AUTHORITATIVE SONG FACTS
+NOT A SONG INTELLIGENCE RECORD
+Energy / Intensity was not reopened.
+CONTROL is the SI-007 method. RESOLUTION is selected by top_margin, not preferred labels.
+
+engine: transformers ClapModel
+checkpoint: laion/larger_clap_music
+revision: a0b4534a14f58e20944452dff00a22a06ce629d1
+license: apache-2.0
+source_sha256: bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be
+engine3_result: PARTIAL PASS
+selection_rule: For each category, select the method with the highest top_margin (rank-1 cosine minus rank-2 cosine). Tie-break: higher spread, then simpler method. Selection maximizes discrimination, not a preferred label.
+
+TEXT EMBEDDING VALIDATION
+EOS-token projection is the selected path. Hugging Face ClapTextPooler is diagnostic-only.
+INSTRUMENTATION: pooler_mean_pairwise=0.9996902696128007  eos_control_mean_pairwise=0.862267830393078
+GENRE / STYLE: pooler_mean_pairwise=0.9993760704293491  eos_control_mean_pairwise=0.8261164217260561
+VOCAL CHARACTERISTICS: pooler_mean_pairwise=0.9996770170543609  eos_control_mean_pairwise=0.8620708221095007
+ACOUSTIC / ELECTRONIC CHARACTER: pooler_mean_pairwise=0.9995111643523372  eos_control_mean_pairwise=0.802113393700457
+
+INSTRUMENTATION
+CONTROL METHOD: SI-007 CONTROL: EOS-token text projection, mean-pooled 10s audio embeddings, cosine ranking, original SI-007 prompt templates
+CONTROL TEMPLATE: a song featuring {label}
+1. Drums                        cosine=0.0411  softmax=0.0796
+2. Piano                        cosine=0.0408  softmax=0.0796
+3. Percussion                   cosine=0.0408  softmax=0.0796
+4. Violin                       cosine=0.0406  softmax=0.0796
+5. Keyboard                     cosine=0.0406  softmax=0.0796
+6. Organ                        cosine=0.0401  softmax=0.0796
+7. Synthesizer                  cosine=-0.0209  softmax=0.0747
+8. Banjo                        cosine=-0.0211  softmax=0.0747
+9. Bass Guitar                  cosine=-0.0215  softmax=0.0747
+10. Electric Guitar              cosine=-0.0217  softmax=0.0747
+11. Acoustic Guitar              cosine=-0.0217  softmax=0.0747
+12. Fiddle                       cosine=-0.0227  softmax=0.0746
+13. Harmonica                    cosine=-0.0244  softmax=0.0744
+CONTROL SEPARATION: top_margin=0.00029161694855563136  spread=0.06551994478250756
+RESOLUTION METHOD: ensemble
+RESOLUTION TEMPLATE: ['music featuring {label}', 'a recording with {label}', '{label} can be heard in this music']
+1. Synthesizer                  cosine=0.0263  softmax=0.0781
+2. Organ                        cosine=0.0220  softmax=0.0778
+3. Piano                        cosine=0.0150  softmax=0.0772
+4. Violin                       cosine=0.0149  softmax=0.0772
+5. Drums                        cosine=0.0148  softmax=0.0772
+6. Percussion                   cosine=0.0148  softmax=0.0772
+7. Keyboard                     cosine=0.0147  softmax=0.0772
+8. Acoustic Guitar              cosine=0.0077  softmax=0.0766
+9. Banjo                        cosine=0.0051  softmax=0.0764
+10. Bass Guitar                  cosine=0.0039  softmax=0.0763
+11. Electric Guitar              cosine=0.0034  softmax=0.0763
+12. Fiddle                       cosine=0.0032  softmax=0.0763
+13. Harmonica                    cosine=0.0022  softmax=0.0762
+RESOLUTION SEPARATION: top_margin=0.004241892760306079  spread=0.02406022083248042
+SEPARATION CHANGE: top_margin_delta=0.003950  spread_delta=-0.04145972395002713
+ASSESSMENT: STILL WEAK
+CATEGORY RESULT: NO WIN
+
+GENRE / STYLE
+CONTROL METHOD: SI-007 CONTROL: EOS-token text projection, mean-pooled 10s audio embeddings, cosine ranking, original SI-007 prompt templates
+CONTROL TEMPLATE: {label} music
+1. Pop                          cosine=0.0456  softmax=0.1132
+2. Country                      cosine=0.0452  softmax=0.1131
+3. Rock                         cosine=0.0441  softmax=0.1130
+4. Americana                    cosine=0.0405  softmax=0.1126
+5. Southern Rock                cosine=0.0398  softmax=0.1125
+6. Country Rock                 cosine=0.0092  softmax=0.1090
+7. Roots Rock                   cosine=0.0079  softmax=0.1089
+8. Funk                         cosine=0.0077  softmax=0.1089
+9. Blues                        cosine=0.0065  softmax=0.1087
+CONTROL SEPARATION: top_margin=0.00044660123254838813  spread=0.03912248004871128
+RESOLUTION METHOD: bare
+RESOLUTION TEMPLATE: {label}
+1. Country Rock                 cosine=0.0483  softmax=0.1124
+2. Roots Rock                   cosine=0.0467  softmax=0.1123
+3. Blues                        cosine=0.0466  softmax=0.1122
+4. Funk                         cosine=0.0465  softmax=0.1122
+5. Pop                          cosine=0.0421  softmax=0.1117
+6. Country                      cosine=0.0418  softmax=0.1117
+7. Rock                         cosine=0.0401  softmax=0.1115
+8. Southern Rock                cosine=0.0088  softmax=0.1080
+9. Americana                    cosine=0.0083  softmax=0.1079
+RESOLUTION SEPARATION: top_margin=0.001543876337780685  spread=0.039971496285914246
+SEPARATION CHANGE: top_margin_delta=0.001097  spread_delta=0.0008490162372029667
+ASSESSMENT: STILL WEAK
+CATEGORY RESULT: NO WIN
+
+VOCAL CHARACTERISTICS
+CONTROL METHOD: SI-007 CONTROL: EOS-token text projection, mean-pooled 10s audio embeddings, cosine ranking, original SI-007 prompt templates
+CONTROL TEMPLATE: a song with {label}
+1. Female Lead Vocal            cosine=0.0210  softmax=0.1704
+2. Male Lead Vocal              cosine=0.0204  softmax=0.1703
+3. Prominent Lead Vocal         cosine=0.0195  softmax=0.1702
+4. Predominantly Instrumental   cosine=-0.0212  softmax=0.1632
+5. Vocals Present               cosine=-0.0228  softmax=0.1629
+6. Backing Vocals               cosine=-0.0229  softmax=0.1629
+CONTROL SEPARATION: top_margin=0.00062514186142772  spread=0.043919198122441376
+RESOLUTION METHOD: ensemble
+RESOLUTION TEMPLATE: ['music with {label}', 'a recording with {label}', '{label} can be heard in this music']
+1. Predominantly Instrumental   cosine=0.0266  softmax=0.1694
+2. Prominent Lead Vocal         cosine=0.0183  softmax=0.1680
+3. Backing Vocals               cosine=0.0076  softmax=0.1662
+4. Vocals Present               cosine=0.0076  softmax=0.1662
+5. Female Lead Vocal            cosine=0.0016  softmax=0.1651
+6. Male Lead Vocal              cosine=0.0014  softmax=0.1651
+RESOLUTION SEPARATION: top_margin=0.008344072683548701  spread=0.025206411567080665
+SEPARATION CHANGE: top_margin_delta=0.007719  spread_delta=-0.01871278655536071
+ASSESSMENT: USEFUL
+CATEGORY RESULT: PARTIAL
+
+ACOUSTIC / ELECTRONIC CHARACTER
+CONTROL METHOD: SI-007 CONTROL: EOS-token text projection, mean-pooled 10s audio embeddings, cosine ranking, original SI-007 prompt templates
+CONTROL TEMPLATE: {label} music
+1. Mixed Acoustic/electric      cosine=0.0187  softmax=0.2571
+2. Electronic/synth-heavy       cosine=-0.0105  softmax=0.2495
+3. Predominantly Acoustic       cosine=-0.0217  softmax=0.2467
+4. Predominantly Electric       cosine=-0.0218  softmax=0.2467
+CONTROL SEPARATION: top_margin=0.029164553419346623  spread=0.04043316469852629
+RESOLUTION METHOD: control
+RESOLUTION TEMPLATE: {label} music
+1. Mixed Acoustic/electric      cosine=0.0187  softmax=0.2571
+2. Electronic/synth-heavy       cosine=-0.0105  softmax=0.2495
+3. Predominantly Acoustic       cosine=-0.0217  softmax=0.2467
+4. Predominantly Electric       cosine=-0.0218  softmax=0.2467
+RESOLUTION SEPARATION: top_margin=0.029164553419346623  spread=0.04043316469852629
+SEPARATION CHANGE: top_margin_delta=0.000000  spread_delta=0.0
+ASSESSMENT: USEFUL
+CATEGORY RESULT: WIN
+
