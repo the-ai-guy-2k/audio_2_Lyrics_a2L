@@ -14,7 +14,7 @@ Permanent copy of the Operator ACI. This execution promotes the validated Song O
 - Source baseline / merge-base: `deployable` @ `d5e3c85ed128a8fdc124adaa2dee7c150d3da311` (same as `main` / `origin/deployable` / `origin/main`).
 - Promotion docs commit: `0e28126`.
 - History-preserving `--no-ff` merge `b51ff20`. No squash. No force-push.
-- Final `deployable` / `main` / `origin/deployable` / `origin/main`: `b51ff20667fdce54254dd9a48a8b8e93de199585`.
+- Final `deployable` / `main` / `origin/deployable` / `origin/main`: `b6a73e3a482e15dd6c23e37f74bad9f0c33c3586` (after hash-recording commit; merge `b51ff20`).
 - Parked/untracked experimental files were not committed.
 - Required artifacts after promotion:
   - `docs/nebula/data-model/A2L_SONG_OBJECT_MODEL_V1.md`

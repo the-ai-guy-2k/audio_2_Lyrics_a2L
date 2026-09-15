@@ -21,7 +21,7 @@ COMPLETE. Validated ACI-A2L-DM-001 Song Object Model promoted into `deployable` 
 | DM-001 commits | `98eac80`, `72b9024` |
 | Promotion branch | `feature/aci-a2l-dm-prom-001` @ `0e28126` |
 | Promotion merge on `deployable` | `b51ff20667fdce54254dd9a48a8b8e93de199585` |
-| Final `deployable` / `main` / origin | `b51ff20667fdce54254dd9a48a8b8e93de199585` |
+| Final `deployable` / `main` / origin | `b6a73e3a482e15dd6c23e37f74bad9f0c33c3586` (hash-recording tip after merge `b51ff20`) |
 
 ## Required artifacts confirmed on deployable
 
@@ -45,7 +45,7 @@ COMPLETE. Validated ACI-A2L-DM-001 Song Object Model promoted into `deployable` 
 | 9 | No governed artifacts migrated/rewritten | PASS |
 | 10 | Applicable regression PASS | PASS with noted local locked-Jay artifact drift (see Minority Report) |
 | 11 | Working tree clean after promotion | PASS for tracked promotion files; parked untracked experimental files remain untracked |
-| 12 | Final deployable commit hash | `b51ff20667fdce54254dd9a48a8b8e93de199585` |
+| 12 | Final deployable commit hash | `b6a73e3a482e15dd6c23e37f74bad9f0c33c3586` |
 
 Regression command: `py -3.14 -m pytest tests --ignore=tests/test_parakeet_candidate.py --ignore=tests/test_lyric_engine_runtime.py`  
 Result: 199 passed, 2 failed, 1 skipped. Failures: `test_locked_song_is_operator_reapproved` (revision 1 vs expected 2), `test_existing_approved_artifact_formats_without_rewrite` (STANDARD export adds title/artist from local approved JSON while canonical TXT has no header). Promotion changed docs only; `git diff d5e3c85..b51ff20 -- a2l` empty.

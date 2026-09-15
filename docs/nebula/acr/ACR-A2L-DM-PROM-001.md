@@ -23,7 +23,7 @@ UI CHANGED: NO
 ALBUM/ARTIST OBJECT INTRODUCED: NO  
 ARTIFACTS MIGRATED: NO  
 REGRESSION: promotion delta is docs-only (`a2l/` unchanged). Applicable suite excluding parked Parakeet/BUG-001 files: 199 passed, 2 failed, 1 skipped. The 2 failures are live locked-Jay artifact assertions (`approval_event.revision` expected 2 / observed 1; export header vs canonical txt) from local ingest state, not from this promotion.  
-FINAL DEPLOYABLE: `b51ff20667fdce54254dd9a48a8b8e93de199585`  
+FINAL DEPLOYABLE: `b6a73e3a482e15dd6c23e37f74bad9f0c33c3586` (promotion merge `b51ff20`)  
 RECOMMENDATION: PASS
 
 ## Evidence (in repo)
@@ -32,7 +32,7 @@ RECOMMENDATION: PASS
 - `docs/nebula/reports/ACI-A2L-DM-PROM-001_COMPLETION_REPORT.md`
 - `docs/nebula/data-model/A2L_SONG_OBJECT_MODEL_V1.md`
 - Source: `feature/aci-a2l-dm-001-song-object-model` @ `72b9024`
-- `deployable` / `main` / `origin/deployable` / `origin/main` @ `b51ff20`
+- `deployable` / `main` / `origin/deployable` / `origin/main` @ `b6a73e3`
 
 ## Gaps
 
