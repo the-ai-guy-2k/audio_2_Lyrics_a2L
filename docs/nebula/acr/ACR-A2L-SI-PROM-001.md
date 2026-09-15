@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-PROM-001 — Promote Song Intelligence analyzer baseline  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-si-prom-001`  
-**Commit:** `f0e2812`  
+**Commit:** `f0e2812` (docs); promotion merge `dd4faf5` on `deployable`  
 **Status:** COMPLETE — promoted to `deployable`  
 **Product changes:** none. Promotion of the validated SI analyzer chain through SI-010 only.
 
@@ -19,7 +19,7 @@ AUDIO INTELLIGENCE: PARTIAL PASS — ACCEPTED FOR CONTINUED BUILD
 LYRIC INTELLIGENCE: ENGINEERING WIN  
 KNOWN DEFECT PRESERVED: YES  
 AUTHORITY MODEL PRESERVED: YES  
-REGRESSION: pending post-merge  
+REGRESSION: 190 passed, 0 failed, 0 skipped; 1 ignored parked Parakeet file  
 RECOMMENDATION: PASS
 
 ## Evidence (in repo)

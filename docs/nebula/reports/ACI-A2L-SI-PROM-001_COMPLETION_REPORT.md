@@ -59,11 +59,20 @@ Audio Intelligence composition preserved: Energy WIN (CLAP + measurement), Acous
 
 ## Regression
 
-Pending post-merge execution on `deployable`. Command: `py -3.14 -m pytest tests --ignore=tests/test_parakeet_candidate.py` (parked Parakeet candidate; not part of this baseline).
+| Item | Value |
+| --- | --- |
+| Python | 3.14.3 |
+| Command | `py -3.14 -m pytest tests --ignore=tests/test_parakeet_candidate.py` |
+| Result | **190 passed**, 0 failed, 0 skipped |
+| Ignored | untracked parked `tests/test_parakeet_candidate.py` (not part of this baseline) |
 
 ## Promotion / main / push
 
-Pending merge. Strategy: `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-001`. Then fast-forward `main` if it has no unique history.
+| Item | Value |
+| --- | --- |
+| Merge strategy | `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-001` |
+| Promotion merge | `dd4faf5d8f0e434f75995970bf568558840f90a7` |
+| Docs commits | `f0e2812`, `ce838f5` |
 
 ---
 

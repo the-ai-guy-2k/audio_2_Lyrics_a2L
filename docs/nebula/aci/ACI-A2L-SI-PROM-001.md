@@ -14,7 +14,7 @@ Permanent copy of the Operator ACI. This execution promotes the validated Song I
 - Implementation commit: `85c67c9`.
 - Source baseline / merge-base: `deployable` @ `70bc6509f4c484906153efa10d8a3505ff240a3b` (same as `main` / `origin/deployable` / `origin/main`).
 - Linear SI ancestry on first-parent: SI-002 → SI-003 → SI-004 → SI-006 → SI-007 → SI-008 → SI-009 → SI-010. SI-005 was never committed (parked; not part of this baseline).
-- History-preserving `--no-ff` merge. No squash. No force-push.
+- History-preserving `--no-ff` merge `dd4faf5`. No squash. No force-push.
 - Parked/untracked experimental files were not committed.
 - Instrumentation defect preserved: `docs/nebula/defects/DEF-A2L-SI-INSTRUMENTATION.md` remains open in the bug-fix lane.
 - No Song Intelligence Record. No Song Intelligence UI.
