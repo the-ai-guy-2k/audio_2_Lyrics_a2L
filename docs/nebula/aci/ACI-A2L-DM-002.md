@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution implements the governed Song 
 ## Constraints honored
 
 - Branch `feature/aci-a2l-dm-002-song-registry` from `deployable` @ `81151fb3599806dfe4b01ab45c0e39e298d44295`.
+- Implementation commit: `d567260`.
 - Model authority: `docs/nebula/data-model/A2L_SONG_OBJECT_MODEL_V1.md` and schema.
 - Persistent registry: `artifacts/song_registry/song_registry.json`.
 - Module API: `register_song`, `list_songs`, `get_song`, `associate_master`.

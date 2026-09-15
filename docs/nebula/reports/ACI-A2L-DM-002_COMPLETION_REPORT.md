@@ -17,7 +17,7 @@ COMPLETE on `feature/aci-a2l-dm-002-song-registry`. Governed Song Registry imple
 | Item | Value |
 | --- | --- |
 | Base `deployable` | `81151fb3599806dfe4b01ab45c0e39e298d44295` |
-| Branch | `feature/aci-a2l-dm-002-song-registry` |
+| Branch | `feature/aci-a2l-dm-002-song-registry` @ `d567260` |
 | Registry path | `artifacts/song_registry/song_registry.json` |
 | Module | `a2l.song_registry` |
 

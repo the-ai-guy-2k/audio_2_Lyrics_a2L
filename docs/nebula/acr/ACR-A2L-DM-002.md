@@ -3,6 +3,7 @@
 **ACI:** ACI-A2L-DM-002 — Song Registry  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-dm-002-song-registry`  
+**Commit:** `d567260`  
 **Base:** `deployable` @ `81151fb3599806dfe4b01ab45c0e39e298d44295`  
 **Status:** COMPLETE on feature branch — not merged  
 **Product changes:** Song Registry module + persistent index; no UI consumer changes.
