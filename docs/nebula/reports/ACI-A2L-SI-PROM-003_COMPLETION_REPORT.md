@@ -46,11 +46,29 @@ Governed SIR: `SONG_INTELLIGENCE_RECORD` 1.0.0. Default: Full Song Intelligence.
 
 ## Regression
 
-Pending post-merge execution on `deployable`. Command: `py -3.14 -m pytest tests --ignore=tests/test_parakeet_candidate.py` (parked Parakeet candidate; not part of this baseline).
+| Item | Value |
+| --- | --- |
+| Python | 3.14.3 |
+| Command | `py -3.14 -m pytest tests --ignore=tests/test_parakeet_candidate.py` |
+| Result | **201 passed**, 0 failed, 0 skipped |
+| Ignored | untracked parked `tests/test_parakeet_candidate.py` (not part of this baseline) |
+
+## Product validation
+
+Operator application started at http://127.0.0.1:8780/. Song Intelligence consumes `SONG_INTELLIGENCE_RECORD` schema 1.0.0. Full Song Intelligence remains default. Temporary aggregation remains `outranks_sir: false`. Heavyweight analyzers were not rerun.
 
 ## Promotion / main / push
 
-Pending merge. Strategy: `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-003`. Then fast-forward `main` if it has no unique history.
+| Item | Value |
+| --- | --- |
+| Merge strategy | `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-003` |
+| Promotion merge | `ceaec2dff7d81a7ec7002de706186655cf4e7288` |
+| Docs commits | `02e1227`, `29c7713` |
+| `deployable` after | pending recording commit |
+| `main` after | pending fast-forward |
+| Cloud deploy | not performed |
+| Remote `deployable` | pending push |
+| Remote `main` | pending push |
 
 ---
 

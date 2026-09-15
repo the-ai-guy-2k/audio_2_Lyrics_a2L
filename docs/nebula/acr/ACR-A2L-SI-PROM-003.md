@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-PROM-003 — Promote governed Song Intelligence Record / MVP baseline  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-si-prom-003`  
-**Commit:** `02e1227` (docs)  
+**Commit:** `02e1227` (docs); promotion merge `ceaec2d` on `deployable`  
 **Status:** COMPLETE — promoted to `deployable`  
 **Product changes:** none beyond SI-012. Promotion of the validated governed Song Intelligence Record only.
 
@@ -21,7 +21,7 @@ TEMPORARY AGGREGATION SUBORDINATE TO SIR: YES
 HUMAN SI APPROVAL CREATED: NO  
 FINAL SI EXPORT CREATED: NO  
 AUTHORITY MODEL PRESERVED: YES  
-REGRESSION: pending post-merge  
+REGRESSION: 201 passed, 0 failed, 0 skipped; 1 ignored parked Parakeet file  
 RECOMMENDATION: PASS
 
 ## Evidence (in repo)

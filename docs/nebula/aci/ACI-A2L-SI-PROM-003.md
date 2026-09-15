@@ -13,7 +13,7 @@ Permanent copy of the Operator ACI. This execution promotes the validated govern
 - Implementation commit: `c2f62ba`.
 - Source baseline / merge-base: `deployable` @ `bb72ef4156aa7767d913d0864ae8b08420391f14` (same as `main` / `origin/deployable` / `origin/main`).
 - Promotion docs commit: `02e1227`.
-- History-preserving `--no-ff` merge. No squash. No force-push.
+- History-preserving `--no-ff` merge `ceaec2d`. No squash. No force-push.
 - Parked/untracked experimental files were not committed.
 - Instrumentation defect preserved: `docs/nebula/defects/DEF-A2L-SI-INSTRUMENTATION.md` remains open in the bug-fix lane.
 - Temporary UI aggregation remains `TEMPORARY_UI_AGGREGATION`, derived, `outranks_sir: false`.
