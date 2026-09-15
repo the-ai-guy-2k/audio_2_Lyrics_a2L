@@ -4,7 +4,8 @@
 **Opened by:** ACI-A2L-SI-010 (Repair Attempt 3 of 3, FINAL)  
 **Disposition:** DEFER TO BUG-FIX LANE  
 **Must not block:** continued Song Intelligence development  
-**No fourth repair ACI.**
+**No fourth repair ACI.**  
+**Promotion:** Preserved unchanged by ACI-A2L-SI-PROM-001. Not closed. Not marked WIN.
 
 ## Current engineering truth
 
