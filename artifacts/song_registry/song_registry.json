@@ -1,0 +1,71 @@
+{
+  "by_ingest_job_id": {
+    "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be": "ac8100c8182443a5b690176f48b2ae2c"
+  },
+  "created_at": "2026-09-15T23:53:25.677199+00:00",
+  "notes": [
+    "A2L Song Registry index. Song records reference governed ingest artifacts.",
+    "song_id is independent of source SHA / ingest_job_id."
+  ],
+  "producer_aci": "ACI-A2L-DM-002",
+  "record_type": "A2L_SONG_REGISTRY",
+  "schema_version": "1.0.0",
+  "songs": {
+    "ac8100c8182443a5b690176f48b2ae2c": {
+      "created_at": "2026-09-15T23:53:25.677166+00:00",
+      "identity": {
+        "artist": {
+          "authority": "AUTHORITATIVE INPUT",
+          "source_ref": null,
+          "status": "MISSING",
+          "value": null
+        },
+        "duration_seconds": {
+          "authority": "MEASURED",
+          "source_ref": null,
+          "status": "MISSING",
+          "value": null
+        },
+        "title": {
+          "authority": "AUTHORITATIVE INPUT",
+          "source_ref": null,
+          "status": "MISSING",
+          "value": null
+        }
+      },
+      "intelligence": {},
+      "lifecycle_state": "REGISTERED",
+      "lyrics": {},
+      "notes": [
+        "Song Registry references governed artifacts; it does not replace their authority.",
+        "Filename is never used as song title."
+      ],
+      "producer_aci": "ACI-A2L-DM-002",
+      "record_type": "A2L_SONG",
+      "relationships": {
+        "albums": []
+      },
+      "release": {},
+      "schema_version": "1.0.0",
+      "song_id": "ac8100c8182443a5b690176f48b2ae2c",
+      "source": {
+        "current_master_revision": 1,
+        "masters": [
+          {
+            "associated_at": "2026-09-15T23:53:25.677166+00:00",
+            "ingest_job_id": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+            "ingest_manifest_ref": "ingest/bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be/ingest_manifest.json",
+            "master_revision": 1,
+            "notes": "Master bytes identify an audio asset, not the Song.",
+            "role": "CURRENT",
+            "source_ref": "ingest/bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be/authoritative_source/source.wav",
+            "source_sha256": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+            "working_ref": "ingest/bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be/derived_working/transcription_ready.wav"
+          }
+        ]
+      },
+      "updated_at": "2026-09-15T23:53:25.677166+00:00"
+    }
+  },
+  "updated_at": "2026-09-15T23:53:25.677166+00:00"
+}
