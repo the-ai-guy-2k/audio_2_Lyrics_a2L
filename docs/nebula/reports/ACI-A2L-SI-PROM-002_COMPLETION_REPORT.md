@@ -46,13 +46,29 @@ Default: Full Song Intelligence. ANALYZE SONG orchestrates selected promoted ana
 
 ## Regression
 
-Pending post-merge execution on `deployable`. Command: `py -3.14 -m pytest tests --ignore=tests/test_parakeet_candidate.py` (parked Parakeet candidate; not part of this baseline).
+| Item | Value |
+| --- | --- |
+| Python | 3.14.3 |
+| Command | `py -3.14 -m pytest tests --ignore=tests/test_parakeet_candidate.py` |
+| Result | **196 passed**, 0 failed, 0 skipped |
+| Ignored | untracked parked `tests/test_parakeet_candidate.py` (not part of this baseline) |
+
+## Product validation
+
+Operator application started at http://127.0.0.1:8780/. Song Intelligence entry point, Full Song Intelligence default, capability selection, Advanced engine selection, Analyze song, result groups, and Provenance / Authority remain present. Existing A2L screens remain present. Heavyweight analyzers were not rerun.
 
 ## Promotion / main / push
 
-## Promotion / main / push
-
-Pending merge. Strategy: `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-002`. Then fast-forward `main` if it has no unique history. Docs commit: `ec76595`.
+| Item | Value |
+| --- | --- |
+| Merge strategy | `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-002` |
+| Promotion merge | `6f03f40ab7375f84b76627bb9c14ea42c7b54479` |
+| Docs commits | `ec76595`, `3a36245` |
+| `deployable` after | pending recording commit |
+| `main` after | pending fast-forward |
+| Cloud deploy | not performed |
+| Remote `deployable` | pending push |
+| Remote `main` | pending push |
 
 ---
 

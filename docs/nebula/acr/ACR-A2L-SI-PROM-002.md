@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-PROM-002 — Promote Song Intelligence product UI  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-si-prom-002`  
-**Commit:** `ec76595` (docs)  
+**Commit:** `ec76595` (docs); promotion merge `6f03f40` on `deployable`  
 **Status:** COMPLETE — promoted to `deployable`  
 **Product changes:** none beyond SI-011. Promotion of the validated Song Intelligence product UI only.
 
@@ -19,7 +19,7 @@ KNOWN DEFECT PRESERVED: YES
 TEMPORARY AGGREGATION REMAINS NON-AUTHORITATIVE: YES  
 GOVERNED SONG INTELLIGENCE RECORD CREATED: NO  
 AUTHORITY MODEL PRESERVED: YES  
-REGRESSION: pending post-merge  
+REGRESSION: 196 passed, 0 failed, 0 skipped; 1 ignored parked Parakeet file  
 RECOMMENDATION: PASS
 
 ## Evidence (in repo)
