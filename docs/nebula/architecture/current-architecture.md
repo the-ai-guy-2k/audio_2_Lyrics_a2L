@@ -1,6 +1,6 @@
 # A2L current architecture (implemented)
 
-**Authority:** ACI-A2L-SI-012 governed Song Intelligence Record on the promoted Song Intelligence product UI (ACI-A2L-SI-PROM-002 / SI-011). Product-facing operator path remains http://127.0.0.1:8780/.
+**Authority:** ACI-A2L-SI-PROM-003 promotion of the governed Song Intelligence Record (ACI-A2L-SI-012) to `deployable`. Product-facing operator path remains http://127.0.0.1:8780/.
 
 ## Implemented flow
 
