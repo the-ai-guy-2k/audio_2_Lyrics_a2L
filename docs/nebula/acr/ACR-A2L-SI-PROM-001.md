@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-PROM-001 — Promote Song Intelligence analyzer baseline  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-si-prom-001`  
-**Commit:** pending docs commit  
+**Commit:** `f0e2812`  
 **Status:** COMPLETE — promoted to `deployable`  
 **Product changes:** none. Promotion of the validated SI analyzer chain through SI-010 only.
 

@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution promotes the validated Song I
 ## Constraints honored
 
 - Source: `feature/aci-a2l-si-010-instrumentation-final-resolution` @ `06d83f7`.
+- Promotion docs commit: `f0e2812`.
 - Implementation commit: `85c67c9`.
 - Source baseline / merge-base: `deployable` @ `70bc6509f4c484906153efa10d8a3505ff240a3b` (same as `main` / `origin/deployable` / `origin/main`).
 - Linear SI ancestry on first-parent: SI-002 → SI-003 → SI-004 → SI-006 → SI-007 → SI-008 → SI-009 → SI-010. SI-005 was never committed (parked; not part of this baseline).
