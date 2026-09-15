@@ -50,7 +50,9 @@ Pending post-merge execution on `deployable`. Command: `py -3.14 -m pytest tests
 
 ## Promotion / main / push
 
-Pending merge. Strategy: `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-002`. Then fast-forward `main` if it has no unique history.
+## Promotion / main / push
+
+Pending merge. Strategy: `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-002`. Then fast-forward `main` if it has no unique history. Docs commit: `ec76595`.
 
 ---
 

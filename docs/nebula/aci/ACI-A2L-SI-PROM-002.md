@@ -12,6 +12,7 @@ Permanent copy of the Operator ACI. This execution promotes the validated Song I
 - Source: `feature/aci-a2l-si-011-product-ui` @ `d98a45c`.
 - Implementation commit: `b82fc82`.
 - Source baseline / merge-base: `deployable` @ `f95ed9a807884d44a5b8fbe0be05e051c66058cd` (same as `main` / `origin/deployable` / `origin/main`).
+- Promotion docs commit: `ec76595`.
 - History-preserving `--no-ff` merge. No squash. No force-push.
 - Parked/untracked experimental files were not committed.
 - Instrumentation defect preserved: `docs/nebula/defects/DEF-A2L-SI-INSTRUMENTATION.md` remains open in the bug-fix lane.

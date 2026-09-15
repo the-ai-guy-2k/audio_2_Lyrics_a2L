@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-PROM-002 — Promote Song Intelligence product UI  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-si-prom-002`  
-**Commit:** pending docs commit  
+**Commit:** `ec76595` (docs)  
 **Status:** COMPLETE — promoted to `deployable`  
 **Product changes:** none beyond SI-011. Promotion of the validated Song Intelligence product UI only.
 
