@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-PROM-003 — Promote governed Song Intelligence Record / MVP baseline  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-si-prom-003`  
-**Commit:** pending docs commit  
+**Commit:** `02e1227` (docs)  
 **Status:** COMPLETE — promoted to `deployable`  
 **Product changes:** none beyond SI-012. Promotion of the validated governed Song Intelligence Record only.
 
