@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution defines and documents the can
 ## Constraints honored
 
 - Branch `feature/aci-a2l-dm-001-song-object-model` from actual `deployable` / `main` tip `d5e3c85ed128a8fdc124adaa2dee7c150d3da311` (post ACI-A2L-SI-PROM-003). Do not assume older tips.
+- Implementation commit: `98eac80`.
 - Canonical model: `docs/nebula/data-model/A2L_SONG_OBJECT_MODEL_V1.md`
 - Optional machine-readable schema: `docs/nebula/data-model/a2l_song_object_model_v1.schema.json`
 - `song_id` defined as opaque Song identity, separate from ingest job id, source SHA-256, filename, and SIR revision

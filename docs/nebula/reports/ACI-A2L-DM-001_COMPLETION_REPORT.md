@@ -17,7 +17,7 @@ COMPLETE on `feature/aci-a2l-dm-001-song-object-model`. Canonical Song Object Mo
 | Item | Value |
 | --- | --- |
 | Base `deployable` / `main` | `d5e3c85ed128a8fdc124adaa2dee7c150d3da311` |
-| Branch | `feature/aci-a2l-dm-001-song-object-model` |
+| Branch | `feature/aci-a2l-dm-001-song-object-model` @ `98eac80` |
 | Canonical model | `docs/nebula/data-model/A2L_SONG_OBJECT_MODEL_V1.md` |
 | Schema companion | `docs/nebula/data-model/a2l_song_object_model_v1.schema.json` |
 | Record type (future) | `A2L_SONG` |

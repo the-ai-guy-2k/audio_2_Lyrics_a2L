@@ -3,6 +3,7 @@
 **ACI:** ACI-A2L-DM-001 — Song Object Model  
 **Date recorded:** 2026-09-15  
 **Branch:** `feature/aci-a2l-dm-001-song-object-model`  
+**Commit:** `98eac80`  
 **Base:** `deployable` @ `d5e3c85ed128a8fdc124adaa2dee7c150d3da311`  
 **Status:** COMPLETE on feature branch — not merged  
 **Product changes:** documentation / data-model definition only. No registry. No UI. No artifact migration.
