@@ -1,0 +1,129 @@
+MACHINE-DERIVED INSTRUMENT PRESENCE
+ACI-A2L-SI-010
+NOT AUTHORITATIVE SONG FACTS
+NOT A SONG INTELLIGENCE RECORD
+PANNs clipwise scores are MACHINE-DERIVED independent sigmoids, not calibrated probabilities.
+Genre / Energy / Acoustic / Vocal / CLAP / AST were not reopened or retuned.
+
+engine: PANNs Cnn14 audio tagging / instrument presence
+checkpoint: Cnn14_mAP=0.431.pth
+model_license: cc-by-4.0
+software_license: MIT (audioset_tagging_cnn Cnn14, torchlibrosa); BSD-style (torch); ISC (librosa)
+device: cpu
+source_sha256: bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be
+score_kind: clipwise_mean is the mean PANNs Cnn14 multi-label sigmoid over 10s chunks; clipwise_max is the max across those chunks. Independent presence scores, not calibrated probabilities, not mutually exclusive classes.
+source_preprocessing: in-memory librosa load to 32 kHz mono float32 for PANNs Cnn14; source WAV was not overwritten, remastered, or normalized on disk
+
+RAW TOP AUDIOSET TAGS (clipwise mean)
+1. Music                                mean=0.8703  max=0.9026
+2. Grunge                               mean=0.1961  max=0.3313
+3. Musical instrument                   mean=0.1866  max=0.6630
+4. Guitar                               mean=0.1705  max=0.7221
+5. Plucked string instrument            mean=0.1311  max=0.6417
+6. Rock music                           mean=0.1121  max=0.1683
+7. Singing                              mean=0.1105  max=0.1953
+8. Rock and roll                        mean=0.1092  max=0.1879
+9. Punk rock                            mean=0.0791  max=0.1938
+10. Progressive rock                     mean=0.0757  max=0.1459
+11. Independent music                    mean=0.0559  max=0.0928
+12. Heavy metal                          mean=0.0532  max=0.1411
+13. Pop music                            mean=0.0438  max=0.0598
+14. Electric guitar                      mean=0.0433  max=0.3206
+15. Psychedelic rock                     mean=0.0409  max=0.0883
+16. Exciting music                       mean=0.0383  max=0.0677
+17. Speech                               mean=0.0373  max=0.0790
+18. Acoustic guitar                      mean=0.0341  max=0.0812
+19. Country                              mean=0.0337  max=0.0813
+20. Roll                                 mean=0.0335  max=0.0609
+21. Strum                                mean=0.0330  max=0.0994
+22. Song                                 mean=0.0316  max=0.0512
+23. Blues                                mean=0.0307  max=0.0689
+24. Rhythm and blues                     mean=0.0289  max=0.0519
+25. Bass guitar                          mean=0.0262  max=0.1157
+
+INSTRUMENTATION (native AudioSet subset)
+1. Guitar                               mean=0.1705  max=0.7221
+2. Plucked string instrument            mean=0.1311  max=0.6417
+3. Electric guitar                      mean=0.0433  max=0.3206
+4. Acoustic guitar                      mean=0.0341  max=0.0812
+5. Strum                                mean=0.0330  max=0.0994
+6. Bass guitar                          mean=0.0262  max=0.1157
+7. Drum kit                             mean=0.0190  max=0.0378
+8. Drum                                 mean=0.0167  max=0.0315
+9. Percussion                           mean=0.0070  max=0.0116
+10. Bowed string instrument              mean=0.0065  max=0.0243
+11. Bass drum                            mean=0.0062  max=0.0172
+12. Sampler                              mean=0.0043  max=0.0075
+13. Snare drum                           mean=0.0034  max=0.0072
+14. Rimshot                              mean=0.0031  max=0.0059
+15. Violin, fiddle                       mean=0.0030  max=0.0061
+16. Tapping (guitar technique)           mean=0.0026  max=0.0416
+17. Cymbal                               mean=0.0024  max=0.0091
+18. Orchestra                            mean=0.0024  max=0.0054
+19. Hi-hat                               mean=0.0020  max=0.0058
+20. Banjo                                mean=0.0018  max=0.0057
+21. Steel guitar, slide guitar           mean=0.0017  max=0.0062
+22. Keyboard (musical)                   mean=0.0016  max=0.0031
+23. Piano                                mean=0.0016  max=0.0030
+24. Cello                                mean=0.0014  max=0.0022
+25. Timpani                              mean=0.0013  max=0.0165
+26. Pizzicato                            mean=0.0012  max=0.0026
+27. Double bass                          mean=0.0011  max=0.0016
+28. Drum roll                            mean=0.0011  max=0.0025
+29. Brass instrument                     mean=0.0010  max=0.0024
+30. Mandolin                             mean=0.0009  max=0.0025
+31. Electric piano                       mean=0.0007  max=0.0016
+32. Drum machine                         mean=0.0007  max=0.0022
+33. Synthesizer                          mean=0.0006  max=0.0025
+34. Wood block                           mean=0.0004  max=0.0028
+35. Harpsichord                          mean=0.0004  max=0.0013
+36. Wind instrument, woodwind instrument mean=0.0004  max=0.0007
+37. String section                       mean=0.0004  max=0.0009
+38. Organ                                mean=0.0004  max=0.0009
+39. Accordion                            mean=0.0004  max=0.0009
+40. Marimba, xylophone                   mean=0.0004  max=0.0009
+41. Trumpet                              mean=0.0004  max=0.0010
+42. Tambourine                           mean=0.0004  max=0.0007
+43. Ukulele                              mean=0.0004  max=0.0013
+44. Trombone                             mean=0.0003  max=0.0007
+45. Glockenspiel                         mean=0.0003  max=0.0007
+46. Rattle (instrument)                  mean=0.0003  max=0.0005
+47. Harmonica                            mean=0.0003  max=0.0008
+48. Hammond organ                        mean=0.0003  max=0.0005
+49. Zither                               mean=0.0003  max=0.0006
+50. Saxophone                            mean=0.0003  max=0.0006
+51. Mallet percussion                    mean=0.0003  max=0.0007
+52. Sitar                                mean=0.0003  max=0.0017
+53. Gong                                 mean=0.0002  max=0.0006
+54. Harp                                 mean=0.0002  max=0.0006
+55. Theremin                             mean=0.0002  max=0.0026
+56. Bell                                 mean=0.0002  max=0.0004
+57. French horn                          mean=0.0002  max=0.0005
+58. Scratching (performance technique)   mean=0.0002  max=0.0007
+59. Electronic organ                     mean=0.0002  max=0.0003
+60. Flute                                mean=0.0002  max=0.0003
+61. Tabla                                mean=0.0002  max=0.0003
+62. Didgeridoo                           mean=0.0002  max=0.0006
+63. Steelpan                             mean=0.0002  max=0.0005
+64. Tubular bells                        mean=0.0001  max=0.0003
+65. Maraca                               mean=0.0001  max=0.0005
+66. Clarinet                             mean=0.0001  max=0.0002
+67. Vibraphone                           mean=0.0001  max=0.0003
+68. Bagpipes                             mean=0.0001  max=0.0001
+
+INSTRUMENT GROUPS (deterministic max of native members; raw preserved above)
+1. guitar_family                        mean=0.1705
+2. plucked_other                        mean=0.1311
+3. drums_percussion                     mean=0.0190
+4. strings_bowed                        mean=0.0065
+5. synthesizer_electronic               mean=0.0043
+6. keyboard_piano_organ                 mean=0.0016
+7. brass                                mean=0.0010
+8. woodwind                             mean=0.0004
+
+INSTRUMENTATION RESULT: PARTIAL
+discrimination: WEAK BUT PRESENT top_margin=0.0394106287331808 spread=0.17047622347048932 strong_count=0 operating_point=0.5
+
+ENGINE #3 FINAL RESULT: PARTIAL PASS — ACCEPTED FOR CONTINUED BUILD
+MUSICAL VALIDATION: PENDING JAY
+REPAIR BUDGET: EXHAUSTED

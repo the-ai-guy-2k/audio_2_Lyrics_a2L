@@ -1,0 +1,1536 @@
+{
+  "candidate": "ACI-A2L-SI-010",
+  "repair_attempt": "3 of 3 FINAL",
+  "authority": {
+    "master_wav": "AUTHORITATIVE INPUT",
+    "native_panns_tags": "MACHINE-DERIVED",
+    "instrumentation": "MACHINE-DERIVED",
+    "grouped_tags": "MACHINE-DERIVED"
+  },
+  "usable_as_song_facts": false,
+  "song_intelligence_record_created": false,
+  "genre_reopened": false,
+  "energy_reopened": false,
+  "clap_reopened": false,
+  "ast_rerun": false,
+  "ast_threshold_changed": false,
+  "engine": "PANNs Cnn14 audio tagging / instrument presence",
+  "checkpoint": "Cnn14_mAP=0.431.pth",
+  "checkpoint_source": "https://zenodo.org/records/3987831/files/Cnn14_mAP=0.431.pth?download=1",
+  "method": "in-memory 32 kHz mono resample; PANNs Cnn14 log-mel tagging on 10s chunks; mean/max pool independent AudioSet clipwise sigmoids; instrument subset only for WIN; per-chunk scores retained as temporal evidence",
+  "software_license": "MIT (audioset_tagging_cnn Cnn14, torchlibrosa); BSD-style (torch); ISC (librosa)",
+  "model_license": "cc-by-4.0",
+  "license_evidence": {
+    "zenodo_record": "3987831",
+    "zenodo_license_id": "cc-by-4.0",
+    "code_repo": "qiuqiangkong/audioset_tagging_cnn MIT",
+    "torchlibrosa": "MIT",
+    "not_inferred_from_library_license_alone": true
+  },
+  "score_kind": "clipwise_mean is the mean PANNs Cnn14 multi-label sigmoid over 10s chunks; clipwise_max is the max across those chunks. Independent presence scores, not calibrated probabilities, not mutually exclusive classes.",
+  "gpu_required": false,
+  "cloud_required": false,
+  "device": "cpu",
+  "sidecar": ".venv-clap (reused; torchlibrosa 0.1.0 already present)",
+  "source_path": "C:\\Users\\tim\\Desktop\\Jays_stuff\\2026_album\\Masters - 24bit_48hz\\Masters  - 24bit_48hz\\01Stomp to MIX MSTR 24bit_48hz.wav",
+  "source_sha256_before": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "source_sha256_after": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "ingest_source_sha256_before": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "ingest_source_sha256_after": "bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be",
+  "analysis_seconds": 272.4708176000022,
+  "package_versions": {
+    "torch": "2.14.0+cpu",
+    "torchlibrosa": "0.1.0",
+    "librosa": "1.0.0",
+    "numpy": "2.5.3",
+    "soundfile": "0.14.0"
+  },
+  "hardware": {
+    "os": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+    "python_executable": "C:\\Users\\tim\\Documents\\business_related\\The_AI_Guy\\nebula\\2 - TAIG2K_SOFTWARE\\audio_2_lyrics_a2l\\.venv-clap\\Scripts\\python.exe",
+    "cpu": "Intel64 Family 6 Model 140 Stepping 2, GenuineIntel",
+    "machine": "AMD64",
+    "torch": "2.14.0+cpu",
+    "torch_cuda_available": false,
+    "device": "cpu",
+    "notes": "PANNs Cnn14 instrument presence is forced to CPU. GPU is not required. No cloud inference. Zenodo is weight distribution only."
+  },
+  "venv_bytes": 1175877730,
+  "cache_bytes_after": 327428755,
+  "checkpoint_state": {
+    "path": "C:\\Users\\tim\\.cache\\a2l-panns\\Cnn14_mAP=0.431.pth",
+    "bytes": 327428481,
+    "md5": "541141fa2ee191a88f24a3219fff024e",
+    "expected_bytes": 327428481,
+    "expected_md5": "541141fa2ee191a88f24a3219fff024e",
+    "local_files_only": true,
+    "action": "checkpoint_complete",
+    "download_required": true
+  },
+  "memory": {
+    "samples": 534,
+    "sampled_peak_working_set_bytes": 1173397504,
+    "os_peak_working_set_bytes": 1175175168,
+    "final_working_set_bytes": 1128435712,
+    "peak_working_set_bytes": 1175175168,
+    "peak_working_set_mb": 1120.7,
+    "sampler": "GetProcessMemoryInfo"
+  },
+  "errors": [],
+  "ast_comparison": {
+    "available": true,
+    "source": "preserved SI-009 evidence; AST was not rerun; AST 0.15 threshold was not changed",
+    "instrumentation_result": "NO WIN",
+    "top1": "Guitar",
+    "top1_sigmoid": 0.0653844028711319,
+    "top2": "Plucked string instrument",
+    "top2_sigmoid": 0.05121176689863205,
+    "top_margin": 0.014172635972499847,
+    "spread": 0.0653574979660334,
+    "strong_count": 0,
+    "readable_excerpt": "see SI-009 readable"
+  },
+  "instrument_presence": {
+    "license": "cc-by-4.0",
+    "checkpoint_state": {
+      "path": "C:\\Users\\tim\\.cache\\a2l-panns\\Cnn14_mAP=0.431.pth",
+      "bytes": 327428481,
+      "md5": "541141fa2ee191a88f24a3219fff024e",
+      "expected_bytes": 327428481,
+      "expected_md5": "541141fa2ee191a88f24a3219fff024e",
+      "local_files_only": true,
+      "action": "checkpoint_complete",
+      "download_required": true
+    },
+    "cache_bytes_after": 327428755,
+    "sample_rate_derived": 32000,
+    "source_preprocessing": "in-memory librosa load to 32 kHz mono float32 for PANNs Cnn14; source WAV was not overwritten, remastered, or normalized on disk",
+    "duration_seconds": 207.12121875,
+    "chunk_count": 21,
+    "chunk_seconds": 10.0,
+    "inference_seconds": 5.246321899998293,
+    "score_kind": "clipwise_mean is the mean PANNs Cnn14 multi-label sigmoid over 10s chunks; clipwise_max is the max across those chunks. Independent presence scores, not calibrated probabilities, not mutually exclusive classes.",
+    "raw_top": [
+      {
+        "index": 137,
+        "label": "Music",
+        "display": "Music",
+        "clipwise_mean": 0.8702945397013709,
+        "clipwise_max": 0.9025744199752808,
+        "rank": 1,
+        "score": 0.8702945397013709,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 222,
+        "label": "Grunge",
+        "display": "Grunge",
+        "clipwise_mean": 0.1961145595026513,
+        "clipwise_max": 0.33127129077911377,
+        "rank": 2,
+        "score": 0.1961145595026513,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 138,
+        "label": "Musical instrument",
+        "display": "Musical instrument",
+        "clipwise_mean": 0.18663617436374938,
+        "clipwise_max": 0.6630303263664246,
+        "rank": 3,
+        "score": 0.18663617436374938,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 140,
+        "label": "Guitar",
+        "display": "Guitar",
+        "clipwise_mean": 0.17054782222424233,
+        "clipwise_max": 0.7220843434333801,
+        "rank": 4,
+        "score": 0.17054782222424233,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 139,
+        "label": "Plucked string instrument",
+        "display": "Plucked string instrument",
+        "clipwise_mean": 0.13113719349106154,
+        "clipwise_max": 0.6416775584220886,
+        "rank": 5,
+        "score": 0.13113719349106154,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 219,
+        "label": "Rock music",
+        "display": "Rock music",
+        "clipwise_mean": 0.11205992475152016,
+        "clipwise_max": 0.16834285855293274,
+        "rank": 6,
+        "score": 0.11205992475152016,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 27,
+        "label": "Singing",
+        "display": "Singing",
+        "clipwise_mean": 0.11045578570060786,
+        "clipwise_max": 0.19531899690628052,
+        "rank": 7,
+        "score": 0.11045578570060786,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 224,
+        "label": "Rock and roll",
+        "display": "Rock and roll",
+        "clipwise_mean": 0.10924602694632042,
+        "clipwise_max": 0.18794234097003937,
+        "rank": 8,
+        "score": 0.10924602694632042,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 221,
+        "label": "Punk rock",
+        "display": "Punk rock",
+        "clipwise_mean": 0.0790514595629204,
+        "clipwise_max": 0.1937951296567917,
+        "rank": 9,
+        "score": 0.0790514595629204,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 223,
+        "label": "Progressive rock",
+        "display": "Progressive rock",
+        "clipwise_mean": 0.075726598855995,
+        "clipwise_max": 0.14589229226112366,
+        "rank": 10,
+        "score": 0.075726598855995,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 265,
+        "label": "Independent music",
+        "display": "Independent music",
+        "clipwise_mean": 0.05594601203864884,
+        "clipwise_max": 0.09282236546278,
+        "rank": 11,
+        "score": 0.05594601203864884,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 220,
+        "label": "Heavy metal",
+        "display": "Heavy metal",
+        "clipwise_mean": 0.05320887507072517,
+        "clipwise_max": 0.14107653498649597,
+        "rank": 12,
+        "score": 0.05320887507072517,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 216,
+        "label": "Pop music",
+        "display": "Pop music",
+        "clipwise_mean": 0.043825454965588595,
+        "clipwise_max": 0.05979536101222038,
+        "rank": 13,
+        "score": 0.043825454965588595,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 141,
+        "label": "Electric guitar",
+        "display": "Electric guitar",
+        "clipwise_mean": 0.04332456706712643,
+        "clipwise_max": 0.32056769728660583,
+        "rank": 14,
+        "score": 0.04332456706712643,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 225,
+        "label": "Psychedelic rock",
+        "display": "Psychedelic rock",
+        "clipwise_mean": 0.04093255727951016,
+        "clipwise_max": 0.08826645463705063,
+        "rank": 15,
+        "score": 0.04093255727951016,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 280,
+        "label": "Exciting music",
+        "display": "Exciting music",
+        "clipwise_mean": 0.03825173677787894,
+        "clipwise_max": 0.06765539944171906,
+        "rank": 16,
+        "score": 0.03825173677787894,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 0,
+        "label": "Speech",
+        "display": "Speech",
+        "clipwise_mean": 0.037311981653883344,
+        "clipwise_max": 0.07897528260946274,
+        "rank": 17,
+        "score": 0.037311981653883344,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 143,
+        "label": "Acoustic guitar",
+        "display": "Acoustic guitar",
+        "clipwise_mean": 0.034123159013688564,
+        "clipwise_max": 0.08116982877254486,
+        "rank": 18,
+        "score": 0.034123159013688564,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 229,
+        "label": "Country",
+        "display": "Country",
+        "clipwise_mean": 0.03373077101561995,
+        "clipwise_max": 0.08132565766572952,
+        "rank": 19,
+        "score": 0.03373077101561995,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 477,
+        "label": "Roll",
+        "display": "Roll",
+        "clipwise_mean": 0.03354889952710697,
+        "clipwise_max": 0.06091154366731644,
+        "rank": 20,
+        "score": 0.03354889952710697,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 146,
+        "label": "Strum",
+        "display": "Strum",
+        "clipwise_mean": 0.0330034679555822,
+        "clipwise_max": 0.09944072365760803,
+        "rank": 21,
+        "score": 0.0330034679555822,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 266,
+        "label": "Song",
+        "display": "Song",
+        "clipwise_mean": 0.031551456827271195,
+        "clipwise_max": 0.05118659511208534,
+        "rank": 22,
+        "score": 0.031551456827271195,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 251,
+        "label": "Blues",
+        "display": "Blues",
+        "clipwise_mean": 0.030724149330386093,
+        "clipwise_max": 0.06889234483242035,
+        "rank": 23,
+        "score": 0.030724149330386093,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 226,
+        "label": "Rhythm and blues",
+        "display": "Rhythm and blues",
+        "clipwise_mean": 0.02886654941054682,
+        "clipwise_max": 0.05194077640771866,
+        "rank": 24,
+        "score": 0.02886654941054682,
+        "score_kind": "clipwise_mean"
+      },
+      {
+        "index": 142,
+        "label": "Bass guitar",
+        "display": "Bass guitar",
+        "clipwise_mean": 0.026179173163005283,
+        "clipwise_max": 0.11565746366977692,
+        "rank": 25,
+        "score": 0.026179173163005283,
+        "score_kind": "clipwise_mean"
+      }
+    ],
+    "instrumentation": {
+      "taxonomy": "native AudioSet instrument labels; SI-007 CLAP vocabulary was not forced",
+      "ranked": [
+        {
+          "index": 140,
+          "label": "Guitar",
+          "display": "Guitar",
+          "clipwise_mean": 0.17054782222424233,
+          "clipwise_max": 0.7220843434333801,
+          "rank": 1,
+          "score": 0.17054782222424233,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 139,
+          "label": "Plucked string instrument",
+          "display": "Plucked string instrument",
+          "clipwise_mean": 0.13113719349106154,
+          "clipwise_max": 0.6416775584220886,
+          "rank": 2,
+          "score": 0.13113719349106154,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 141,
+          "label": "Electric guitar",
+          "display": "Electric guitar",
+          "clipwise_mean": 0.04332456706712643,
+          "clipwise_max": 0.32056769728660583,
+          "rank": 3,
+          "score": 0.04332456706712643,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 143,
+          "label": "Acoustic guitar",
+          "display": "Acoustic guitar",
+          "clipwise_mean": 0.034123159013688564,
+          "clipwise_max": 0.08116982877254486,
+          "rank": 4,
+          "score": 0.034123159013688564,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 146,
+          "label": "Strum",
+          "display": "Strum",
+          "clipwise_mean": 0.0330034679555822,
+          "clipwise_max": 0.09944072365760803,
+          "rank": 5,
+          "score": 0.0330034679555822,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 142,
+          "label": "Bass guitar",
+          "display": "Bass guitar",
+          "clipwise_mean": 0.026179173163005283,
+          "clipwise_max": 0.11565746366977692,
+          "rank": 6,
+          "score": 0.026179173163005283,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 162,
+          "label": "Drum kit",
+          "display": "Drum kit",
+          "clipwise_mean": 0.019039496114211425,
+          "clipwise_max": 0.0378255657851696,
+          "rank": 7,
+          "score": 0.019039496114211425,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 164,
+          "label": "Drum",
+          "display": "Drum",
+          "clipwise_mean": 0.016716678715532736,
+          "clipwise_max": 0.03148644417524338,
+          "rank": 8,
+          "score": 0.016716678715532736,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 161,
+          "label": "Percussion",
+          "display": "Percussion",
+          "clipwise_mean": 0.006988508815300607,
+          "clipwise_max": 0.0116358557716012,
+          "rank": 9,
+          "score": 0.006988508815300607,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 189,
+          "label": "Bowed string instrument",
+          "display": "Bowed string instrument",
+          "clipwise_mean": 0.006525846996477672,
+          "clipwise_max": 0.024281125515699387,
+          "rank": 10,
+          "score": 0.006525846996477672,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 168,
+          "label": "Bass drum",
+          "display": "Bass drum",
+          "clipwise_mean": 0.006180011168388384,
+          "clipwise_max": 0.017236612737178802,
+          "rank": 11,
+          "score": 0.006180011168388384,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 159,
+          "label": "Sampler",
+          "display": "Sampler",
+          "clipwise_mean": 0.004335146741054598,
+          "clipwise_max": 0.0074572088196873665,
+          "rank": 12,
+          "score": 0.004335146741054598,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 165,
+          "label": "Snare drum",
+          "display": "Snare drum",
+          "clipwise_mean": 0.0034401339057478168,
+          "clipwise_max": 0.007189759984612465,
+          "rank": 13,
+          "score": 0.0034401339057478168,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 166,
+          "label": "Rimshot",
+          "display": "Rimshot",
+          "clipwise_mean": 0.0031480663788637946,
+          "clipwise_max": 0.005905741825699806,
+          "rank": 14,
+          "score": 0.0031480663788637946,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 191,
+          "label": "Violin, fiddle",
+          "display": "Violin, fiddle",
+          "clipwise_mean": 0.003043155848336894,
+          "clipwise_max": 0.006091525312513113,
+          "rank": 15,
+          "score": 0.003043155848336894,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 145,
+          "label": "Tapping (guitar technique)",
+          "display": "Tapping (guitar technique)",
+          "clipwise_mean": 0.0025959784716611638,
+          "clipwise_max": 0.041629526764154434,
+          "rank": 16,
+          "score": 0.0025959784716611638,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 171,
+          "label": "Cymbal",
+          "display": "Cymbal",
+          "clipwise_mean": 0.0024289055866011907,
+          "clipwise_max": 0.009100086987018585,
+          "rank": 17,
+          "score": 0.0024289055866011907,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 184,
+          "label": "Orchestra",
+          "display": "Orchestra",
+          "clipwise_mean": 0.0024131358590065723,
+          "clipwise_max": 0.005354146473109722,
+          "rank": 18,
+          "score": 0.0024131358590065723,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 172,
+          "label": "Hi-hat",
+          "display": "Hi-hat",
+          "clipwise_mean": 0.001950983858911232,
+          "clipwise_max": 0.00582957174628973,
+          "rank": 19,
+          "score": 0.001950983858911232,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 147,
+          "label": "Banjo",
+          "display": "Banjo",
+          "clipwise_mean": 0.001769148061395667,
+          "clipwise_max": 0.00571632944047451,
+          "rank": 20,
+          "score": 0.001769148061395667,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 144,
+          "label": "Steel guitar, slide guitar",
+          "display": "Steel guitar, slide guitar",
+          "clipwise_mean": 0.0016731488881521813,
+          "clipwise_max": 0.006220985669642687,
+          "rank": 21,
+          "score": 0.0016731488881521813,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 152,
+          "label": "Keyboard (musical)",
+          "display": "Keyboard (musical)",
+          "clipwise_mean": 0.0016191965107628633,
+          "clipwise_max": 0.0030875352676957846,
+          "rank": 22,
+          "score": 0.0016191965107628633,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 153,
+          "label": "Piano",
+          "display": "Piano",
+          "clipwise_mean": 0.001551265032806744,
+          "clipwise_max": 0.002956978976726532,
+          "rank": 23,
+          "score": 0.001551265032806744,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 193,
+          "label": "Cello",
+          "display": "Cello",
+          "clipwise_mean": 0.0014240330922239948,
+          "clipwise_max": 0.0021814766805619,
+          "rank": 24,
+          "score": 0.0014240330922239948,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 169,
+          "label": "Timpani",
+          "display": "Timpani",
+          "clipwise_mean": 0.0012812792577148815,
+          "clipwise_max": 0.01646343432366848,
+          "rank": 25,
+          "score": 0.0012812792577148815,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 192,
+          "label": "Pizzicato",
+          "display": "Pizzicato",
+          "clipwise_mean": 0.00121440827968486,
+          "clipwise_max": 0.00261680968105793,
+          "rank": 26,
+          "score": 0.00121440827968486,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 194,
+          "label": "Double bass",
+          "display": "Double bass",
+          "clipwise_mean": 0.0011460083908224035,
+          "clipwise_max": 0.0016359906876459718,
+          "rank": 27,
+          "score": 0.0011460083908224035,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 167,
+          "label": "Drum roll",
+          "display": "Drum roll",
+          "clipwise_mean": 0.0010730362472323967,
+          "clipwise_max": 0.0025448170490562916,
+          "rank": 28,
+          "score": 0.0010730362472323967,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 185,
+          "label": "Brass instrument",
+          "display": "Brass instrument",
+          "clipwise_mean": 0.001022729997722698,
+          "clipwise_max": 0.0023896065540611744,
+          "rank": 29,
+          "score": 0.001022729997722698,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 149,
+          "label": "Mandolin",
+          "display": "Mandolin",
+          "clipwise_mean": 0.0008872174810329895,
+          "clipwise_max": 0.002454604720696807,
+          "rank": 30,
+          "score": 0.0008872174810329895,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 154,
+          "label": "Electric piano",
+          "display": "Electric piano",
+          "clipwise_mean": 0.0007082124828316626,
+          "clipwise_max": 0.001576702925376594,
+          "rank": 31,
+          "score": 0.0007082124828316626,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 163,
+          "label": "Drum machine",
+          "display": "Drum machine",
+          "clipwise_mean": 0.0007063673845204036,
+          "clipwise_max": 0.002236955566331744,
+          "rank": 32,
+          "score": 0.0007063673845204036,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 158,
+          "label": "Synthesizer",
+          "display": "Synthesizer",
+          "clipwise_mean": 0.0005653708912653937,
+          "clipwise_max": 0.0024813783820718527,
+          "rank": 33,
+          "score": 0.0005653708912653937,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 173,
+          "label": "Wood block",
+          "display": "Wood block",
+          "clipwise_mean": 0.0004351874376880005,
+          "clipwise_max": 0.0028021642938256264,
+          "rank": 34,
+          "score": 0.0004351874376880005,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 160,
+          "label": "Harpsichord",
+          "display": "Harpsichord",
+          "clipwise_mean": 0.00041418311801472943,
+          "clipwise_max": 0.0012926716590300202,
+          "rank": 35,
+          "score": 0.00041418311801472943,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 195,
+          "label": "Wind instrument, woodwind instrument",
+          "display": "Wind instrument, woodwind instrument",
+          "clipwise_mean": 0.0004088022528559945,
+          "clipwise_max": 0.0007320511504076421,
+          "rank": 36,
+          "score": 0.0004088022528559945,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 190,
+          "label": "String section",
+          "display": "String section",
+          "clipwise_mean": 0.0003889667118311904,
+          "clipwise_max": 0.0009027119376696646,
+          "rank": 37,
+          "score": 0.0003889667118311904,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 155,
+          "label": "Organ",
+          "display": "Organ",
+          "clipwise_mean": 0.00038649242508524494,
+          "clipwise_max": 0.0008663638727739453,
+          "rank": 38,
+          "score": 0.00038649242508524494,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 209,
+          "label": "Accordion",
+          "display": "Accordion",
+          "clipwise_mean": 0.0003846394770551429,
+          "clipwise_max": 0.0008982289582490921,
+          "rank": 39,
+          "score": 0.0003846394770551429,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 180,
+          "label": "Marimba, xylophone",
+          "display": "Marimba, xylophone",
+          "clipwise_mean": 0.0003765313345606306,
+          "clipwise_max": 0.0009254484320990741,
+          "rank": 40,
+          "score": 0.0003765313345606306,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 187,
+          "label": "Trumpet",
+          "display": "Trumpet",
+          "clipwise_mean": 0.0003638571548175865,
+          "clipwise_max": 0.000997915049083531,
+          "rank": 41,
+          "score": 0.0003638571548175865,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 174,
+          "label": "Tambourine",
+          "display": "Tambourine",
+          "clipwise_mean": 0.00036273586876978657,
+          "clipwise_max": 0.0006700215744785964,
+          "rank": 42,
+          "score": 0.00036273586876978657,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 151,
+          "label": "Ukulele",
+          "display": "Ukulele",
+          "clipwise_mean": 0.0003624668974052405,
+          "clipwise_max": 0.0013272642390802503,
+          "rank": 43,
+          "score": 0.0003624668974052405,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 188,
+          "label": "Trombone",
+          "display": "Trombone",
+          "clipwise_mean": 0.00033374502250115343,
+          "clipwise_max": 0.0006506630452349782,
+          "rank": 44,
+          "score": 0.00033374502250115343,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 181,
+          "label": "Glockenspiel",
+          "display": "Glockenspiel",
+          "clipwise_mean": 0.0003191620725417687,
+          "clipwise_max": 0.0007342732860706747,
+          "rank": 45,
+          "score": 0.0003191620725417687,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 175,
+          "label": "Rattle (instrument)",
+          "display": "Rattle (instrument)",
+          "clipwise_mean": 0.00031787704002843905,
+          "clipwise_max": 0.0005251899710856378,
+          "rank": 46,
+          "score": 0.00031787704002843905,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 208,
+          "label": "Harmonica",
+          "display": "Harmonica",
+          "clipwise_mean": 0.0003098482525924088,
+          "clipwise_max": 0.0007997805951163173,
+          "rank": 47,
+          "score": 0.0003098482525924088,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 157,
+          "label": "Hammond organ",
+          "display": "Hammond organ",
+          "clipwise_mean": 0.0003079441937318604,
+          "clipwise_max": 0.00048675391008146107,
+          "rank": 48,
+          "score": 0.0003079441937318604,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 150,
+          "label": "Zither",
+          "display": "Zither",
+          "clipwise_mean": 0.00029987570347397456,
+          "clipwise_max": 0.0005681278998963535,
+          "rank": 49,
+          "score": 0.00029987570347397456,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 197,
+          "label": "Saxophone",
+          "display": "Saxophone",
+          "clipwise_mean": 0.0002840043037265007,
+          "clipwise_max": 0.0005540240090340376,
+          "rank": 50,
+          "score": 0.0002840043037265007,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 179,
+          "label": "Mallet percussion",
+          "display": "Mallet percussion",
+          "clipwise_mean": 0.00028185032438375943,
+          "clipwise_max": 0.0006820181733928621,
+          "rank": 51,
+          "score": 0.00028185032438375943,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 148,
+          "label": "Sitar",
+          "display": "Sitar",
+          "clipwise_mean": 0.0002700158164814292,
+          "clipwise_max": 0.0017489009769633412,
+          "rank": 52,
+          "score": 0.0002700158164814292,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 177,
+          "label": "Gong",
+          "display": "Gong",
+          "clipwise_mean": 0.000242555718397766,
+          "clipwise_max": 0.0006188216502778232,
+          "rank": 53,
+          "score": 0.000242555718397766,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 199,
+          "label": "Harp",
+          "display": "Harp",
+          "clipwise_mean": 0.00023927153545498316,
+          "clipwise_max": 0.0005805474938824773,
+          "rank": 54,
+          "score": 0.00023927153545498316,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 213,
+          "label": "Theremin",
+          "display": "Theremin",
+          "clipwise_mean": 0.0001995733209696482,
+          "clipwise_max": 0.0026206793263554573,
+          "rank": 55,
+          "score": 0.0001995733209696482,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 200,
+          "label": "Bell",
+          "display": "Bell",
+          "clipwise_mean": 0.00018676674655926902,
+          "clipwise_max": 0.0003524328931234777,
+          "rank": 56,
+          "score": 0.00018676674655926902,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 186,
+          "label": "French horn",
+          "display": "French horn",
+          "clipwise_mean": 0.00018501468591802266,
+          "clipwise_max": 0.00046557083260267973,
+          "rank": 57,
+          "score": 0.00018501468591802266,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 215,
+          "label": "Scratching (performance technique)",
+          "display": "Scratching (performance technique)",
+          "clipwise_mean": 0.00018307522709836208,
+          "clipwise_max": 0.0006899776635691524,
+          "rank": 58,
+          "score": 0.00018307522709836208,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 156,
+          "label": "Electronic organ",
+          "display": "Electronic organ",
+          "clipwise_mean": 0.00015672755346583602,
+          "clipwise_max": 0.000321633939165622,
+          "rank": 59,
+          "score": 0.00015672755346583602,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 196,
+          "label": "Flute",
+          "display": "Flute",
+          "clipwise_mean": 0.00015441511069574126,
+          "clipwise_max": 0.00031809567008167505,
+          "rank": 60,
+          "score": 0.00015441511069574126,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 170,
+          "label": "Tabla",
+          "display": "Tabla",
+          "clipwise_mean": 0.00015276397434285,
+          "clipwise_max": 0.00033908255863934755,
+          "rank": 61,
+          "score": 0.00015276397434285,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 211,
+          "label": "Didgeridoo",
+          "display": "Didgeridoo",
+          "clipwise_mean": 0.0001527599477932589,
+          "clipwise_max": 0.0005631106905639172,
+          "rank": 62,
+          "score": 0.0001527599477932589,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 183,
+          "label": "Steelpan",
+          "display": "Steelpan",
+          "clipwise_mean": 0.00015057935663554374,
+          "clipwise_max": 0.00048254861030727625,
+          "rank": 63,
+          "score": 0.00015057935663554374,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 178,
+          "label": "Tubular bells",
+          "display": "Tubular bells",
+          "clipwise_mean": 0.00014249919695430435,
+          "clipwise_max": 0.00034643043181858957,
+          "rank": 64,
+          "score": 0.00014249919695430435,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 176,
+          "label": "Maraca",
+          "display": "Maraca",
+          "clipwise_mean": 0.00012980161469992405,
+          "clipwise_max": 0.00046696668141521513,
+          "rank": 65,
+          "score": 0.00012980161469992405,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 198,
+          "label": "Clarinet",
+          "display": "Clarinet",
+          "clipwise_mean": 0.00012813552391543497,
+          "clipwise_max": 0.00019823938782792538,
+          "rank": 66,
+          "score": 0.00012813552391543497,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 182,
+          "label": "Vibraphone",
+          "display": "Vibraphone",
+          "clipwise_mean": 9.432160974635433e-05,
+          "clipwise_max": 0.0003275852359365672,
+          "rank": 67,
+          "score": 9.432160974635433e-05,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "index": 210,
+          "label": "Bagpipes",
+          "display": "Bagpipes",
+          "clipwise_mean": 7.159875375301843e-05,
+          "clipwise_max": 0.00014921504771336913,
+          "rank": 68,
+          "score": 7.159875375301843e-05,
+          "score_kind": "clipwise_mean"
+        }
+      ],
+      "temporal_top": [
+        {
+          "label": "Guitar",
+          "clipwise_mean": 0.17054782222424233,
+          "clipwise_max": 0.7220843434333801,
+          "chunk_scores": [
+            0.7220843434333801,
+            0.16964229941368103,
+            0.1989806443452835,
+            0.16333536803722382,
+            0.08883001655340195,
+            0.08697635680437088,
+            0.09087195247411728,
+            0.12124302238225937,
+            0.0602998323738575,
+            0.09463836997747421,
+            0.1453283131122589,
+            0.16368843615055084,
+            0.2115309238433838,
+            0.07587257027626038,
+            0.07841397821903229,
+            0.14299415051937103,
+            0.1221579909324646,
+            0.11207889020442963,
+            0.20121124386787415,
+            0.19915224611759186,
+            0.33217331767082214
+          ]
+        },
+        {
+          "label": "Plucked string instrument",
+          "clipwise_mean": 0.13113719349106154,
+          "clipwise_max": 0.6416775584220886,
+          "chunk_scores": [
+            0.6416775584220886,
+            0.13207563757896423,
+            0.14180688560009003,
+            0.11891085654497147,
+            0.058967068791389465,
+            0.05957353860139847,
+            0.06150047853589058,
+            0.08672934770584106,
+            0.03605201467871666,
+            0.06355012208223343,
+            0.10624096542596817,
+            0.129831001162529,
+            0.16862943768501282,
+            0.05181048437952995,
+            0.06110382080078125,
+            0.10366622358560562,
+            0.08839926868677139,
+            0.07830505073070526,
+            0.1483415961265564,
+            0.1613287478685379,
+            0.2553809583187103
+          ]
+        },
+        {
+          "label": "Electric guitar",
+          "clipwise_mean": 0.04332456706712643,
+          "clipwise_max": 0.32056769728660583,
+          "chunk_scores": [
+            0.32056769728660583,
+            0.04811372607946396,
+            0.036308564245700836,
+            0.024658534675836563,
+            0.011621956713497639,
+            0.013614007271826267,
+            0.017256107181310654,
+            0.02527022361755371,
+            0.007540375925600529,
+            0.011977908201515675,
+            0.019994119182229042,
+            0.0446261502802372,
+            0.05296670272946358,
+            0.01377761922776699,
+            0.012141003273427486,
+            0.023573536425828934,
+            0.019576421007514,
+            0.01732519455254078,
+            0.029803061857819557,
+            0.046843595802783966,
+            0.1122594028711319
+          ]
+        },
+        {
+          "label": "Acoustic guitar",
+          "clipwise_mean": 0.034123159013688564,
+          "clipwise_max": 0.08116982877254486,
+          "chunk_scores": [
+            0.08116982877254486,
+            0.034510232508182526,
+            0.04956652224063873,
+            0.044295016676187515,
+            0.022433675825595856,
+            0.02943972870707512,
+            0.016564195975661278,
+            0.030906308442354202,
+            0.008761138655245304,
+            0.027043750509619713,
+            0.0462106354534626,
+            0.021491289138793945,
+            0.05163036659359932,
+            0.015938227996230125,
+            0.024766795337200165,
+            0.04718032106757164,
+            0.03739488497376442,
+            0.02004614844918251,
+            0.039500508457422256,
+            0.033309657126665115,
+            0.034427106380462646
+          ]
+        },
+        {
+          "label": "Strum",
+          "clipwise_mean": 0.0330034679555822,
+          "clipwise_max": 0.09944072365760803,
+          "chunk_scores": [
+            0.09944072365760803,
+            0.0361761599779129,
+            0.043898940086364746,
+            0.03157074749469757,
+            0.017688753083348274,
+            0.022928131744265556,
+            0.017365889623761177,
+            0.025716908276081085,
+            0.007222085725516081,
+            0.020997019484639168,
+            0.033617500215768814,
+            0.02470126748085022,
+            0.04776950180530548,
+            0.01580420322716236,
+            0.02020328678190708,
+            0.03314666822552681,
+            0.02783108502626419,
+            0.014703826978802681,
+            0.034071873873472214,
+            0.03231867775321007,
+            0.08589957654476166
+          ]
+        },
+        {
+          "label": "Bass guitar",
+          "clipwise_mean": 0.026179173163005283,
+          "clipwise_max": 0.11565746366977692,
+          "chunk_scores": [
+            0.11565746366977692,
+            0.027055051177740097,
+            0.029319604858756065,
+            0.025892622768878937,
+            0.01219148002564907,
+            0.012893365696072578,
+            0.016300613060593605,
+            0.017376258969306946,
+            0.007075570523738861,
+            0.010933959856629372,
+            0.018640922382473946,
+            0.03489229455590248,
+            0.036009781062603,
+            0.012242751196026802,
+            0.008282165974378586,
+            0.019543679431080818,
+            0.014434530399739742,
+            0.014003810472786427,
+            0.033603593707084656,
+            0.0327426977455616,
+            0.05067041888833046
+          ]
+        },
+        {
+          "label": "Drum kit",
+          "clipwise_mean": 0.019039496114211425,
+          "clipwise_max": 0.0378255657851696,
+          "chunk_scores": [
+            0.01967383362352848,
+            0.013990326784551144,
+            0.03382820636034012,
+            0.020795701071619987,
+            0.021448234096169472,
+            0.018098920583724976,
+            0.022010743618011475,
+            0.01944846287369728,
+            0.016697945073246956,
+            0.017055930569767952,
+            0.017475448548793793,
+            0.011988461017608643,
+            0.012659352272748947,
+            0.010016351006925106,
+            0.013309703208506107,
+            0.018857816234230995,
+            0.021947205066680908,
+            0.015389254316687584,
+            0.023086989298462868,
+            0.014224966987967491,
+            0.0378255657851696
+          ]
+        },
+        {
+          "label": "Drum",
+          "clipwise_mean": 0.016716678715532736,
+          "clipwise_max": 0.03148644417524338,
+          "chunk_scores": [
+            0.013268274255096912,
+            0.013025356456637383,
+            0.029336240142583847,
+            0.01933073066174984,
+            0.01913289725780487,
+            0.017655814066529274,
+            0.019176270812749863,
+            0.015337239019572735,
+            0.013331110589206219,
+            0.016196608543395996,
+            0.015555283054709435,
+            0.011835680343210697,
+            0.01285267248749733,
+            0.008373914286494255,
+            0.012323753908276558,
+            0.017656393349170685,
+            0.01938709430396557,
+            0.012557342648506165,
+            0.0213626716285944,
+            0.011868461035192013,
+            0.03148644417524338
+          ]
+        }
+      ],
+      "separation": {
+        "top1": "Guitar",
+        "top1_clipwise_mean": 0.17054782222424233,
+        "top1_clipwise_max": 0.7220843434333801,
+        "top2": "Plucked string instrument",
+        "top2_clipwise_mean": 0.13113719349106154,
+        "top_margin": 0.0394106287331808,
+        "spread": 0.17047622347048932,
+        "strong_count": 0,
+        "strong_labels": [],
+        "label_count": 68
+      },
+      "assessment": {
+        "category_result": "PARTIAL",
+        "assessment": "WEAK BUT PRESENT",
+        "top_margin": 0.0394106287331808,
+        "spread": 0.17047622347048932,
+        "strong_count": 0,
+        "strong_labels": [],
+        "cluster": false,
+        "thresholds": {
+          "operating_point": 0.5,
+          "cluster_score": 0.3,
+          "cluster_ratio": 4.0,
+          "partial_top": 0.2,
+          "partial_spread": 0.1,
+          "not_ast_0_15": true,
+          "score_kind": "clipwise_mean is the mean PANNs Cnn14 multi-label sigmoid over 10s chunks; clipwise_max is the max across those chunks. Independent presence scores, not calibrated probabilities, not mutually exclusive classes."
+        }
+      },
+      "groups": [
+        {
+          "group": "guitar_family",
+          "label": "guitar_family",
+          "mapping": "max(member clipwise_mean)",
+          "members_present": [
+            "Guitar",
+            "Electric guitar",
+            "Acoustic guitar",
+            "Bass guitar",
+            "Steel guitar, slide guitar",
+            "Tapping (guitar technique)",
+            "Strum"
+          ],
+          "clipwise_mean": 0.17054782222424233,
+          "member_scores": {
+            "Guitar": 0.17054782222424233,
+            "Electric guitar": 0.04332456706712643,
+            "Acoustic guitar": 0.034123159013688564,
+            "Bass guitar": 0.026179173163005283,
+            "Steel guitar, slide guitar": 0.0016731488881521813,
+            "Tapping (guitar technique)": 0.0025959784716611638,
+            "Strum": 0.0330034679555822
+          },
+          "rank": 1,
+          "score": 0.17054782222424233,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "group": "plucked_other",
+          "label": "plucked_other",
+          "mapping": "max(member clipwise_mean)",
+          "members_present": [
+            "Plucked string instrument",
+            "Banjo",
+            "Sitar",
+            "Mandolin",
+            "Zither",
+            "Ukulele",
+            "Harp"
+          ],
+          "clipwise_mean": 0.13113719349106154,
+          "member_scores": {
+            "Plucked string instrument": 0.13113719349106154,
+            "Banjo": 0.001769148061395667,
+            "Sitar": 0.0002700158164814292,
+            "Mandolin": 0.0008872174810329895,
+            "Zither": 0.00029987570347397456,
+            "Ukulele": 0.0003624668974052405,
+            "Harp": 0.00023927153545498316
+          },
+          "rank": 2,
+          "score": 0.13113719349106154,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "group": "drums_percussion",
+          "label": "drums_percussion",
+          "mapping": "max(member clipwise_mean)",
+          "members_present": [
+            "Percussion",
+            "Drum kit",
+            "Drum machine",
+            "Drum",
+            "Snare drum",
+            "Rimshot",
+            "Drum roll",
+            "Bass drum",
+            "Cymbal",
+            "Hi-hat",
+            "Tambourine",
+            "Wood block",
+            "Rattle (instrument)",
+            "Maraca",
+            "Gong",
+            "Timpani",
+            "Tabla"
+          ],
+          "clipwise_mean": 0.019039496114211425,
+          "member_scores": {
+            "Percussion": 0.006988508815300607,
+            "Drum kit": 0.019039496114211425,
+            "Drum machine": 0.0007063673845204036,
+            "Drum": 0.016716678715532736,
+            "Snare drum": 0.0034401339057478168,
+            "Rimshot": 0.0031480663788637946,
+            "Drum roll": 0.0010730362472323967,
+            "Bass drum": 0.006180011168388384,
+            "Cymbal": 0.0024289055866011907,
+            "Hi-hat": 0.001950983858911232,
+            "Tambourine": 0.00036273586876978657,
+            "Wood block": 0.0004351874376880005,
+            "Rattle (instrument)": 0.00031787704002843905,
+            "Maraca": 0.00012980161469992405,
+            "Gong": 0.000242555718397766,
+            "Timpani": 0.0012812792577148815,
+            "Tabla": 0.00015276397434285
+          },
+          "rank": 3,
+          "score": 0.019039496114211425,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "group": "strings_bowed",
+          "label": "strings_bowed",
+          "mapping": "max(member clipwise_mean)",
+          "members_present": [
+            "Bowed string instrument",
+            "String section",
+            "Violin, fiddle",
+            "Pizzicato",
+            "Cello",
+            "Double bass",
+            "Orchestra"
+          ],
+          "clipwise_mean": 0.006525846996477672,
+          "member_scores": {
+            "Bowed string instrument": 0.006525846996477672,
+            "String section": 0.0003889667118311904,
+            "Violin, fiddle": 0.003043155848336894,
+            "Pizzicato": 0.00121440827968486,
+            "Cello": 0.0014240330922239948,
+            "Double bass": 0.0011460083908224035,
+            "Orchestra": 0.0024131358590065723
+          },
+          "rank": 4,
+          "score": 0.006525846996477672,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "group": "synthesizer_electronic",
+          "label": "synthesizer_electronic",
+          "mapping": "max(member clipwise_mean)",
+          "members_present": [
+            "Synthesizer",
+            "Sampler",
+            "Drum machine"
+          ],
+          "clipwise_mean": 0.004335146741054598,
+          "member_scores": {
+            "Synthesizer": 0.0005653708912653937,
+            "Sampler": 0.004335146741054598,
+            "Drum machine": 0.0007063673845204036
+          },
+          "rank": 5,
+          "score": 0.004335146741054598,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "group": "keyboard_piano_organ",
+          "label": "keyboard_piano_organ",
+          "mapping": "max(member clipwise_mean)",
+          "members_present": [
+            "Keyboard (musical)",
+            "Piano",
+            "Electric piano",
+            "Organ",
+            "Electronic organ",
+            "Hammond organ",
+            "Harpsichord"
+          ],
+          "clipwise_mean": 0.0016191965107628633,
+          "member_scores": {
+            "Keyboard (musical)": 0.0016191965107628633,
+            "Piano": 0.001551265032806744,
+            "Electric piano": 0.0007082124828316626,
+            "Organ": 0.00038649242508524494,
+            "Electronic organ": 0.00015672755346583602,
+            "Hammond organ": 0.0003079441937318604,
+            "Harpsichord": 0.00041418311801472943
+          },
+          "rank": 6,
+          "score": 0.0016191965107628633,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "group": "brass",
+          "label": "brass",
+          "mapping": "max(member clipwise_mean)",
+          "members_present": [
+            "Brass instrument",
+            "French horn",
+            "Trumpet",
+            "Trombone"
+          ],
+          "clipwise_mean": 0.001022729997722698,
+          "member_scores": {
+            "Brass instrument": 0.001022729997722698,
+            "French horn": 0.00018501468591802266,
+            "Trumpet": 0.0003638571548175865,
+            "Trombone": 0.00033374502250115343
+          },
+          "rank": 7,
+          "score": 0.001022729997722698,
+          "score_kind": "clipwise_mean"
+        },
+        {
+          "group": "woodwind",
+          "label": "woodwind",
+          "mapping": "max(member clipwise_mean)",
+          "members_present": [
+            "Wind instrument, woodwind instrument",
+            "Flute",
+            "Saxophone",
+            "Clarinet",
+            "Harmonica"
+          ],
+          "clipwise_mean": 0.0004088022528559945,
+          "member_scores": {
+            "Wind instrument, woodwind instrument": 0.0004088022528559945,
+            "Flute": 0.00015441511069574126,
+            "Saxophone": 0.0002840043037265007,
+            "Clarinet": 0.00012813552391543497,
+            "Harmonica": 0.0003098482525924088
+          },
+          "rank": 8,
+          "score": 0.0004088022528559945,
+          "score_kind": "clipwise_mean"
+        }
+      ]
+    },
+    "category_results": {
+      "instrumentation": "PARTIAL"
+    },
+    "engine3_result": "PARTIAL PASS \u2014 ACCEPTED FOR CONTINUED BUILD"
+  },
+  "cache": {
+    "cache_root": "C:\\Users\\tim\\.cache\\a2l-panns",
+    "bytes_before": 0
+  }
+}

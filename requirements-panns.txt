@@ -1,0 +1,10 @@
+# Isolated ACI-A2L-SI-010 sidecar.
+# Reuses the SI-007 .venv-clap environment (CPU torch).
+# Do not install into the main A2L Python 3.14 environment.
+#
+# torchlibrosa is required for PANNs Cnn14 spectrogram/logmel extractors.
+torch==2.14.0
+torchlibrosa==0.1.0
+librosa==1.0.0
+numpy==2.5.3
+soundfile==0.14.0
