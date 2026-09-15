@@ -63,8 +63,8 @@ Operator application started at http://127.0.0.1:8780/. Song Intelligence entry 
 | --- | --- |
 | Merge strategy | `git checkout deployable` then `git merge --no-ff feature/aci-a2l-si-prom-002` |
 | Promotion merge | `6f03f40ab7375f84b76627bb9c14ea42c7b54479` |
-| Docs commits | `ec76595`, `3a36245`, `26a8b26` |
-| `deployable` after | `26a8b26a6d7bc0085d0d3c7847db3b40261421d8` |
+| Docs commits | `ec76595`, `3a36245`, `26a8b26`, `0d349f7` |
+| `deployable` after | `0d349f7b8e94e9fdf57b1645c3ffc0affd5ca6f2` |
 | `main` after | pending fast-forward |
 | Cloud deploy | not performed |
 | Remote `deployable` | pending push |
