@@ -10,6 +10,7 @@ Permanent copy of the Operator ACI. This execution adds the first product-facing
 ## Constraints honored
 
 - New branch `feature/aci-a2l-si-011-product-ui` from validated `deployable` @ `f95ed9a807884d44a5b8fbe0be05e051c66058cd`.
+- Implementation commit: `b82fc82`.
 - Integrated into http://127.0.0.1:8780/. Engineering review UI on 8765 was not used.
 - Default analysis is Full Song Intelligence.
 - Capability selection and Advanced engine selection constrain which promoted modules run.

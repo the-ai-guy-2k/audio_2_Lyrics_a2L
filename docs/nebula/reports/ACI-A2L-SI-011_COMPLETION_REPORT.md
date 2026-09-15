@@ -18,7 +18,7 @@ COMPLETE on bounded feature branch. The existing operator application exposes So
 | --- | --- |
 | Branch | `feature/aci-a2l-si-011-product-ui` |
 | Base | `deployable` @ `f95ed9a807884d44a5b8fbe0be05e051c66058cd` |
-| Implementation | pending |
+| Implementation | `b82fc82` |
 
 ## Product surface
 
