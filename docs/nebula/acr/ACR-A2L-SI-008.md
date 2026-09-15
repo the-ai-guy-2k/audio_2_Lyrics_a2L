@@ -3,7 +3,7 @@
 **ACI:** ACI-A2L-SI-008 — Audio Intelligence classification resolution  
 **Date recorded:** 2026-09-14  
 **Branch:** `feature/aci-a2l-si-008-audio-classification-resolution`  
-**Commit:** implementation (SHA recorded after commit)  
+**Commit:** `207301f`  
 **Status:** APPROVED ACI EXECUTED on feature branch — not merged; ENGINE #3 PARTIAL PASS; MUSICAL VALIDATION pending Jay  
 **Product changes:** isolated CLAP classification diagnostic only; SI-007 evidence preserved; master WAV unchanged; Song Intelligence Record not created
 

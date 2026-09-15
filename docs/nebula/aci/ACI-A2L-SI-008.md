@@ -14,7 +14,7 @@ Determine why SI-007 CLAP rankings were weakly separated for Instrumentation, Ge
 ## Constraints honored
 
 - New branch `feature/aci-a2l-si-008-audio-classification-resolution` from SI-007 `feature/aci-a2l-si-007-audio-intelligence` @ `6e94bad`.
-- Implementation commit recorded after commit.
+- Implementation commit: `207301f`.
 - Locked master SHA-256 `bbc700259ab80a6ae0e390403a9849f31e5dec54784bd4040f1f4e54d58b80be` unchanged.
 - Same checkpoint: `laion/larger_clap_music` revision `a0b4534a14f58e20944452dff00a22a06ce629d1`. Complete local weights reused. No new CLAP download.
 - CONTROL = exact SI-007 method (EOS text, mean-pooled 10s audio, original templates, cosine ranking).

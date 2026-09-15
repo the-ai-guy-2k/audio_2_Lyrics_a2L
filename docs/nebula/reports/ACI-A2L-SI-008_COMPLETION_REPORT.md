@@ -20,7 +20,7 @@ Not merged. Not pushed. `deployable` / `main` not modified.
 | --- | --- |
 | Branch | `feature/aci-a2l-si-008-audio-classification-resolution` |
 | Base | SI-007 `feature/aci-a2l-si-007-audio-intelligence` @ `6e94bad` |
-| Implementation | recorded after commit |
+| Implementation | `207301f` |
 
 ## Engine
 
