@@ -1,9 +1,9 @@
 # A2L Song Object Model v1
 
 **ACI:** ACI-A2L-DM-001  
-**Status:** DEFINED (documentation capability; not implemented as a registry)  
-**Baseline:** `deployable` @ `d5e3c85ed128a8fdc124adaa2dee7c150d3da311`  
-**Record type (future instance):** `A2L_SONG`  
+**Status:** DEFINED; operationalized by Song Registry (ACI-A2L-DM-002)  
+**Baseline:** `deployable` @ `81151fb3599806dfe4b01ab45c0e39e298d44295` (model promotion tip)  
+**Record type:** `A2L_SONG`  
 **Schema version:** `1.0.0`
 
 ## Purpose
@@ -12,7 +12,7 @@ Define the canonical governed **Song** domain object for A2L.
 
 A2L today is ingest/artifact-centric: one master WAV SHA-256 creates one ingest job directory, and lyrics, Song Intelligence, and release truth hang from that directory. The Song Object sits **above** those artifacts as the product-domain representation of a musical work, without replacing their authority.
 
-This document is the required capability for ACI-A2L-DM-001. It does **not** implement a Song Registry, migrate storage, change the UI, or alter analyzer/lyric/release behavior.
+Operational registration and resolution are provided by the [Song Registry](A2L_SONG_REGISTRY.md) (ACI-A2L-DM-002). This document remains the model authority.
 
 ## Governing rules
 
@@ -56,7 +56,7 @@ SONG (A2L_SONG)
 | Stability | Opaque product identity for one Song across master revisions |
 | Format (v1) | 32-character lowercase hex (`uuid4.hex`) when a future registry assigns one |
 | Forbidden equals | `ingest_job_id`, source SHA-256, WAV filename, SIR `revision`, analyzer execution id, album `release_id` |
-| Assignment | Deferred to a future Song Registry ACI. This model defines the field; it does not allocate ids. |
+| Assignment | Assigned by the Song Registry (ACI-A2L-DM-002) as opaque `uuid4.hex`. |
 
 ### Separation from current artifact keys
 

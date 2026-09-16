@@ -82,3 +82,12 @@ class SongIntelligenceError(Exception):
         self.code = code
         self.message = message
         super().__init__(f"{code}: {message}")
+
+
+class SongRegistryError(Exception):
+    """Clean failure for Song Registry operations."""
+
+    def __init__(self, code: str, message: str) -> None:
+        self.code = code
+        self.message = message
+        super().__init__(f"{code}: {message}")
