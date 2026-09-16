@@ -12,7 +12,8 @@ Permanent copy of the Operator ACI. This execution promotes the validated Song R
 - Source: `feature/aci-a2l-dm-002-song-registry` @ `6a3e1e8`.
 - Implementation commits: `d567260`, `6a3e1e8`.
 - Source baseline / merge-base: `deployable` @ `81151fb3599806dfe4b01ab45c0e39e298d44295` (same as `main` / `origin/deployable` / `origin/main`).
-- History-preserving `--no-ff` merge into `deployable`. No squash. No force-push.
+- Promotion docs commit: `db369c8`.
+- History-preserving `--no-ff` merge `fc25981`. No squash. No force-push.
 - Parked/untracked experimental files were not committed.
 - Required after promotion:
   - `a2l/song_registry.py`
