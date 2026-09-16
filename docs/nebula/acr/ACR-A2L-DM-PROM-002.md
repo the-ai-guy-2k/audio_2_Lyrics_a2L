@@ -22,7 +22,7 @@ AUTHORITY BY REFERENCE: PASS
 UI MODIFIED: NO  
 NEW REGISTRY CAPABILITY ADDED DURING PROMOTION: NO  
 REGRESSION: `tests/test_song_registry.py` 6 passed; applicable suite 205 passed, 2 failed, 1 skipped — failures are the known locked-Jay drift only; no new promotion failures  
-FINAL DEPLOYABLE: recorded after push  
+FINAL DEPLOYABLE: `287d3bf478c8c652bd0af5530c20a55cbbfcc58f` (promotion merge `fc25981`)  
 RECOMMENDATION: PASS
 
 ## Evidence (in repo)
@@ -32,7 +32,7 @@ RECOMMENDATION: PASS
 - `a2l/song_registry.py`
 - `artifacts/song_registry/song_registry.json`
 - Source: `feature/aci-a2l-dm-002-song-registry` @ `6a3e1e8`
-- `deployable` merge: `fc25981`
+- `deployable` / `main` / origin @ `287d3bf` (merge `fc25981`)
 
 ## Gaps
 

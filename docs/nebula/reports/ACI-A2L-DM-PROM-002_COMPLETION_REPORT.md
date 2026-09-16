@@ -21,6 +21,7 @@ COMPLETE. Validated ACI-A2L-DM-002 Song Registry promoted into `deployable` by h
 | DM-002 commits | `d567260`, `6a3e1e8` |
 | Promotion branch | `feature/aci-a2l-dm-prom-002` @ `db369c8` |
 | Promotion merge on `deployable` | `fc2598125df81cf890dfdf12aa44586f6656d38c` |
+| Final `deployable` / `main` / origin | `287d3bf478c8c652bd0af5530c20a55cbbfcc58f` |
 
 ## Validation checklist
 

@@ -14,6 +14,7 @@ Permanent copy of the Operator ACI. This execution promotes the validated Song R
 - Source baseline / merge-base: `deployable` @ `81151fb3599806dfe4b01ab45c0e39e298d44295` (same as `main` / `origin/deployable` / `origin/main`).
 - Promotion docs commit: `db369c8`.
 - History-preserving `--no-ff` merge `fc25981`. No squash. No force-push.
+- Final `deployable` / `main` / `origin/deployable` / `origin/main`: `287d3bf478c8c652bd0af5530c20a55cbbfcc58f` (hash-recording tip after merge `fc25981`).
 - Parked/untracked experimental files were not committed.
 - Required after promotion:
   - `a2l/song_registry.py`
